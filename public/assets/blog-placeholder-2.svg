@@ -1,0 +1,11 @@
+<svg width="1200" height="675" viewBox="0 0 1200 675" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="675" fill="#262A3E"/>
+  <rect x="72" y="84" width="1056" height="507" rx="36" fill="#111122"/>
+  <rect x="128" y="150" width="520" height="34" rx="10" fill="#6B5AED"/>
+  <rect x="128" y="214" width="740" height="22" rx="8" fill="#6B6F8A"/>
+  <rect x="128" y="254" width="640" height="22" rx="8" fill="#6B6F8A"/>
+  <circle cx="930" cy="250" r="98" fill="#63EBE4" fill-opacity="0.8"/>
+  <text x="128" y="342" fill="#FAFAFC" font-family="Inter, Arial, sans-serif" font-size="56" font-weight="800">
+    Payment Tips
+  </text>
+</svg>

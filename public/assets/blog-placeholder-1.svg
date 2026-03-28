@@ -1,0 +1,11 @@
+<svg width="1200" height="675" viewBox="0 0 1200 675" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="675" fill="#111122"/>
+  <circle cx="1020" cy="120" r="210" fill="#6B5AED" fill-opacity="0.35"/>
+  <circle cx="170" cy="610" r="280" fill="#63EBE4" fill-opacity="0.25"/>
+  <text x="80" y="330" fill="#FAFAFC" font-family="Inter, Arial, sans-serif" font-size="64" font-weight="800">
+    Cedarce Insights
+  </text>
+  <text x="80" y="390" fill="#9B9FB8" font-family="Inter, Arial, sans-serif" font-size="30">
+    Getting Started
+  </text>
+</svg>
