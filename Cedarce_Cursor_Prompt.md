@@ -899,7 +899,7 @@ Buttons:
 Social proof:
 ```tsx
 <p className="text-white/40 text-sm">
-  ✦ Trusted by growing businesses across Lagos · Abuja · Port Harcourt
+  ✦ Trusted by growing businesses
 </p>
 ```
 

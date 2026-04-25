@@ -1,3 +1,5 @@
+import { SUPPORT_EMAIL, SUPPORT_PHONE_DISPLAY } from "@/lib/contact";
+
 export default function PrivacyPage() {
   return (
     <section className="bg-cliq-white pb-20 pt-36">
@@ -8,8 +10,8 @@ export default function PrivacyPage() {
           requests, deliver services, and improve your experience.
         </p>
         <p className="mt-4 text-cliq-text-body">
-          We do not sell your data. If you need data access or deletion, contact us at
-          hello@cedarce.ng.
+          We do not sell your data. If you need data access or deletion, contact us at{" "}
+          {SUPPORT_EMAIL} or {SUPPORT_PHONE_DISPLAY}.
         </p>
       </div>
     </section>

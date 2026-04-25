@@ -16,7 +16,7 @@ export default function BlogPreview() {
         <h2 className="mt-5 text-4xl font-black text-cliq-text-heading">
           Business tips for the modern
           <br />
-          Nigerian entrepreneur.
+          Growing business.
         </h2>
         <div className="mt-12 grid gap-6 md:grid-cols-3">
           {BLOG_POSTS.map((post) => (

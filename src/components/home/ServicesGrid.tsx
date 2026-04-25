@@ -21,10 +21,11 @@ export default function ServicesGrid() {
         <h2 className="mt-5 text-4xl font-black text-cliq-text-heading lg:text-5xl">
           Nine services.
           <br />
-          One buddy.
+          One team.
         </h2>
         <p className="mt-4 max-w-2xl text-lg text-cliq-text-body">
-          Your buddy helps you build and run your digital business stack professionally.
+          We help you build and run your digital business stack professionally — as a service, not a
+          boxed product.
         </p>
         <motion.div
           variants={stagger}

@@ -14,13 +14,13 @@ export default function BlogPage() {
     <section className="bg-cliq-white pb-20 pt-36">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
         <SectionLabel className="bg-cliq-purple-soft text-cliq-purple">Blog</SectionLabel>
-        <h1 className="mt-6 text-5xl font-black text-cliq-text-heading">Insights from your buddy</h1>
+        <h1 className="mt-6 text-5xl font-black text-cliq-text-heading">Insights from Cedarce</h1>
 
         <article className="mt-8 rounded-3xl bg-cliq-navy-900 p-8">
           <p className="text-sm text-cliq-teal">Featured post</p>
           <h2 className="mt-3 text-3xl font-black text-white">{BLOG_POSTS[0].title}</h2>
           <p className="mt-3 max-w-2xl text-white/70">
-            Straight advice for Nigerian founders who want to run professionally.
+            Straight advice for operators who want to run professionally.
           </p>
           <img
             src={`/assets/${encodeURIComponent(BLOG_POSTS[0].image)}`}

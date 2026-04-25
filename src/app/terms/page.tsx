@@ -1,3 +1,5 @@
+import { SUPPORT_EMAIL, SUPPORT_PHONE_DISPLAY } from "@/lib/contact";
+
 export default function TermsPage() {
   return (
     <section className="bg-cliq-white pb-20 pt-36">
@@ -8,8 +10,8 @@ export default function TermsPage() {
           business information for setup and support.
         </p>
         <p className="mt-4 text-cliq-text-body">
-          Service timelines may vary based on requirements and approvals. For support, contact
-          hello@cedarce.ng.
+          Service timelines may vary based on requirements and approvals. For support, contact{" "}
+          {SUPPORT_EMAIL} or {SUPPORT_PHONE_DISPLAY}.
         </p>
       </div>
     </section>

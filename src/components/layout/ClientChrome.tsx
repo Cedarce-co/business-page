@@ -9,6 +9,7 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import { Bot, MessageCircle, Send, X } from "lucide-react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import toast from "react-hot-toast";
+import { SUPPORT_EMAIL, SUPPORT_PHONE_DISPLAY } from "@/lib/contact";
 
 type ChatMessage = { role: "user" | "assistant"; text: string };
 
@@ -22,11 +23,20 @@ const STARTER_MESSAGES: ChatMessage[] = [
 function aiReply(input: string) {
   const text = input.toLowerCase();
 
+  if (
+    text.includes("contact") ||
+    text.includes("phone") ||
+    text.includes("call") ||
+    text.includes("reach you") ||
+    text.includes("human")
+  ) {
+    return `You can reach Cedarce at ${SUPPORT_EMAIL} or ${SUPPORT_PHONE_DISPLAY}. The Contact page is also there for a consultation.`;
+  }
   if (text.includes("price") || text.includes("cost") || text.includes("pricing")) {
-    return "Starter setup starts from ₦80,000. If you share what you want to build, I can suggest the right package and estimate.";
+    return "Starter packages start from ₦250,000. If you share what you want to build, I can suggest the right package and estimate.";
   }
   if (text.includes("payment") || text.includes("paystack") || text.includes("flutterwave")) {
-    return "We can set up card, bank transfer, and USSD payments, then connect them to your invoices and receipts in one workflow.";
+    return "We can set up card, bank transfer, and mobile checkout, then connect them to your invoices and receipts in one workflow.";
   }
   if (text.includes("website") || text.includes("site") || text.includes("landing")) {
     return "Yes. We build mobile-first business websites and landing pages designed to look professional and convert visitors.";

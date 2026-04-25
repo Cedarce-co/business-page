@@ -8,11 +8,11 @@ export default function AboutPage() {
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
           <SectionLabel className="bg-cliq-navy-700 text-cliq-teal">About Cedarce</SectionLabel>
           <h1 className="mt-6 text-5xl font-black text-white lg:text-6xl">
-            We are your digital business buddy.
+            Digital business, delivered as a service.
           </h1>
           <p className="mt-4 max-w-2xl text-white/70">
             Cedarce means Cedar + Commerce. We help your business move from manual operations to
-            professional digital operations.
+            professional digital operations — from informal to pro.
           </p>
         </div>
       </section>
@@ -23,14 +23,14 @@ export default function AboutPage() {
               <h2 className="text-2xl font-black text-cliq-text-heading">The name story</h2>
               <p className="mt-3 text-cliq-text-body">
                 Cedar stands for strength. Commerce stands for business. Together, Cedarce means
-                strong business infrastructure for everyday Nigerian entrepreneurs.
+                strong business infrastructure for everyday operators and founders.
               </p>
             </article>
             <article className="rounded-2xl border border-cliq-gray-200 bg-white p-8 shadow-card">
               <h2 className="text-2xl font-black text-cliq-text-heading">Founder story</h2>
               <p className="mt-3 text-cliq-text-body">
-                I started Cedarce because I saw too many good businesses in Lagos losing sales
-                because they looked informal online. Your hustle deserves professional systems.
+                I started Cedarce because too many strong businesses still looked informal online and
+                lost trust at the moment of sale. Your work deserves professional systems.
               </p>
             </article>
           </div>
@@ -39,10 +39,10 @@ export default function AboutPage() {
       <section className="bg-cliq-navy-800 py-20">
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
           <h3 className="text-4xl font-black text-white">
-            Building the digital infrastructure for African business.
+            Building digital infrastructure that helps businesses go professional.
           </h3>
           <p className="mt-3 text-white/70">
-            Mission: Every Nigerian SME deserves to operate professionally.
+            Mission: Every growing business deserves to operate like the big players.
           </p>
         </div>
       </section>

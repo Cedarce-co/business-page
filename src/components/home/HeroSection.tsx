@@ -34,7 +34,7 @@ export default function HeroSection() {
       <div className="relative mx-auto grid min-h-screen max-w-[1200px] items-center gap-12 px-4 py-10 sm:px-6 lg:grid-cols-2 lg:px-8">
         <div>
           <span className="inline-flex items-center gap-2 rounded-full border border-cliq-gray-300 bg-white px-4 py-2 text-sm font-semibold text-cliq-text-body shadow-card">
-            🇳🇬 Nigeria&apos;s Digital Business Buddy
+            Digital business
           </span>
 
           <motion.h1
@@ -51,18 +51,20 @@ export default function HeroSection() {
           </motion.h1>
 
           <p className="mt-6 max-w-lg text-lg text-cliq-text-body">
-            Cedarce is your digital business buddy - we set up your website,
-            payments, invoicing, emails, and automation so your business operates like the big
-            players. One click at a time.
+            We set up your website, payments, invoicing, emails, and automation so your business
+            operates like the big players.
+          </p>
+          <p className="mt-3 max-w-lg text-sm font-medium text-cliq-text-heading">
+            From informal to professional — we make your business go professional.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
-            <Button href="/contact">Get Your Buddy</Button>
+            <Button href="/contact">Go Pro</Button>
             <Button href="/#how-it-works" variant="onDark">
-              See How It Works
+              See how it works
             </Button>
           </div>
           <p className="mt-6 text-sm text-cliq-text-muted">
-            ✦ Trusted by growing businesses across Lagos · Abuja · Port Harcourt
+            ✦ Trusted by growing businesses going professional
           </p>
         </div>
         <div className="space-y-4">

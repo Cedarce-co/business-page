@@ -17,21 +17,22 @@ export default function AIBuddySection() {
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <SectionLabel className="bg-cliq-gray-100 text-cliq-text-heading border border-cliq-gray-200">
-            Your 24/7 Buddy
+            Cedarce AI
           </SectionLabel>
           <h2 className="mt-5 text-4xl font-black text-cliq-text-heading lg:text-5xl">
-            Meet your AI business buddy.
+            Ask anything about your setup.
             <br />
-            Ask anything. Get answers.
+            Get clear answers fast.
           </h2>
           <p className="mx-auto mt-4 max-w-xl text-lg text-cliq-text-body">
-            Your buddy is always around to answer practical questions about your business setup.
+            Practical answers on websites, payments, invoicing, email, and automation — before you
+            book a consultation.
           </p>
         </div>
         <div className="mx-auto mt-12 max-w-md overflow-hidden rounded-3xl border border-cliq-navy-600 bg-cliq-navy-700 shadow-purple">
           <div className="flex items-center px-5 py-4 bg-cliq-navy-800 rounded-t-3xl">
             <span className="h-2.5 w-2.5 animate-pulse rounded-full bg-cliq-teal" />
-            <span className="ml-2 text-sm font-semibold text-white">Cedarce AI Buddy</span>
+            <span className="ml-2 text-sm font-semibold text-white">Cedarce AI</span>
             <span className="ml-1 text-xs text-cliq-navy-300">· Online now</span>
           </div>
           <motion.div
@@ -44,17 +45,17 @@ export default function AIBuddySection() {
             {[
               { side: "user", text: "How do I start accepting payments online for my food store?" },
               {
-                side: "buddy",
-                text: "Great question! Your buddy can set up card, transfer, and USSD in 48 hours and connect it to your invoicing.",
+                side: "assistant",
+                text: "Great question. We typically wire up cards, bank transfer, and mobile checkout in about 48 hours and connect them to your invoicing.",
               },
               { side: "user", text: "What does a professional business email cost?" },
               {
-                side: "buddy",
-                text: "A setup like hello@yourstore.ng starts at ₦25,000. Want your free consultation? 📧",
+                side: "assistant",
+                text: "A setup like hello@yourstore.com often starts from ₦25,000. Want a free consultation to scope yours? 📧",
               },
             ].map((item, i) => (
               <motion.div variants={chatBubble} key={i}>
-                <ChatBubble side={item.side as "user" | "buddy"} text={item.text} />
+                <ChatBubble side={item.side as "user" | "assistant"} text={item.text} />
               </motion.div>
             ))}
             <div className="inline-flex gap-1 rounded-full bg-cliq-navy-600 px-3 py-2">

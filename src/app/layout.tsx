@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { SUPPORT_EMAIL } from "@/lib/contact";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ClientChrome from "@/components/layout/ClientChrome";
@@ -13,36 +14,37 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "Cedarce — Your Digital Business Buddy | Nigeria",
+    default: "Cedarce — Digital business services",
     template: "%s | Cedarce",
   },
   description:
-    "Nigeria's digital business buddy. We set up your website, payments, invoicing, business email, and automation professionally. One click and your business goes pro.",
+    "Cedarce is a digital business practice. We set up your website, payments, invoicing, business email, and automation so you operate like the big players — from informal to professional.",
   keywords: [
-    "digital business setup Nigeria",
-    "website development Lagos",
-    "payment gateway Nigeria SME",
-    "business email Nigeria",
-    "professional business setup Nigeria",
-    "invoicing system Nigeria",
-    "WhatsApp automation Nigeria",
-    "digital agency Lagos",
+    "digital business setup",
+    "business website development",
+    "payment gateway SME",
+    "professional business email",
+    "invoicing automation",
+    "business automation",
+    "digital agency",
     "Cedarce",
     "cedarce.ng",
+    SUPPORT_EMAIL,
   ],
   openGraph: {
-    title: "Cedarce — Your Digital Business Buddy",
+    title: "Cedarce — Digital business services",
     description:
-      "Nigeria's digital business buddy. Website, payments, invoicing, email, automation — done for you professionally.",
+      "Website, payments, invoicing, email, and automation — delivered as a professional service, not a boxed product.",
     url: "https://cedarce.ng",
     siteName: "Cedarce",
-    locale: "en_NG",
+    locale: "en_US",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Cedarce — Your Digital Business Buddy",
-    description: "Nigeria's digital business buddy. One click and your business goes pro.",
+    title: "Cedarce — Digital business services",
+    description:
+      "We set up your website, payments, invoicing, emails, and automation so your business operates like the big players.",
   },
   robots: { index: true, follow: true },
   metadataBase: new URL("https://cedarce.ng"),

@@ -12,13 +12,13 @@ export default function FinalCTASection() {
     <section className="border-y border-cliq-gray-200 bg-cliq-gray-100 py-20 lg:py-28">
       <div className="mx-auto max-w-[1200px] px-4 text-center sm:px-6 lg:px-8">
         <h2 className="text-5xl font-black text-cliq-text-heading lg:text-6xl">
-          Your business buddy
+          Ready to go
           <br />
-          is ready.
+          professional?
         </h2>
         <p className="mx-auto mt-4 max-w-lg text-lg text-cliq-text-body">
-          Book a free 30-minute consultation and let us show you exactly what Cedarce
-          can do for your business. No pressure. No jargon.
+          Book a free 30-minute consultation. We walk you through exactly what Cedarce can implement
+          for your business — no pressure, no jargon.
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-4">
           <Button href="/contact">Book Free Consultation</Button>

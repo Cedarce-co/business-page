@@ -38,7 +38,7 @@ export default async function ServiceDetailsPage({
               <h2 className="text-xl font-bold text-cliq-text-heading">{title}</h2>
               <ul className="mt-4 space-y-2 text-sm text-cliq-text-body">
                 <li>✓ Tailored setup for your business stage</li>
-                <li>✓ Buddy support from planning to launch</li>
+                <li>✓ Hands-on support from planning to launch</li>
                 <li>✓ Professional handover and team onboarding</li>
               </ul>
             </article>

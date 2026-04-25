@@ -29,7 +29,7 @@ export default function FoodStorySection() {
           See how we transform a business.
         </h2>
         <p className="mt-4 text-lg text-cliq-text-body">
-          A Lagos food store. Before and after Cedarce.
+          A retail food business. Before and after Cedarce.
         </p>
 
         <div className="mt-12 grid gap-8 lg:grid-cols-[90px_1fr]">

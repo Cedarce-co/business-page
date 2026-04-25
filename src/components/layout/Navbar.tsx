@@ -5,6 +5,7 @@
 */
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, ChevronDown, Globe, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
@@ -55,7 +56,7 @@ const megaMenus: Record<string, MegaBlock> = {
       { name: "Website and landing pages", desc: "Mobile-first and conversion-focused" },
       { name: "Domain and hosting", desc: "SSL-secured and managed setup" },
       { name: "Business email", desc: "Branded inboxes for your team" },
-      { name: "Payments integration", desc: "Card, transfer, and USSD collection" },
+      { name: "Payments integration", desc: "Cards, bank transfer, and mobile checkout" },
       { name: "Invoicing and receipts", desc: "Automated branded documents" },
     ],
     rightTitle: "Growth tools",
@@ -174,7 +175,8 @@ export default function Navbar() {
         <div className="border-b border-cliq-gray-200 bg-[#EAF4FF] py-4">
           <div className="relative mx-auto flex max-w-[1260px] items-center justify-center gap-4 px-10 text-[15px] text-cliq-text-heading sm:px-12 lg:px-14">
             <span className="font-medium">
-              New: Get your website, payments, and invoicing setup in as little as 48 hours.
+              Get your website, payments, and invoicing set up with speed and polish — so you can get
+              paid and look professional.
             </span>
             <Link
               href="/pricing"
@@ -196,9 +198,33 @@ export default function Navbar() {
           </div>
         </div>
       ) : null}
-      <div className="mx-auto flex h-[66px] max-w-[1260px] items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-end gap-1.5">
-          <span className="text-lg font-black tracking-tight text-cliq-navy-900 sm:text-xl">CEDARCE</span>
+      <div className="mx-auto flex h-[72px] max-w-[1260px] items-center justify-between px-4 sm:px-6 lg:h-[84px] lg:px-8">
+        <Link
+          href="/"
+          className="flex min-w-0 shrink-0 items-center"
+          aria-label="Cedarce home"
+        >
+          {/* Taller clip + scale: larger mark; bar stays a single compact row */}
+          <span className="flex h-16 w-[16rem] max-w-[62vw] items-center overflow-hidden sm:hidden">
+            <Image
+              src="/logo%20mobile.png"
+              alt=""
+              width={480}
+              height={144}
+              className="h-16 w-auto max-w-none origin-left scale-[1.52] motion-reduce:scale-100"
+              priority
+            />
+          </span>
+          <span className="hidden h-16 w-[22rem] max-w-[56vw] items-center overflow-hidden sm:flex lg:h-[76px] lg:w-[31rem] lg:max-w-none">
+            <Image
+              src="/logo%20trans.png"
+              alt=""
+              width={600}
+              height={180}
+              className="h-16 w-auto max-w-none origin-left scale-[1.46] motion-reduce:scale-100 lg:h-[76px] lg:scale-[1.58]"
+              priority
+            />
+          </span>
         </Link>
         <nav className="hidden items-center gap-8 lg:flex" onMouseLeave={startCloseDelay}>
           {links.map((link) => (

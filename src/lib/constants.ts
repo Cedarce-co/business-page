@@ -36,7 +36,7 @@ export const SERVICES: Service[] = [
     id: "email",
     icon: "Mail",
     name: "Business Email",
-    desc: "hello@yourbusiness.ng - never send a business email from Gmail again.",
+    desc: "hello@yourbusiness.com — never send business email from a personal inbox again.",
     price: "From ₦25,000",
     badge: null,
   },
@@ -44,7 +44,7 @@ export const SERVICES: Service[] = [
     id: "payments",
     icon: "CreditCard",
     name: "Payments & Gateways",
-    desc: "Accept card payments, bank transfers, and USSD. Money in your account automatically.",
+    desc: "Accept cards, bank transfers, and mobile checkout. Money in your account automatically.",
     price: "From ₦40,000",
     badge: null,
   },
@@ -84,26 +84,26 @@ export const SERVICES: Service[] = [
 
 export const PACKAGES = [
   {
-    name: "Starter Buddy",
-    price: "₦80,000",
-    subtitle: "Perfect for getting started",
+    name: "Starter",
+    price: "₦250,000",
+    subtitle: "Go professional — entry digital stack",
     badge: null,
     featured: false,
     features: [
       "Landing page (1 page, mobile-first)",
-      "Domain registration (.ng or .com)",
+      "Domain registration (major TLDs)",
       "1 business email inbox",
-      "Basic payment gateway integration",
+      "Payment gateway integration",
       "SSL certificate setup",
-      "30 days buddy support",
+      "30 days post-launch support",
     ],
-    cta: "Get Started",
+    cta: "Go Pro",
     ctaStyle: "secondary" as const,
   },
   {
-    name: "Business Buddy",
-    price: "₦250,000",
-    subtitle: "For growing businesses",
+    name: "Business",
+    price: "₦750,000",
+    subtitle: "From informal to professional — full service",
     badge: "Most Popular",
     featured: true,
     features: [
@@ -113,66 +113,65 @@ export const PACKAGES = [
       "Payment gateway + automated invoicing",
       "Bulk messaging setup (email + WhatsApp)",
       "Staff training session (2 hours)",
-      "90 days buddy support",
+      "90 days implementation support",
     ],
-    cta: "Book This Package",
+    cta: "Get started",
     ctaStyle: "primary" as const,
   },
   {
-    name: "Pro Buddy",
-    price: "₦500,000",
-    subtitle: "The complete setup",
-    badge: "Most Complete",
+    name: "Enterprise",
+    price: "Talk to us",
+    subtitle: "Custom scope, SLAs, and dedicated delivery",
+    badge: "Custom",
     featured: false,
     features: [
-      "Everything in Business Buddy",
-      "Mobile app development",
-      "Marketing & ads setup",
-      "SendGrid email automation",
-      "WhatsApp automation system",
-      "6 months dedicated buddy support",
-      "Monthly check-in calls",
+      "Everything in Business, tailored to your ops",
+      "Mobile apps, integrations, and automation at scale",
+      "Marketing, ads, and lifecycle messaging",
+      "Dedicated account lead & priority turnaround",
+      "Security reviews, training, and handover",
+      "Volume pricing — we scope together",
     ],
-    cta: "Let's Talk",
-    ctaStyle: "dark" as const,
+    cta: "Talk to us",
+    ctaStyle: "secondary" as const,
   },
 ];
 
 export const TESTIMONIALS = [
   {
     name: "Amaka O.",
-    role: "Food Store Owner, Lagos",
+    role: "Food Store Owner",
     stars: 5,
     quote:
       "Cedarce set up my entire shop in one week. Now your customers can pay online and receive automatic receipts. Your business finally looks like a real company.",
   },
   {
     name: "Tunde A.",
-    role: "Fashion Boutique, Abuja",
+    role: "Fashion Boutique",
     stars: 5,
     quote:
       "You stop managing everything on WhatsApp. You now have a proper website, business email, and payment system. Best investment for your business.",
   },
   {
     name: "Pastor Emeka",
-    role: "Church, Port Harcourt",
+    role: "Community organization",
     stars: 5,
     quote:
       "Cedarce built our website, set up online giving, and configured bulk messaging. Our congregation is now fully connected digitally.",
   },
   {
     name: "Ngozi C.",
-    role: "Pharmacy Owner, Enugu",
+    role: "Pharmacy Owner",
     stars: 5,
     quote:
-      "Automated restock alerts increased your sales. Your customers love being notified when products return. This buddy truly knows business.",
+      "Automated restock alerts increased your sales. Your customers love being notified when products return. Cedarce understands operations.",
   },
   {
     name: "Ola B.",
-    role: "Startup Founder, Lagos",
+    role: "Startup Founder",
     stars: 5,
     quote:
-      "You needed someone who understands both tech and business. Cedarce built everything and trained your whole team. Genuinely your digital buddy.",
+      "You needed someone who understands both tech and business. Cedarce built everything and trained your whole team — end to end.",
   },
 ];
 
@@ -193,14 +192,14 @@ export const HOW_IT_WORKS = [
   {
     step: 2,
     icon: "Zap",
-    title: "Your Buddy Builds Everything",
-    desc: "Your buddy sets up your website, payments, email, invoicing, and messaging. Usually within 48 hours.",
+    title: "We Build Your Stack",
+    desc: "We set up your website, payments, email, invoicing, and messaging — usually within 48 hours.",
   },
   {
     step: 3,
     icon: "Star",
     title: "Your Business Goes Pro",
-    desc: "You launch with a fully professional digital business. Your buddy stays for support and growth.",
+    desc: "You launch with a fully professional digital business. We stay with you for support and growth.",
   },
 ];
 
@@ -223,7 +222,7 @@ export const FOOD_STORY_STEPS = [
   {
     step: 4,
     title: "Customer pays online",
-    desc: "Card, bank transfer, or USSD. Payment confirmed in real time.",
+    desc: "Card, bank transfer, or mobile checkout. Payment confirmed in real time.",
   },
   {
     step: 5,
@@ -246,15 +245,15 @@ export const BLOG_POSTS = [
   {
     id: "go-professional-2025",
     tag: "Getting Started",
-    title: "5 things every Nigerian business needs to go professional in 2025",
+    title: "5 things every growing business needs to go professional in 2025",
     readTime: "6 min read",
     cover: "bg-g-brand",
     image: "blog-placeholder-1.svg",
   },
   {
-    id: "online-payments-nigeria",
+    id: "online-payments-small-business",
     tag: "Payments",
-    title: "How to accept online payments as a small business in Nigeria",
+    title: "How to accept online payments as a small business",
     readTime: "5 min read",
     cover: "bg-cliq-navy-800",
     image: "blog-placeholder-2.svg",
@@ -279,8 +278,8 @@ export const FAQS = [
     a: "Most setups are live within 48 hours depending on your selected services.",
   },
   {
-    q: "Do you support businesses outside Lagos?",
-    a: "Yes. We work with businesses across Nigeria including Abuja, Port Harcourt, Kano, and Aba.",
+    q: "Do you work with businesses outside my city?",
+    a: "Yes. Cedarce is remote-first — we deliver the same professional setup wherever you operate.",
   },
   {
     q: "Do you provide training for my team?",
@@ -288,7 +287,7 @@ export const FAQS = [
   },
   {
     q: "Can you migrate my existing website?",
-    a: "Yes. Your buddy can redesign or migrate your current setup with minimal downtime.",
+    a: "Yes. We can redesign or migrate your current setup with minimal downtime.",
   },
   {
     q: "Do you handle domain and hosting renewals?",

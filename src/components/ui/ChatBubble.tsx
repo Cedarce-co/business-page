@@ -9,7 +9,7 @@ export default function ChatBubble({
   side,
   text,
 }: {
-  side: "user" | "buddy";
+  side: "user" | "assistant";
   text: string;
 }) {
   return (

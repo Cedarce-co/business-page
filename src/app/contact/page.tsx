@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import confetti from "canvas-confetti";
 import toast from "react-hot-toast";
+import { SUPPORT_EMAIL, SUPPORT_PHONE_DISPLAY, SUPPORT_PHONE_TEL } from "@/lib/contact";
 
 export default function ContactPage() {
   const [done, setDone] = useState(false);
@@ -20,7 +21,7 @@ export default function ContactPage() {
         <div>
           <h1 className="text-5xl font-black text-white">You are booked 🎉</h1>
           <p className="mt-4 text-white/70">
-            Your buddy will respond shortly with next steps for your business.
+            We will respond shortly with next steps for your business.
           </p>
         </div>
       </section>
@@ -32,7 +33,7 @@ export default function ContactPage() {
       <div className="mx-auto grid max-w-[1200px] gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
         <form onSubmit={onSubmit} className="rounded-2xl border border-cliq-navy-600 bg-cliq-navy-850 p-6">
           <h1 className="text-3xl font-black text-white">Book your free consultation</h1>
-          <p className="mt-2 text-white/70">Tell your buddy what you need.</p>
+          <p className="mt-2 text-white/70">Tell us what you need.</p>
           <div className="mt-6 space-y-4">
             {["Full name", "Business name", "Email", "Phone"].map((label) => (
               <input
@@ -55,8 +56,16 @@ export default function ContactPage() {
         </form>
         <div className="rounded-2xl border border-cliq-navy-600 bg-cliq-navy-850 p-6">
           <h2 className="text-2xl font-black text-white">Reach us directly</h2>
-          <p className="mt-4 text-white/70">hello@cedarce.ng</p>
-          <p className="mt-1 text-white/70">Lagos, Nigeria</p>
+          <p className="mt-4 text-white/70">
+            <a href={`mailto:${SUPPORT_EMAIL}`} className="underline-offset-2 hover:underline">
+              {SUPPORT_EMAIL}
+            </a>
+          </p>
+          <p className="mt-1 text-white/70">
+            <a href={`tel:${SUPPORT_PHONE_TEL}`} className="underline-offset-2 hover:underline">
+              {SUPPORT_PHONE_DISPLAY}
+            </a>
+          </p>
           <p className="mt-6 text-cliq-teal">Response time: within 2 hours (Mon-Sat)</p>
         </div>
       </div>

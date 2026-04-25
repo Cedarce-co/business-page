@@ -20,10 +20,10 @@ const before = [
 ];
 const after = [
   "Professional landing page taking orders",
-  "Online payments - card, transfer, USSD",
+  "Online payments — card, transfer, mobile checkout",
   "Automated branded invoices instantly",
   "Branded receipts emailed automatically",
-  "hello@yourbusiness.ng professional email",
+  "hello@yourbusiness.com professional email",
   "Automated WhatsApp and email follow-ups",
   "Bulk messaging reaching all customers",
 ];
