@@ -1,6 +1,6 @@
 import "server-only";
 
-import type { IntakeQuestionSet, Prisma } from "@prisma/client";
+import type { Prisma } from "@prisma/client";
 import { prisma } from "@/server/database/prisma";
 import { intakeQuestionsResponseSchema } from "@/features/intake/types";
 import { INTAKE_QUESTIONS, INTAKE_QUESTIONS_VERSION } from "@/server/intake/questions";
@@ -93,7 +93,7 @@ export async function getQuestionSetForVersion(version: string) {
   return getPublishedQuestionSet();
 }
 
-export async function listQuestionSets(): Promise<IntakeQuestionSet[]> {
+export async function listQuestionSets(): Promise<IntakeQuestionSetRecord[]> {
   return prisma.intakeQuestionSet.findMany({
     orderBy: { createdAt: "desc" },
   });

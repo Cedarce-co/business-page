@@ -1,6 +1,6 @@
 import Link from "next/link";
-import type { IntakeQuestionSet } from "@prisma/client";
 import { listQuestionSets } from "@/server/services/intake-question-sets";
+type QuestionSetRow = Awaited<ReturnType<typeof listQuestionSets>>[number];
 
 function tone(status: string) {
   if (status === "PUBLISHED") return "bg-emerald-50 text-emerald-800 border-emerald-200";
@@ -43,7 +43,7 @@ export default async function AdminIntakeQuestionsPage() {
             </tr>
           </thead>
           <tbody>
-            {sets.map((s: IntakeQuestionSet) => (
+            {sets.map((s: QuestionSetRow) => (
               <tr key={s.id} className="border-t border-slate-200">
                 <td className="px-4 py-3">
                   <span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${tone(s.status)}`}>
