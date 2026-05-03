@@ -1,10 +1,26 @@
-import type { ServiceRequestStatus } from "@prisma/client";
-
 /**
- * Preferred workflow order for admin (no duplicate “completed”; pricing stage omitted here).
- * Legacy enum values `PRICING` and `COMPLETED` are appended only in the dropdown via
- * `serviceRequestStatusDropdownOptions()` so existing rows stay selectable.
+ * Status union for ServiceRequest. Mirrors the Prisma enum
+ * `ServiceRequestStatus` in prisma/schema.prisma.
+ *
+ * Avoid importing the Prisma runtime enum directly so the build does not
+ * depend on a generated client being present at type-check time.
  */
+export const SERVICE_REQUEST_STATUS_VALUES = [
+  "PENDING_REVIEW",
+  "NEEDS_INFO",
+  "CONSULTATION",
+  "PRICING",
+  "PROJECT_STARTED",
+  "PROJECT_UNDER_REVIEW",
+  "PROJECT_COMPLETED",
+  "CLOSED",
+  "REJECTED",
+  "IN_PROGRESS",
+  "COMPLETED",
+] as const;
+
+export type ServiceRequestStatus = (typeof SERVICE_REQUEST_STATUS_VALUES)[number];
+
 export const SERVICE_REQUEST_STATUS_ORDER = [
   "PENDING_REVIEW",
   "NEEDS_INFO",
@@ -19,7 +35,6 @@ export const SERVICE_REQUEST_STATUS_ORDER = [
 
 export type ServiceRequestStatusKey = ServiceRequestStatus;
 
-/** Full list for status dropdowns (primary flow + legacy DB values). */
 export function serviceRequestStatusDropdownOptions(): ServiceRequestStatus[] {
   const primary = [...SERVICE_REQUEST_STATUS_ORDER] as ServiceRequestStatus[];
   const extra: ServiceRequestStatus[] = ["PRICING", "COMPLETED"];

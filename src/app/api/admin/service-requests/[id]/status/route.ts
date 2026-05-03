@@ -1,11 +1,11 @@
-import { ServiceRequestStatus } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getApiAdminUser } from "@/lib/server-auth";
 import { reviewServiceRequest } from "@/server/services/admin";
+import { SERVICE_REQUEST_STATUS_VALUES } from "@/lib/service-request-status";
 
 const schema = z.object({
-  status: z.nativeEnum(ServiceRequestStatus),
+  status: z.enum(SERVICE_REQUEST_STATUS_VALUES),
   note: z.string().trim().max(2000).optional(),
 });
 

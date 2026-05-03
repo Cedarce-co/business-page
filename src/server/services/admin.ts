@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
-import { ServiceRequestStatus } from "@prisma/client";
-import { serviceRequestStatusLabel } from "@/lib/service-request-status";
+import {
+  serviceRequestStatusLabel,
+  type ServiceRequestStatus,
+} from "@/lib/service-request-status";
 import { sendEmail } from "@/server/emails/sender";
 import { verificationApprovedEmail } from "@/server/emails/templates/verification-approved";
 import { createNotification } from "@/server/services/notifications";
