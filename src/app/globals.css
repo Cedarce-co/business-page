@@ -38,9 +38,27 @@ ol {
   list-style: none;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+@layer base {
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+}
+
+button,
+[role="button"],
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  cursor: pointer;
+}
+
+button:disabled,
+[role="button"][aria-disabled="true"],
+input[type="button"]:disabled,
+input[type="submit"]:disabled,
+input[type="reset"]:disabled {
+  cursor: not-allowed;
 }
 
 .text-gradient {
@@ -76,6 +94,20 @@ a {
 
 .bg-g-hero {
   background: linear-gradient(165deg, #0a0a14 0%, #111122 50%, #1b1f30 100%);
+}
+
+/*
+  Fixed header in Navbar.tsx: promo row (py-4 + wrapped copy on small screens) + bar (h-[72px] lg:h-[84px]).
+  Inner pages need a generous offset; do not shrink at larger breakpoints (that was hiding content under the nav on desktop).
+*/
+.public-site-main {
+  padding-top: 15rem; /* 240px - safe when promo + nav stack tall */
+}
+
+@media (min-width: 1024px) {
+  .public-site-main {
+    padding-top: 14rem; /* 224px - wide screens: promo often one line, still keep headroom */
+  }
 }
 
 ::selection {
