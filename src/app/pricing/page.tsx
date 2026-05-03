@@ -1,24 +1,15 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import Link from "next/link";
+import { useState } from "react";
 import SectionLabel from "@/components/ui/SectionLabel";
 import PricingCard from "@/components/ui/PricingCard";
 import FinalCTASection from "@/components/home/FinalCTASection";
 import { FAQS, PACKAGES, SERVICES } from "@/lib/constants";
-import { parseNaira } from "@/lib/utils";
 
 export default function PricingPage() {
   const [selected, setSelected] = useState<string[]>([]);
   const [openFaq, setOpenFaq] = useState<number | null>(0);
-
-  const total = useMemo(
-    () =>
-      SERVICES.filter((service) => selected.includes(service.id)).reduce(
-        (sum, service) => sum + parseNaira(service.price),
-        0
-      ),
-    [selected]
-  );
 
   const toggle = (id: string) => {
     setSelected((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
@@ -26,14 +17,16 @@ export default function PricingPage() {
 
   return (
     <>
-      <section className="bg-cliq-navy-900 pb-16 pt-36 text-center">
+      <section className="bg-cliq-navy-900 pb-16 pt-0 text-center">
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
           <SectionLabel className="bg-cliq-navy-700 text-cliq-teal">Pricing</SectionLabel>
-          <h1 className="mt-6 text-5xl font-black text-white lg:text-6xl">
-            Simple, transparent pricing.
+          <h1 className="mt-6 text-5xl font-black leading-tight text-white lg:text-6xl">
+            Pick a starting package.
+            <br />
+            We scope the rest together.
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-white/70">
-            You know your options up front. No hidden fees. No drama.
+          <p className="mx-auto mt-4 max-w-2xl text-center text-white/70">
+            How much business have you lost because you didn&apos;t look credible online? Pick a tier; we scope the rest. No hidden fees. No drama.
           </p>
         </div>
       </section>
@@ -48,19 +41,24 @@ export default function PricingPage() {
         </div>
       </section>
 
-      <section className="bg-cliq-gray-100 py-20">
+      {/* <section className="bg-cliq-gray-100 py-20">
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl font-black text-cliq-text-heading">Individual service pricing</h2>
           <div className="mt-6 overflow-hidden rounded-2xl border border-cliq-gray-200 bg-white">
             {SERVICES.map((service) => (
               <div key={service.id} className="flex items-center justify-between border-b border-cliq-gray-200 px-5 py-4 last:border-0">
-                <p className="font-medium text-cliq-text-heading">{service.name}</p>
-                <p className="text-cliq-purple">{service.price}</p>
+                <Link
+                  href={`/services/${service.id}`}
+                  className="font-medium text-cliq-text-heading underline-offset-4 hover:text-cliq-navy-800 hover:underline"
+                >
+                  {service.name}
+                </Link>
+                <p className="text-sm font-semibold text-cliq-purple">Request a quote</p>
               </div>
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       <section className="bg-cliq-white py-20">
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
@@ -78,15 +76,15 @@ export default function PricingPage() {
                   onChange={() => toggle(service.id)}
                 />
                 <span className="flex-1 text-cliq-text-heading">{service.name}</span>
-                <span className="text-sm text-cliq-text-muted">{service.price}</span>
+                <span className="text-sm text-cliq-text-muted">Request a quote</span>
               </label>
             ))}
           </div>
           <div className="mt-6 rounded-2xl bg-cliq-navy-900 p-6 text-white">
-            <p className="text-xl font-black">Estimated investment: ₦{total.toLocaleString()}</p>
-            <p className="mt-2 text-sm text-white/70">Final price confirmed in consultation</p>
+            <p className="text-xl font-black">Get a tailored quote</p>
+            <p className="mt-2 text-sm text-white/70">Submit your needs and we’ll recommend the best-fit package.</p>
             <button className="mt-4 rounded-xl bg-g-button px-5 py-3 font-semibold">
-              Get a quote for this selection →
+              Request a quote →
             </button>
           </div>
         </div>

@@ -8,7 +8,6 @@ import AIBuddySection from "@/components/home/AIBuddySection";
 import PricingPreview from "@/components/home/PricingPreview";
 import TestimonialsSection from "@/components/home/TestimonialsSection";
 import StatsBanner from "@/components/home/StatsBanner";
-import BlogPreview from "@/components/home/BlogPreview";
 import FinalCTASection from "@/components/home/FinalCTASection";
 
 export default function Home() {
@@ -24,7 +23,6 @@ export default function Home() {
       <PricingPreview />
       <TestimonialsSection />
       <StatsBanner />
-      <BlogPreview />
       <FinalCTASection />
     </>
   );
