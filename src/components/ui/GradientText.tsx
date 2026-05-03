@@ -1,6 +1,6 @@
 /*
   ┌─────────────────────────────────────────────────────────┐
-  │  CEDARCE COLOUR REFERENCE — paste in every component   │
+  │  CEDARCE COLOUR REFERENCE - paste in every component   │
   └─────────────────────────────────────────────────────────┘
 */
 import { ReactNode } from "react";

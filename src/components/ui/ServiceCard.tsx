@@ -1,6 +1,6 @@
 /*
   ┌─────────────────────────────────────────────────────────┐
-  │  CEDARCE COLOUR REFERENCE — paste in every component   │
+  │  CEDARCE COLOUR REFERENCE - paste in every component   │
   └─────────────────────────────────────────────────────────┘
 */
 import Link from "next/link";
@@ -10,6 +10,7 @@ import {
   FileText,
   Globe,
   Mail,
+  Megaphone,
   MessageSquare,
   Server,
   Smartphone,
@@ -30,6 +31,7 @@ const iconMap = {
   MessageSquare,
   TrendingUp,
   Users,
+  Megaphone,
 };
 
 export default function ServiceCard({ service }: { service: Service }) {
@@ -50,12 +52,11 @@ export default function ServiceCard({ service }: { service: Service }) {
       ) : null}
       <h3 className="mb-2 text-lg font-bold text-cliq-text-heading">{service.name}</h3>
       <p className="mb-4 text-sm leading-relaxed text-cliq-text-body">{service.desc}</p>
-      <p className="mb-3 text-xs text-cliq-text-muted">{service.price}</p>
       <Link
         href={`/services/${service.id}`}
         className="text-sm font-semibold text-cliq-purple"
       >
-        Explore this service →
+        See what we can build for you →
       </Link>
     </motion.div>
   );

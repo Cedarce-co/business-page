@@ -1,6 +1,6 @@
 /*
   ┌─────────────────────────────────────────────────────────┐
-  │  CEDARCE COLOUR REFERENCE — paste in every component   │
+  │  CEDARCE COLOUR REFERENCE - paste in every component   │
   └─────────────────────────────────────────────────────────┘
 */
 "use client";
@@ -23,7 +23,9 @@ type Pricing = {
 };
 
 export default function PricingCard({ item }: { item: Pricing }) {
-  const priceIsText = !item.price.startsWith("₦");
+  const showPrice = item.price.trim().length > 0;
+  const priceIsText = showPrice ? !item.price.startsWith("₦") : true;
+  const href = `/request-service?package=${encodeURIComponent(item.name)}`;
 
   return (
     <div
@@ -44,14 +46,16 @@ export default function PricingCard({ item }: { item: Pricing }) {
       <div className="relative z-10">
         {item.badge ? <Badge variant="popular">{item.badge}</Badge> : null}
         <h3 className="mt-3 text-2xl font-black text-cliq-text-heading">{item.name}</h3>
-        <p
-          className={cn(
-            "mt-2 font-black text-cliq-purple",
-            priceIsText ? "text-3xl leading-tight tracking-tight lg:text-4xl" : "text-5xl"
-          )}
-        >
-          {item.price}
-        </p>
+        {showPrice ? (
+          <p
+            className={cn(
+              "mt-2 font-black text-cliq-purple",
+              priceIsText ? "text-3xl leading-tight tracking-tight lg:text-4xl" : "text-5xl"
+            )}
+          >
+            {item.price}
+          </p>
+        ) : null}
         <p className="mt-1 text-sm text-cliq-text-muted">{item.subtitle}</p>
         <div className="my-6 border-t border-cliq-gray-200" />
         <ul className="space-y-3">
@@ -64,7 +68,7 @@ export default function PricingCard({ item }: { item: Pricing }) {
         </ul>
         <div className="relative z-20 mt-8">
           <Button
-            href="/contact"
+            href={href}
             variant={item.ctaStyle}
             full
             className={cn(
