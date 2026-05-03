@@ -58,9 +58,11 @@ export default function HeroSection() {
               Book your free consultation
             </Button>
           </div>
+          <div className="mt-8">
           <p className="mt-6 text-sm text-cliq-text-muted lg:text-left">
-            ✦ Trusted by food stores, pharmacies, churches, startups &amp; more across Nigeria
-          </p>
+              ✦ Trusted by food stores, pharmacies, churches, startups &amp; more businesses.
+            </p>
+          </div>
         </div>
         <div className="space-y-4">
           {notifications.map((card, idx) => (
