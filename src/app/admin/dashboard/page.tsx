@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { getAdminOverview } from "@/server/services/admin";
-import { kycLabel } from "@/components/admin/status";
+
+type VerificationAcc = { approved: number; underReview: number; rejected: number; notSubmitted: number };
+type WorkAcc = { completed: number; inProgress: number; rejected: number; pending: number };
 
 export default async function AdminDashboardPage() {
   const { users, requests, categories } = await getAdminOverview();
 
   const verification = users.reduce(
-    (acc, u: { kyc: { status: string } | null }) => {
+    (acc: VerificationAcc, u: { kyc: { status: string } | null }) => {
       const s = u.kyc?.status ?? "PENDING";
       if (s === "APPROVED") acc.approved += 1;
       else if (s === "SUBMITTED") acc.underReview += 1;
@@ -18,7 +20,7 @@ export default async function AdminDashboardPage() {
   );
 
   const work = requests.reduce(
-    (acc, r: { status: string }) => {
+    (acc: WorkAcc, r: { status: string }) => {
       const s = r.status;
       if (s === "COMPLETED") acc.completed += 1;
       else if (s === "IN_PROGRESS") acc.inProgress += 1;

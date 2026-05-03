@@ -4,6 +4,8 @@ import { getServerAuthSession } from "@/server/auth/session";
 import { prisma } from "@/lib/prisma";
 import { SERVICES } from "@/lib/constants";
 
+export const dynamic = "force-dynamic";
+
 export default async function PublicRequestServiceEntry({
   searchParams,
 }: {
