@@ -28,22 +28,22 @@ export default function Footer() {
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
           <div className="lg:col-span-4">
             <Link href="/" className="inline-flex min-w-0 items-center" aria-label="Home">
-              <span className="flex h-20 w-full max-w-[24rem] items-center overflow-hidden sm:hidden">
+              <span className="flex h-24 w-full max-w-[26rem] items-center overflow-hidden sm:hidden">
                 <Image
                   src="/logo%20mobile.png"
                   alt=""
-                  width={480}
-                  height={144}
-                  className="h-20 w-auto max-w-none origin-left scale-[1.42] motion-reduce:scale-100"
+                  width={520}
+                  height={156}
+                  className="h-24 w-auto max-w-none origin-left scale-[1.42] motion-reduce:scale-100"
                 />
               </span>
               <span className="hidden h-24 w-full max-w-[30rem] items-center overflow-hidden sm:flex lg:max-w-[38rem]">
                 <Image
                   src="/logo%20trans.png"
                   alt=""
-                  width={600}
-                  height={180}
-                  className="h-24 w-auto max-w-none origin-left scale-[1.34] motion-reduce:scale-100"
+                  width={680}
+                  height={204}
+                  className="h-32 w-auto max-w-none origin-left scale-[1.34] motion-reduce:scale-100"
                 />
               </span>
             </Link>
