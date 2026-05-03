@@ -1,4 +1,4 @@
-import { defineConfig, env } from "prisma/config";
+import { defineConfig } from "prisma/config";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -33,12 +33,20 @@ loadDotEnv(".env", { override: false });
 // Prefer .env.local if present
 loadDotEnv(".env.local", { override: true });
 
+// `prisma generate` doesn't need a real DB connection, but Prisma's strict
+// `env()` helper throws at config-load time if the variable is missing
+// (which happens on CI like Netlify where .env files aren't checked in).
+// Fall back to a placeholder so `generate` can run; real commands like
+// `migrate` / runtime queries will still need a valid DATABASE_URL.
+const databaseUrl =
+  process.env.DATABASE_URL ?? "postgresql://placeholder:placeholder@localhost:5432/placeholder";
+
 export default defineConfig({
   schema: "prisma/schema.prisma",
   migrations: {
     path: "prisma/migrations",
   },
   datasource: {
-    url: env("DATABASE_URL"),
+    url: databaseUrl,
   },
 });
