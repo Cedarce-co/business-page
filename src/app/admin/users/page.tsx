@@ -3,6 +3,16 @@ import { prisma } from "@/server/database/prisma";
 import StatusBadge from "@/components/admin/StatusBadge";
 import { kycLabel, kycTone } from "@/components/admin/status";
 
+type AdminUsersRow = {
+  id: string;
+  name: string;
+  email: string;
+  createdAt: Date;
+  profile: { country: string | null; city: string | null } | null;
+  kyc: { status: string } | null;
+  serviceRequest: { serviceType: string }[];
+};
+
 function toDate(value: string | undefined) {
   if (!value) return null;
   const d = new Date(value);
@@ -102,7 +112,7 @@ export default async function AdminUsersPage({
               </tr>
             </thead>
             <tbody>
-              {users.map((u) => (
+              {users.map((u: AdminUsersRow) => (
                 <tr key={u.id} className="group">
                   <td className="border-b border-slate-100 py-3 pr-4 align-top">
                     <Link href={`/admin/users/${u.id}`} className="block">

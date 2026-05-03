@@ -2,6 +2,14 @@ import { notFound } from "next/navigation";
 import AdminUserDetailClient from "@/components/admin/AdminUserDetailClient";
 import { getAdminUserDetail } from "@/server/services/admin";
 
+type ServiceRequestListItem = {
+  id: string;
+  serviceType: string;
+  summary: string;
+  status: string;
+  createdAt: Date;
+};
+
 export default async function AdminUserDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const user = await getAdminUserDetail(id);
@@ -37,7 +45,7 @@ export default async function AdminUserDetailPage({ params }: { params: Promise<
               govIdUrl: user.kyc.govIdUrl,
             }
           : null,
-        serviceRequest: user.serviceRequest.map((r) => ({
+        serviceRequest: user.serviceRequest.map((r: ServiceRequestListItem) => ({
           id: r.id,
           serviceType: r.serviceType,
           summary: r.summary,
