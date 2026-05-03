@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { IntakeQuestionSet } from "@prisma/client";
 import { listQuestionSets } from "@/server/services/intake-question-sets";
 
 function tone(status: string) {
@@ -42,7 +43,7 @@ export default async function AdminIntakeQuestionsPage() {
             </tr>
           </thead>
           <tbody>
-            {sets.map((s) => (
+            {sets.map((s: IntakeQuestionSet) => (
               <tr key={s.id} className="border-t border-slate-200">
                 <td className="px-4 py-3">
                   <span className={`inline-flex rounded-full border px-2.5 py-1 text-xs font-semibold ${tone(s.status)}`}>
