@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import SectionLabel from "@/components/ui/SectionLabel";
 import PricingCard from "@/components/ui/PricingCard";
@@ -40,25 +39,6 @@ export default function PricingPage() {
           </div>
         </div>
       </section>
-
-      {/* <section className="bg-cliq-gray-100 py-20">
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-black text-cliq-text-heading">Individual service pricing</h2>
-          <div className="mt-6 overflow-hidden rounded-2xl border border-cliq-gray-200 bg-white">
-            {SERVICES.map((service) => (
-              <div key={service.id} className="flex items-center justify-between border-b border-cliq-gray-200 px-5 py-4 last:border-0">
-                <Link
-                  href={`/services/${service.id}`}
-                  className="font-medium text-cliq-text-heading underline-offset-4 hover:text-cliq-navy-800 hover:underline"
-                >
-                  {service.name}
-                </Link>
-                <p className="text-sm font-semibold text-cliq-purple">Request a quote</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section> */}
 
       <section className="bg-cliq-white py-20">
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">

@@ -1,8 +1,3 @@
-/*
-  ┌─────────────────────────────────────────────────────────┐
-  │  CEDARCE COLOUR REFERENCE - paste in every component   │
-  └─────────────────────────────────────────────────────────┘
-*/
 "use client";
 
 import { motion } from "framer-motion";

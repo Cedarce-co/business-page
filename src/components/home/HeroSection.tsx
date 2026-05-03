@@ -1,8 +1,3 @@
-/*
-  ┌─────────────────────────────────────────────────────────┐
-  │  CEDARCE COLOUR REFERENCE - paste in every component   │
-  └─────────────────────────────────────────────────────────┘
-*/
 "use client";
 
 import { motion } from "framer-motion";
@@ -55,9 +50,6 @@ export default function HeroSection() {
             <strong className="font-semibold text-cliq-text-heading">what do they find?</strong> We set up your website,
             payments, invoicing, business email, and automation so you look credible and get paid faster.
           </p>
-          {/* <p className="mt-3 max-w-lg text-sm font-medium leading-relaxed text-cliq-text-heading">
-            From informal to professional in 48 hours. No stress. One team: we handle everything end to end.
-          </p> */}
           <div className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
             <Button href="/signup" variant="dark" className="rounded-xl px-6 py-3 text-base font-bold">
               Get Started

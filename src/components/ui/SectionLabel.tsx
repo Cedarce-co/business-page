@@ -1,8 +1,3 @@
-/*
-  ┌─────────────────────────────────────────────────────────┐
-  │  CEDARCE COLOUR REFERENCE - paste in every component   │
-  └─────────────────────────────────────────────────────────┘
-*/
 import { cn } from "@/lib/utils";
 
 export default function SectionLabel({

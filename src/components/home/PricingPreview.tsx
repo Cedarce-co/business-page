@@ -1,8 +1,3 @@
-/*
-  ┌─────────────────────────────────────────────────────────┐
-  │  CEDARCE COLOUR REFERENCE - paste in every component   │
-  └─────────────────────────────────────────────────────────┘
-*/
 import SectionLabel from "@/components/ui/SectionLabel";
 import SectionIntro from "@/components/ui/SectionIntro";
 import PricingCard from "@/components/ui/PricingCard";

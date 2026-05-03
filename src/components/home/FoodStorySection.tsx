@@ -1,12 +1,8 @@
-/*
-  ┌─────────────────────────────────────────────────────────┐
-  │  CEDARCE COLOUR REFERENCE — paste in every component   │
-  └─────────────────────────────────────────────────────────┘
-*/
 "use client";
 
 import { motion, useScroll, useSpring } from "framer-motion";
 import SectionLabel from "@/components/ui/SectionLabel";
+import SectionIntro from "@/components/ui/SectionIntro";
 import { FOOD_STORY_STEPS } from "@/lib/constants";
 import { fadeUp, viewport } from "@/lib/animations";
 import { useRef } from "react";
@@ -22,15 +18,18 @@ export default function FoodStorySection() {
   return (
     <section className="bg-cliq-gray-100 py-20 lg:py-28">
       <div ref={ref} className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-        <SectionLabel className="bg-white font-semibold text-cliq-text-heading border border-cliq-gray-300">
-          Cedarce in Action
-        </SectionLabel>
-        <h2 className="mt-5 text-4xl font-black text-cliq-text-heading lg:text-5xl">
-          See how we transform a business.
-        </h2>
-        <p className="mt-4 text-lg text-cliq-text-body">
-          A retail food business. Before and after Cedarce.
-        </p>
+        <SectionIntro>
+          <SectionLabel className="border border-cliq-gray-300 bg-white font-semibold text-cliq-text-heading">
+            In action
+          </SectionLabel>
+          <h2 className="mt-5 text-4xl font-black text-cliq-text-heading lg:text-5xl">
+            From manual orders to a system that runs while you sleep.
+          </h2>
+          <p className="mt-4 text-lg text-cliq-text-body">
+            Real retail story: customers find you online, pay faster, and get receipts automatically, so you stop chasing
+            and start scaling.
+          </p>
+        </SectionIntro>
 
         <div className="mt-12 grid gap-8 lg:grid-cols-[90px_1fr]">
           <div className="hidden lg:flex justify-center">

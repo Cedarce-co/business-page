@@ -62,7 +62,6 @@ export default function AdminFrame({
   return (
     <div className="min-h-screen bg-slate-100">
       <div className="lg:flex">
-        {/* Desktop sidebar */}
         <div className="hidden lg:block">
           <aside className="sticky top-0 h-screen w-80 shrink-0 border-r border-slate-200 bg-white/90 p-4 backdrop-blur">
             <div className="mb-4">
@@ -83,7 +82,6 @@ export default function AdminFrame({
           </aside>
         </div>
 
-        {/* Mobile top bar */}
         <div className="sticky top-0 z-30 flex items-center justify-between border-b border-slate-200 bg-white/90 px-4 py-3 backdrop-blur lg:hidden">
           <button
             type="button"

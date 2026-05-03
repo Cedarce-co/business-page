@@ -96,17 +96,13 @@ input[type="reset"]:disabled {
   background: linear-gradient(165deg, #0a0a14 0%, #111122 50%, #1b1f30 100%);
 }
 
-/*
-  Fixed header in Navbar.tsx: promo row (py-4 + wrapped copy on small screens) + bar (h-[72px] lg:h-[84px]).
-  Inner pages need a generous offset; do not shrink at larger breakpoints (that was hiding content under the nav on desktop).
-*/
 .public-site-main {
-  padding-top: 15rem; /* 240px - safe when promo + nav stack tall */
+  padding-top: 15rem;
 }
 
 @media (min-width: 1024px) {
   .public-site-main {
-    padding-top: 14rem; /* 224px - wide screens: promo often one line, still keep headroom */
+    padding-top: 14rem;
   }
 }
 

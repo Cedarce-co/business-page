@@ -1,8 +1,3 @@
-/*
-  ┌─────────────────────────────────────────────────────────┐
-  │  CEDARCE COLOUR REFERENCE — paste in every component   │
-  └─────────────────────────────────────────────────────────┘
-*/
 "use client";
 
 import Image from "next/image";
@@ -10,114 +5,106 @@ import Link from "next/link";
 import { ArrowUpRight, ChevronDown, Globe, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import Button from "@/components/ui/Button";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useSession, signOut } from "next-auth/react";
 
 const links = [
   { href: "/services", label: "Solutions" },
   { href: "/about", label: "Product" },
   { href: "/pricing", label: "Pricing" },
-  { href: "/blog", label: "Resources" },
+  { href: "/contact", label: "Contact" },
 ];
 
-type MegaItem = { name: string; desc: string };
+type MegaLinkItem = { name: string; desc: string; href: string };
 type MegaBlock = {
   leftTitle: string;
-  leftItems: MegaItem[];
+  leftItems: MegaLinkItem[];
   rightTitle: string;
-  rightItems: MegaItem[];
+  rightItems: MegaLinkItem[];
   cardTag: string;
   cardTitle: string;
   cardText: string;
+  cardCtaHref: string;
+  cardCtaLabel: string;
   footerLink: string;
+  footerLinkHref: string;
 };
 
 const megaMenus: Record<string, MegaBlock> = {
   Solutions: {
     leftTitle: "Existing companies",
     leftItems: [
-      { name: "Self-employed", desc: "Freelancers and sole traders" },
-      { name: "Micro-businesses", desc: "1-9 employees" },
-      { name: "SMEs", desc: "10-250+ employees" },
-      { name: "Associations", desc: "Donations, membership fees, expenses" },
+      { name: "Self-employed", desc: "Freelancers and sole traders", href: "/services/web-presence" },
+      { name: "Micro-businesses", desc: "1-9 employees", href: "/services/customer-reach" },
+      { name: "SMEs", desc: "10-250+ employees", href: "/services/apps-and-operations" },
+      { name: "Associations", desc: "Donations, membership fees, expenses", href: "/services/payments-invoicing" },
     ],
     rightTitle: "Business founders",
     rightItems: [
-      { name: "Business launch setup", desc: "Website, domain, email, payments" },
-      { name: "Brand and automation", desc: "Invoicing, follow-ups, bulk messaging" },
+      { name: "Business launch setup", desc: "Website, domain, email, payments", href: "/services/web-presence" },
+      { name: "Brand and automation", desc: "Invoicing, follow-ups, bulk messaging", href: "/services/payments-invoicing" },
     ],
-    cardTag: "Contact sales",
-    cardTitle: "Need more information?",
-    cardText: "Got questions or looking for a product demo? Our team is on hand to help.",
-    footerLink: "Contact our Sales team",
+    cardTag: "Get started",
+    cardTitle: "Ready to look professional online?",
+    cardText: "Create an account to request services, track delivery, and manage your profile in one place.",
+    cardCtaHref: "/signup",
+    cardCtaLabel: "Create free account",
+    footerLink: "Talk to our team",
+    footerLinkHref: "/contact",
   },
   Product: {
     leftTitle: "Digital setup",
     leftItems: [
-      { name: "Website and landing pages", desc: "Mobile-first and conversion-focused" },
-      { name: "Domain and hosting", desc: "SSL-secured and managed setup" },
-      { name: "Business email", desc: "Branded inboxes for your team" },
-      { name: "Payments integration", desc: "Cards, bank transfer, and mobile checkout" },
-      { name: "Invoicing and receipts", desc: "Automated branded documents" },
+      { name: "Website and landing pages", desc: "Mobile-first and conversion-focused", href: "/services/web-presence" },
+      { name: "Domain and hosting", desc: "SSL-secured and managed setup", href: "/services/web-presence" },
+      { name: "Business email", desc: "Branded inboxes for your team", href: "/services/business-identity" },
+      { name: "Payments integration", desc: "Cards, bank transfer, and mobile checkout", href: "/services/payments-invoicing" },
+      { name: "Invoicing and receipts", desc: "Automated branded documents", href: "/services/payments-invoicing" },
     ],
     rightTitle: "Growth tools",
     rightItems: [
-      { name: "Bulk messaging", desc: "Email, WhatsApp, and SMS campaigns" },
-      { name: "Marketing setup", desc: "Instagram, TikTok, and Google visibility" },
-      { name: "Staff training", desc: "Hands-on onboarding for your team" },
-      { name: "Integrations", desc: "Connect tools you already use" },
+      { name: "Bulk messaging", desc: "Email, WhatsApp, and SMS campaigns", href: "/services/customer-reach" },
+      { name: "Marketing setup", desc: "Instagram, TikTok, and Google visibility", href: "/services/customer-reach" },
+      { name: "Staff training", desc: "Hands-on onboarding for your team", href: "/services/apps-and-operations" },
+      { name: "Integrations", desc: "Connect tools you already use", href: "/services/apps-and-operations" },
     ],
-    cardTag: "New",
-    cardTitle: "48-hour setup option",
-    cardText: "Launch your digital business infrastructure fast with Cedarce.",
-    footerLink: "Explore product",
+    cardTag: "Overview",
+    cardTitle: "Five pillars. One delivery partner.",
+    cardText: "See how our services fit together, from first website to payments and campaigns.",
+    cardCtaHref: "/services",
+    cardCtaLabel: "View all services",
+    footerLink: "Compare packages",
+    footerLinkHref: "/pricing",
   },
   Pricing: {
     leftTitle: "Pricing",
     leftItems: [
-      { name: "Company creators", desc: "Setup and launch support" },
-      { name: "Self-employed", desc: "Plans built for freelancers" },
-      { name: "Micro-businesses", desc: "1-9 team members" },
-      { name: "SMEs", desc: "Scale with confidence" },
+      { name: "Company creators", desc: "Setup and launch support", href: "/pricing" },
+      { name: "Self-employed", desc: "Plans built for freelancers", href: "/pricing" },
+      { name: "Micro-businesses", desc: "1-9 team members", href: "/pricing" },
+      { name: "SMEs", desc: "Scale with confidence", href: "/pricing" },
     ],
     rightTitle: "Compare",
     rightItems: [
-      { name: "Find the right plan", desc: "Compare features and limits" },
-      { name: "Need help choosing?", desc: "Speak with our team" },
+      { name: "Find the right plan", desc: "Compare features and limits", href: "/pricing" },
+      { name: "Need help choosing?", desc: "Speak with our team", href: "/contact" },
     ],
-    cardTag: "Resource",
-    cardTitle: "Calculate your savings",
-    cardText: "Estimate how much time and admin cost your business can save.",
-    footerLink: "Find the right plan",
-  },
-  Resources: {
-    leftTitle: "Resources",
-    leftItems: [
-      { name: "Resource hub", desc: "Guides and practical templates" },
-      { name: "Blog", desc: "Business finance insights" },
-      { name: "Finance glossary", desc: "Clear definitions, no jargon" },
-      { name: "Compare accounts", desc: "Pick what fits your business" },
-    ],
-    rightTitle: "About",
-    rightItems: [
-      { name: "Our story", desc: "How Cedarce started" },
-      { name: "Why Cedarce?", desc: "What makes our setup different" },
-      { name: "Our customers", desc: "Stories from growing businesses" },
-      { name: "Impact", desc: "How we support SMEs at scale" },
-    ],
-    cardTag: "Support",
-    cardTitle: "FAQ and customer support",
-    cardText: "Fast answers and practical guidance from a real team.",
-    footerLink: "Visit support",
+    cardTag: "Consultation",
+    cardTitle: "Not sure which tier fits?",
+    cardText: "Book a short call. We’ll map packages to your goals and timeline.",
+    cardCtaHref: "/contact",
+    cardCtaLabel: "Book a call",
+    footerLink: "Email us",
+    footerLinkHref: "/contact",
   },
 };
 
 export default function Navbar() {
-  const pathname = usePathname();
   const router = useRouter();
+  const { data: session } = useSession();
   const [open, setOpen] = useState(false);
   const [activeMega, setActiveMega] = useState<string | null>(null);
   const [showTopBanner, setShowTopBanner] = useState(true);
-  const [bannerDismissed, setBannerDismissed] = useState(false);
   const closeTimer = useRef<number | null>(null);
   const lastScrollY = useRef(0);
 
@@ -144,14 +131,7 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    setOpen(false);
-    setActiveMega(null);
-  }, [pathname]);
-
-  useEffect(() => {
     const onScroll = () => {
-      if (bannerDismissed) return;
-
       const y = window.scrollY;
 
       if (y < 40) {
@@ -167,51 +147,40 @@ export default function Navbar() {
 
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [bannerDismissed]);
+  }, []);
 
   return (
     <header className="fixed left-0 right-0 top-0 z-40 border-b border-cliq-gray-200 bg-white/95 backdrop-blur-xl transition">
-      {!bannerDismissed && showTopBanner ? (
+      {showTopBanner ? (
         <div className="border-b border-cliq-gray-200 bg-[#EAF4FF] py-4">
-          <div className="relative mx-auto flex max-w-[1260px] items-center justify-center gap-4 px-10 text-[15px] text-cliq-text-heading sm:px-12 lg:px-14">
-            <span className="font-medium">
-              Get your website, payments, and invoicing set up with speed and polish — so you can get
-              paid and look professional.
+          <div className="relative mx-auto flex w-full max-w-[1440px] flex-col items-center justify-center gap-3 px-6 text-center text-[15px] text-cliq-text-heading sm:flex-row sm:text-left sm:px-10 lg:gap-6 lg:px-12">
+            <span className="max-w-[56rem] text-center font-medium">
+              The gap between where your business is and where it should be is one digital setup away. We close it fast.
             </span>
-            <Link
-              href="/pricing"
-              className="rounded-lg border border-cliq-gray-300 bg-white px-4 py-1 text-sm font-medium"
-            >
-              Discover
-            </Link>
-            <button
-              type="button"
-              onClick={() => {
-                setBannerDismissed(true);
-                setShowTopBanner(false);
-              }}
-              className="absolute right-4 inline-flex items-center justify-center rounded-md p-1 text-cliq-text-muted transition hover:bg-white/70 hover:text-cliq-text-heading sm:right-6 lg:right-8"
-              aria-label="Close banner"
-            >
-              <X className="h-4 w-4" />
-            </button>
+            <span className="flex shrink-0 flex-wrap items-center justify-center gap-2">
+              <Link
+                href="/signup"
+                className="rounded-lg px-4 py-1.5 text-sm font-semibold text-cliq-text-heading transition underline-offset-2 hover:text-cliq-purple"
+              >
+                Get started for free now →
+              </Link>
+            </span>
           </div>
         </div>
       ) : null}
-      <div className="mx-auto flex h-[72px] max-w-[1260px] items-center justify-between px-4 sm:px-6 lg:h-[84px] lg:px-8">
+      <div className="mx-auto flex h-[72px] w-full max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:h-[84px] lg:px-10">
         <Link
           href="/"
           className="flex min-w-0 shrink-0 items-center"
-          aria-label="Cedarce home"
+          aria-label="Home"
         >
-          {/* Taller clip + scale: larger mark; bar stays a single compact row */}
           <span className="flex h-16 w-[16rem] max-w-[62vw] items-center overflow-hidden sm:hidden">
             <Image
               src="/logo%20mobile.png"
               alt=""
               width={480}
               height={144}
-              className="h-16 w-auto max-w-none origin-left scale-[1.52] motion-reduce:scale-100"
+              className="h-16 w-auto max-w-none origin-left scale-[1.9] motion-reduce:scale-100"
               priority
             />
           </span>
@@ -221,7 +190,7 @@ export default function Navbar() {
               alt=""
               width={600}
               height={180}
-              className="h-16 w-auto max-w-none origin-left scale-[1.46] motion-reduce:scale-100 lg:h-[76px] lg:scale-[1.58]"
+              className="h-16 w-auto max-w-none origin-left scale-[1.9] motion-reduce:scale-100 lg:h-[76px] lg:scale-[2.1]"
               priority
             />
           </span>
@@ -233,7 +202,7 @@ export default function Navbar() {
               type="button"
               onMouseEnter={() => {
                 cancelCloseDelay();
-                setActiveMega(link.label);
+                setActiveMega(megaMenus[link.label] ? link.label : null);
               }}
               onClick={() => {
                 router.push(link.href);
@@ -243,16 +212,18 @@ export default function Navbar() {
             >
               <span className="inline-flex items-center gap-1">
                 {link.label}
-                <ChevronDown
-                  className={`h-3.5 w-3.5 transition ${
-                    activeMega === link.label ? "rotate-180" : ""
-                  }`}
-                />
+                {megaMenus[link.label] ? (
+                  <ChevronDown
+                    className={`h-3.5 w-3.5 transition ${
+                      activeMega === link.label ? "rotate-180" : ""
+                    }`}
+                  />
+                ) : null}
               </span>
             </button>
           ))}
         </nav>
-        <div className="hidden items-center gap-5 lg:flex">
+        <div className="hidden items-center gap-4 whitespace-nowrap lg:flex">
           <Link
             href="/"
             className="inline-flex items-center gap-1 text-[15px] text-cliq-text-muted transition hover:text-cliq-text-heading"
@@ -260,12 +231,38 @@ export default function Navbar() {
             <Globe className="h-3.5 w-3.5" />
             EN
           </Link>
-          <Link href="/signin" className="text-[15px] text-cliq-text-muted transition hover:text-cliq-text-heading">
-            Sign In
-          </Link>
-          <Button href="/contact" className="rounded-xl px-5 py-2.5 text-sm">
-            Open an account
-          </Button>
+          {session?.user?.id ? (
+            <div className="flex items-center gap-2 rounded-2xl border-2 border-cliq-navy-900/10 bg-gradient-to-b from-white to-[#f1f5f9] p-1 shadow-[0_8px_30px_rgba(15,23,42,0.08)]">
+              <Link
+                href="/dashboard"
+                className="rounded-xl bg-cliq-navy-900 px-5 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-cliq-navy-800"
+              >
+                Dashboard
+              </Link>
+              <button
+                type="button"
+                onClick={() => signOut({ callbackUrl: "/" })}
+                className="rounded-xl border-2 border-cliq-gray-300 bg-white px-4 py-2.5 text-sm font-bold text-cliq-navy-900 transition hover:border-cliq-gray-400 hover:bg-cliq-gray-100"
+              >
+                Sign out
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2 rounded-2xl border-2 border-cliq-navy-900/12 bg-gradient-to-b from-white to-[#f0f7ff] p-1.5 pl-2 shadow-[0_8px_32px_rgba(37,99,235,0.12)]">
+              <Link
+                href="/signin"
+                className="rounded-xl px-4 py-2.5 text-sm font-bold text-cliq-navy-900 transition hover:bg-cliq-gray-100"
+              >
+                Sign in
+              </Link>
+              <Link
+                href="/signup"
+                className="inline-flex min-h-[40px] items-center justify-center whitespace-nowrap rounded-xl bg-cliq-navy-800 px-5 py-2.5 text-sm font-bold text-white shadow-md transition hover:bg-cliq-navy-900"
+              >
+                Create account
+              </Link>
+            </div>
+          )}
         </div>
         <button
           type="button"
@@ -278,7 +275,7 @@ export default function Navbar() {
       </div>
       {open ? (
         <div className="border-b border-cliq-gray-200 bg-white lg:hidden">
-          <div className="mx-auto flex max-w-[1200px] flex-col gap-3 px-4 py-4 sm:px-6 lg:px-8">
+          <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-3 px-4 py-4 sm:px-6 lg:px-10">
             {links.map((link) => (
               <Link
                 key={link.href}
@@ -289,9 +286,32 @@ export default function Navbar() {
                 {link.label}
               </Link>
             ))}
-            <Button href="/contact" full>
-              Open an account
-            </Button>
+            {session?.user?.id ? (
+              <>
+                <Button href="/dashboard" full>
+                  Dashboard
+                </Button>
+                <button
+                  type="button"
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                  className="w-full rounded-xl border-2 border-cliq-gray-300 bg-white px-5 py-3 text-sm font-bold text-cliq-navy-900 transition hover:border-cliq-gray-400 hover:bg-cliq-gray-100"
+                >
+                  Sign out
+                </button>
+              </>
+            ) : (
+              <div className="flex flex-col gap-2">
+                <Button href="/signin" full className="!font-bold hover:!bg-cliq-gray-100">
+                  Sign in
+                </Button>
+                <Link
+                  href="/signup"
+                  className="inline-flex w-full min-h-12 items-center justify-center rounded-xl bg-cliq-navy-800 px-5 py-3 text-sm font-bold text-white shadow-md transition hover:bg-cliq-navy-900"
+                >
+                  Create account
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       ) : null}
@@ -301,7 +321,7 @@ export default function Navbar() {
           onMouseLeave={startCloseDelay}
           className="absolute left-0 right-0 top-full hidden border-b border-cliq-gray-200 bg-[#f7f8fb] text-cliq-text-heading shadow-[0_18px_40px_rgba(15,23,42,0.10)] lg:block"
         >
-          <div className="mx-auto max-w-[1260px] px-8 py-6">
+          <div className="mx-auto w-full max-w-[1440px] px-6 py-6 sm:px-10 lg:px-12">
             <div className="grid grid-cols-[2.1fr_2.1fr_1.2fr] gap-5">
               <div className="rounded-xl border border-cliq-gray-200 bg-white px-5 py-4">
                 <p className="text-xs font-semibold uppercase tracking-wide text-cliq-text-muted">
@@ -311,7 +331,7 @@ export default function Navbar() {
                   {megaMenus[activeMega].leftItems.map((item) => (
                     <Link
                       key={item.name}
-                      href={activeMega === "Pricing" ? "/pricing" : "/services"}
+                      href={item.href}
                       onClick={() => setActiveMega(null)}
                       className="block rounded-lg px-2.5 py-2 transition hover:bg-cliq-gray-100"
                     >
@@ -329,7 +349,7 @@ export default function Navbar() {
                   {megaMenus[activeMega].rightItems.map((item) => (
                     <Link
                       key={item.name}
-                      href={activeMega === "Resources" ? "/blog" : activeMega === "Product" ? "/services" : "/about"}
+                      href={item.href}
                       onClick={() => setActiveMega(null)}
                       className="block rounded-lg px-2.5 py-2 transition hover:bg-cliq-gray-100"
                     >
@@ -349,15 +369,15 @@ export default function Navbar() {
                 <p className="mt-2 text-[13px] leading-relaxed text-cliq-text-muted">
                   {megaMenus[activeMega].cardText}
                 </p>
-                <Button href="/contact" className="mt-4 w-full text-sm">
-                  Learn more
+                <Button href={megaMenus[activeMega].cardCtaHref} className="mt-4 w-full text-sm">
+                  {megaMenus[activeMega].cardCtaLabel}
                 </Button>
               </div>
             </div>
             <div className="mt-4 flex items-center justify-between border-t border-cliq-gray-200 pt-3 text-sm">
               <span className="text-cliq-text-muted">Need more details?</span>
               <Link
-                href="/contact"
+                href={megaMenus[activeMega].footerLinkHref}
                 className="inline-flex items-center gap-1 font-medium text-cliq-text-heading hover:underline"
               >
                 {megaMenus[activeMega].footerLink}

@@ -1,13 +1,9 @@
-/*
-  ┌─────────────────────────────────────────────────────────┐
-  │  CEDARCE COLOUR REFERENCE — paste in every component   │
-  └─────────────────────────────────────────────────────────┘
-*/
 "use client";
 
 import { Calendar, Star, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 import SectionLabel from "@/components/ui/SectionLabel";
+import SectionIntro from "@/components/ui/SectionIntro";
 import { HOW_IT_WORKS } from "@/lib/constants";
 import { drawLine, fadeUp, viewport } from "@/lib/animations";
 
@@ -15,14 +11,29 @@ const iconMap = { Calendar, Zap, Star };
 
 export default function HowItWorksSection() {
   return (
-    <section id="how-it-works" className="bg-cliq-navy-800 py-20 lg:py-28">
-      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-        <SectionLabel className="border border-cliq-navy-600 bg-cliq-navy-700 text-cliq-teal">
-          The Process
-        </SectionLabel>
-        <h2 className="mt-5 text-4xl font-black text-white lg:text-5xl">
-          Three steps to professional.
-        </h2>
+    <section
+      id="how-it-works"
+      className="relative overflow-hidden bg-cliq-white py-20 lg:py-28"
+    >
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse at 80% 50%, rgba(15,23,42,0.07) 0%, transparent 60%)",
+        }}
+      />
+      <div className="pointer-events-none absolute inset-0 opacity-[0.03] [background-image:radial-gradient(#111122_1px,transparent_1px)] [background-size:18px_18px]" />
+      <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+        <SectionIntro>
+          <SectionLabel className="bg-cliq-purple-soft text-cliq-purple">How it works</SectionLabel>
+          <h2 className="mt-5 text-4xl font-black text-cliq-text-heading lg:text-5xl">
+            Three steps to going professional.
+          </h2>
+          <p className="mt-4 text-lg text-cliq-text-body">
+            No complicated processes. No long waiting. Just results. We speak business, not tech, and you&apos;ll
+            understand every step.
+          </p>
+        </SectionIntro>
         <div className="mt-12 flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           {HOW_IT_WORKS.map((item, idx) => {
             const Icon = iconMap[item.icon as keyof typeof iconMap] ?? Calendar;
@@ -38,9 +49,9 @@ export default function HowItWorksSection() {
                   <div className="flex h-12 w-12 items-center justify-center rounded-full bg-cliq-purple text-xl font-black text-white">
                     {item.step}
                   </div>
-                  <Icon className="mt-4 h-6 w-6 text-cliq-teal" />
-                  <h3 className="mt-4 text-xl font-bold text-white">{item.title}</h3>
-                  <p className="mt-2 text-base leading-relaxed text-white/60">{item.desc}</p>
+                  <Icon className="mt-4 h-6 w-6 text-cliq-purple" />
+                  <h3 className="mt-4 text-xl font-bold text-cliq-text-heading">{item.title}</h3>
+                  <p className="mt-2 text-base leading-relaxed text-cliq-text-body">{item.desc}</p>
                 </motion.article>
                 {idx < HOW_IT_WORKS.length - 1 ? (
                   <svg width="100" height="4" className="mx-5 hidden lg:block">

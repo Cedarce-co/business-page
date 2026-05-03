@@ -1,8 +1,3 @@
-/*
-  ┌─────────────────────────────────────────────────────────┐
-  │  CEDARCE COLOUR REFERENCE — paste in every component   │
-  └─────────────────────────────────────────────────────────┘
-*/
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
@@ -16,7 +11,7 @@ type ChatMessage = { role: "user" | "assistant"; text: string };
 const STARTER_MESSAGES: ChatMessage[] = [
   {
     role: "assistant",
-    text: "Hi, I am Cedarce AI. Ask me anything about websites, payments, invoicing, email, automation, or pricing.",
+    text: "Hi, welcome to live chat. Ask me anything about websites, payments, invoicing, email, automation, or pricing.",
   },
 ];
 
@@ -30,10 +25,10 @@ function aiReply(input: string) {
     text.includes("reach you") ||
     text.includes("human")
   ) {
-    return `You can reach Cedarce at ${SUPPORT_EMAIL} or ${SUPPORT_PHONE_DISPLAY}. The Contact page is also there for a consultation.`;
+    return `You can reach us at ${SUPPORT_EMAIL} or ${SUPPORT_PHONE_DISPLAY}. The Contact page is also there for a consultation.`;
   }
   if (text.includes("price") || text.includes("cost") || text.includes("pricing")) {
-    return "Starter packages start from ₦250,000. If you share what you want to build, I can suggest the right package and estimate.";
+    return "Share what you want to build and we will recommend the best-fit package with a tailored quote.";
   }
   if (text.includes("payment") || text.includes("paystack") || text.includes("flutterwave")) {
     return "We can set up card, bank transfer, and mobile checkout, then connect them to your invoices and receipts in one workflow.";
@@ -42,7 +37,7 @@ function aiReply(input: string) {
     return "Yes. We build mobile-first business websites and landing pages designed to look professional and convert visitors.";
   }
   if (text.includes("email")) {
-    return "Business email setup starts from ₦25,000. You can get branded inboxes like hello@yourbusiness.ng with proper delivery setup.";
+    return "We can set up branded business email (like hello@yourbusiness.com) with proper delivery and domain configuration.";
   }
   if (text.includes("time") || text.includes("how long") || text.includes("delivery")) {
     return "Most business setups go live in about 48 hours, depending on your selected services and readiness of business details.";
@@ -51,7 +46,7 @@ function aiReply(input: string) {
     return "We automate branded invoices and receipts so customers get them instantly after each transaction.";
   }
 
-  return "Great question. Cedarce can handle your website, payments, invoicing, email, and automation as one complete setup. Tell me your business type and goal, and I will guide your next best step.";
+  return "Great question. We can handle your website, payments, invoicing, email, and automation as one complete setup. Tell me your business type and goal, and I will guide your next best step.";
 }
 
 export default function ClientChrome() {
@@ -74,7 +69,7 @@ export default function ClientChrome() {
     const text = input.trim();
     if (!text) return;
     setMessages((prev) => [...prev, { role: "user", text }, { role: "assistant", text: aiReply(text) }]);
-    toast.success("Cedarce AI responded");
+    toast.success("Live chat responded");
     setInput("");
   };
 
@@ -89,7 +84,7 @@ export default function ClientChrome() {
         onClick={() => setOpen((v) => !v)}
         className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-cliq-navy-900 text-white shadow-lg transition-transform hover:scale-110"
         style={{ boxShadow: "0 4px 20px rgba(17,17,34,0.35)" }}
-        title="Open Cedarce AI chat"
+        title="Open live chat"
       >
         <MessageCircle className="h-6 w-6" />
       </button>
@@ -99,7 +94,7 @@ export default function ClientChrome() {
           <div className="flex items-center justify-between border-b border-cliq-gray-200 bg-cliq-gray-100 px-4 py-3">
             <div className="flex items-center gap-2">
               <Bot className="h-4 w-4 text-cliq-navy-800" />
-              <p className="text-sm font-semibold text-cliq-text-heading">Cedarce AI</p>
+              <p className="text-sm font-semibold text-cliq-text-heading">Live chat</p>
             </div>
             <button type="button" onClick={() => setOpen(false)} className="text-cliq-text-muted hover:text-cliq-text-heading">
               <X className="h-4 w-4" />

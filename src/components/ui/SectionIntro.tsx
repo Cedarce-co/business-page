@@ -1,6 +1,5 @@
 import { cn } from "@/lib/utils";
 
-/** Intro block: ~50% width, left on md+, centered on small screens. */
 export default function SectionIntro({
   className,
   children,

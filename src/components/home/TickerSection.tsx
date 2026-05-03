@@ -1,8 +1,3 @@
-/*
-  ┌─────────────────────────────────────────────────────────┐
-  │  CEDARCE COLOUR REFERENCE — paste in every component   │
-  └─────────────────────────────────────────────────────────┘
-*/
 const rowOne = [
   "Food Stores",
   "Fashion Boutiques",
@@ -52,8 +47,10 @@ function Marquee({ items, reverse }: { items: string[]; reverse?: boolean }) {
 export default function TickerSection() {
   return (
     <section className="border-y border-cliq-gray-200 bg-cliq-gray-100">
-      <Marquee items={rowOne} />
-      <Marquee items={rowTwo} reverse />
+      <div className="mx-auto max-w-[1200px] overflow-hidden px-4 sm:px-6 lg:px-8">
+        <Marquee items={rowOne} />
+        <Marquee items={rowTwo} reverse />
+      </div>
     </section>
   );
 }

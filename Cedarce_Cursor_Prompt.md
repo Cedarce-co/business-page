@@ -1,12 +1,12 @@
-# CEDARCE TECHNOLOGIES — Website Build Prompt for Cursor AI
-# Version 1.0 — Dark Navy Scale · Digital Business Buddy
+# CEDARCE TECHNOLOGIES - Website Build Prompt for Cursor AI
+# Version 1.0 - Dark Navy Scale · Digital Business Buddy
 # cedarce.ng · Lagos, Nigeria · 2025
 
 ---
 
 ## 1. PROJECT BRIEF
 
-Build the complete marketing website for **Cedarce Technologies** — Nigeria's digital business infrastructure company. We take small and medium businesses operating manually and informally and set them up to operate professionally and digitally. Completely. End to end. Website, payments, invoicing, business email, bulk messaging, mobile apps, and automation — all done for you.
+Build the complete marketing website for **Cedarce Technologies** - Nigeria's digital business infrastructure company. We take small and medium businesses operating manually and informally and set them up to operate professionally and digitally. Completely. End to end. Website, payments, invoicing, business email, bulk messaging, mobile apps, and automation - all done for you.
 
 | Field | Value |
 |---|---|
@@ -18,9 +18,9 @@ Build the complete marketing website for **Cedarce Technologies** — Nigeria's 
 | Domain | cedarce.ng |
 | Email | hello@cedarce.ng |
 | Social | @cedarce on all platforms |
-| Market | Nigeria — Lagos, Abuja, Port Harcourt and beyond |
+| Market | Nigeria - Lagos, Abuja, Port Harcourt and beyond |
 | Audience | Gen Z and Millennial SME owners, 22–40 years old |
-| Brand Feel | Premium dark SaaS meets warm Nigerian soul — Linear + Vercel + Lagos |
+| Brand Feel | Premium dark SaaS meets warm Nigerian soul - Linear + Vercel + Lagos |
 
 ---
 
@@ -32,11 +32,11 @@ Language:     TypeScript
 Styling:      Tailwind CSS
 Animations:   Framer Motion
 Icons:        Lucide React
-Font:         Inter — via next/font/google
+Font:         Inter - via next/font/google
 Package mgr:  npm
 ```
 
-**Setup commands — run these first:**
+**Setup commands - run these first:**
 ```bash
 npx create-next-app@latest cedarce --typescript --tailwind --app --src-dir
 cd cedarce
@@ -45,15 +45,15 @@ npm install framer-motion lucide-react
 
 ---
 
-## 3. COLOUR SYSTEM — DARK NAVY SCALE ONLY
+## 3. COLOUR SYSTEM - DARK NAVY SCALE ONLY
 
-The entire website uses one colour system — a deep dark navy scale. This is the **only** colour reference. Do not introduce any colours not listed here.
+The entire website uses one colour system - a deep dark navy scale. This is the **only** colour reference. Do not introduce any colours not listed here.
 
 The four foundation colours come directly from Qonto's brand:
-- `#6B5AED` — Qonto Purple (primary brand colour — CTAs, buttons, icons on light)
-- `#262A3E` — Qonto Navy (primary dark background)
-- `#63EBE4` — Qonto Teal (accent — icons on dark, highlights)
-- `#FAFAFC` — Qonto White (page background)
+- `#6B5AED` - Qonto Purple (primary brand colour - CTAs, buttons, icons on light)
+- `#262A3E` - Qonto Navy (primary dark background)
+- `#63EBE4` - Qonto Teal (accent - icons on dark, highlights)
+- `#FAFAFC` - Qonto White (page background)
 
 Everything else is derived from these four.
 
@@ -63,15 +63,15 @@ Everything else is derived from these four.
 
 ```css
 /* =====================================================
-   CEDARCE TECHNOLOGIES — COLOUR SYSTEM
+   CEDARCE TECHNOLOGIES - COLOUR SYSTEM
    Dark Navy Scale + Qonto Foundation
    ===================================================== */
 
 /* ── NAVY DARK SCALE (backgrounds, structure, depth) ── */
---navy-950: #0A0A14;   /* Deepest absolute dark — hero overlays, modals */
+--navy-950: #0A0A14;   /* Deepest absolute dark - hero overlays, modals */
 --navy-900: #111122;   /* Hero section background */
---navy-850: #1B1F30;   /* Deep dark — footer, darkest sections */
---navy-800: #262A3E;   /* Qonto Navy — primary dark background ★ */
+--navy-850: #1B1F30;   /* Deep dark - footer, darkest sections */
+--navy-800: #262A3E;   /* Qonto Navy - primary dark background  */
 --navy-700: #323654;   /* Cards on dark backgrounds */
 --navy-600: #424669;   /* Borders on dark backgrounds */
 --navy-500: #535780;   /* Dividers on dark */
@@ -82,7 +82,7 @@ Everything else is derived from these four.
 
 
 /* ── WHITE / LIGHT (page, cards, light sections) ── */
---white:        #FAFAFC;   /* Qonto White — page background ★ */
+--white:        #FAFAFC;   /* Qonto White - page background  */
 --white-pure:   #FFFFFF;   /* Cards, modals, popups */
 --gray-100:     #F2F2F8;   /* Alternating light sections */
 --gray-200:     #E4E4EF;   /* Card borders on white */
@@ -114,7 +114,7 @@ Everything else is derived from these four.
 
 ---
 
-### 3b. Tailwind Config — `tailwind.config.ts`
+### 3b. Tailwind Config - `tailwind.config.ts`
 
 ```typescript
 import type { Config } from 'tailwindcss'
@@ -223,7 +223,7 @@ export default config
 
 ---
 
-### 3c. Global CSS — `src/app/globals.css`
+### 3c. Global CSS - `src/app/globals.css`
 
 ```css
 @tailwind base;
@@ -243,7 +243,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Gradient text — purple to teal */
+/* Gradient text - purple to teal */
 .text-gradient {
   background: linear-gradient(135deg, #6B5AED 0%, #63EBE4 100%);
   -webkit-background-clip: text;
@@ -266,7 +266,7 @@ body {
 
 ---
 
-### 3d. Colour Usage Rules — Read Before Writing Any Code
+### 3d. Colour Usage Rules - Read Before Writing Any Code
 
 ```
 ╔══════════════════════════════════════════════════════════╗
@@ -361,7 +361,7 @@ Paste this comment block at the top of **every single component file**:
 ```tsx
 /*
   ┌─────────────────────────────────────────────────────────┐
-  │  CEDARCE COLOUR REFERENCE — paste in every component   │
+  │  CEDARCE COLOUR REFERENCE - paste in every component   │
   ├─────────────────────────────────────────────────────────┤
   │  PRIMARY BUTTON   bg-g-button text-white shadow-purple  │
   │  SECONDARY BTN    border-2 border-cliq-purple           │
@@ -412,26 +412,26 @@ Paste this comment block at the top of **every single component file**:
 
 ---
 
-## 4. ANIMATIONS — `src/lib/animations.ts`
+## 4. ANIMATIONS - `src/lib/animations.ts`
 
 ```typescript
 import { Variants } from 'framer-motion'
 
-/* ── Fade up — use on most content blocks ── */
+/* ── Fade up - use on most content blocks ── */
 export const fadeUp: Variants = {
   hidden:  { opacity: 0, y: 40 },
   visible: { opacity: 1, y: 0,
     transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
 }
 
-/* ── Fade in — use on images and full sections ── */
+/* ── Fade in - use on images and full sections ── */
 export const fadeIn: Variants = {
   hidden:  { opacity: 0 },
   visible: { opacity: 1,
     transition: { duration: 0.5, ease: 'easeOut' } }
 }
 
-/* ── Scale in — use on cards and icons ── */
+/* ── Scale in - use on cards and icons ── */
 export const scaleIn: Variants = {
   hidden:  { opacity: 0, scale: 0.92 },
   visible: { opacity: 1, scale: 1,
@@ -452,40 +452,40 @@ export const slideRight: Variants = {
     transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
 }
 
-/* ── Stagger wrapper — wrap any grid or list ── */
+/* ── Stagger wrapper - wrap any grid or list ── */
 export const stagger: Variants = {
   hidden:  {},
   visible: { transition: { staggerChildren: 0.08, delayChildren: 0.1 } }
 }
 
-/* ── Stagger slow — for longer lists ── */
+/* ── Stagger slow - for longer lists ── */
 export const staggerSlow: Variants = {
   hidden:  {},
   visible: { transition: { staggerChildren: 0.12, delayChildren: 0.2 } }
 }
 
-/* ── Word reveal — for animated hero headlines ── */
+/* ── Word reveal - for animated hero headlines ── */
 export const wordReveal: Variants = {
   hidden:  { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0,
     transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }
 }
 
-/* ── Chat bubble — for AI buddy section ── */
+/* ── Chat bubble - for AI buddy section ── */
 export const chatBubble: Variants = {
   hidden:  { opacity: 0, y: 12, scale: 0.95 },
   visible: { opacity: 1, y: 0, scale: 1,
     transition: { duration: 0.4, ease: 'easeOut' } }
 }
 
-/* ── SVG line draw — for how it works connectors ── */
+/* ── SVG line draw - for how it works connectors ── */
 export const drawLine: Variants = {
   hidden:  { pathLength: 0, opacity: 0 },
   visible: { pathLength: 1, opacity: 1,
     transition: { duration: 1.5, ease: 'easeInOut' } }
 }
 
-/* ── Continuous float — for hero dashboard cards ── */
+/* ── Continuous float - for hero dashboard cards ── */
 export const floatLoop = (delay = 0) => ({
   y: [0, -12, 0],
   transition: {
@@ -496,7 +496,7 @@ export const floatLoop = (delay = 0) => ({
   }
 })
 
-/* ── Pulsing glow — for featured pricing card ── */
+/* ── Pulsing glow - for featured pricing card ── */
 export const glowPulse = {
   boxShadow: [
     '0 0 20px rgba(107,90,237,0.15)',
@@ -512,7 +512,7 @@ export const viewport = { once: true, margin: '-80px' }
 
 ---
 
-## 5. DATA FILE — `src/lib/constants.ts`
+## 5. DATA FILE - `src/lib/constants.ts`
 
 ```typescript
 export const SERVICES = [
@@ -536,7 +536,7 @@ export const SERVICES = [
     id: 'domain',
     icon: 'Server',
     name: 'Domain & Hosting',
-    desc: 'Your permanent digital address — registered, configured, SSL secured, managed.',
+    desc: 'Your permanent digital address - registered, configured, SSL secured, managed.',
     price: 'From ₦25,000',
     badge: null,
   },
@@ -544,7 +544,7 @@ export const SERVICES = [
     id: 'email',
     icon: 'Mail',
     name: 'Business Email',
-    desc: 'hello@yourbusiness.ng — never send a business email from Gmail again.',
+    desc: 'hello@yourbusiness.ng - never send a business email from Gmail again.',
     price: 'From ₦25,000',
     badge: null,
   },
@@ -568,7 +568,7 @@ export const SERVICES = [
     id: 'messaging',
     icon: 'MessageSquare',
     name: 'Bulk Messaging',
-    desc: 'Reach every customer at once — WhatsApp, email, and SMS, automated.',
+    desc: 'Reach every customer at once - WhatsApp, email, and SMS, automated.',
     price: 'From ₦35,000',
     badge: null,
   },
@@ -691,7 +691,7 @@ export const HOW_IT_WORKS = [
     step: 1,
     icon: 'Calendar',
     title: 'Book a Free Consultation',
-    desc: 'Tell us about your business. We listen, understand exactly what you need. 30 minutes. No pressure. No jargon.',
+    desc: 'Tell us about your business. We listen, understand exactly what you need. 30 minutes. No pressure.',
   },
   {
     step: 2,
@@ -736,12 +736,12 @@ export const FOOD_STORY_STEPS = [
   {
     step: 6,
     title: 'Automated follow-up sent',
-    desc: '"Thank you for your order! How was your experience?" — sent by WhatsApp automatically after delivery.',
+    desc: '"Thank you for your order! How was your experience?" - sent by WhatsApp automatically after delivery.',
   },
   {
     step: 7,
     title: 'Restock alert sent to all customers',
-    desc: '"Your favourite Ofada rice is back in stock!" — email and WhatsApp blast sent to every customer automatically.',
+    desc: '"Your favourite Ofada rice is back in stock!" - email and WhatsApp blast sent to every customer automatically.',
   },
 ]
 ```
@@ -805,7 +805,7 @@ src/
 
 ## 7. BUILD ORDER
 
-Build in this exact sequence — no skipping:
+Build in this exact sequence - no skipping:
 
 ```
  1.  tailwind.config.ts
@@ -841,30 +841,30 @@ Build in this exact sequence — no skipping:
 
 ---
 
-## 8. HOME PAGE — 13 SECTIONS
+## 8. HOME PAGE - 13 SECTIONS
 
 ---
 
-### S1 — HERO
+### S1 - HERO
 
-**Background:** `bg-g-hero` — navy-950 → navy-900 → navy-850
+**Background:** `bg-g-hero` - navy-950 → navy-900 → navy-850
 **Add radial glow:** `style={{ background: 'radial-gradient(ellipse at 80% 50%, rgba(107,90,237,0.12) 0%, transparent 60%)' }}`
 **Dot grid overlay:** tiny white dots, 0.04 opacity, slow pulse animation
 
 **Layout:** Full viewport height (`min-h-screen`). Two columns on `lg:`. Single column on mobile.
 
-**Left — copy block:**
+**Left - copy block:**
 
 Top badge:
 ```tsx
 <span className="inline-flex items-center gap-2 bg-cliq-navy-700
   text-cliq-teal border border-cliq-navy-600 rounded-full px-4 py-2
   text-sm font-semibold">
-  🇳🇬  Nigeria's Digital Business Buddy
+    Nigeria's Digital Business Buddy
 </span>
 ```
 
-Headline — animated word by word using `wordReveal` + `stagger`:
+Headline - animated word by word using `wordReveal` + `stagger`:
 ```
 Cedar.
 Commerce.
@@ -875,8 +875,7 @@ Font: `text-5xl lg:text-7xl font-black text-white leading-tight`
 
 Sub-headline:
 ```
-Cedarce Technologies is your digital business buddy —
-we set up your website, payments, invoicing, emails, and
+Cedarce Technologies is your digital business buddy - we set up your website, payments, invoicing, emails, and
 automation so your business operates like the big players.
 One click at a time.
 ```
@@ -899,11 +898,11 @@ Buttons:
 Social proof:
 ```tsx
 <p className="text-white/40 text-sm">
-  ✦ Trusted by growing businesses
+   Trusted by growing businesses
 </p>
 ```
 
-**Right — 5 floating notification cards:**
+**Right - 5 floating notification cards:**
 ```tsx
 // Each card: bg-cliq-navy-700/90 border border-cliq-navy-600
 // backdrop-blur-sm rounded-2xl px-4 py-3 flex items-center gap-3
@@ -912,28 +911,28 @@ Social proof:
 
 Cards content:
 ```
-✅  Invoice #0042 sent to Amaka Foods    ·  Just now
-💰  Payment received ₦45,000            ·  2 mins ago
-📧  Business email configured           ·  hello@amakas.ng
-📱  WhatsApp follow-up sent             ·  Automated
-🌐  Website live at amakas.ng           ·  3 set up today
+  Invoice #0042 sent to Amaka Foods    ·  Just now
+  Payment received ₦45,000            ·  2 mins ago
+  Business email configured           ·  hello@amakas.ng
+  WhatsApp follow-up sent             ·  Automated
+  Website live at amakas.ng           ·  3 set up today
 ```
 
 ---
 
-### S2 — TICKER
+### S2 - TICKER
 
 **Background:** `bg-cliq-navy-800`
 **Two rows scrolling in opposite directions**
 
-Row 1 (scrolls left — `animate-marquee`):
+Row 1 (scrolls left - `animate-marquee`):
 ```
 Food Stores · Fashion Boutiques · Pharmacies · Schools · Churches ·
 Logistics Companies · Beauty Salons · Startups · NGOs · Real Estate ·
 Event Planners · Restaurants · Clinics · Law Firms ·
 ```
 
-Row 2 (scrolls right — `animate-marquee-r`):
+Row 2 (scrolls right - `animate-marquee-r`):
 ```
 Invoice Automation · Payment Gateways · Business Websites ·
 Mobile Apps · Business Email · Staff Training · Bulk Messaging ·
@@ -947,10 +946,10 @@ Double the content arrays for seamless infinite loop.
 
 ---
 
-### S3 — PROBLEM (Before / After)
+### S3 - PROBLEM (Before / After)
 
 **Background:** `bg-cliq-white`
-**SectionLabel:** "The Problem" — `bg-cliq-purple-soft text-cliq-purple`
+**SectionLabel:** "The Problem" - `bg-cliq-purple-soft text-cliq-purple`
 
 **Headline:** `text-cliq-text-heading font-black text-4xl lg:text-5xl`
 ```
@@ -965,42 +964,42 @@ to competitors who look professional. Here is the exact gap.
 
 **Two cards + arrow:**
 
-BEFORE card — `bg-cliq-gray-100 border border-cliq-gray-200 rounded-3xl p-8`
+BEFORE card - `bg-cliq-gray-100 border border-cliq-gray-200 rounded-3xl p-8`
 Animate: `slideLeft`
 ```
-Header: "Before Cedarce" — text-cliq-text-muted font-semibold uppercase tracking-wide
+Header: "Before Cedarce" - text-cliq-text-muted font-semibold uppercase tracking-wide
 
-❌  WhatsApp messages for all orders
-❌  Cash only — no payment records
-❌  No website or online presence
-❌  Handwritten or no receipts
-❌  No professional email address
-❌  Manual follow-ups that never happen
-❌  No way to message all customers at once
+  WhatsApp messages for all orders
+  Cash only - no payment records
+  No website or online presence
+  Handwritten or no receipts
+  No professional email address
+  Manual follow-ups that never happen
+  No way to message all customers at once
 ```
 
-Centre arrow: `text-cliq-purple text-3xl font-black text-center` — "One click →"
+Centre arrow: `text-cliq-purple text-3xl font-black text-center` - "One click →"
 
-AFTER card — `bg-g-card border-2 border-cliq-purple rounded-3xl p-8 shadow-purple animate-glow-pulse`
+AFTER card - `bg-g-card border-2 border-cliq-purple rounded-3xl p-8 shadow-purple animate-glow-pulse`
 Animate: `slideRight`
 ```
-Badge: "With Cedarce Technologies" — bg-g-brand text-white rounded-full text-xs
+Badge: "With Cedarce Technologies" - bg-g-brand text-white rounded-full text-xs
 
-✅  Professional landing page taking orders
-✅  Online payments — card, transfer, USSD
-✅  Automated branded invoices instantly
-✅  Branded receipts emailed automatically
-✅  hello@yourbusiness.ng professional email
-✅  Automated WhatsApp and email follow-ups
-✅  Bulk messaging reaching all customers
+  Professional landing page taking orders
+  Online payments - card, transfer, USSD
+  Automated branded invoices instantly
+  Branded receipts emailed automatically
+  hello@yourbusiness.ng professional email
+  Automated WhatsApp and email follow-ups
+  Bulk messaging reaching all customers
 ```
 
 ---
 
-### S4 — FOOD STORY (Interactive Scroll Journey)
+### S4 - FOOD STORY (Interactive Scroll Journey)
 
 **Background:** `bg-cliq-navy-900`
-**SectionLabel:** "Cedarce in Action" — `bg-cliq-teal text-cliq-navy-900 font-semibold`
+**SectionLabel:** "Cedarce in Action" - `bg-cliq-teal text-cliq-navy-900 font-semibold`
 
 **Headline:** `text-white font-black text-4xl lg:text-5xl`
 ```
@@ -1016,7 +1015,7 @@ A Lagos food store. Before and after Cedarce Technologies.
 
 Progress bar: vertical `bg-cliq-navy-600`, fills with `bg-g-brand` via `useScroll` + `scaleY`
 
-7 steps from `FOOD_STORY_STEPS` constant — each animates with `fadeUp` on `useInView`
+7 steps from `FOOD_STORY_STEPS` constant - each animates with `fadeUp` on `useInView`
 
 Each step:
 ```tsx
@@ -1028,10 +1027,10 @@ Each step:
 
 ---
 
-### S5 — SERVICES GRID
+### S5 - SERVICES GRID
 
 **Background:** `bg-cliq-white`
-**SectionLabel:** "What We Build For You" — `bg-cliq-purple-soft text-cliq-purple`
+**SectionLabel:** "What We Build For You" - `bg-cliq-purple-soft text-cliq-purple`
 
 **Headline:** `text-cliq-text-heading font-black text-4xl lg:text-5xl`
 ```
@@ -1064,19 +1063,19 @@ Each card from `SERVICES` constant:
 
 ---
 
-### S6 — HOW IT WORKS
+### S6 - HOW IT WORKS
 
 **Background:** `bg-cliq-navy-800`
-**SectionLabel:** "The Process" — `bg-cliq-navy-700 text-cliq-teal border border-cliq-navy-600`
+**SectionLabel:** "The Process" - `bg-cliq-navy-700 text-cliq-teal border border-cliq-navy-600`
 
 **Headline:** `text-white font-black text-4xl lg:text-5xl`
 ```
 Three steps to professional.
 ```
 
-3 steps from `HOW_IT_WORKS` constant — horizontal on desktop, vertical on mobile
+3 steps from `HOW_IT_WORKS` constant - horizontal on desktop, vertical on mobile
 
-Between steps — animated SVG dashed line:
+Between steps - animated SVG dashed line:
 ```tsx
 <svg width="100" height="4" className="hidden lg:block">
   <defs>
@@ -1107,10 +1106,10 @@ Each step:
 
 ---
 
-### S7 — AI BUDDY CHAT
+### S7 - AI BUDDY CHAT
 
 **Background:** `bg-cliq-navy-900`
-**SectionLabel:** "Your 24/7 Buddy" — `bg-g-brand text-white`
+**SectionLabel:** "Your 24/7 Buddy" - `bg-g-brand text-white`
 
 **Headline:** `text-white font-black text-4xl lg:text-5xl text-center`
 ```
@@ -1133,16 +1132,16 @@ Animated messages using `chatBubble` + `staggerSlow`:
 ```
 User:   "How do I start accepting payments online for my food store?"
 Buddy:  "Great question! I can set up a complete payment system for your
-         food store in 48 hours. Card, transfers, USSD — all automated
+         food store in 48 hours. Card, transfers, USSD - all automated
          and connected to your invoicing. Want to walk through the
-         options? 🚀"
+         options? "
 
 User:   "What does a professional business email cost?"
 Buddy:  "A professional email like hello@yourstore.ng starts at ₦25,000.
          Includes 5 inboxes and looks completely professional to every
-         customer and supplier. Shall I book a free consultation? 📧"
+         customer and supplier. Shall I book a free consultation? "
 
-[Typing indicator — 3 bouncing dots]
+[Typing indicator - 3 bouncing dots]
 ```
 
 User bubbles: `bg-cliq-purple text-white rounded-2xl rounded-br-sm`
@@ -1160,10 +1159,10 @@ CTAs:
 
 ---
 
-### S8 — PRICING PREVIEW
+### S8 - PRICING PREVIEW
 
 **Background:** `bg-cliq-white`
-**SectionLabel:** "Simple Pricing" — `bg-cliq-purple-soft text-cliq-purple`
+**SectionLabel:** "Simple Pricing" - `bg-cliq-purple-soft text-cliq-purple`
 
 **Headline:** `text-cliq-text-heading font-black text-4xl lg:text-5xl`
 ```
@@ -1185,7 +1184,7 @@ Card internals:
 // Price: font-black text-5xl text-cliq-purple mt-2
 // Subtitle: text-cliq-text-muted text-sm mt-1
 // Divider: border-t border-cliq-gray-200 my-6
-// Features: space-y-3 — ✓ text-cliq-teal · text-cliq-text-body text-sm
+// Features: space-y-3 - text-cliq-teal · text-cliq-text-body text-sm
 // CTA button: full width mt-8
 ```
 
@@ -1196,16 +1195,16 @@ Footer note:
   <a className="text-cliq-purple underline font-medium">
     Book a free consultation →
   </a>
-  {' '}No pressure, no jargon.
+  {' '}No pressure.
 </p>
 ```
 
 ---
 
-### S9 — TESTIMONIALS
+### S9 - TESTIMONIALS
 
 **Background:** `bg-cliq-navy-800`
-**SectionLabel:** "What Our Clients Say" — `bg-cliq-navy-700 text-cliq-teal border border-cliq-navy-600`
+**SectionLabel:** "What Our Clients Say" - `bg-cliq-navy-700 text-cliq-teal border border-cliq-navy-600`
 
 **Headline:** `text-white font-black text-4xl lg:text-5xl`
 ```
@@ -1213,7 +1212,7 @@ Real businesses.
 Real results.
 ```
 
-Draggable carousel — Framer Motion `drag="x"` `cursor-grab active:cursor-grabbing`
+Draggable carousel - Framer Motion `drag="x"` `cursor-grab active:cursor-grabbing`
 
 Each card from `TESTIMONIALS` constant:
 ```tsx
@@ -1228,11 +1227,11 @@ Each card from `TESTIMONIALS` constant:
 
 ---
 
-### S10 — STATS BANNER
+### S10 - STATS BANNER
 
 **Background:** `bg-cliq-navy-950`
 
-4 stats from `STATS` constant — separated by `border-r border-cliq-navy-700`
+4 stats from `STATS` constant - separated by `border-r border-cliq-navy-700`
 
 ```tsx
 // Number: font-black text-5xl lg:text-6xl text-gradient
@@ -1268,10 +1267,10 @@ function AnimatedCounter({ value, suffix }: { value: number; suffix: string }) {
 
 ---
 
-### S11 — BLOG PREVIEW
+### S11 - BLOG PREVIEW
 
 **Background:** `bg-cliq-gray-100`
-**SectionLabel:** "From Our Desk" — `bg-cliq-purple-soft text-cliq-purple`
+**SectionLabel:** "From Our Desk" - `bg-cliq-purple-soft text-cliq-purple`
 
 **Headline:** `text-cliq-text-heading font-black text-4xl`
 ```
@@ -1307,9 +1306,9 @@ Blog posts:
 
 ---
 
-### S12 — FINAL CTA
+### S12 - FINAL CTA
 
-**Background:** `bg-g-cta` — #6B5AED → #63EBE4
+**Background:** `bg-g-cta` - #6B5AED → #63EBE4
 
 **Headline:** `text-white font-black text-5xl lg:text-6xl text-center`
 ```
@@ -1321,7 +1320,7 @@ is ready.
 ```
 Book a free 30-minute consultation and let us show you exactly
 what Cedarce Technologies can do for your business.
-No pressure. No jargon. Just your buddy telling it straight.
+No pressure. Just your buddy telling it straight.
 ```
 
 Buttons:
@@ -1344,14 +1343,14 @@ We respond within 2 hours · Mon–Sat 8am–8pm
 
 ---
 
-### S13 — FOOTER
+### S13 - FOOTER
 
-**Background:** `bg-g-footer` — #262A3E → #0A0A14
+**Background:** `bg-g-footer` - #262A3E → #0A0A14
 
 4 columns on desktop, stacked on mobile:
 
 ```
-Column 1 — Brand
+Column 1 - Brand
   "CEDAR" text-white font-black text-2xl
   + "CE" text-cliq-teal font-black text-2xl
   "Technologies" text-cliq-navy-300 text-sm font-light
@@ -1360,23 +1359,23 @@ Column 1 — Brand
   Social icons (mt-4): Instagram, TikTok, Twitter/X, LinkedIn, Facebook
   Icons: text-cliq-navy-400 hover:text-cliq-teal transition w-5 h-5
 
-Column 2 — Services (all 9 from SERVICES constant)
+Column 2 - Services (all 9 from SERVICES constant)
   text-cliq-navy-300 hover:text-white text-sm transition
 
-Column 3 — Company
+Column 3 - Company
   About Us · How It Works · Pricing · Blog
   Contact · Privacy Policy · Terms of Service
   text-cliq-navy-300 hover:text-white text-sm transition
 
-Column 4 — Get In Touch
+Column 4 - Get In Touch
   hello@cedarce.ng
-  WhatsApp link — text-cliq-teal hover:underline
-  Lagos, Nigeria — text-cliq-navy-400 text-xs
+  WhatsApp link - text-cliq-teal hover:underline
+  Lagos, Nigeria - text-cliq-navy-400 text-xs
   [Book a Service →] bg-cliq-purple text-white rounded-xl px-4 py-2 text-sm mt-4
 
 Bottom bar: border-t border-cliq-navy-700 mt-12 pt-6
   "© 2025 Cedarce Technologies Ltd. All rights reserved.
-   Built with ❤️ in Lagos, Nigeria."
+   Built with  in Lagos, Nigeria."
   text-cliq-navy-400 text-sm
 ```
 
@@ -1402,7 +1401,7 @@ Bottom bar: border-t border-cliq-navy-700 mt-12 pt-6
 
 ## 10. SPECIAL FEATURES
 
-### WhatsApp Floating Button — add to `layout.tsx`
+### WhatsApp Floating Button - add to `layout.tsx`
 ```tsx
 <a
   href="https://wa.me/[NUMBER]?text=Hi, I want to know more about Cedarce Technologies"
@@ -1418,7 +1417,7 @@ Bottom bar: border-t border-cliq-navy-700 mt-12 pt-6
 </a>
 ```
 
-### Scroll Progress Bar — add to `layout.tsx`
+### Scroll Progress Bar - add to `layout.tsx`
 ```tsx
 import { useScroll, useSpring, motion } from 'framer-motion'
 
@@ -1431,7 +1430,7 @@ const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 })
 />
 ```
 
-### Price Calculator — `/pricing` page
+### Price Calculator - `/pricing` page
 ```tsx
 // Checkboxes for all 9 services with base prices from constants
 // Running total updates in real time as services are selected
@@ -1461,11 +1460,11 @@ const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 })
 
 ### /about
 - Dark hero: "We are your digital business buddy."
-- The name story — Cedar + Commerce
-- Founder story — first person, warm, Nigerian
+- The name story - Cedar + Commerce
+- Founder story - first person, warm, Nigerian
 - Mission: "Every Nigerian SME deserves to operate professionally."
 - 4 value cards on white
-- Vision: "Building the digital infrastructure for African business." — dark section
+- Vision: "Building the digital infrastructure for African business." - dark section
 - CTA banner
 
 ### /pricing
@@ -1478,7 +1477,7 @@ const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 })
 
 ### /contact
 - Full dark bg (`bg-cliq-navy-900`)
-- Left: booking form — dark styled inputs
+- Left: booking form - dark styled inputs
 - Right: contact info + response time
 - On success: full-page animation + confetti (canvas-confetti)
 
@@ -1520,7 +1519,7 @@ Section padding:   py-20 lg:py-28
 // src/app/layout.tsx
 export const metadata: Metadata = {
   title: {
-    default: 'Cedarce Technologies — Your Digital Business Buddy | Nigeria',
+    default: 'Cedarce Technologies - Your Digital Business Buddy | Nigeria',
     template: '%s | Cedarce Technologies',
   },
   description:
@@ -1538,9 +1537,9 @@ export const metadata: Metadata = {
     'cedarce.ng',
   ],
   openGraph: {
-    title: 'Cedarce Technologies — Your Digital Business Buddy',
+    title: 'Cedarce Technologies - Your Digital Business Buddy',
     description:
-      "Nigeria's digital business buddy. Website, payments, invoicing, email, automation — done for you professionally.",
+      "Nigeria's digital business buddy. Website, payments, invoicing, email, automation - done for you professionally.",
     url: 'https://cedarce.ng',
     siteName: 'Cedarce Technologies',
     locale: 'en_NG',
@@ -1548,7 +1547,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Cedarce Technologies — Your Digital Business Buddy',
+    title: 'Cedarce Technologies - Your Digital Business Buddy',
     description:
       "Nigeria's digital business buddy. One click and your business goes pro.",
   },
@@ -1559,10 +1558,10 @@ export const metadata: Metadata = {
 
 ---
 
-## 14. COPY VOICE — THE BUDDY TONE
+## 14. COPY VOICE - THE BUDDY TONE
 
 ```
-✅  WRITE LIKE THIS                  ❌  NOT LIKE THIS
+  WRITE LIKE THIS                    NOT LIKE THIS
 ──────────────────────────────────────────────────────────
 "Your business, professional          "Leveraging cutting-edge digital
  in one click."                        transformation solutions"
@@ -1582,19 +1581,19 @@ Rules:
 - Short sentences always
 - "You" and "your" in every paragraph
 - Never: leverage · synergy · end-to-end · cutting-edge · innovative
-- Naira is always ₦ — never NGN or N
+- Naira is always ₦ - never NGN or N
 - Nigeria-specific: Lagos · Alaba market · Balogun · Oshodi · Kano · Aba
 - Warm and buddy-coded: "your buddy" · "one click" · "we've got you"
 
 ---
 
-## 15. ONE-PARAGRAPH BRIEF — PASTE THIS FIRST IN CURSOR
+## 15. ONE-PARAGRAPH BRIEF - PASTE THIS FIRST IN CURSOR
 
-> Build the complete Cedarce Technologies website — Nigeria's digital business buddy. The company name is Cedarce (Cedar + Commerce) — SEE-dar-see — a Nigerian digital business infrastructure company. The entire colour system is a dark navy scale: backgrounds range from navy-950 (#0A0A14) at the deepest through navy-900 (#111122) for the hero, navy-800 (#262A3E) for dark sections, and #FAFAFC for light sections. The primary brand colour is Qonto Purple (#6B5AED) used on all CTAs, buttons, and icons on light backgrounds. The accent colour is Qonto Teal (#63EBE4) used on icons on dark backgrounds and highlights. All gradients go purple-to-teal. Every component must have the colour reference card pasted at the top. The website has 13 home sections: hero with floating dashboard notification cards on dark navy, ticker, before/after problem section, 7-step food store transformation story, 9-service grid, 3-step how it works, AI buddy chat mockup, 3-package pricing preview, testimonials carousel, animated stats counter, blog preview, gradient CTA banner, and footer. Positioning throughout is "Digital Business Buddy" — warm, direct, Nigerian, Gen Z coded. Never use the word "mate" anywhere in website copy. Build in Next.js 14, TypeScript, Tailwind CSS, Framer Motion, Lucide React, Inter font. Follow the build order in Section 7 exactly. Paste the colour reference card at the top of every component file.
+> Build the complete Cedarce Technologies website - Nigeria's digital business buddy. The company name is Cedarce (Cedar + Commerce) - SEE-dar-see - a Nigerian digital business infrastructure company. The entire colour system is a dark navy scale: backgrounds range from navy-950 (#0A0A14) at the deepest through navy-900 (#111122) for the hero, navy-800 (#262A3E) for dark sections, and #FAFAFC for light sections. The primary brand colour is Qonto Purple (#6B5AED) used on all CTAs, buttons, and icons on light backgrounds. The accent colour is Qonto Teal (#63EBE4) used on icons on dark backgrounds and highlights. All gradients go purple-to-teal. Every component must have the colour reference card pasted at the top. The website has 13 home sections: hero with floating dashboard notification cards on dark navy, ticker, before/after problem section, 7-step food store transformation story, 9-service grid, 3-step how it works, AI buddy chat mockup, 3-package pricing preview, testimonials carousel, animated stats counter, blog preview, gradient CTA banner, and footer. Positioning throughout is "Digital Business Buddy" - warm, direct, Nigerian, Gen Z coded. Never use the word "mate" anywhere in website copy. Build in Next.js 14, TypeScript, Tailwind CSS, Framer Motion, Lucide React, Inter font. Follow the build order in Section 7 exactly. Paste the colour reference card at the top of every component file.
 
 ---
 
-*Cedarce Technologies — Your Digital Business Buddy*
+*Cedarce Technologies - Your Digital Business Buddy*
 *Cedar + Commerce · Visibility · Automation · Scalability*
 *Lagos, Nigeria · 2025*
 *cedarce.ng · hello@cedarce.ng · @cedarce*

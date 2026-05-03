@@ -1,13 +1,9 @@
-/*
-  ┌─────────────────────────────────────────────────────────┐
-  │  CEDARCE COLOUR REFERENCE — paste in every component   │
-  └─────────────────────────────────────────────────────────┘
-*/
 "use client";
 
 import SectionLabel from "@/components/ui/SectionLabel";
 import { BLOG_POSTS } from "@/lib/constants";
 
+// Kept for later use. Not currently rendered on the website.
 export default function BlogPreview() {
   return (
     <section className="bg-cliq-gray-100 py-20 lg:py-28">
@@ -24,7 +20,7 @@ export default function BlogPreview() {
               key={post.id}
               className="overflow-hidden rounded-2xl border border-cliq-gray-200 bg-white shadow-card transition-all hover:shadow-card-hover"
             >
-              <div className={`h-40 ${post.cover} relative`}>
+              <div className={`relative h-40 ${post.cover}`}>
                 <img
                   src={`/assets/${encodeURIComponent(post.image)}`}
                   alt={post.title}
