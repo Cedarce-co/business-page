@@ -28,8 +28,11 @@ export default function HeroSection() {
       <div className="absolute inset-0 opacity-[0.03] [background-image:radial-gradient(#111122_1px,transparent_1px)] [background-size:18px_18px]" />
       <div className="relative mx-auto grid min-h-screen w-full max-w-[1440px] items-center gap-12 px-4 py-10 sm:w-[80%] sm:px-0 lg:grid-cols-2">
         <div className="flex flex-col items-start text-left">
-          <span className="inline-flex max-w-full items-center gap-2 rounded-full border border-cliq-gray-300 bg-white px-4 py-2 text-left text-sm font-semibold text-cliq-text-body shadow-card">
-            Your hustle is real. Your digital presence should match.
+          <span className="inline-flex max-w-full items-center gap-2 rounded-full border border-cliq-gray-300 bg-white px-3 py-1.5 text-left text-xs font-semibold leading-tight text-cliq-text-body shadow-card whitespace-nowrap sm:px-4 sm:py-2 sm:text-sm sm:whitespace-normal">
+            <span className="sm:hidden">Your hustle is real—match it online.</span>
+            <span className="hidden sm:inline">
+              Your hustle is real. Your digital presence should match.
+            </span>
           </span>
 
           <motion.h1

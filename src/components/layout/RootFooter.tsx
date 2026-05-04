@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation";
 import Footer from "@/components/layout/Footer";
 
-const APP_PATHS = ["/signin", "/signup", "/dashboard", "/admin"];
+const APP_PATHS = ["/signin", "/signup", "/dashboard", "/admin", "/offline"];
 
 export default function RootFooter() {
   const pathname = usePathname();

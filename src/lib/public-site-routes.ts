@@ -1,4 +1,4 @@
-const NO_PUBLIC_NAVBAR_PREFIXES = ["/signin", "/signup", "/dashboard", "/admin"];
+const NO_PUBLIC_NAVBAR_PREFIXES = ["/signin", "/signup", "/dashboard", "/admin", "/offline"];
 
 /**
  * Public marketing routes that render the fixed `Navbar` in `RootChrome`.

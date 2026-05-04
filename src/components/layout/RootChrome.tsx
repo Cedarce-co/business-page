@@ -5,7 +5,7 @@ import Navbar from "@/components/layout/Navbar";
 import ClientChrome from "@/components/layout/ClientChrome";
 import AwarenessPromo from "@/components/layout/AwarenessPromo";
 
-const APP_PATHS = ["/signin", "/signup", "/dashboard", "/admin"];
+const APP_PATHS = ["/signin", "/signup", "/dashboard", "/admin", "/offline"];
 
 export default function RootChrome() {
   const pathname = usePathname();
