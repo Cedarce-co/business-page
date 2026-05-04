@@ -146,7 +146,7 @@ const POSITION_SLOTS = [
   },
 ] as const;
 
-const ROTATE_MS = 7000;
+const ROTATE_MS = 5000;
 const PAGE_SHOW_DELAY_MS = 4200;
 const RESHOW_AFTER_DISMISS_MS = 5 * 60 * 1000;
 

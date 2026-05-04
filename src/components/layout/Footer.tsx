@@ -26,8 +26,8 @@ export default function Footer() {
     <footer className="border-t border-cliq-gray-200 bg-gradient-to-b from-white to-cliq-gray-100/80">
       <div className="mx-auto max-w-[1200px] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
-          <div className="lg:col-span-4">
-            <Link href="/" className="inline-flex min-w-0 items-center" aria-label="Home">
+          <div className="flex flex-col items-center text-center sm:items-start sm:text-left lg:col-span-4">
+            <Link href="/" className="inline-flex min-w-0 items-center justify-center sm:justify-start" aria-label="Home">
               <span className="flex h-24 w-full max-w-[26rem] items-center overflow-hidden sm:hidden">
                 <Image
                   src="/logo%20mobile.png"

@@ -23,17 +23,24 @@ export default function ServicesGrid() {
             isn&apos;t a cost; it&apos;s what makes every other investment in your business work harder.
           </p>
         </SectionIntro>
-        <motion.div
-          variants={stagger}
-          initial="hidden"
-          whileInView="visible"
-          viewport={viewport}
-          className="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
-        >
-          {SERVICES.map((service) => (
-            <ServiceCard key={service.id} service={service} />
-          ))}
-        </motion.div>
+        <div className="mt-12 -mx-4 overflow-x-auto overscroll-x-contain px-4 pb-1 snap-x snap-mandatory sm:mx-0 sm:overflow-visible sm:px-0 sm:pb-0 sm:snap-none">
+          <motion.div
+            variants={stagger}
+            initial="hidden"
+            whileInView="visible"
+            viewport={viewport}
+            className="flex w-max gap-4 sm:w-full sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3"
+          >
+            {SERVICES.map((service) => (
+              <div
+                key={service.id}
+                className="w-[min(88vw,360px)] shrink-0 snap-start sm:w-auto sm:min-w-0 sm:snap-normal"
+              >
+                <ServiceCard service={service} />
+              </div>
+            ))}
+          </motion.div>
+        </div>
       </div>
     </section>
   );

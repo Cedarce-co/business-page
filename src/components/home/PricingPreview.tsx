@@ -16,10 +16,17 @@ export default function PricingPreview() {
             Pick a starting tier; we scope the rest with you. No hidden fees. No drama.
           </p>
         </SectionIntro>
-        <div className="mt-12 grid gap-6 lg:grid-cols-3">
-          {PACKAGES.map((item) => (
-            <PricingCard key={item.name} item={item} />
-          ))}
+        <div className="mt-12 -mx-4 overflow-x-auto overscroll-x-contain px-4 pb-1 snap-x snap-mandatory lg:mx-0 lg:overflow-visible lg:px-0 lg:pb-0 lg:snap-none">
+          <div className="flex w-max gap-4 lg:w-full lg:grid lg:grid-cols-3 lg:gap-6">
+            {PACKAGES.map((item) => (
+              <div
+                key={item.name}
+                className="w-[min(88vw,340px)] shrink-0 snap-start lg:w-auto lg:min-w-0 lg:snap-normal"
+              >
+                <PricingCard item={item} />
+              </div>
+            ))}
+          </div>
         </div>
         <div className="mt-12">
         <p className="mt-16 text-center text-sm text-cliq-text-muted sm:mt-20 lg:mt-24">
