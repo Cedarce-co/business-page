@@ -19,7 +19,7 @@ type Pricing = {
 
 export default function PricingCard({ item }: { item: Pricing }) {
   const showPrice = item.price.trim().length > 0;
-  const priceIsText = showPrice ? !item.price.startsWith("₦") : true;
+  const priceIsText = true;
   const href = `/request-service?package=${encodeURIComponent(item.name)}`;
 
   return (

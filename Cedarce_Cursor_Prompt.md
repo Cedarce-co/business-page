@@ -521,7 +521,7 @@ export const SERVICES = [
     icon: 'Globe',
     name: 'Website & Landing Page',
     desc: 'Professional, responsive, branded websites that convert visitors into customers.',
-    price: 'From ₦80,000',
+    price: 'Request a quote',
     badge: 'Most Popular',
   },
   {
@@ -529,7 +529,7 @@ export const SERVICES = [
     icon: 'Smartphone',
     name: 'Mobile App Development',
     desc: 'Simple product and order management apps built for your business operations.',
-    price: 'From ₦300,000',
+    price: 'Request a quote',
     badge: null,
   },
   {
@@ -537,7 +537,7 @@ export const SERVICES = [
     icon: 'Server',
     name: 'Domain & Hosting',
     desc: 'Your permanent digital address - registered, configured, SSL secured, managed.',
-    price: 'From ₦25,000',
+    price: 'Request a quote',
     badge: null,
   },
   {
@@ -545,7 +545,7 @@ export const SERVICES = [
     icon: 'Mail',
     name: 'Business Email',
     desc: 'hello@yourbusiness.ng - never send a business email from Gmail again.',
-    price: 'From ₦25,000',
+    price: 'Request a quote',
     badge: null,
   },
   {
@@ -553,7 +553,7 @@ export const SERVICES = [
     icon: 'CreditCard',
     name: 'Payments & Gateways',
     desc: 'Accept card payments, bank transfers, and USSD. Money in your account automatically.',
-    price: 'From ₦40,000',
+    price: 'Request a quote',
     badge: null,
   },
   {
@@ -561,7 +561,7 @@ export const SERVICES = [
     icon: 'FileText',
     name: 'Invoicing System',
     desc: 'Branded, automated invoices and receipts sent the moment a transaction happens.',
-    price: 'From ₦30,000',
+    price: 'Request a quote',
     badge: null,
   },
   {
@@ -569,7 +569,7 @@ export const SERVICES = [
     icon: 'MessageSquare',
     name: 'Bulk Messaging',
     desc: 'Reach every customer at once - WhatsApp, email, and SMS, automated.',
-    price: 'From ₦35,000',
+    price: 'Request a quote',
     badge: null,
   },
   {
@@ -577,7 +577,7 @@ export const SERVICES = [
     icon: 'TrendingUp',
     name: 'Marketing & Ads',
     desc: 'Get visible to the right customers on Instagram, TikTok, and Google.',
-    price: 'From ₦50,000',
+    price: 'Request a quote',
     badge: null,
   },
   {
@@ -585,7 +585,7 @@ export const SERVICES = [
     icon: 'Users',
     name: 'Staff Training',
     desc: 'We train your team to use every system professionally. No one gets left behind.',
-    price: 'From ₦20,000',
+    price: 'Request a quote',
     badge: null,
   },
 ]
@@ -593,7 +593,7 @@ export const SERVICES = [
 export const PACKAGES = [
   {
     name: 'Starter Buddy',
-    price: '₦80,000',
+    price: 'Request a quote',
     subtitle: 'Perfect for getting started',
     badge: null,
     featured: false,
@@ -610,7 +610,7 @@ export const PACKAGES = [
   },
   {
     name: 'Business Buddy',
-    price: '₦250,000',
+    price: 'Request a quote',
     subtitle: 'For growing businesses',
     badge: 'Most Popular',
     featured: true,
@@ -628,7 +628,7 @@ export const PACKAGES = [
   },
   {
     name: 'Pro Buddy',
-    price: '₦500,000',
+    price: 'Request a quote',
     subtitle: 'The complete setup',
     badge: 'Most Complete',
     featured: false,
@@ -912,7 +912,7 @@ Social proof:
 Cards content:
 ```
   Invoice #0042 sent to Amaka Foods    ·  Just now
-  Payment received ₦45,000            ·  2 mins ago
+  Payment received                    ·  2 mins ago
   Business email configured           ·  hello@amakas.ng
   WhatsApp follow-up sent             ·  Automated
   Website live at amakas.ng           ·  3 set up today
@@ -1137,9 +1137,9 @@ Buddy:  "Great question! I can set up a complete payment system for your
          options? "
 
 User:   "What does a professional business email cost?"
-Buddy:  "A professional email like hello@yourstore.ng starts at ₦25,000.
-         Includes 5 inboxes and looks completely professional to every
-         customer and supplier. Shall I book a free consultation? "
+Buddy:  "A professional email like hello@yourstore.ng is priced based on your
+         setup (inboxes, domain, and any migration you need). Want a quick quote
+         after a free consultation?"
 
 [Typing indicator - 3 bouncing dots]
 ```
@@ -1434,7 +1434,7 @@ const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 })
 ```tsx
 // Checkboxes for all 9 services with base prices from constants
 // Running total updates in real time as services are selected
-// Display: "Estimated investment: ₦{total.toLocaleString()}"
+// Display: "Estimated investment: (shown after consultation)"
 // Disclaimer: "Final price confirmed in consultation"
 // CTA: "Get a quote for this selection →"
 ```
@@ -1574,14 +1574,14 @@ export const metadata: Metadata = {
 
 "Get your buddy today."               "Commence your digital journey"
 
-"₦80,000 to go professional."        "NGN 80,000 investment required"
+"Request a quote to go professional." "Fixed pricing required"
 ```
 
 Rules:
 - Short sentences always
 - "You" and "your" in every paragraph
 - Never: leverage · synergy · end-to-end · cutting-edge · innovative
-- Naira is always ₦ - never NGN or N
+- Avoid publishing fixed prices in copy
 - Nigeria-specific: Lagos · Alaba market · Balogun · Oshodi · Kano · Aba
 - Warm and buddy-coded: "your buddy" · "one click" · "we've got you"
 

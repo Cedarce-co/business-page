@@ -409,11 +409,12 @@ export const INTAKE_QUESTIONS: IntakeQuestion[] = [
     type: "single_choice",
     required: true,
     options: [
-      { value: "ngn_200k_300k", label: "₦200,000-₦300,000" },
-      { value: "ngn_400k_750k", label: "₦400,000-₦750,000" },
-      { value: "ngn_750k_2m", label: "₦750,000-₦2,000,000" },
-      { value: "ngn_2m_plus", label: "₦2,000,000+" },
-      { value: "discuss_after_consultation", label: "Discuss after consultation" },
+      { value: "300k_500k", label: "₦300,000-₦500,000" },
+      { value: "600k_850k", label: "₦600,000-₦850,000" },
+      { value: "900k_1.5m", label: "₦900,000-₦1,500,000" },
+      { value: "1.5m_plus", label: "₦1,500,000+" },
+      { value: "2m_plus", label: "₦2,000,000+" },
+      { value: "i_prefer_to_discuss", label: "I'd rather discuss this after consultation" },
     ],
   },
   {
