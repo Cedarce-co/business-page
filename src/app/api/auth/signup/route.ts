@@ -17,7 +17,8 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ ok: true, user: result.user }, { status: 201 });
-  } catch {
+  } catch (err) {
+    console.error("[api/auth/signup]", err);
     return NextResponse.json({ error: "Could not create account." }, { status: 500 });
   }
 }
