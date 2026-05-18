@@ -14,8 +14,13 @@ Architecture and folder terminology:
 ### Database (choose one)
 - **Neon Postgres** (recommended)
 - **Supabase Postgres**
+- **Render Postgres** — use the **External Database URL** from Render → Connect
 
-Copy your production connection string as `DATABASE_URL`.
+Copy your production connection string as `DATABASE_URL`. For Render, append SSL if missing:
+
+`postgresql://USER:PASSWORD@HOST/DATABASE?sslmode=require`
+
+(After rotating credentials, never paste the live URL in chat or tickets.)
 
 ### Blob storage (optional but recommended)
 - Enable **Vercel Blob**
