@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ArrowUpRight, ChevronDown, Globe, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import Button from "@/components/ui/Button";
+import { LOGO_LIGHT_BG, LOGO_NAV_SIZES } from "@/lib/brand-logos";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 
@@ -174,23 +175,27 @@ export default function Navbar() {
           className="flex min-w-0 shrink-0 items-center"
           aria-label="Home"
         >
-          <span className="flex h-16 w-[16rem] max-w-[62vw] items-center overflow-hidden sm:hidden">
+          <span className="flex items-center sm:hidden">
             <Image
-              src="/logo%20mobile.png"
-              alt=""
-              width={480}
-              height={144}
-              className="h-16 w-auto max-w-none origin-left scale-[1.9] motion-reduce:scale-100"
+              src={LOGO_LIGHT_BG.mobile}
+              alt="Cedarce"
+              width={LOGO_NAV_SIZES.mobile.width}
+              height={LOGO_NAV_SIZES.mobile.height}
+              style={{
+                width: LOGO_NAV_SIZES.mobile.width,
+                height: LOGO_NAV_SIZES.mobile.height,
+              }}
+              className="object-contain object-left"
               priority
             />
           </span>
-          <span className="hidden h-16 w-[22rem] max-w-[56vw] items-center overflow-hidden sm:flex lg:h-[76px] lg:w-[31rem] lg:max-w-none">
+          <span className="hidden items-center sm:flex">
             <Image
-              src="/logo%20trans.png"
-              alt=""
-              width={600}
-              height={180}
-              className="h-16 w-auto max-w-none origin-left scale-[1.9] motion-reduce:scale-100 lg:h-[76px] lg:scale-[2.1]"
+              src={LOGO_LIGHT_BG.desktop}
+              alt="Cedarce"
+              width={LOGO_NAV_SIZES.desktopLg.width}
+              height={LOGO_NAV_SIZES.desktopLg.height}
+              className="h-[44px] w-[180px] object-contain object-left lg:h-[52px] lg:w-[213px]"
               priority
             />
           </span>

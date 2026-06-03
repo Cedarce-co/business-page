@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Clock, Shield } from "lucide-react";
 import { SERVICES } from "@/lib/constants";
+import { LOGO_FOOTER_SIZES, LOGO_LIGHT_BG } from "@/lib/brand-logos";
 import { SUPPORT_EMAIL, SUPPORT_PHONE_DISPLAY, SUPPORT_PHONE_TEL } from "@/lib/contact";
 import Button from "@/components/ui/Button";
 
@@ -24,26 +25,26 @@ export default function Footer() {
 
   return (
     <footer className="border-t border-cliq-gray-200 bg-gradient-to-b from-white to-cliq-gray-100/80">
-      <div className="mx-auto max-w-[1200px] px-4 py-16 sm:px-6 lg:px-8 lg:py-24">
+      <div className="mx-auto w-full max-w-[1440px] px-4 py-16 sm:px-6 lg:px-10 lg:py-24">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
           <div className="flex flex-col items-center text-center sm:items-start sm:text-left lg:col-span-4">
             <Link href="/" className="inline-flex min-w-0 items-center justify-center sm:justify-start" aria-label="Home">
-              <span className="flex h-24 w-full max-w-[26rem] items-center overflow-hidden sm:hidden">
+              <span className="flex items-center sm:hidden">
                 <Image
-                  src="/logo%20mobile.png"
-                  alt=""
-                  width={520}
-                  height={156}
-                  className="h-24 w-auto max-w-none origin-left scale-[1.42] motion-reduce:scale-100"
+                  src={LOGO_LIGHT_BG.mobile}
+                  alt="Cedarce"
+                  width={LOGO_FOOTER_SIZES.mobile.width}
+                  height={LOGO_FOOTER_SIZES.mobile.height}
+                  className="h-[72px] w-[74px] object-contain object-left"
                 />
               </span>
-              <span className="hidden h-24 w-full max-w-[30rem] items-center overflow-hidden sm:flex lg:max-w-[38rem]">
+              <span className="hidden items-center sm:flex">
                 <Image
-                  src="/logo%20trans.png"
-                  alt=""
-                  width={680}
-                  height={204}
-                  className="h-32 w-auto max-w-none origin-left scale-[1.34] motion-reduce:scale-100"
+                  src={LOGO_LIGHT_BG.desktop}
+                  alt="Cedarce"
+                  width={LOGO_FOOTER_SIZES.desktop.width}
+                  height={LOGO_FOOTER_SIZES.desktop.height}
+                  className="h-20 w-[327px] object-contain object-left"
                 />
               </span>
             </Link>
@@ -112,7 +113,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 grid gap-8 rounded-3xl border border-cliq-gray-200 bg-white p-8 shadow-card md:grid-cols-2 lg:mt-16 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-12">
+        <div className="mx-auto mt-14 grid w-full max-w-2xl gap-8 rounded-3xl border border-cliq-gray-200 bg-white p-8 shadow-card md:grid-cols-2 lg:mt-16 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-12">
           <div>
             <h4 className="text-lg font-bold text-cliq-text-heading">Talk to us</h4>
             <p className="mt-2 text-sm text-cliq-text-muted">

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { LOGO_LIGHT_BG } from "@/lib/brand-logos";
 import { useEffect, useState } from "react";
 
 export default function OfflinePage() {
@@ -36,10 +37,10 @@ export default function OfflinePage() {
       <div className="relative mx-auto flex w-full max-w-md flex-col items-center text-center">
         <Link href="/" aria-label="Home" className="mb-8 inline-flex items-center">
           <Image
-            src="/logo%20trans.png"
+            src={LOGO_LIGHT_BG.desktop}
             alt="Cedarce"
-            width={320}
-            height={96}
+            width={1011}
+            height={247}
             priority
             className="h-16 w-auto"
           />

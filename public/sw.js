@@ -6,7 +6,7 @@
  *   - Stale-while-revalidate for other same-origin GET requests (logos, icons, manifest).
  *   - Bypass non-GET, cross-origin, /api/*, /uploads/*, /dashboard/*, /admin/* requests.
  */
-const VERSION = "v3";
+const VERSION = "v4";
 const SHELL_CACHE = `cedarce-shell-${VERSION}`;
 const RUNTIME_CACHE = `cedarce-runtime-${VERSION}`;
 const NAVIGATION_TIMEOUT_MS = 3000;
@@ -22,8 +22,8 @@ const SHELL_ASSETS = [
   "/pwa-icon-512.png",
   "/pwa-icon-maskable-512.png",
   "/og-image.png",
-  "/logo%20trans.png",
-  "/logo%20mobile.png",
+  "/assets/logo/logoblacktext-transparent.png",
+  "/assets/logo/logoblackmobile-transaparent.png",
 ];
 
 self.addEventListener("install", (event) => {
