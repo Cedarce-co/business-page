@@ -56,10 +56,10 @@ export default function Footer() {
                 <Clock className="h-4 w-4 text-emerald-600" aria-hidden />
                 Typical setup in days
               </span>
-              <span className="inline-flex items-center gap-1.5">
+              {/* <span className="inline-flex items-center gap-1.5">
                 <Shield className="h-4 w-4 text-cliq-navy-800" aria-hidden />
                 Human-led delivery
-              </span>
+              </span> */}
             </div>
           </div>
 
