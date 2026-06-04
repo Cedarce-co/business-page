@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { BRAND_ICON_VERSION } from "@/lib/brand-logos";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
@@ -18,19 +19,19 @@ export default function manifest(): MetadataRoute.Manifest {
     categories: ["business", "productivity"],
     icons: [
       {
-        src: "/pwa-icon-192.png",
+        src: `/pwa-icon-192.png?v=${BRAND_ICON_VERSION}`,
         sizes: "192x192",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/pwa-icon-512.png",
+        src: `/pwa-icon-512.png?v=${BRAND_ICON_VERSION}`,
         sizes: "512x512",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/pwa-icon-maskable-512.png",
+        src: `/pwa-icon-maskable-512.png?v=${BRAND_ICON_VERSION}`,
         sizes: "512x512",
         type: "image/png",
         purpose: "maskable",

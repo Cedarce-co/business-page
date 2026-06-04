@@ -2,7 +2,10 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { SUPPORT_EMAIL } from "@/lib/contact";
+import { BRAND_ICON_VERSION } from "@/lib/brand-logos";
 import { SITE_URL } from "@/lib/site";
+
+const iconQuery = `?v=${BRAND_ICON_VERSION}`;
 import AppToaster from "@/components/layout/AppToaster";
 import RootChrome from "@/components/layout/RootChrome";
 import RootFooter from "@/components/layout/RootFooter";
@@ -65,12 +68,12 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/favicon.ico" },
-      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: `/favicon.ico${iconQuery}` },
+      { url: `/favicon-32x32.png${iconQuery}`, sizes: "32x32", type: "image/png" },
+      { url: `/favicon-16x16.png${iconQuery}`, sizes: "16x16", type: "image/png" },
     ],
-    shortcut: [{ url: "/favicon.ico" }],
-    apple: [{ url: "/apple-icon.png" }],
+    shortcut: [{ url: `/favicon.ico${iconQuery}` }],
+    apple: [{ url: `/apple-icon.png${iconQuery}`, sizes: "180x180", type: "image/png" }],
   },
   manifest: "/manifest.webmanifest",
   applicationName: "Cedarce",

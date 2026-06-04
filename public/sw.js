@@ -6,7 +6,7 @@
  *   - Stale-while-revalidate for other same-origin GET requests (logos, icons, manifest).
  *   - Bypass non-GET, cross-origin, /api/*, /uploads/*, /dashboard/*, /admin/* requests.
  */
-const VERSION = "v4";
+const VERSION = "v5";
 const SHELL_CACHE = `cedarce-shell-${VERSION}`;
 const RUNTIME_CACHE = `cedarce-runtime-${VERSION}`;
 const NAVIGATION_TIMEOUT_MS = 3000;
@@ -14,13 +14,13 @@ const NAVIGATION_TIMEOUT_MS = 3000;
 const SHELL_ASSETS = [
   "/offline",
   "/manifest.webmanifest",
-  "/favicon.ico",
-  "/favicon-16x16.png",
-  "/favicon-32x32.png",
-  "/apple-icon.png",
-  "/pwa-icon-192.png",
-  "/pwa-icon-512.png",
-  "/pwa-icon-maskable-512.png",
+  "/favicon.ico?v=5",
+  "/favicon-16x16.png?v=5",
+  "/favicon-32x32.png?v=5",
+  "/apple-icon.png?v=5",
+  "/pwa-icon-192.png?v=5",
+  "/pwa-icon-512.png?v=5",
+  "/pwa-icon-maskable-512.png?v=5",
   "/og-image.png",
   "/assets/logo/logoblacktext-transparent.png",
   "/assets/logo/logoblackmobile-transaparent.png",

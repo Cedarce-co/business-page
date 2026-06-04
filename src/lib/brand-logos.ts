@@ -1,3 +1,6 @@
+/** Bump when favicon / PWA icon files in /public are regenerated. */
+export const BRAND_ICON_VERSION = "5";
+
 /** Brand logo assets under /public/assets/logo */
 export const BRAND_LOGOS = {
   black: {

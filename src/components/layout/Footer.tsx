@@ -57,7 +57,13 @@ export default function Footer() {
                 Typical setup in days
               </span>
               {/* <span className="inline-flex items-center gap-1.5">
-                <Shield className="h-4 w-4 text-cliq-navy-800" aria-hidden />
+                <Shield className="h-4 w-4 text-cl
+Repository
+￼
+Instant Rollback
+Visit
+￼
+iq-navy-800" aria-hidden />
                 Human-led delivery
               </span> */}
             </div>
