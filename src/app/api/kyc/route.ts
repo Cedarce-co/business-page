@@ -2,6 +2,10 @@ import { NextResponse } from "next/server";
 import { getApiUserId } from "@/lib/server-auth";
 import { kycTextSchema } from "@/features/kyc/types";
 import { getKyc, submitKyc } from "@/server/services/kyc";
+import { MAX_UPLOAD_BYTES } from "@/lib/upload-limits";
+import { UploadConfigError } from "@/server/uploads/store";
+
+export const maxDuration = 60;
 
 export async function GET() {
   const userId = await getApiUserId();
@@ -34,10 +38,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid verification payload." }, { status: 400 });
     }
 
-    const maxSize = 5 * 1024 * 1024;
-    if (file.size > maxSize) return NextResponse.json({ error: "ID file must be 5MB or less." }, { status: 400 });
-    if (cacFile instanceof File && cacFile.size > maxSize) {
-      return NextResponse.json({ error: "CAC file must be 5MB or less." }, { status: 400 });
+    const maxMb = MAX_UPLOAD_BYTES / (1024 * 1024);
+    if (file.size > MAX_UPLOAD_BYTES) {
+      return NextResponse.json({ error: `ID file must be ${maxMb}MB or less.` }, { status: 400 });
+    }
+    if (cacFile instanceof File && cacFile.size > MAX_UPLOAD_BYTES) {
+      return NextResponse.json({ error: `CAC file must be ${maxMb}MB or less.` }, { status: 400 });
     }
 
     await submitKyc(userId, {
@@ -47,7 +53,14 @@ export async function POST(request: Request) {
     });
 
     return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: "Could not submit verification." }, { status: 500 });
+  } catch (error) {
+    if (error instanceof UploadConfigError) {
+      console.error("[kyc] upload config:", error.message);
+      return NextResponse.json({ error: error.message }, { status: 503 });
+    }
+
+    const message = error instanceof Error ? error.message : "Could not submit verification.";
+    console.error("[kyc] submit failed:", error);
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

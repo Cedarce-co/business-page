@@ -18,13 +18,17 @@ Architecture and folder terminology:
 
 Copy your production connection string as `DATABASE_URL`. For Render, append SSL if missing:
 
-`postgresql://USER:PASSWORD@HOST/DATABASE?sslmode=require`
+`postgresql://USER:PASSWORD@HOST/DATABASE?sslmode=verify-full`
+
+(`verify-full` avoids pg SSL deprecation warnings; the app also normalizes `sslmode=require` at runtime.)
 
 (After rotating credentials, never paste the live URL in chat or tickets.)
 
-### Blob storage (optional but recommended)
-- Enable **Vercel Blob**
-- Create a read/write token and use it as `BLOB_READ_WRITE_TOKEN`
+### Blob storage (required on Vercel)
+- Enable **Vercel Blob** in your Vercel project (Storage → Blob)
+- Create a read/write token and set `BLOB_READ_WRITE_TOKEN`
+
+Local dev can omit the token (files save under `public/uploads/`). On Vercel the filesystem is read-only, so uploads **require** Blob storage.
 
 ## 2) Add env vars in Vercel project
 
@@ -34,7 +38,7 @@ Set these in Vercel Project Settings -> Environment Variables:
 - `NEXTAUTH_SECRET` (long random string)
 - `NEXTAUTH_URL` (your production domain, e.g. `https://your-domain.com`)
 - `ADMIN_EMAILS` (comma-separated admin emails allowed into `/admin`)
-- `BLOB_READ_WRITE_TOKEN` (if using KYC file uploads)
+- `BLOB_READ_WRITE_TOKEN` (**required on Vercel** for KYC and profile photo uploads)
 
 ## 3) Prisma migrate for production
 

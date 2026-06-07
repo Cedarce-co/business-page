@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { MAX_UPLOAD_BYTES, MAX_UPLOAD_MB } from "@/lib/upload-limits";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import toast from "react-hot-toast";
 import { submitKyc } from "@/features/kyc/client";
 import type { KycInput } from "@/features/kyc/types";
@@ -219,7 +220,7 @@ export default function KycFlow() {
               <p className="text-sm text-slate-600">
                 Any valid ID is fine. CAC is optional. Uploads are private.
               </p>
-              <p className="text-xs text-slate-500">Max size: 5MB per upload. Supported: images, PDF, DOC/DOCX.</p>
+              <p className="text-xs text-slate-500">Max size: {MAX_UPLOAD_MB}MB per upload. Supported: images, PDF, DOC/DOCX.</p>
 
               {(existingDocs.govIdUrl || existingDocs.cacUrl) ? (
                 <div className="grid gap-3 sm:grid-cols-2">
@@ -269,8 +270,8 @@ export default function KycFlow() {
                 onChange={(e) => {
                   const file = e.target.files?.[0] ?? null;
                   if (!file) return setForm((p) => ({ ...p, govIdFile: null }));
-                  if (file.size > 5 * 1024 * 1024) {
-                    toast.error("ID file must be 5MB or less.");
+                  if (file.size > MAX_UPLOAD_BYTES) {
+                    toast.error(`ID file must be ${MAX_UPLOAD_MB}MB or less.`);
                     e.target.value = "";
                     return setForm((p) => ({ ...p, govIdFile: null }));
                   }
@@ -313,8 +314,8 @@ export default function KycFlow() {
                   onChange={(e) => {
                     const file = e.target.files?.[0] ?? null;
                     if (!file) return setForm((p) => ({ ...p, cacFile: null }));
-                    if (file.size > 5 * 1024 * 1024) {
-                      toast.error("CAC file must be 5MB or less.");
+                    if (file.size > MAX_UPLOAD_BYTES) {
+                      toast.error(`CAC file must be ${MAX_UPLOAD_MB}MB or less.`);
                       e.target.value = "";
                       return setForm((p) => ({ ...p, cacFile: null }));
                     }

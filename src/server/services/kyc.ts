@@ -1,4 +1,3 @@
-import { put } from "@vercel/blob";
 import { prisma } from "@/lib/prisma";
 import type { KycInput } from "@/features/kyc/types";
 import { sendEmail, emailAdmins } from "@/server/emails/sender";
@@ -7,7 +6,7 @@ import {
   verificationSubmittedUserEmail,
 } from "@/server/emails/templates/verification-submitted";
 import { createNotification } from "@/server/services/notifications";
-import { savePublicUpload } from "@/server/uploads/local";
+import { storeUpload } from "@/server/uploads/store";
 
 export async function getKyc(userId: string) {
   return prisma.kyc.findUnique({ where: { userId } });
@@ -20,25 +19,21 @@ export async function submitKyc(userId: string, payload: KycInput) {
 
   let govIdUrl = "";
   let cacUrl: string | null = null;
-  if (process.env.BLOB_READ_WRITE_TOKEN) {
-    const blob = await put(`kyc/${userId}/${Date.now()}-${payload.govIdFile.name}`, payload.govIdFile, {
+
+  govIdUrl = await storeUpload({
+    folder: "kyc",
+    userId,
+    file: payload.govIdFile,
+    access: "private",
+  });
+
+  if (payload.cacFile) {
+    cacUrl = await storeUpload({
+      folder: "kyc",
+      userId,
+      file: payload.cacFile,
       access: "private",
     });
-    govIdUrl = blob.url;
-
-    if (payload.cacFile) {
-      const cacBlob = await put(`kyc/${userId}/${Date.now()}-cac-${payload.cacFile.name}`, payload.cacFile, {
-        access: "private",
-      });
-      cacUrl = cacBlob.url;
-    }
-  } else {
-    const savedId = await savePublicUpload({ folder: "kyc", userId, file: payload.govIdFile });
-    govIdUrl = savedId.url;
-    if (payload.cacFile) {
-      const savedCac = await savePublicUpload({ folder: "kyc", userId, file: payload.cacFile });
-      cacUrl = savedCac.url;
-    }
   }
 
   const kyc = await prisma.kyc.upsert({

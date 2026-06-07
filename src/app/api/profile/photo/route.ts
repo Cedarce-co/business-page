@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
-import { put } from "@vercel/blob";
 import { getApiUserId } from "@/lib/server-auth";
 import { prisma } from "@/lib/prisma";
-import { savePublicUpload } from "@/server/uploads/local";
+import { MAX_UPLOAD_BYTES } from "@/lib/upload-limits";
+import { storeUpload, UploadConfigError } from "@/server/uploads/store";
+
+export const maxDuration = 60;
 
 export async function POST(request: Request) {
   try {
@@ -14,26 +16,30 @@ export async function POST(request: Request) {
     if (!(file instanceof File)) {
       return NextResponse.json({ error: "Missing file." }, { status: 400 });
     }
-    if (file.size > 5 * 1024 * 1024) {
-      return NextResponse.json({ error: "File must be 5MB or less." }, { status: 400 });
+    if (file.size > MAX_UPLOAD_BYTES) {
+      return NextResponse.json(
+        { error: `File must be ${MAX_UPLOAD_BYTES / (1024 * 1024)}MB or less.` },
+        { status: 400 },
+      );
     }
 
-    let url = "";
-    if (process.env.BLOB_READ_WRITE_TOKEN) {
-      const blob = await put(`avatars/${userId}/${Date.now()}-${file.name}`, file, { access: "public" });
-      url = blob.url;
-    } else {
-      const saved = await savePublicUpload({ folder: "avatars", userId, file });
-      url = saved.url;
-    }
+    const url = await storeUpload({
+      folder: "avatars",
+      userId,
+      file,
+      access: "public",
+    });
 
-    if (url) {
-      await prisma.user.update({ where: { id: userId }, data: { image: url } });
-    }
+    await prisma.user.update({ where: { id: userId }, data: { image: url } });
 
     return NextResponse.json({ url });
-  } catch {
+  } catch (error) {
+    if (error instanceof UploadConfigError) {
+      console.error("[profile/photo] upload config:", error.message);
+      return NextResponse.json({ error: error.message }, { status: 503 });
+    }
+
+    console.error("[profile/photo] upload failed:", error);
     return NextResponse.json({ error: "Could not upload photo." }, { status: 500 });
   }
 }
-

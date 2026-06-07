@@ -8,19 +8,49 @@ import { Pool } from "pg";
 // a missing DATABASE_URL surfaces a clear runtime error.
 const globalForPrisma = globalThis as unknown as { prisma?: PrismaClient };
 
+const LOCAL_HOST = /(?:@|\/\/)(?:localhost|127\.0\.0\.1)(?:[:/]|$)/i;
+
+/**
+ * pg-connection-string warns when sslmode is require/prefer/verify-ca because
+ * those modes currently map to verify-full. Set verify-full explicitly.
+ */
+export function normalizeDatabaseUrl(connectionString: string): string {
+  const trimmed = connectionString.trim();
+  if (LOCAL_HOST.test(trimmed) || /sslmode=disable/i.test(trimmed)) {
+    return trimmed;
+  }
+
+  try {
+    const url = new URL(trimmed);
+    const mode = url.searchParams.get("sslmode");
+    if (!mode || mode === "require" || mode === "prefer" || mode === "verify-ca") {
+      url.searchParams.set("sslmode", "verify-full");
+    }
+    return url.toString();
+  } catch {
+    if (/sslmode=(require|prefer|verify-ca)/i.test(trimmed)) {
+      return trimmed.replace(/sslmode=(require|prefer|verify-ca)/i, "sslmode=verify-full");
+    }
+    const sep = trimmed.includes("?") ? "&" : "?";
+    return `${trimmed}${sep}sslmode=verify-full`;
+  }
+}
+
 /** Remote hosts (Render, Neon, Supabase, etc.) require TLS from Vercel/serverless. */
 function poolSsl(connectionString: string): false | { rejectUnauthorized: boolean } {
-  if (/localhost|127\.0\.0\.1/.test(connectionString)) return false;
+  if (LOCAL_HOST.test(connectionString)) return false;
   if (/sslmode=disable/i.test(connectionString)) return false;
+  // Render and some managed Postgres providers use certs that fail strict CA checks.
   return { rejectUnauthorized: false };
 }
 
 function createPrismaClient(): PrismaClient {
-  const connectionString = process.env.DATABASE_URL?.trim();
-  if (!connectionString) {
+  const raw = process.env.DATABASE_URL?.trim();
+  if (!raw) {
     throw new Error("Missing DATABASE_URL. Set it in your environment.");
   }
 
+  const connectionString = normalizeDatabaseUrl(raw);
   const pool = new Pool({
     connectionString,
     ssl: poolSsl(connectionString),
