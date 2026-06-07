@@ -25,10 +25,12 @@ Copy your production connection string as `DATABASE_URL`. For Render, append SSL
 (After rotating credentials, never paste the live URL in chat or tickets.)
 
 ### Blob storage (required on Vercel)
-- Enable **Vercel Blob** in your Vercel project (Storage → Blob)
-- Create a read/write token and set `BLOB_READ_WRITE_TOKEN`
+- Enable **Vercel Blob** and connect the store to this project (Storage → Blob)
+- Vercel auto-adds **`BLOB_STORE_ID`** and **`VERCEL_OIDC_TOKEN`** (recommended OIDC auth)
+- Optionally **`BLOB_READ_WRITE_TOKEN`** for local dev or legacy setups — run `vercel env pull` locally
+- **`BLOB_WEBHOOK_PUBLIC_KEY`** is only for client-side presigned uploads; this app uploads server-side and does not need it
 
-Local dev can omit the token (files save under `public/uploads/`). On Vercel the filesystem is read-only, so uploads **require** Blob storage.
+Local dev without Blob env vars saves files under `public/uploads/`. On Vercel the filesystem is read-only, so uploads **require** a connected Blob store.
 
 ## 2) Add env vars in Vercel project
 
@@ -38,7 +40,13 @@ Set these in Vercel Project Settings -> Environment Variables:
 - `NEXTAUTH_SECRET` (long random string)
 - `NEXTAUTH_URL` (your production domain, e.g. `https://your-domain.com`)
 - `ADMIN_EMAILS` (comma-separated admin emails allowed into `/admin`)
-- `BLOB_READ_WRITE_TOKEN` (**required on Vercel** for KYC and profile photo uploads)
+
+Blob (auto-injected when the store is connected to the project):
+
+- `BLOB_STORE_ID`
+- `VERCEL_OIDC_TOKEN` (rotated automatically on each deployment)
+- `BLOB_WEBHOOK_PUBLIC_KEY` (optional; not used by this app’s server uploads)
+- `BLOB_READ_WRITE_TOKEN` (optional; legacy token if not using OIDC)
 
 ## 3) Prisma migrate for production
 

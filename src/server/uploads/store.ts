@@ -18,6 +18,13 @@ type StoreUploadInput = {
   access: "public" | "private";
 };
 
+/** Vercel Blob via OIDC (BLOB_STORE_ID + VERCEL_OIDC_TOKEN) or legacy BLOB_READ_WRITE_TOKEN. */
+export function isBlobConfigured(): boolean {
+  if (process.env.BLOB_READ_WRITE_TOKEN) return true;
+  if (process.env.BLOB_STORE_ID && process.env.VERCEL_OIDC_TOKEN) return true;
+  return false;
+}
+
 export function assertUploadSize(file: File, label = "File") {
   if (file.size > MAX_UPLOAD_BYTES) {
     throw new Error(`${label} must be ${MAX_UPLOAD_BYTES / (1024 * 1024)}MB or less.`);
@@ -27,7 +34,7 @@ export function assertUploadSize(file: File, label = "File") {
 export async function storeUpload(input: StoreUploadInput): Promise<string> {
   assertUploadSize(input.file);
 
-  if (process.env.BLOB_READ_WRITE_TOKEN) {
+  if (isBlobConfigured()) {
     const blob = await put(
       `${input.folder}/${input.userId}/${Date.now()}-${input.file.name}`,
       input.file,
@@ -38,7 +45,7 @@ export async function storeUpload(input: StoreUploadInput): Promise<string> {
 
   if (process.env.VERCEL) {
     throw new UploadConfigError(
-      "File uploads are not configured for production. Set BLOB_READ_WRITE_TOKEN in Vercel (enable Vercel Blob).",
+      "File uploads are not configured for production. Connect Vercel Blob to this project (Storage → Blob).",
     );
   }
 
