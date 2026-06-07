@@ -18,10 +18,22 @@ type StoreUploadInput = {
   access: "public" | "private";
 };
 
-/** Vercel Blob via OIDC (BLOB_STORE_ID + VERCEL_OIDC_TOKEN) or legacy BLOB_READ_WRITE_TOKEN. */
+function blobAuthFlags() {
+  return {
+    hasStoreId: Boolean(process.env.BLOB_STORE_ID),
+    hasOidc: Boolean(process.env.VERCEL_OIDC_TOKEN),
+    hasRwToken: Boolean(process.env.BLOB_READ_WRITE_TOKEN),
+    onVercel: process.env.VERCEL === "1",
+  };
+}
+
+/** True when Blob credentials appear present (OIDC or legacy token). */
 export function isBlobConfigured(): boolean {
-  if (process.env.BLOB_READ_WRITE_TOKEN) return true;
-  if (process.env.BLOB_STORE_ID && process.env.VERCEL_OIDC_TOKEN) return true;
+  const { hasStoreId, hasOidc, hasRwToken } = blobAuthFlags();
+  if (hasRwToken) return true;
+  if (hasStoreId && hasOidc) return true;
+  // Store connected; OIDC token is injected at runtime on Vercel and may not be visible in the dashboard.
+  if (hasStoreId && process.env.VERCEL === "1") return true;
   return false;
 }
 
@@ -31,22 +43,39 @@ export function assertUploadSize(file: File, label = "File") {
   }
 }
 
+async function uploadToBlob(input: StoreUploadInput): Promise<string> {
+  const pathname = `${input.folder}/${input.userId}/${Date.now()}-${input.file.name}`;
+  const storeId = process.env.BLOB_STORE_ID;
+  const oidcToken = process.env.VERCEL_OIDC_TOKEN;
+  const token = process.env.BLOB_READ_WRITE_TOKEN;
+
+  const blob = await put(pathname, input.file, {
+    access: input.access,
+    ...(storeId ? { storeId } : {}),
+    ...(oidcToken ? { oidcToken } : {}),
+    ...(token ? { token } : {}),
+  });
+
+  return blob.url;
+}
+
 export async function storeUpload(input: StoreUploadInput): Promise<string> {
   assertUploadSize(input.file);
 
-  if (isBlobConfigured()) {
-    const blob = await put(
-      `${input.folder}/${input.userId}/${Date.now()}-${input.file.name}`,
-      input.file,
-      { access: input.access },
-    );
-    return blob.url;
-  }
+  const onVercel = process.env.VERCEL === "1";
+  const shouldUseBlob = onVercel || isBlobConfigured();
 
-  if (process.env.VERCEL) {
-    throw new UploadConfigError(
-      "File uploads are not configured for production. Connect Vercel Blob to this project (Storage → Blob).",
-    );
+  if (shouldUseBlob) {
+    try {
+      return await uploadToBlob(input);
+    } catch (error) {
+      console.error("[storeUpload] blob put failed:", blobAuthFlags(), error);
+      throw new UploadConfigError(
+        onVercel
+          ? "File upload failed. In Vercel → Storage → Blob, connect the store to this project for Production, then redeploy."
+          : "File upload failed. Run `vercel env pull` for Blob credentials, or omit Blob env vars to use local uploads.",
+      );
+    }
   }
 
   const saved = await savePublicUpload({
