@@ -2,6 +2,8 @@ import { defineConfig } from "prisma/config";
 import fs from "node:fs";
 import path from "node:path";
 
+const LOCAL_HOST = /(?:@|\/\/)(?:localhost|127\.0\.0\.1)(?:[:/]|$)/i;
+
 function loadDotEnv(filename: string, { override }: { override: boolean }) {
   try {
     const fullPath = path.join(process.cwd(), filename);
@@ -30,15 +32,36 @@ function loadDotEnv(filename: string, { override }: { override: boolean }) {
 }
 
 loadDotEnv(".env", { override: false });
-// Prefer .env.local if present
 loadDotEnv(".env.local", { override: true });
 
 const PLACEHOLDER_DATABASE_URL =
   "postgresql://placeholder:placeholder@localhost:5432/placeholder";
 
 function isMigrateCommand(): boolean {
-  const args = process.argv.join(" ");
-  return args.includes("migrate");
+  return process.argv.join(" ").includes("migrate");
+}
+
+/** Prisma CLI (migrate) — use sslmode=require for Render/Neon; verify-full often fails in CI. */
+function normalizeForPrismaCli(connectionString: string): string {
+  const trimmed = connectionString.trim();
+  if (LOCAL_HOST.test(trimmed) || /sslmode=disable/i.test(trimmed)) {
+    return trimmed;
+  }
+
+  try {
+    const url = new URL(trimmed);
+    const mode = url.searchParams.get("sslmode");
+    if (!mode || mode === "verify-full" || mode === "verify-ca" || mode === "prefer") {
+      url.searchParams.set("sslmode", "require");
+    }
+    return url.toString();
+  } catch {
+    if (/sslmode=(verify-full|verify-ca|prefer)/i.test(trimmed)) {
+      return trimmed.replace(/sslmode=(verify-full|verify-ca|prefer)/i, "sslmode=require");
+    }
+    const sep = trimmed.includes("?") ? "&" : "?";
+    return `${trimmed}${sep}sslmode=require`;
+  }
 }
 
 function resolveDatabaseUrl(): string {
@@ -47,26 +70,25 @@ function resolveDatabaseUrl(): string {
   if (!url) {
     if (isMigrateCommand()) {
       throw new Error(
-        "DATABASE_URL is not set. For Render: link your Postgres database to the web service (Environment → Link database), or set DATABASE_URL to the External Database URL — not localhost.",
+        "DATABASE_URL is not set. Link your Postgres database or set DATABASE_URL to the External Database URL — not localhost.",
       );
     }
     return PLACEHOLDER_DATABASE_URL;
   }
 
-  if (isMigrateCommand() && /(?:@|\/\/)(?:localhost|127\.0\.0\.1)(?:[:/]|$)/i.test(url)) {
+  if (isMigrateCommand() && LOCAL_HOST.test(url)) {
     throw new Error(
-      `DATABASE_URL points to localhost (${url}). On Render production, use the External Database URL from your Render Postgres dashboard (Host must not be localhost).`,
+      "DATABASE_URL points to localhost. Use your host's External Database URL (Render, Neon, Supabase, etc.).",
     );
   }
 
-  return url;
+  return normalizeForPrismaCli(url);
 }
 
-// `prisma generate` doesn't need a real DB connection, but Prisma's strict
-// `env()` helper throws at config-load time if the variable is missing
-// (which happens on CI like Netlify where .env files aren't checked in).
-// Fall back to a placeholder so `generate` can run; migrate/start require a real URL.
 const databaseUrl = resolveDatabaseUrl();
+if (process.env.DATABASE_URL?.trim()) {
+  process.env.DATABASE_URL = databaseUrl;
+}
 
 export default defineConfig({
   schema: "prisma/schema.prisma",

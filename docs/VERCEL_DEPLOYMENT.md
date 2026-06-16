@@ -18,9 +18,9 @@ Architecture and folder terminology:
 
 Copy your production connection string as `DATABASE_URL`. For Render, append SSL if missing:
 
-`postgresql://USER:PASSWORD@HOST/DATABASE?sslmode=verify-full`
+`postgresql://USER:PASSWORD@HOST/DATABASE?sslmode=require`
 
-(`verify-full` avoids pg SSL deprecation warnings; the app also normalizes `sslmode=require` at runtime.)
+(Use the **External** Database URL, not an internal hostname. The app normalizes SSL at runtime.)
 
 (After rotating credentials, never paste the live URL in chat or tickets.)
 
@@ -50,11 +50,21 @@ Blob (auto-injected when the store is connected to the project):
 
 ## 3) Prisma migrate for production
 
-Run migrations against production database before/with first deploy:
+**Vercel:** `npm run build` only runs `next build`. Apply migrations before or after deploy:
 
 ```bash
 npx prisma migrate deploy
 ```
+
+Run that locally against production `DATABASE_URL`, or set Vercel **Build Command** to:
+
+```bash
+npx prisma migrate deploy && npm run build
+```
+
+only if your database accepts connections from Vercel's build network.
+
+**Render:** migrations run automatically on `npm start` (`prisma migrate deploy && next start`).
 
 If you need to create the initial migration locally:
 

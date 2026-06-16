@@ -18,12 +18,10 @@ If you linked a database but still see localhost, delete any manual `DATABASE_UR
 
 ## Build vs migrate
 
-This repo runs migrations at **start**, not during **build**:
-
-| Phase | Command | Needs DB |
-|-------|---------|----------|
-| Build | `npm run build` → `next build` | No |
-| Start | `npm start` → `prisma migrate deploy && next start` | Yes |
+| Platform | Build | Migrations |
+|----------|-------|------------|
+| **Vercel** | `npm run build` → `next build` | Run `npm run db:migrate` manually, or add to Vercel Build Command |
+| **Render** | `npm run build` → `next build` | `npm start` → `prisma migrate deploy && next start` |
 
 Render **Build Command** should be:
 
