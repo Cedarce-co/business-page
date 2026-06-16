@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import CircleLoader from "@/components/ui/CircleLoader";
+import PasswordInput from "@/components/ui/PasswordInput";
 import { resetPassword } from "@/features/password-reset/client";
 
 const baseInput =
@@ -42,16 +43,16 @@ export default function ResetPasswordFlow({ token }: { token: string }) {
       transition={{ duration: 0.3 }}
       className="space-y-4"
     >
-      <input
+      <PasswordInput
         className={baseInput}
-        type="password"
+        toggleClassName="text-slate-300 hover:text-white"
         placeholder="New password (min 8 characters)"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <input
+      <PasswordInput
         className={baseInput}
-        type="password"
+        toggleClassName="text-slate-300 hover:text-white"
         placeholder="Confirm new password"
         value={confirm}
         onChange={(e) => setConfirm(e.target.value)}

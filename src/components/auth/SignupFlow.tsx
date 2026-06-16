@@ -7,6 +7,7 @@ import { signIn } from "next-auth/react";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import CircleLoader from "@/components/ui/CircleLoader";
+import PasswordInput from "@/components/ui/PasswordInput";
 import { signupUser } from "@/features/auth/client";
 import type { SignupInput } from "@/features/auth/types";
 
@@ -95,9 +96,9 @@ export default function SignupFlow() {
           {step === 2 ? (
             <>
               <p className="text-sm text-slate-300">Step 3 of 3 - Create a password</p>
-              <input
+              <PasswordInput
                 className={baseInput}
-                type="password"
+                toggleClassName="text-slate-300 hover:text-white"
                 placeholder="Minimum 8 characters"
                 value={form.password}
                 onChange={(e) => setForm((p) => ({ ...p, password: e.target.value }))}

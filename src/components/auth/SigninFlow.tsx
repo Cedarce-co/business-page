@@ -7,6 +7,7 @@ import { signIn } from "next-auth/react";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import CircleLoader from "@/components/ui/CircleLoader";
+import PasswordInput from "@/components/ui/PasswordInput";
 
 const baseInput =
   "w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-white outline-none placeholder:text-slate-300 focus:border-cyan-300";
@@ -52,9 +53,9 @@ export default function SigninFlow() {
         value={email}
         onChange={(e) => setEmail(e.target.value.toLowerCase())}
       />
-      <input
+      <PasswordInput
         className={baseInput}
-        type="password"
+        toggleClassName="text-slate-300 hover:text-white"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
