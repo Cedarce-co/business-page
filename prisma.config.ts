@@ -84,25 +84,13 @@ function pickDatabaseUrl(): string | undefined {
   return process.env.DATABASE_URL?.trim();
 }
 
-function localhostRenderHelp(url: string): string {
-  return [
-    `DATABASE_URL points to localhost (${url}). That is a local dev URL and cannot work on Render.`,
-    "",
-    "Fix in the Render dashboard:",
-    "1. Web Service → Environment → delete any DATABASE_URL containing localhost",
-    "2. Postgres → Connect → copy the Internal Database URL (host looks like dpg-xxxxx-a, not localhost)",
-    "3. Either paste that as DATABASE_URL, or use Environment → Link Resource → select your Postgres database",
-    "4. Save and redeploy",
-  ].join("\n");
-}
-
 function resolveDatabaseUrl(): string {
   const url = pickDatabaseUrl();
 
   if (!url) {
     if (isMigrateCommand()) {
       const hint = ON_RENDER
-        ? " On Render: link your Postgres database to this web service or set DATABASE_URL to the Internal Database URL."
+        ? " On Render: Environment → Add from database → select Postgres, or paste the Internal Database URL."
         : "";
       throw new Error(`DATABASE_URL is not set.${hint}`);
     }
@@ -110,7 +98,12 @@ function resolveDatabaseUrl(): string {
   }
 
   if (isMigrateCommand() && LOCAL_HOST.test(url)) {
-    throw new Error(ON_RENDER ? localhostRenderHelp(url) : "DATABASE_URL points to localhost. Use your host's production database URL.");
+    if (ON_RENDER) {
+      throw new Error(
+        "DATABASE_URL is localhost on Render. Delete it in Web Service → Environment, then link your Postgres database (Add from database). See docs/RENDER_DEPLOYMENT.md",
+      );
+    }
+    throw new Error("DATABASE_URL points to localhost. Use your production database URL.");
   }
 
   return normalizeForPrismaCli(url);
