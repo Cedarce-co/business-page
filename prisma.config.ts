@@ -3,6 +3,8 @@ import fs from "node:fs";
 import path from "node:path";
 
 const LOCAL_HOST = /(?:@|\/\/)(?:localhost|127\.0\.0\.1)(?:[:/]|$)/i;
+const ON_RENDER = process.env.RENDER === "true";
+const ON_VERCEL = process.env.VERCEL === "1";
 
 function loadDotEnv(filename: string, { override }: { override: boolean }) {
   try {
@@ -31,8 +33,11 @@ function loadDotEnv(filename: string, { override }: { override: boolean }) {
   }
 }
 
-loadDotEnv(".env", { override: false });
-loadDotEnv(".env.local", { override: true });
+// On Render/Vercel, only use platform-injected env — never override with repo .env files.
+if (!ON_RENDER && !ON_VERCEL) {
+  loadDotEnv(".env", { override: false });
+  loadDotEnv(".env.local", { override: true });
+}
 
 const PLACEHOLDER_DATABASE_URL =
   "postgresql://placeholder:placeholder@localhost:5432/placeholder";
@@ -64,29 +69,55 @@ function normalizeForPrismaCli(connectionString: string): string {
   }
 }
 
+function pickDatabaseUrl(): string | undefined {
+  const candidates = [
+    process.env.DATABASE_URL,
+    process.env.DATABASE_INTERNAL_URL,
+    process.env.RENDER_DATABASE_URL,
+  ];
+
+  for (const raw of candidates) {
+    const url = raw?.trim();
+    if (url && !LOCAL_HOST.test(url)) return url;
+  }
+
+  return process.env.DATABASE_URL?.trim();
+}
+
+function localhostRenderHelp(url: string): string {
+  return [
+    `DATABASE_URL points to localhost (${url}). That is a local dev URL and cannot work on Render.`,
+    "",
+    "Fix in the Render dashboard:",
+    "1. Web Service → Environment → delete any DATABASE_URL containing localhost",
+    "2. Postgres → Connect → copy the Internal Database URL (host looks like dpg-xxxxx-a, not localhost)",
+    "3. Either paste that as DATABASE_URL, or use Environment → Link Resource → select your Postgres database",
+    "4. Save and redeploy",
+  ].join("\n");
+}
+
 function resolveDatabaseUrl(): string {
-  const url = process.env.DATABASE_URL?.trim();
+  const url = pickDatabaseUrl();
 
   if (!url) {
     if (isMigrateCommand()) {
-      throw new Error(
-        "DATABASE_URL is not set. Link your Postgres database or set DATABASE_URL to the External Database URL — not localhost.",
-      );
+      const hint = ON_RENDER
+        ? " On Render: link your Postgres database to this web service or set DATABASE_URL to the Internal Database URL."
+        : "";
+      throw new Error(`DATABASE_URL is not set.${hint}`);
     }
     return PLACEHOLDER_DATABASE_URL;
   }
 
   if (isMigrateCommand() && LOCAL_HOST.test(url)) {
-    throw new Error(
-      "DATABASE_URL points to localhost. Use your host's External Database URL (Render, Neon, Supabase, etc.).",
-    );
+    throw new Error(ON_RENDER ? localhostRenderHelp(url) : "DATABASE_URL points to localhost. Use your host's production database URL.");
   }
 
   return normalizeForPrismaCli(url);
 }
 
 const databaseUrl = resolveDatabaseUrl();
-if (process.env.DATABASE_URL?.trim()) {
+if (pickDatabaseUrl()) {
   process.env.DATABASE_URL = databaseUrl;
 }
 

@@ -1,29 +1,38 @@
 # Render Deployment Guide
 
-## Why the build failed
+## Error: `DATABASE_URL points to localhost`
 
-The build log showed Prisma connecting to `localhost:5432`. That means **`DATABASE_URL` was missing or pointed at localhost** during `prisma migrate deploy`.
+If you see:
 
-On Render, the web service must use the **External Database URL** from your Render Postgres instance — not `localhost`.
+```text
+DATABASE_URL points to localhost (postgresql://postgres:postgres@localhost:5432/cedarce)
+```
 
-## Fix in Render dashboard
+Your **web service** has a **local development** database URL in its environment. Render cannot reach `localhost` — that only works on your machine.
 
-1. Open your **Render Postgres** service → **Connect** → copy the **External Database URL**
-2. Open your **Web Service** → **Environment**
-3. Set **`DATABASE_URL`** to that External URL (append `?sslmode=verify-full` if there is no query string)
-4. Or use **Environment → Link database** so Render injects `DATABASE_URL` automatically
-5. **Redeploy**
+### Fix (Render dashboard)
 
-If you linked a database but still see localhost, delete any manual `DATABASE_URL` override that uses `localhost`.
+1. Open your **Web Service** (not Postgres) → **Environment**
+2. **Delete** any `DATABASE_URL` that contains `localhost` or `127.0.0.1`
+3. Open your **Postgres** service → **Connect** → copy the **Internal Database URL**  
+   (hostname should look like `dpg-xxxxx-a.oregon-postgres.render.com`, **not** `localhost`)
+4. Either:
+   - **Link the database:** Environment → **Link Resource** → select your Postgres, **or**
+   - **Paste manually:** add `DATABASE_URL` = Internal Database URL
+5. **Save** and **Redeploy**
+
+> On Render, the web service and Postgres in the same account should use the **Internal** URL. The External URL is for tools outside Render (e.g. your laptop, Vercel).
+
+---
 
 ## Build vs migrate
 
 | Platform | Build | Migrations |
 |----------|-------|------------|
-| **Vercel** | `npm run build` → `next build` | Run `npm run db:migrate` manually, or add to Vercel Build Command |
 | **Render** | `npm run build` → `next build` | `npm start` → `prisma migrate deploy && next start` |
+| **Vercel** | `npm run build` → `next build` | Run `npm run db:migrate` separately |
 
-Render **Build Command** should be:
+Render **Build Command**:
 
 ```bash
 npm install && npm run build
@@ -37,19 +46,15 @@ npm start
 
 ## Required environment variables
 
-- `DATABASE_URL` — Render Postgres External URL (linked or pasted)
+- `DATABASE_URL` — Render Postgres **Internal** URL (from Link Resource or Connect tab)
 - `NEXTAUTH_SECRET` — long random string
 - `NEXTAUTH_URL` — your Render URL, e.g. `https://your-app.onrender.com`
 - `ADMIN_EMAILS` — comma-separated admin emails
 
-Optional (file uploads on Vercel use Blob; on Render use the same if you deploy the API there):
-
-- `BLOB_READ_WRITE_TOKEN` or Vercel Blob OIDC vars if using `@vercel/blob`
-
 ## Blueprint (optional)
 
-A starter [`render.yaml`](../render.yaml) is included. Adjust service/database names and env vars before using **New → Blueprint**.
+A starter [`render.yaml`](../render.yaml) links `DATABASE_URL` from a Postgres database automatically. If you created the web service manually, link the database in the dashboard instead.
 
-## SSL note
+## SSL
 
-The app normalizes `sslmode=require` to `verify-full` at runtime. Render Postgres works with SSL enabled on the connection string.
+The app uses `sslmode=require` for Prisma migrations. Render Postgres works with SSL on the connection string.
