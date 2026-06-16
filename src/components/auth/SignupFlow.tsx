@@ -81,11 +81,11 @@ export default function SignupFlow() {
 
           {step === 1 ? (
             <>
-              <p className="text-sm text-slate-300">Step 2 of 3 - Work email</p>
+              <p className="text-sm text-slate-300">Step 2 of 3 - Email address</p>
               <input
                 className={baseInput}
                 type="email"
-                placeholder="you@company.com"
+                placeholder="you@example.com"
                 value={form.email}
                 onChange={(e) => setForm((p) => ({ ...p, email: e.target.value.toLowerCase() }))}
               />
@@ -94,11 +94,11 @@ export default function SignupFlow() {
 
           {step === 2 ? (
             <>
-              <p className="text-sm text-slate-300">Step 3 of 3 - Password</p>
+              <p className="text-sm text-slate-300">Step 3 of 3 - Create a password</p>
               <input
                 className={baseInput}
                 type="password"
-                placeholder="At least 8 characters"
+                placeholder="Minimum 8 characters"
                 value={form.password}
                 onChange={(e) => setForm((p) => ({ ...p, password: e.target.value }))}
               />
