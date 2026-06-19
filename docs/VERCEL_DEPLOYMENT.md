@@ -26,11 +26,11 @@ Copy your production connection string as `DATABASE_URL`. For Render, append SSL
 
 ### Blob storage (required on Vercel)
 - Enable **Vercel Blob** and connect the store to this project (Storage → Blob)
-- Vercel auto-adds **`BLOB_STORE_ID`** and **`VERCEL_OIDC_TOKEN`** (recommended OIDC auth)
-- Optionally **`BLOB_READ_WRITE_TOKEN`** for local dev or legacy setups — run `vercel env pull` locally
-- **`BLOB_WEBHOOK_PUBLIC_KEY`** is only for client-side presigned uploads; this app uploads server-side and does not need it
+- Vercel auto-adds **`BLOB_STORE_ID`** (and OIDC via `@vercel/oidc` on deploy)
+- If uploads still fail, add **`BLOB_READ_WRITE_TOKEN`** from the Blob store → **Connect** / **Tokens** tab to **Production** env vars
+- **`BLOB_WEBHOOK_PUBLIC_KEY`** is only for client presigned uploads; server uploads do not need it
 
-Local dev without Blob env vars saves files under `public/uploads/`. On Vercel the filesystem is read-only, so uploads **require** a connected Blob store.
+Requires `@vercel/blob` **>= 2.4** for OIDC auth. Local dev: `vercel env pull` or set `BLOB_READ_WRITE_TOKEN`.
 
 ## 2) Add env vars in Vercel project
 
