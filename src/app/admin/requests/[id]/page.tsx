@@ -48,8 +48,8 @@ export default async function AdminServiceRequestDetailPage({ params }: { params
             >
               View client profile
             </Link>
-            <Link href="/admin/dashboard" className="text-sm font-semibold text-slate-600 underline-offset-4 hover:text-slate-900 hover:underline">
-              Admin home
+            <Link href="/admin/requests" className="text-sm font-semibold text-slate-600 underline-offset-4 hover:text-slate-900 hover:underline">
+              All requests
             </Link>
           </div>
         </div>

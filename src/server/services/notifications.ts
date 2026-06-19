@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { adminRecipientEmails } from "@/lib/admin";
 
 export async function createNotification(input: {
   userId: string;
@@ -14,6 +15,35 @@ export async function createNotification(input: {
       href: input.href ?? null,
     },
   });
+}
+
+export async function getAdminRecipientUserIds() {
+  const emails = adminRecipientEmails();
+  if (emails.length === 0) return [];
+  const users = await prisma.user.findMany({
+    where: { email: { in: emails } },
+    select: { id: true },
+  });
+  return users.map((u) => u.id);
+}
+
+export async function notifyAdmins(input: {
+  title: string;
+  message?: string | null;
+  href?: string | null;
+}) {
+  const userIds = await getAdminRecipientUserIds();
+  if (userIds.length === 0) return;
+  await Promise.all(
+    userIds.map((userId) =>
+      createNotification({
+        userId,
+        title: input.title,
+        message: input.message,
+        href: input.href,
+      }),
+    ),
+  );
 }
 
 export async function listNotifications(userId: string) {

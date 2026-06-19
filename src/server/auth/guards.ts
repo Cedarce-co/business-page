@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { getServerAuthSession } from "@/server/auth/session";
-import { isAdminEmail } from "@/lib/admin";
+import { getAdminAuthSession } from "@/server/auth/admin-session";
 
 export async function requireUser() {
   const session = await getServerAuthSession();
@@ -16,15 +16,15 @@ export async function getApiUserId() {
 }
 
 export async function requireAdminUser() {
-  const session = await requireUser();
-  if (!isAdminEmail(session.user.email)) {
-    redirect("/dashboard");
+  const session = await getAdminAuthSession();
+  if (!session?.user?.id) {
+    redirect("/admin");
   }
   return session;
 }
 
 export async function getApiAdminUser() {
-  const session = await getServerAuthSession();
-  if (!session?.user?.id || !isAdminEmail(session.user.email)) return null;
+  const session = await getAdminAuthSession();
+  if (!session?.user?.id) return null;
   return session.user;
 }

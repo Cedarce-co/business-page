@@ -147,8 +147,32 @@ export function buildAdminCrumbs(pathname: string): WayfindingCrumb[] {
     return crumbs;
   }
 
-  if (parts[1] === "requests" && parts[2]) {
-    crumbs.push({ label: "Service request", href: null, icon: "clipboard" });
+  if (parts[1] === "verifications") {
+    crumbs.push({ label: "Verifications", href: null, icon: "shield" });
+    return crumbs;
+  }
+
+  if (parts[1] === "requests") {
+    crumbs.push({
+      label: "Service requests",
+      href: parts.length > 2 ? "/admin/requests" : null,
+      icon: "clipboard",
+    });
+    if (parts[2]) {
+      crumbs.push({ label: "Request detail", href: null, icon: "clipboard" });
+    }
+    return crumbs;
+  }
+
+  if (parts[1] === "questions") {
+    crumbs.push({
+      label: "Intake questions",
+      href: parts.length > 2 ? "/admin/questions" : null,
+      icon: "clipboard",
+    });
+    if (parts[2]) {
+      crumbs.push({ label: "Question set", href: null, icon: "clipboard" });
+    }
     return crumbs;
   }
 

@@ -18,7 +18,6 @@ export default async function DashboardLayout({
     <DashboardFrame
       name={session.user.name || "User"}
       email={session.user.email}
-      isAdmin={session.user.isAdmin}
     >
       {children}
     </DashboardFrame>

@@ -5,7 +5,7 @@ import {
   verificationSubmittedAdminEmail,
   verificationSubmittedUserEmail,
 } from "@/server/emails/templates/verification-submitted";
-import { createNotification } from "@/server/services/notifications";
+import { createNotification, notifyAdmins } from "@/server/services/notifications";
 import { storeUpload } from "@/server/uploads/store";
 
 export async function getKyc(userId: string) {
@@ -88,6 +88,12 @@ export async function submitKyc(userId: string, payload: KycInput) {
       govIdUrl: kyc.govIdUrl,
     });
     await emailAdmins(adminTpl.subject, adminTpl.html);
+
+    await notifyAdmins({
+      title: "New verification submitted",
+      message: `${user.name} submitted business verification for review.`,
+      href: `/admin/users/${userId}/verification`,
+    });
   }
 
   await createNotification({

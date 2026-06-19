@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import type { ServiceRequestInput } from "@/features/service-requests/types";
+import { notifyAdmins } from "@/server/services/notifications";
 
 export async function getServiceRequests(userId: string) {
   return prisma.serviceRequest.findMany({
@@ -22,6 +23,17 @@ export async function createServiceRequest(userId: string, payload: ServiceReque
       budget: payload.budget,
       timeline: payload.timeline,
     },
+  });
+
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { name: true },
+  });
+
+  await notifyAdmins({
+    title: "New service request",
+    message: `${user?.name ?? "A client"} submitted a ${payload.serviceType} request.`,
+    href: `/admin/requests/${request.id}`,
   });
 
   return { ok: true as const, request };

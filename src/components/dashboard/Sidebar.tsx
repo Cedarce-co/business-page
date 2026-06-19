@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, FileCheck2, UserRoundCog, Shield, LogOut, ClipboardList } from "lucide-react";
+import { Home, FileCheck2, UserRoundCog, LogOut, ClipboardList } from "lucide-react";
 import { signOut } from "next-auth/react";
 import NotificationBell from "@/components/dashboard/NotificationBell";
 
@@ -17,14 +17,12 @@ export default function Sidebar({
   name,
   email,
   image,
-  isAdmin,
   mobile = false,
   onNavigate,
 }: {
   name: string;
   email: string;
   image: string | null;
-  isAdmin: boolean;
   mobile?: boolean;
   onNavigate?: () => void;
 }) {
@@ -61,10 +59,7 @@ export default function Sidebar({
       </div>
 
       <nav className="space-y-2">
-        {[
-          ...items,
-          ...(isAdmin ? [{ href: "/admin", label: "Admin", icon: Shield }] : []),
-        ].map(({ href, label, icon: Icon }) => {
+        {items.map(({ href, label, icon: Icon }) => {
           const itemPath = href.split("?")[0] ?? href;
           const active =
             itemPath === "/dashboard"

@@ -72,6 +72,12 @@ export default async function AdminDashboardPage() {
         <div className="rounded-2xl border border-slate-200 bg-white p-4">
           <h2 className="text-lg font-bold text-slate-900">Quick links</h2>
           <div className="mt-3 space-y-2">
+            <Link href="/admin/verifications" className="block rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-900 hover:bg-slate-50">
+              Pending verifications
+            </Link>
+            <Link href="/admin/requests" className="block rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-900 hover:bg-slate-50">
+              All service requests
+            </Link>
             <Link href="/admin/users" className="block rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-900 hover:bg-slate-50">
               View users (with filters)
             </Link>

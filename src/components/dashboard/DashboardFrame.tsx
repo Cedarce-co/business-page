@@ -9,14 +9,12 @@ import { Menu, X } from "lucide-react";
 export type DashboardFrameProps = {
   name: string;
   email: string;
-  isAdmin: boolean;
   children: React.ReactNode;
 };
 
 export default function DashboardFrame({
   name,
   email,
-  isAdmin,
   children,
 }: DashboardFrameProps) {
   const [open, setOpen] = useState(false);
@@ -49,7 +47,7 @@ export default function DashboardFrame({
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_20%_10%,rgba(59,130,246,0.10),transparent_36%),radial-gradient(circle_at_90%_0%,rgba(16,185,129,0.08),transparent_40%),linear-gradient(180deg,#f8fafc_0%,#ffffff_70%)] lg:flex">
       <div className="hidden lg:block">
-        <Sidebar name={name} email={email} image={image} isAdmin={isAdmin} />
+        <Sidebar name={name} email={email} image={image} />
       </div>
 
       <div className="sticky top-0 z-30 flex items-center justify-between border-b border-slate-200 bg-white/80 px-4 py-3 backdrop-blur lg:hidden">
@@ -100,7 +98,7 @@ export default function DashboardFrame({
                   <X className="h-4 w-4" />
                 </button>
               </div>
-              <Sidebar name={name} email={email} image={image} isAdmin={isAdmin} onNavigate={() => setOpen(false)} mobile />
+              <Sidebar name={name} email={email} image={image} onNavigate={() => setOpen(false)} mobile />
             </motion.div>
           </motion.div>
         ) : null}

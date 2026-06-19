@@ -1,3 +1,5 @@
+import AdminSessionProvider from "@/components/admin/AdminSessionProvider";
+
 export const dynamic = "force-dynamic";
 
 export default async function AdminLayout({
@@ -5,5 +7,5 @@ export default async function AdminLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <>{children}</>;
+  return <AdminSessionProvider>{children}</AdminSessionProvider>;
 }

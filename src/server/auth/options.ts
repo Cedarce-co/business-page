@@ -2,8 +2,8 @@ import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { z } from "zod";
 import { prisma } from "@/server/database/prisma";
-import { validateAdminLogin, validateCredentials } from "@/server/services/users";
-import { isAdminEmail } from "@/lib/admin";
+import { validateCredentials } from "@/server/services/users";
+import { USER_AUTH_COOKIE, sessionCookieOptions } from "@/lib/auth/cookies";
 
 const credentialsSchema = z.object({
   email: z.string().email(),
@@ -17,6 +17,12 @@ export const authOptions: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
+  cookies: {
+    sessionToken: {
+      name: USER_AUTH_COOKIE,
+      options: sessionCookieOptions(),
+    },
+  },
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -27,8 +33,6 @@ export const authOptions: NextAuthOptions = {
       async authorize(rawCredentials) {
         const parsed = credentialsSchema.safeParse(rawCredentials);
         if (!parsed.success) return null;
-        const admin = await validateAdminLogin(parsed.data.email, parsed.data.password);
-        if (admin) return admin;
         return validateCredentials(parsed.data.email, parsed.data.password);
       },
     }),
@@ -38,7 +42,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.uid = (user as { id: string }).id;
         token.kycComplete = Boolean((user as { kycComplete?: boolean }).kycComplete);
-        token.isAdmin = isAdminEmail((user as { email?: string | null }).email);
+        token.isAdmin = false;
       }
 
       if (token.uid) {
@@ -50,7 +54,7 @@ export const authOptions: NextAuthOptions = {
         token.email = freshUser?.email ?? token.email;
         token.picture = freshUser?.image ?? token.picture;
         token.kycComplete = freshUser?.kyc?.status === "APPROVED";
-        token.isAdmin = isAdminEmail(freshUser?.email);
+        token.isAdmin = false;
       }
 
       return token;

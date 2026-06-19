@@ -187,3 +187,37 @@ export async function reviewServiceRequest(input: {
 
   return row;
 }
+
+export async function listPendingVerifications() {
+  const exclude = adminEmails();
+  return prisma.user.findMany({
+    where: {
+      ...(exclude.length ? { email: { notIn: exclude } } : {}),
+      kyc: { status: { in: ["SUBMITTED", "INVALID_INFO"] } },
+    },
+    include: {
+      kyc: true,
+      profile: true,
+    },
+    orderBy: { kyc: { submittedAt: "desc" } },
+    take: 100,
+  });
+}
+
+export async function listAdminServiceRequests(status?: string | null) {
+  const exclude = adminEmails();
+  const normalized =
+    status && status !== "all" ? status : null;
+
+  return prisma.serviceRequest.findMany({
+    where: {
+      ...(exclude.length ? { user: { email: { notIn: exclude } } } : {}),
+      ...(normalized ? { status: normalized as ServiceRequestStatus } : {}),
+    },
+    include: {
+      user: { select: { id: true, name: true, email: true } },
+    },
+    orderBy: { createdAt: "desc" },
+    take: 100,
+  });
+}

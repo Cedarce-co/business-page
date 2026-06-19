@@ -22,7 +22,7 @@ export default function AdminLogin() {
 
   async function submit() {
     setLoading(true);
-    const result = await signIn("credentials", { email, password, redirect: false });
+    const result = await signIn("admin-credentials", { email, password, redirect: false });
     setLoading(false);
 
     if (result?.error) {

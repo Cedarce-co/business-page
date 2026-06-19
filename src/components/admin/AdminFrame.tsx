@@ -2,17 +2,28 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, ClipboardList, LogOut, Menu, X } from "lucide-react";
+import { LayoutDashboard, Users, ClipboardList, LogOut, Menu, X, FileCheck2 } from "lucide-react";
 import WayfindingStrip from "@/components/navigation/WayfindingStrip";
+import AdminNotificationBell from "@/components/admin/AdminNotificationBell";
 import { signOut } from "next-auth/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 
 const nav = [
   { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/verifications", label: "Verifications", icon: FileCheck2 },
+  { href: "/admin/requests", label: "Service requests", icon: ClipboardList },
   { href: "/admin/users", label: "Users", icon: Users },
   { href: "/admin/questions", label: "Intake questions", icon: ClipboardList },
 ];
+
+function isNavActive(pathname: string, href: string) {
+  if (href === "/admin/dashboard") return pathname === "/admin/dashboard";
+  if (href === "/admin/requests") {
+    return pathname === "/admin/requests" || pathname.startsWith("/admin/requests/");
+  }
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
 
 function NavLinks({
   pathname,
@@ -26,10 +37,7 @@ function NavLinks({
   return (
     <nav className="space-y-2">
       {nav.map(({ href, label, icon: Icon }) => {
-        const active =
-          href === "/admin/dashboard"
-            ? pathname === "/admin/dashboard" || pathname.startsWith("/admin/requests/")
-            : pathname === href || pathname.startsWith(`${href}/`);
+        const active = isNavActive(pathname, href);
         return (
           <Link
             key={href}
@@ -64,9 +72,12 @@ export default function AdminFrame({
       <div className="lg:flex">
         <div className="hidden lg:block">
           <aside className="sticky top-0 h-screen w-80 shrink-0 border-r border-slate-200 bg-white/90 p-4 backdrop-blur">
-            <div className="mb-4">
-              <p className="text-xs font-semibold uppercase tracking-[0.26em] text-slate-500">Operations</p>
-              <p className="mt-1 text-lg font-black text-slate-900">Admin</p>
+            <div className="mb-4 flex items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-[0.26em] text-slate-500">Operations</p>
+                <p className="mt-1 text-lg font-black text-slate-900">Admin</p>
+              </div>
+              <AdminNotificationBell />
             </div>
 
             <NavLinks pathname={pathname} />
@@ -82,7 +93,7 @@ export default function AdminFrame({
           </aside>
         </div>
 
-        <div className="sticky top-0 z-30 flex items-center justify-between border-b border-slate-200 bg-white/90 px-4 py-3 backdrop-blur lg:hidden">
+        <div className="sticky top-0 z-30 flex items-center justify-between gap-3 border-b border-slate-200 bg-white/90 px-4 py-3 backdrop-blur lg:hidden">
           <button
             type="button"
             onClick={() => setOpen(true)}
@@ -92,6 +103,7 @@ export default function AdminFrame({
             Menu
           </button>
           <p className="text-sm font-bold text-slate-900">Admin</p>
+          <AdminNotificationBell />
         </div>
 
         <AnimatePresence>

@@ -1,10 +1,15 @@
 import type { NextRequest } from "next/server";
 import { getToken } from "next-auth/jwt";
+import { ADMIN_AUTH_COOKIE, USER_AUTH_COOKIE } from "@/lib/auth/cookies";
 import { protectRoutes } from "@/server/middleware/protect-routes";
 
 export async function middleware(request: NextRequest) {
-  const token = await getToken({ req: request, secret: process.env.NEXTAUTH_SECRET });
-  return protectRoutes(request, token);
+  const secret = process.env.NEXTAUTH_SECRET;
+  const [userToken, adminToken] = await Promise.all([
+    getToken({ req: request, secret, cookieName: USER_AUTH_COOKIE }),
+    getToken({ req: request, secret, cookieName: ADMIN_AUTH_COOKIE }),
+  ]);
+  return protectRoutes(request, userToken, adminToken);
 }
 
 export const config = {
