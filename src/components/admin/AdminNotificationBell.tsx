@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Bell, X } from "lucide-react";
+import toast from "react-hot-toast";
 import Modal from "@/components/ui/Modal";
 
 type NotificationItem = {
@@ -14,6 +16,7 @@ type NotificationItem = {
 };
 
 export default function AdminNotificationBell() {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [items, setItems] = useState<NotificationItem[]>([]);
@@ -41,6 +44,17 @@ export default function AdminNotificationBell() {
       body: JSON.stringify({ id, action }),
     });
     await refresh();
+  }
+
+  async function openNotification(n: NotificationItem) {
+    if (!n.href) return;
+    if (!n.href.startsWith("/admin")) {
+      toast.error("This notification is not linked to an admin page.");
+      return;
+    }
+    await update(n.id, "read");
+    setOpen(false);
+    router.push(n.href);
   }
 
   useEffect(() => {
@@ -98,13 +112,13 @@ export default function AdminNotificationBell() {
                     {n.message ? <p className="mt-1 text-sm text-slate-700">{n.message}</p> : null}
                     <p className="mt-2 text-xs text-slate-500">{new Date(n.createdAt).toLocaleString()}</p>
                     {n.href ? (
-                      <a
-                        href={n.href}
+                      <button
+                        type="button"
                         className="mt-2 inline-block text-sm font-semibold text-slate-900 underline underline-offset-4"
-                        onClick={() => update(n.id, "read")}
+                        onClick={() => void openNotification(n)}
                       >
                         View details
-                      </a>
+                      </button>
                     ) : null}
                   </div>
                   <button

@@ -14,16 +14,30 @@ import type { SignupInput } from "@/features/auth/types";
 const baseInput =
   "w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-white outline-none placeholder:text-slate-300 focus:border-cyan-300";
 
+const emptyForm: SignupInput = {
+  name: "",
+  email: "",
+  password: "",
+  phone: "",
+  address: "",
+  city: "",
+  country: "",
+};
+
 export default function SignupFlow() {
   const router = useRouter();
   const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [form, setForm] = useState<SignupInput>({ name: "", email: "", password: "" });
+  const [form, setForm] = useState<SignupInput>(emptyForm);
 
   const canContinue = useMemo(() => {
     if (step === 0) return form.name.trim().length >= 2;
     if (step === 1) return /\S+@\S+\.\S+/.test(form.email);
+    if (step === 2) {
+      const phone = form.phone?.trim() ?? "";
+      return phone.length >= 7 && (form.city?.trim().length ?? 0) >= 2 && (form.address?.trim().length ?? 0) >= 3;
+    }
     return form.password.length >= 8;
   }, [form, step]);
 
@@ -54,7 +68,7 @@ export default function SignupFlow() {
   return (
     <div>
       <div className="mb-7 flex items-center gap-2">
-        {[0, 1, 2].map((i) => (
+        {[0, 1, 2, 3].map((i) => (
           <div key={i} className={`h-2 flex-1 rounded-full ${i <= step ? "bg-cyan-300" : "bg-white/20"}`} />
         ))}
       </div>
@@ -70,7 +84,7 @@ export default function SignupFlow() {
         >
           {step === 0 ? (
             <>
-              <p className="text-sm text-slate-300">Step 1 of 3</p>
+              <p className="text-sm text-slate-300">Step 1 of 4</p>
               <input
                 className={baseInput}
                 placeholder="Full name"
@@ -82,7 +96,7 @@ export default function SignupFlow() {
 
           {step === 1 ? (
             <>
-              <p className="text-sm text-slate-300">Step 2 of 3 - Email address</p>
+              <p className="text-sm text-slate-300">Step 2 of 4 — Email address</p>
               <input
                 className={baseInput}
                 type="email"
@@ -95,7 +109,37 @@ export default function SignupFlow() {
 
           {step === 2 ? (
             <>
-              <p className="text-sm text-slate-300">Step 3 of 3 - Create a password</p>
+              <p className="text-sm text-slate-300">Step 3 of 4 — Contact details</p>
+              <input
+                className={baseInput}
+                placeholder="Phone / WhatsApp"
+                value={form.phone ?? ""}
+                onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
+              />
+              <input
+                className={baseInput}
+                placeholder="City"
+                value={form.city ?? ""}
+                onChange={(e) => setForm((p) => ({ ...p, city: e.target.value }))}
+              />
+              <input
+                className={baseInput}
+                placeholder="Address"
+                value={form.address ?? ""}
+                onChange={(e) => setForm((p) => ({ ...p, address: e.target.value }))}
+              />
+              <input
+                className={baseInput}
+                placeholder="Country (optional)"
+                value={form.country ?? ""}
+                onChange={(e) => setForm((p) => ({ ...p, country: e.target.value }))}
+              />
+            </>
+          ) : null}
+
+          {step === 3 ? (
+            <>
+              <p className="text-sm text-slate-300">Step 4 of 4 — Create a password</p>
               <PasswordInput
                 className={baseInput}
                 toggleClassName="text-slate-300 hover:text-white"
@@ -120,7 +164,7 @@ export default function SignupFlow() {
             Back
           </button>
         ) : null}
-        {step < 2 ? (
+        {step < 3 ? (
           <button
             className="w-full rounded-xl bg-white px-5 py-2.5 text-base font-semibold text-slate-900 disabled:opacity-50 sm:w-1/2"
             disabled={!canContinue}

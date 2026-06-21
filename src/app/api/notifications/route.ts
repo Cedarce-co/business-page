@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getApiUserId } from "@/lib/server-auth";
 import {
   dismissNotification,
-  listNotifications,
+  listUserNotifications,
   markNotificationRead,
 } from "@/server/services/notifications";
 import { z } from "zod";
@@ -11,7 +11,7 @@ export async function GET() {
   const userId = await getApiUserId();
   if (!userId) return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
 
-  const data = await listNotifications(userId);
+  const data = await listUserNotifications(userId);
   return NextResponse.json(data);
 }
 

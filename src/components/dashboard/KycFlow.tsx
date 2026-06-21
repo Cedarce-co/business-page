@@ -32,6 +32,10 @@ export default function KycFlow() {
   const [cacPreviewUrl, setCacPreviewUrl] = useState<string | null>(null);
   const [docModal, setDocModal] = useState<null | { title: string; url: string }>(null);
   const [form, setForm] = useState<KycInput>({
+    phone: "",
+    personalAddress: "",
+    personalCity: "",
+    personalCountry: "",
     businessName: "",
     businessAddress: "",
     businessCity: "",
@@ -43,42 +47,58 @@ export default function KycFlow() {
     govIdType: "",
     govIdFile: null,
     cacFile: null,
+    hasExistingGovId: false,
   });
 
   const locked = kycStatus === "APPROVED" || kycStatus === "REJECTED";
-  const canResubmit = !locked; // editable for SUBMITTED + INVALID_INFO + PENDING
+  const canResubmit = !locked;
+  const hasExistingGovId = Boolean(existingDocs.govIdUrl);
 
   const canContinue = useMemo(() => {
-    if (step === 0) return form.businessName.trim().length > 1;
+    if (step === 0) {
+      return (
+        form.phone.trim().length >= 7 &&
+        form.personalAddress.trim().length > 2 &&
+        form.personalCity.trim().length > 1 &&
+        form.businessName.trim().length > 1
+      );
+    }
     if (step === 1) return form.businessAddress.trim().length > 5;
     if (step === 2) return true;
-    return form.govIdType.trim().length > 1 && Boolean(form.govIdFile);
-  }, [form, step]);
+    return form.govIdType.trim().length > 1 && (Boolean(form.govIdFile) || hasExistingGovId);
+  }, [form, step, hasExistingGovId]);
 
   async function prefill() {
     setPrefilling(true);
     try {
       const res = await fetch("/api/kyc", { cache: "no-store" });
       const data = await res.json().catch(() => ({}));
+      if (!res.ok) return;
+
       const kyc = (data as { kyc?: any }).kyc ?? null;
-      if (!kyc) return;
+      const contact = (data as { contact?: any }).contact ?? null;
 
-      setKycStatus(kyc.status ?? "PENDING");
-      setExistingDocs({ govIdUrl: kyc.govIdUrl ?? null, cacUrl: kyc.cacUrl ?? null });
+      setKycStatus(kyc?.status ?? "PENDING");
+      if (kyc) {
+        setExistingDocs({ govIdUrl: kyc.govIdUrl ?? null, cacUrl: kyc.cacUrl ?? null });
+      }
 
-      // Prefill only when user has a record (under review / invalid / etc.)
       setForm((p) => ({
         ...p,
-        businessName: kyc.businessName ?? p.businessName,
-        businessAddress: kyc.businessAddress ?? p.businessAddress,
-        businessCity: kyc.businessCity ?? p.businessCity,
-        businessState: kyc.businessState ?? p.businessState,
-        businessWebsite: kyc.businessWebsite ?? p.businessWebsite,
-        businessEmail: kyc.businessEmail ?? p.businessEmail,
-        socialHandle: kyc.socialHandle ?? p.socialHandle,
-        cacNumber: kyc.cacNumber ?? p.cacNumber,
-        govIdType: kyc.govIdType ?? p.govIdType,
-        // Files can't be prefilled in browsers; user can re-upload if changing
+        phone: contact?.phone ?? p.phone,
+        personalAddress: contact?.personalAddress ?? kyc?.address ?? p.personalAddress,
+        personalCity: contact?.personalCity ?? p.personalCity,
+        personalCountry: contact?.personalCountry ?? p.personalCountry,
+        businessName: kyc?.businessName ?? p.businessName,
+        businessAddress: kyc?.businessAddress ?? p.businessAddress,
+        businessCity: kyc?.businessCity ?? p.businessCity,
+        businessState: kyc?.businessState ?? p.businessState,
+        businessWebsite: kyc?.businessWebsite ?? p.businessWebsite,
+        businessEmail: kyc?.businessEmail ?? p.businessEmail,
+        socialHandle: kyc?.socialHandle ?? p.socialHandle,
+        cacNumber: kyc?.cacNumber ?? p.cacNumber,
+        govIdType: kyc?.govIdType ?? p.govIdType,
+        hasExistingGovId: Boolean(kyc?.govIdUrl),
       }));
     } finally {
       setPrefilling(false);
@@ -98,12 +118,12 @@ export default function KycFlow() {
   }, [govIdPreviewUrl, cacPreviewUrl]);
 
   async function submit() {
-    if (!form.govIdFile) return;
+    if (!form.govIdFile && !hasExistingGovId) return;
     if (!canResubmit) return;
     setLoading(true);
     setError("");
     try {
-      await submitKyc(form);
+      await submitKyc({ ...form, hasExistingGovId });
       toast.success("Verification submitted.");
       router.push("/dashboard");
       router.refresh();
@@ -147,7 +167,38 @@ export default function KycFlow() {
         >
           {step === 0 ? (
             <>
-              <h2 className="text-xl font-bold text-slate-900">Business details</h2>
+              <h2 className="text-xl font-bold text-slate-900">Contact & business</h2>
+              <p className="text-sm text-slate-600">Your personal contact details and primary business information.</p>
+              <input
+                className={inputClass}
+                placeholder="Phone / WhatsApp"
+                value={form.phone}
+                disabled={locked}
+                onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
+              />
+              <input
+                className={inputClass}
+                placeholder="Residential address"
+                value={form.personalAddress}
+                disabled={locked}
+                onChange={(e) => setForm((p) => ({ ...p, personalAddress: e.target.value }))}
+              />
+              <div className="grid gap-3 sm:grid-cols-2">
+                <input
+                  className={inputClass}
+                  placeholder="City"
+                  value={form.personalCity}
+                  disabled={locked}
+                  onChange={(e) => setForm((p) => ({ ...p, personalCity: e.target.value }))}
+                />
+                <input
+                  className={inputClass}
+                  placeholder="Country (optional)"
+                  value={form.personalCountry ?? ""}
+                  disabled={locked}
+                  onChange={(e) => setForm((p) => ({ ...p, personalCountry: e.target.value }))}
+                />
+              </div>
               <input
                 className={inputClass}
                 placeholder="Business name"
@@ -158,14 +209,14 @@ export default function KycFlow() {
               <div className="grid gap-3 sm:grid-cols-2">
                 <input
                   className={inputClass}
-                  placeholder="City"
+                  placeholder="Business city"
                   value={form.businessCity}
                   disabled={locked}
                   onChange={(e) => setForm((p) => ({ ...p, businessCity: e.target.value }))}
                 />
                 <input
                   className={inputClass}
-                  placeholder="State"
+                  placeholder="Business state"
                   value={form.businessState}
                   disabled={locked}
                   onChange={(e) => setForm((p) => ({ ...p, businessState: e.target.value }))}

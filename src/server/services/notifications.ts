@@ -34,13 +34,17 @@ export async function notifyAdmins(input: {
 }) {
   const userIds = await getAdminRecipientUserIds();
   if (userIds.length === 0) return;
+
+  const href =
+    input.href && input.href.startsWith("/admin") ? input.href : input.href ? `/admin${input.href}` : null;
+
   await Promise.all(
     userIds.map((userId) =>
       createNotification({
         userId,
         title: input.title,
         message: input.message,
-        href: input.href,
+        href,
       }),
     ),
   );
@@ -54,6 +58,50 @@ export async function listNotifications(userId: string) {
   });
   const unreadCount = await prisma.notification.count({
     where: { userId, dismissedAt: null, readAt: null },
+  });
+  return { items, unreadCount };
+}
+
+/** Admin console: only operational links under /admin (avoids /dashboard redirects). */
+export async function listAdminNotifications(userId: string) {
+  const items = await prisma.notification.findMany({
+    where: {
+      userId,
+      dismissedAt: null,
+      OR: [{ href: null }, { href: { startsWith: "/admin" } }],
+    },
+    orderBy: { createdAt: "desc" },
+    take: 20,
+  });
+  const unreadCount = await prisma.notification.count({
+    where: {
+      userId,
+      dismissedAt: null,
+      readAt: null,
+      OR: [{ href: null }, { href: { startsWith: "/admin" } }],
+    },
+  });
+  return { items, unreadCount };
+}
+
+/** User portal: hide admin-only notification links. */
+export async function listUserNotifications(userId: string) {
+  const items = await prisma.notification.findMany({
+    where: {
+      userId,
+      dismissedAt: null,
+      NOT: { href: { startsWith: "/admin" } },
+    },
+    orderBy: { createdAt: "desc" },
+    take: 20,
+  });
+  const unreadCount = await prisma.notification.count({
+    where: {
+      userId,
+      dismissedAt: null,
+      readAt: null,
+      NOT: { href: { startsWith: "/admin" } },
+    },
   });
   return { items, unreadCount };
 }

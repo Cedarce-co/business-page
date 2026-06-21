@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getApiAdminUser } from "@/lib/server-auth";
 import {
   dismissNotification,
-  listNotifications,
+  listAdminNotifications,
   markNotificationRead,
 } from "@/server/services/notifications";
 import { z } from "zod";
@@ -11,7 +11,7 @@ export async function GET() {
   const admin = await getApiAdminUser();
   if (!admin?.id) return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
 
-  const data = await listNotifications(admin.id);
+  const data = await listAdminNotifications(admin.id);
   return NextResponse.json(data);
 }
 

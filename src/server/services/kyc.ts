@@ -12,20 +12,35 @@ export async function getKyc(userId: string) {
   return prisma.kyc.findUnique({ where: { userId } });
 }
 
+export async function getKycWithContact(userId: string) {
+  return prisma.user.findUnique({
+    where: { id: userId },
+    select: {
+      phone: true,
+      profile: { select: { address: true, city: true, country: true } },
+      kyc: true,
+    },
+  });
+}
+
 export async function submitKyc(userId: string, payload: KycInput) {
-  if (!payload.govIdFile) {
+  const existing = await prisma.kyc.findUnique({ where: { userId } });
+
+  if (!payload.govIdFile && !existing?.govIdUrl && !payload.hasExistingGovId) {
     throw new Error("Government ID file is required.");
   }
 
-  let govIdUrl = "";
-  let cacUrl: string | null = null;
+  let govIdUrl = existing?.govIdUrl ?? "";
+  let cacUrl: string | null = existing?.cacUrl ?? null;
 
-  govIdUrl = await storeUpload({
-    folder: "kyc",
-    userId,
-    file: payload.govIdFile,
-    access: "private",
-  });
+  if (payload.govIdFile) {
+    govIdUrl = await storeUpload({
+      folder: "kyc",
+      userId,
+      file: payload.govIdFile,
+      access: "private",
+    });
+  }
 
   if (payload.cacFile) {
     cacUrl = await storeUpload({
@@ -36,44 +51,75 @@ export async function submitKyc(userId: string, payload: KycInput) {
     });
   }
 
-  const kyc = await prisma.kyc.upsert({
-    where: { userId },
-    create: {
-      userId,
-      status: "SUBMITTED",
-      businessName: payload.businessName,
-      businessAddress: payload.businessAddress,
-      businessCity: payload.businessCity,
-      businessState: payload.businessState,
-      businessWebsite: payload.businessWebsite || null,
-      businessEmail: payload.businessEmail || null,
-      socialHandle: payload.socialHandle || null,
-      cacNumber: payload.cacNumber || null,
-      cacUrl,
-      govIdType: payload.govIdType,
-      govIdUrl,
-      submittedAt: new Date(),
-    },
-    update: {
-      status: "SUBMITTED",
-      businessName: payload.businessName,
-      businessAddress: payload.businessAddress,
-      businessCity: payload.businessCity,
-      businessState: payload.businessState,
-      businessWebsite: payload.businessWebsite || null,
-      businessEmail: payload.businessEmail || null,
-      socialHandle: payload.socialHandle || null,
-      cacNumber: payload.cacNumber || null,
-      cacUrl,
-      govIdType: payload.govIdType,
-      govIdUrl,
-      submittedAt: new Date(),
-    },
+  if (!govIdUrl) {
+    throw new Error("Government ID file is required.");
+  }
+
+  const kyc = await prisma.$transaction(async (tx) => {
+    await tx.user.update({
+      where: { id: userId },
+      data: {
+        phone: payload.phone.trim(),
+        profile: {
+          upsert: {
+            create: {
+              address: payload.personalAddress.trim(),
+              city: payload.personalCity.trim(),
+              country: payload.personalCountry?.trim() || null,
+            },
+            update: {
+              address: payload.personalAddress.trim(),
+              city: payload.personalCity.trim(),
+              country: payload.personalCountry?.trim() || null,
+            },
+          },
+        },
+      },
+    });
+
+    return tx.kyc.upsert({
+      where: { userId },
+      create: {
+        userId,
+        status: "SUBMITTED",
+        address: payload.personalAddress.trim(),
+        businessName: payload.businessName,
+        businessAddress: payload.businessAddress,
+        businessCity: payload.businessCity,
+        businessState: payload.businessState,
+        businessWebsite: payload.businessWebsite || null,
+        businessEmail: payload.businessEmail || null,
+        socialHandle: payload.socialHandle || null,
+        cacNumber: payload.cacNumber || null,
+        cacUrl,
+        govIdType: payload.govIdType,
+        govIdUrl,
+        submittedAt: new Date(),
+      },
+      update: {
+        status: "SUBMITTED",
+        address: payload.personalAddress.trim(),
+        businessName: payload.businessName,
+        businessAddress: payload.businessAddress,
+        businessCity: payload.businessCity,
+        businessState: payload.businessState,
+        businessWebsite: payload.businessWebsite || null,
+        businessEmail: payload.businessEmail || null,
+        socialHandle: payload.socialHandle || null,
+        cacNumber: payload.cacNumber || null,
+        cacUrl,
+        govIdType: payload.govIdType,
+        govIdUrl,
+        submittedAt: new Date(),
+        reviewNote: null,
+        reviewedAt: null,
+      },
+    });
   });
 
   const user = await prisma.user.findUnique({
     where: { id: userId },
-    select: { name: true, email: true },
+    select: { name: true, email: true, phone: true, profile: true },
   });
   if (user?.email) {
     const tpl = verificationSubmittedUserEmail();
@@ -82,8 +128,8 @@ export async function submitKyc(userId: string, payload: KycInput) {
     const adminTpl = verificationSubmittedAdminEmail({
       name: user.name,
       email: user.email,
-        nationality: kyc.nationality,
-        address: kyc.address,
+      nationality: user.profile?.country ?? null,
+      address: payload.personalAddress,
       govIdType: kyc.govIdType,
       govIdUrl: kyc.govIdUrl,
     });
@@ -100,7 +146,7 @@ export async function submitKyc(userId: string, payload: KycInput) {
     userId,
     title: "Verification submitted",
     message: "Your business verification was submitted and is now under review.",
-    href: "/dashboard",
+    href: "/dashboard/kyc",
   });
 
   return kyc;

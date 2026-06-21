@@ -64,8 +64,11 @@ export default function VerificationReviewClient({
     id: string;
     name: string;
     email: string;
+    phone?: string | null;
+    profile?: { address?: string | null; city?: string | null; country?: string | null } | null;
     kyc: null | {
       status: string;
+      address?: string | null;
       businessName?: string | null;
       businessAddress?: string | null;
       businessCity?: string | null;
@@ -137,6 +140,15 @@ export default function VerificationReviewClient({
         </div>
 
         <div className="mt-4 grid gap-2 text-sm text-slate-700">
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Personal contact</p>
+          <p>Phone / WhatsApp: {user.phone || "N/A"}</p>
+          <p>Residential address: {user.profile?.address || user.kyc?.address || "N/A"}</p>
+          <p>City: {user.profile?.city || "N/A"}</p>
+          <p>Country: {user.profile?.country || "N/A"}</p>
+        </div>
+
+        <div className="mt-4 grid gap-2 text-sm text-slate-700">
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Business details</p>
           <p>Business name: {user.kyc.businessName || "N/A"}</p>
           <p>Business address: {user.kyc.businessAddress || "N/A"}</p>
           <p>City / State: {(user.kyc.businessCity || "N/A") + " / " + (user.kyc.businessState || "N/A")}</p>

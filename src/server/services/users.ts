@@ -16,7 +16,14 @@ export async function createUser(payload: SignupInput) {
       name,
       email,
       passwordHash,
-      profile: { create: {} },
+      phone: payload.phone?.trim() || null,
+      profile: {
+        create: {
+          address: payload.address?.trim() || null,
+          city: payload.city?.trim() || null,
+          country: payload.country?.trim() || null,
+        },
+      },
     },
     select: { id: true, email: true, name: true },
   });

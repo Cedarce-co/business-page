@@ -13,6 +13,10 @@ function optionalFormString() {
 }
 
 export const kycTextSchema = z.object({
+  phone: z.string().min(7).max(20),
+  personalAddress: z.string().min(3),
+  personalCity: z.string().min(2),
+  personalCountry: optionalFormString(),
   businessName: z.string().min(2),
   businessAddress: z.string().min(5),
   businessCity: z.string().min(2),
@@ -27,4 +31,6 @@ export const kycTextSchema = z.object({
 export type KycInput = z.infer<typeof kycTextSchema> & {
   govIdFile: File | null;
   cacFile?: File | null;
+  /** Set when the user already uploaded an ID and is not replacing it. */
+  hasExistingGovId?: boolean;
 };

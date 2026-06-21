@@ -30,6 +30,10 @@ export default async function AdminVerificationDetailPage({ params }: { params: 
           id: user.id,
           name: user.name,
           email: user.email,
+          phone: user.phone,
+          profile: user.profile
+            ? { address: user.profile.address, city: user.profile.city, country: user.profile.country }
+            : null,
           kyc: user.kyc
             ? {
                 status: user.kyc.status,
