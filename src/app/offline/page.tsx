@@ -84,7 +84,7 @@ export default function OfflinePage() {
         </div>
 
         <p className="mt-8 text-xs text-cliq-text-muted">
-          Cedarce — Business websites, payments &amp; automation
+          Cedarce: Business websites, payments &amp; automation
         </p>
       </div>
     </section>

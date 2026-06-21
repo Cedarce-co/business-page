@@ -1,7 +1,7 @@
 export const PRODUCT_MODULES = [
   {
     title: "Client portal",
-    desc: "One dashboard for verification, service requests, profile, and delivery updates — no scattered WhatsApp threads.",
+    desc: "One dashboard for verification, service requests, profile, and delivery updates, with no scattered WhatsApp threads.",
     icon: "layout" as const,
   },
   {
@@ -25,7 +25,7 @@ export const PRODUCT_FLOW = [
   {
     step: "01",
     title: "Create account",
-    body: "Clients sign up, add contact details, and land in a guided portal — not a generic contact form.",
+    body: "Clients sign up, add contact details, and land in a guided portal, not a generic contact form.",
   },
   {
     step: "02",
@@ -80,7 +80,7 @@ export const SOLUTION_SEGMENTS = [
   {
     id: "nonprofit",
     title: "Associations & member orgs",
-    pain: "Donations, dues, and event comms need trust and traceability — not ad-hoc bank transfers.",
+    pain: "Donations, dues, and event comms need trust and traceability, not ad-hoc bank transfers.",
     outcome: "Payments, invoicing, and bulk messaging with a professional public face members can rely on.",
     href: "/solutions/associations",
     cta: "Member-ready setup",

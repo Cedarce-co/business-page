@@ -13,6 +13,7 @@ const links = [
   { href: "/services", label: "Solutions" },
   { href: "/about", label: "Product" },
   { href: "/pricing", label: "Pricing" },
+  { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -47,7 +48,7 @@ const megaMenus: Record<string, MegaBlock> = {
     ],
     cardTag: "By stage",
     cardTitle: "Which situation sounds like yours?",
-    cardText: "Browse solutions for freelancers, micro-businesses, SMEs, and associations — mapped to the right service mix.",
+    cardText: "Browse solutions for freelancers, micro-businesses, SMEs, and associations, mapped to the right service mix.",
     cardCtaHref: "/services",
     cardCtaLabel: "Browse solutions",
     footerLink: "Talk to our team",
@@ -80,14 +81,14 @@ const megaMenus: Record<string, MegaBlock> = {
   Pricing: {
     leftTitle: "Pricing",
     leftItems: [
-      { name: "Company creators", desc: "Setup and launch support", href: "/pricing" },
-      { name: "Self-employed", desc: "Plans built for freelancers", href: "/pricing" },
-      { name: "Micro-businesses", desc: "1-9 team members", href: "/pricing" },
-      { name: "SMEs", desc: "Scale with confidence", href: "/pricing" },
+      { name: "Company creators", desc: "Setup and launch support", href: "/pricing/company-creators" },
+      { name: "Self-employed", desc: "Plans built for freelancers", href: "/pricing/self-employed" },
+      { name: "Micro-businesses", desc: "1-9 team members", href: "/pricing/micro-businesses" },
+      { name: "SMEs", desc: "Scale with confidence", href: "/pricing/smes" },
     ],
     rightTitle: "Compare",
     rightItems: [
-      { name: "Find the right plan", desc: "Compare features and limits", href: "/pricing" },
+      { name: "Find the right plan", desc: "Compare features and limits", href: "/pricing/compare-plans" },
       { name: "Need help choosing?", desc: "Speak with our team", href: "/contact" },
     ],
     cardTag: "Consultation",

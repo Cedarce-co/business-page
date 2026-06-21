@@ -31,6 +31,7 @@ export type WayfindingCrumb = {
 const SITE_SEGMENTS: Record<string, { label: string; icon: WayfindingIconKey }> = {
   about: { label: "Product", icon: "building" },
   pricing: { label: "Pricing", icon: "tag" },
+  faq: { label: "FAQ", icon: "book" },
   services: { label: "Solutions", icon: "layers" },
   product: { label: "Product", icon: "layers" },
   solutions: { label: "Solutions", icon: "clipboard" },
@@ -91,6 +92,12 @@ export function buildSiteCrumbs(pathname: string): WayfindingCrumb[] {
   if (parts[0] === "solutions" && parts[1]) {
     crumbs.push({ label: "Solutions", href: "/services", icon: "clipboard" });
     crumbs.push({ label: titleCase(parts[1]), href: null, icon: "clipboard" });
+    return crumbs;
+  }
+
+  if (parts[0] === "pricing" && parts[1]) {
+    crumbs.push({ label: "Pricing", href: "/pricing", icon: "tag" });
+    crumbs.push({ label: titleCase(parts[1]), href: null, icon: "tag" });
     return crumbs;
   }
 

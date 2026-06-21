@@ -31,14 +31,14 @@ export default function ContactPage() {
 
   return (
     <section className="bg-cliq-navy-900 pb-20 pt-0">
-      <div className="mx-auto max-w-[1200px] px-4 pt-10 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-[1200px] flex-col items-center px-4 pt-10 text-center sm:px-6 lg:px-8">
         <SectionLabel className="border border-cliq-navy-700 bg-cliq-navy-800 text-cliq-teal">
           Contact
         </SectionLabel>
-        <h1 className="mt-5 text-4xl font-black leading-tight text-white sm:text-5xl">
+        <h1 className="mt-5 max-w-3xl text-4xl font-black leading-tight text-white sm:text-5xl">
           Book your free consultation
         </h1>
-        <p className="mt-3 max-w-2xl text-white/70">
+        <p className="mt-3 max-w-3xl text-balance text-center text-white/70">
           Not sure where to start? That&apos;s exactly what this call is for. Tell us what you need. We&apos;ll respond with clear next steps. Your first consultation is completely free.
         </p>
       </div>

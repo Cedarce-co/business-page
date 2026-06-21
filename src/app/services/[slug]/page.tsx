@@ -28,33 +28,29 @@ export default async function ServiceDetailsPage({
   return (
     <>
       <section className="bg-cliq-navy-900 pb-20 pt-0">
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-[1200px] flex-col items-center px-4 text-center sm:px-6 lg:px-8">
           <p className="text-sm font-medium uppercase tracking-wider text-cliq-teal">Service</p>
-          <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-6">
-            <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/10">
-              <HeroIcon className="h-8 w-8 text-cliq-teal" aria-hidden />
-            </span>
-            <div className="min-w-0">
-              <h1 className="text-4xl font-black tracking-tight text-white lg:text-5xl">{service.name}</h1>
-              <p className="mt-2 text-xl font-semibold text-white/90">{detail.tagline}</p>
-              <p className="mt-4 max-w-3xl text-base leading-relaxed text-white/75">{detail.lead}</p>
-              <div className="mt-8 flex flex-wrap gap-3">
+          <span className="mt-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10">
+            <HeroIcon className="h-8 w-8 text-cliq-teal" aria-hidden />
+          </span>
+          <h1 className="mt-6 max-w-4xl text-4xl font-black tracking-tight text-white lg:text-5xl">{service.name}</h1>
+          <p className="mt-2 max-w-3xl text-balance text-center text-xl font-semibold text-white/90">{detail.tagline}</p>
+          <p className="mt-4 max-w-4xl text-balance text-center text-base leading-relaxed text-white/75">{detail.lead}</p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
                 <Button href={detail.primaryCta.href} variant="onBanner" className="rounded-xl px-6 py-3 text-sm font-bold">
                   {detail.primaryCta.label}
                 </Button>
                 <Button href={detail.secondaryCta.href} variant="onDark" className="rounded-xl px-6 py-3 text-sm font-bold">
                   {detail.secondaryCta.label}
                 </Button>
-              </div>
-            </div>
           </div>
         </div>
       </section>
 
       <section className="border-b border-cliq-gray-200 bg-white py-16 lg:py-20">
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-black text-cliq-text-heading lg:text-3xl">What you gain</h2>
-          <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <h2 className="text-center text-2xl font-black text-cliq-text-heading lg:text-3xl">What you gain</h2>
+          <ul className="mt-8 grid gap-4 text-left sm:grid-cols-2 lg:grid-cols-3">
             {detail.outcomes.map((line) => (
               <li
                 key={line}
@@ -127,12 +123,12 @@ export default async function ServiceDetailsPage({
       </section>
 
       <section className="bg-cliq-gray-100 py-16 lg:py-20">
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1200px] px-4 text-center sm:px-6 lg:px-8">
           <h3 className="text-2xl font-black text-cliq-text-heading">Related capabilities</h3>
-          <p className="mt-2 max-w-2xl text-sm text-cliq-text-muted">
+          <p className="mx-auto mt-2 max-w-2xl text-sm text-cliq-text-muted">
             Most clients combine services. Explore adjacent pillars or compare packages on pricing.
           </p>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
+          <div className="mt-8 grid gap-4 text-left md:grid-cols-3">
             {related.map((item) => (
               <Link
                 key={item.id}

@@ -96,7 +96,7 @@ export default function SignupFlow() {
 
           {step === 1 ? (
             <>
-              <p className="text-sm text-slate-300">Step 2 of 4 — Email address</p>
+              <p className="text-sm text-slate-300">Step 2 of 4: Email address</p>
               <input
                 className={baseInput}
                 type="email"
@@ -109,7 +109,7 @@ export default function SignupFlow() {
 
           {step === 2 ? (
             <>
-              <p className="text-sm text-slate-300">Step 3 of 4 — Contact details</p>
+              <p className="text-sm text-slate-300">Step 3 of 4: Contact details</p>
               <input
                 className={baseInput}
                 placeholder="Phone / WhatsApp"
@@ -139,7 +139,7 @@ export default function SignupFlow() {
 
           {step === 3 ? (
             <>
-              <p className="text-sm text-slate-300">Step 4 of 4 — Create a password</p>
+              <p className="text-sm text-slate-300">Step 4 of 4: Create a password</p>
               <PasswordInput
                 className={baseInput}
                 toggleClassName="text-slate-300 hover:text-white"

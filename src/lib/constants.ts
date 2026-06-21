@@ -54,6 +54,7 @@ export const SERVICES: Service[] = [
 export const PACKAGES = [
   {
     name: "Starter",
+    slug: "starter",
     price: "",
     subtitle: "Go professional - entry digital stack",
     badge: null,
@@ -71,6 +72,7 @@ export const PACKAGES = [
   },
   {
     name: "Business",
+    slug: "business",
     price: "",
     subtitle: "From informal to professional - complete digital setup",
     badge: "Most Popular",
@@ -89,6 +91,7 @@ export const PACKAGES = [
   },
   {
     name: "Enterprise",
+    slug: "enterprise",
     price: "",
     subtitle: "Custom scope, SLAs, and dedicated delivery - Tailored to your needs",
     badge: "Custom",

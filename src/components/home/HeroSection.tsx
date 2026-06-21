@@ -33,7 +33,7 @@ export default function HeroSection() {
             animate={floatLoop(0.2)}
             className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/20 bg-white/30 px-3 py-1 text-left text-[11px] font-semibold leading-tight text-cliq-text-body shadow-card shadow-slate-700/10 backdrop-blur-md backdrop-saturate-150 text-opacity-100 whitespace-nowrap sm:px-4 sm:py-2 sm:text-[13px] sm:whitespace-normal"
           >
-            <span className="sm:hidden">Your hustle is real—match it online.</span>
+            <span className="sm:hidden">Your hustle is real. Match it online.</span>
             <span className="hidden sm:inline">
               Your hustle is real. Your digital presence should match.
             </span>

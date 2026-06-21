@@ -17,6 +17,7 @@ import {
   Users,
   Zap,
 } from "lucide-react";
+import { allPricingSlugs, getPricingPage } from "@/lib/pricing-detail-pages";
 
 export type MarketingAccent = "teal" | "purple" | "emerald" | "amber" | "cyan" | "rose";
 
@@ -34,7 +35,7 @@ export type MarketingSection =
 
 export type MarketingPageConfig = {
   slug: string;
-  category: "product" | "solution";
+  category: "product" | "solution" | "pricing";
   title: string;
   eyebrow: string;
   tagline: string;
@@ -45,7 +46,7 @@ export type MarketingPageConfig = {
   primaryCta: { href: string; label: string };
   secondaryCta: { href: string; label: string };
   sections: MarketingSection[];
-  related: { slug: string; label: string; category: "product" | "solution" }[];
+  related: { slug: string; label: string; category: "product" | "solution" | "pricing" }[];
 };
 
 const consult = { href: "/contact", label: "Book a consult" } as const;
@@ -59,7 +60,7 @@ export const PRODUCT_PAGES: Record<string, MarketingPageConfig> = {
     eyebrow: "Digital setup",
     tagline: "Mobile-first pages that convert browsers into buyers",
     lead:
-      "We design and build fast, responsive sites and focused landing pages with clear offers, trust signals, and one obvious next step — book, call, pay, or request a quote.",
+      "We design and build fast, responsive sites and focused landing pages with clear offers, trust signals, and one obvious next step: book, call, pay, or request a quote.",
     heroVariant: "split",
     accent: "purple",
     icon: Globe,
@@ -120,7 +121,7 @@ export const PRODUCT_PAGES: Record<string, MarketingPageConfig> = {
     category: "product",
     title: "Domain & hosting",
     eyebrow: "Digital setup",
-    tagline: "Your name on the web — secured and managed",
+    tagline: "Your name on the web, secured and managed",
     lead:
       "We register your domain, configure DNS, provision SSL, and place your site on reliable hosting so uptime and security are handled before your first customer arrives.",
     heroVariant: "immersive",
@@ -149,7 +150,7 @@ export const PRODUCT_PAGES: Record<string, MarketingPageConfig> = {
         steps: [
           { title: "Choose & register", body: "We secure your .com.ng or global TLD and confirm registrant details." },
           { title: "Point & secure", body: "DNS to hosting, SSL issued, redirects from www/non-www sorted." },
-          { title: "Handover", body: "You get a simple runbook — what lives where and who to call." },
+          { title: "Handover", body: "You get a simple runbook: what lives where and who to call." },
         ],
       },
     ],
@@ -163,7 +164,7 @@ export const PRODUCT_PAGES: Record<string, MarketingPageConfig> = {
     category: "product",
     title: "Business email",
     eyebrow: "Digital setup",
-    tagline: "Inboxes on your domain — not your personal Gmail",
+    tagline: "Inboxes on your domain, not your personal Gmail",
     lead:
       "Branded addresses like hello@yourcompany.com signal legitimacy before the first sentence. We set up mailboxes, signatures, and authentication basics so messages land in inboxes, not spam.",
     heroVariant: "minimal",
@@ -181,7 +182,7 @@ export const PRODUCT_PAGES: Record<string, MarketingPageConfig> = {
         type: "bento",
         title: "Professional identity kit",
         items: [
-          { icon: "mail", title: "Role-based inboxes", body: "hello@, sales@, support@ — structured for teams of one or twenty." },
+          { icon: "mail", title: "Role-based inboxes", body: "hello@, sales@, support@, structured for teams of one or twenty." },
           { icon: "shield", title: "Authentication", body: "SPF/DKIM guidance so providers trust your domain." },
           { icon: "layers", title: "Signatures", body: "Templates that match your site and invoice branding." },
           { icon: "users", title: "Aliases & forwards", body: "Route enquiries to the right person without exposing personal numbers." },
@@ -203,7 +204,7 @@ export const PRODUCT_PAGES: Record<string, MarketingPageConfig> = {
     category: "product",
     title: "Payments integration",
     eyebrow: "Digital setup",
-    tagline: "Cards, bank transfer & mobile money — where customers pay",
+    tagline: "Cards, bank transfer & mobile money, where customers pay",
     lead:
       "We integrate Paystack, Flutterwave, or the gateway that fits your market so checkout on your site, payment links, and POS-style flows work without awkward manual confirmation.",
     heroVariant: "centered",
@@ -272,7 +273,7 @@ export const PRODUCT_PAGES: Record<string, MarketingPageConfig> = {
           { icon: "receipt", title: "Invoice templates", body: "Logo, tax lines, terms, and bank/gateway details consistent every time." },
           { icon: "credit", title: "Payment status", body: "See sent, viewed, paid without spreadsheet tracking." },
           { icon: "mail", title: "Delivery", body: "Email PDFs or share links clients can forward to finance." },
-          { icon: "zap", title: "Reminders", body: "Optional nudges before due dates — polite, branded, automated." },
+          { icon: "zap", title: "Reminders", body: "Optional nudges before due dates: polite, branded, automated." },
         ],
       },
       {
@@ -292,9 +293,9 @@ export const PRODUCT_PAGES: Record<string, MarketingPageConfig> = {
     category: "product",
     title: "Bulk messaging",
     eyebrow: "Growth tools",
-    tagline: "Email, WhatsApp & SMS — without copy-paste chaos",
+    tagline: "Email, WhatsApp & SMS, without copy-paste chaos",
     lead:
-      "Reach lists with structured campaigns: launches, payment reminders, event invites, and re-engagement — with templates, opt-outs, and links back to your site or checkout.",
+      "Reach lists with structured campaigns: launches, payment reminders, event invites, and re-engagement, with templates, opt-outs, and links back to your site or checkout.",
     heroVariant: "immersive",
     accent: "rose",
     icon: MessageSquare,
@@ -304,7 +305,7 @@ export const PRODUCT_PAGES: Record<string, MarketingPageConfig> = {
       {
         type: "split",
         title: "Campaigns, not blasts",
-        body: "We help you segment audiences, draft message frameworks, and connect sends to measurable actions — clicks, replies, or payments.",
+        body: "We help you segment audiences, draft message frameworks, and connect sends to measurable actions: clicks, replies, or payments.",
         panelTitle: "Channels",
         panelItems: ["Email newsletters", "WhatsApp broadcast flows", "SMS for time-sensitive alerts", "Trigger-based follow-ups"],
       },
@@ -320,7 +321,7 @@ export const PRODUCT_PAGES: Record<string, MarketingPageConfig> = {
       },
       {
         type: "quote",
-        text: "Structured WhatsApp reminders cut no-shows by more than half for a service business we onboarded — same list, better timing and copy.",
+        text: "Structured WhatsApp reminders cut no-shows by more than half for a service business we onboarded: same list, better timing and copy.",
         attribution: "Cedarce delivery team",
       },
     ],
@@ -334,9 +335,9 @@ export const PRODUCT_PAGES: Record<string, MarketingPageConfig> = {
     category: "product",
     title: "Marketing setup",
     eyebrow: "Growth tools",
-    tagline: "Instagram, TikTok & Google — found where buyers search",
+    tagline: "Instagram, TikTok & Google, found where buyers search",
     lead:
-      "We configure profiles, tracking, and landing paths so social traffic and search visits have somewhere credible to land — and you can see what's working.",
+      "We configure profiles, tracking, and landing paths so social traffic and search visits have somewhere credible to land, and you can see what's working.",
     heroVariant: "centered",
     accent: "purple",
     icon: Share2,
@@ -347,7 +348,7 @@ export const PRODUCT_PAGES: Record<string, MarketingPageConfig> = {
         type: "bento",
         title: "Presence that points home",
         items: [
-          { icon: "share", title: "Social profiles", body: "Bio links, highlights, and CTAs that route to your site — not endless DMs." },
+          { icon: "share", title: "Social profiles", body: "Bio links, highlights, and CTAs that route to your site, not endless DMs." },
           { icon: "globe", title: "Google Business", body: "Maps listing, hours, and review path for local discovery." },
           { icon: "zap", title: "Pixels & tags", body: "Basic analytics so ad spend isn't flying blind." },
           { icon: "layers", title: "Landing alignment", body: "Ad and post URLs match the promise on the page." },
@@ -381,7 +382,7 @@ export const PRODUCT_PAGES: Record<string, MarketingPageConfig> = {
     eyebrow: "Growth tools",
     tagline: "Hands-on onboarding so your team actually uses the stack",
     lead:
-      "Tools fail when only one person knows the clicks. We run practical sessions on your website admin, payments, email, and campaigns — with cheat sheets your team keeps.",
+      "Tools fail when only one person knows the clicks. We run practical sessions on your website admin, payments, email, and campaigns, with cheat sheets your team keeps.",
     heroVariant: "split",
     accent: "emerald",
     icon: GraduationCap,
@@ -391,7 +392,7 @@ export const PRODUCT_PAGES: Record<string, MarketingPageConfig> = {
       {
         type: "split",
         title: "Training that sticks",
-        body: "Sessions use your real accounts and scenarios — taking a payment, sending an invoice, posting an update — not generic slides.",
+        body: "Sessions use your real accounts and scenarios (taking a payment, sending an invoice, posting an update), not generic slides.",
         panelTitle: "Session topics",
         panelItems: ["Website & content updates", "Payment & invoice flows", "Email & signature standards", "Campaign sends & opt-outs"],
         reverse: true,
@@ -424,7 +425,7 @@ export const PRODUCT_PAGES: Record<string, MarketingPageConfig> = {
     eyebrow: "Growth tools",
     tagline: "Connect the tools you already use",
     lead:
-      "Spreadsheets, CRMs, accounting exports, webhooks — we map data between your site, payments, messaging, and back-office tools so information stops living in chat screenshots.",
+      "Spreadsheets, CRMs, accounting exports, webhooks: we map data between your site, payments, messaging, and back-office tools so information stops living in chat screenshots.",
     heroVariant: "immersive",
     accent: "cyan",
     icon: Layers,
@@ -471,7 +472,7 @@ export const SOLUTION_PAGES: Record<string, MarketingPageConfig> = {
     category: "solution",
     title: "Self-employed & freelancers",
     eyebrow: "Existing companies",
-    tagline: "Look like a company of one — without an agency retainer",
+    tagline: "Look like a company of one, without an agency retainer",
     lead:
       "You are the brand, but clients judge your website, email, and payment flow before they hire you. We package the essentials so you stop losing deals to 'DM for price'.",
     heroVariant: "minimal",
@@ -483,7 +484,7 @@ export const SOLUTION_PAGES: Record<string, MarketingPageConfig> = {
       {
         type: "pain-outcome",
         pain: "Leads ask for your website and you send a Linktree. Quotes go from personal email. Payments are 'transfer and send screenshot'.",
-        outcome: "A credible site, hello@yourname.com, and pay links — so clients treat you like a registered business.",
+        outcome: "A credible site, hello@yourname.com, and pay links, so clients treat you like a registered business.",
         bullets: ["Portfolio or service landing page", "Branded email + signature", "Payment link on every quote", "WhatsApp button that feels professional"],
       },
       {
@@ -516,7 +517,7 @@ export const SOLUTION_PAGES: Record<string, MarketingPageConfig> = {
     eyebrow: "Existing companies",
     tagline: "One small team, one digital front door",
     lead:
-      "When everyone wears multiple hats, follow-up slips. We connect web, payments, email, and campaigns so the team shares one system — not five WhatsApp groups.",
+      "When everyone wears multiple hats, follow-up slips. We connect web, payments, email, and campaigns so the team shares one system, not five WhatsApp groups.",
     heroVariant: "split",
     accent: "teal",
     icon: Users,
@@ -525,7 +526,7 @@ export const SOLUTION_PAGES: Record<string, MarketingPageConfig> = {
     sections: [
       {
         type: "pain-outcome",
-        pain: "Orders in DMs, invoices in Excel, marketing when someone 'has time'. New staff learn ops by shadowing — badly.",
+        pain: "Orders in DMs, invoices in Excel, marketing when someone 'has time'. New staff learn ops by shadowing, badly.",
         outcome: "Structured intake, branded comms, and campaigns that run on a calendar.",
         bullets: ["Shared business email mailboxes", "Invoice + payment status visible to admin", "Bulk reminders for renewals", "Simple roles in the Cedarce portal"],
       },
@@ -581,7 +582,7 @@ export const SOLUTION_PAGES: Record<string, MarketingPageConfig> = {
         orientation: "vertical",
         steps: [
           { title: "Audit", body: "Map systems, owners, and customer journey gaps." },
-          { title: "Foundation", body: "Site, email, payments — the public face." },
+          { title: "Foundation", body: "Site, email, payments: the public face." },
           { title: "Integrate & train", body: "Connect back-office; train teams by department." },
         ],
       },
@@ -644,7 +645,7 @@ export const SOLUTION_PAGES: Record<string, MarketingPageConfig> = {
     category: "solution",
     title: "Business launch setup",
     eyebrow: "Business founders",
-    tagline: "Website, domain, email & payments — launch week ready",
+    tagline: "Website, domain, email & payments, launch week ready",
     lead:
       "Founders need to look legitimate before the first pitch. We bundle the core digital setup so you can send a link, an email, and a payment request in the same afternoon.",
     heroVariant: "split",
@@ -701,7 +702,7 @@ export const SOLUTION_PAGES: Record<string, MarketingPageConfig> = {
       {
         type: "split",
         title: "Automation with a human voice",
-        body: "Templates sound like you — not a robot. We map triggers: invoice due, payment received, lapsed customer, new launch.",
+        body: "Templates sound like you, not a robot. We map triggers: invoice due, payment received, lapsed customer, new launch.",
         panelTitle: "Automations",
         panelItems: ["Invoice send + pay link", "Receipt on settlement", "7-day payment reminder", "Re-engagement campaign quarterly"],
       },
@@ -730,15 +731,18 @@ export const SOLUTION_PAGES: Record<string, MarketingPageConfig> = {
   },
 };
 
-export function getMarketingPage(category: "product" | "solution", slug: string) {
+export function getMarketingPage(category: "product" | "solution" | "pricing", slug: string) {
+  if (category === "pricing") return getPricingPage(slug);
   const map = category === "product" ? PRODUCT_PAGES : SOLUTION_PAGES;
   return map[slug];
 }
 
-export function allMarketingSlugs(category: "product" | "solution") {
+export function allMarketingSlugs(category: "product" | "solution" | "pricing") {
+  if (category === "pricing") return allPricingSlugs();
   return Object.keys(category === "product" ? PRODUCT_PAGES : SOLUTION_PAGES);
 }
 
-export function marketingPagePath(category: "product" | "solution", slug: string) {
+export function marketingPagePath(category: "product" | "solution" | "pricing", slug: string) {
+  if (category === "pricing") return `/pricing/${slug}`;
   return category === "product" ? `/product/${slug}` : `/solutions/${slug}`;
 }

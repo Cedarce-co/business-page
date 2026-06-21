@@ -49,7 +49,7 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Cedarce — Business websites, payments & automation",
+        alt: "Cedarce: Business websites, payments & automation",
         type: "image/png",
       },
     ],
@@ -62,7 +62,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/og-image.png",
-        alt: "Cedarce — Business websites, payments & automation",
+        alt: "Cedarce: Business websites, payments & automation",
       },
     ],
   },

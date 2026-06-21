@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
 import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
@@ -8,6 +9,7 @@ import { glowPulse } from "@/lib/animations";
 
 type Pricing = {
   name: string;
+  slug: string;
   price: string;
   subtitle: string;
   badge: string | null;
@@ -17,10 +19,12 @@ type Pricing = {
   ctaStyle: "primary" | "secondary" | "dark";
 };
 
-export default function PricingCard({ item }: { item: Pricing }) {
+export default function PricingCard({ item, activeSlug }: { item: Pricing; activeSlug?: string }) {
   const showPrice = item.price.trim().length > 0;
   const priceIsText = true;
-  const href = `/request-service?package=${encodeURIComponent(item.name)}`;
+  const detailHref = `/pricing/${item.slug}`;
+  const requestHref = `/request-service?package=${encodeURIComponent(item.name)}`;
+  const isActive = activeSlug === item.slug;
 
   return (
     <div
@@ -28,7 +32,8 @@ export default function PricingCard({ item }: { item: Pricing }) {
         "relative overflow-hidden rounded-3xl border-2 p-8",
         item.featured
           ? "bg-g-card border-cliq-purple shadow-purple"
-          : "border-cliq-gray-200 bg-white"
+          : "border-cliq-gray-200 bg-white",
+        isActive && "ring-2 ring-cliq-purple ring-offset-2"
       )}
     >
       {item.featured ? (
@@ -61,9 +66,9 @@ export default function PricingCard({ item }: { item: Pricing }) {
             </li>
           ))}
         </ul>
-        <div className="relative z-20 mt-8">
+        <div className="relative z-20 mt-8 space-y-3">
           <Button
-            href={href}
+            href={requestHref}
             variant={item.ctaStyle}
             full
             className={cn(
@@ -74,6 +79,14 @@ export default function PricingCard({ item }: { item: Pricing }) {
           >
             {item.cta}
           </Button>
+          {!isActive ? (
+            <Link
+              href={detailHref}
+              className="block text-center text-sm font-semibold text-cliq-purple underline-offset-4 hover:underline"
+            >
+              View {item.name} package details →
+            </Link>
+          ) : null}
         </div>
       </div>
     </div>

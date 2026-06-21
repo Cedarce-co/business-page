@@ -15,27 +15,25 @@ export default function ProductPageContent() {
   return (
     <>
       <section className="border-b border-cliq-gray-200 bg-[linear-gradient(165deg,#f8fafc_0%,#ffffff_45%,#f1f5f9_100%)]">
-        <div className="mx-auto grid max-w-[1200px] gap-10 px-4 py-16 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-14 lg:px-8 lg:py-24">
-          <div>
-            <SectionLabel className="bg-cliq-purple-soft text-cliq-purple">Product</SectionLabel>
-            <h1 className="mt-6 text-4xl font-black leading-tight text-cliq-text-heading sm:text-5xl lg:text-[3.25rem]">
-              The Cedarce platform — portal, verification, and delivery in one place.
-            </h1>
-            <p className="mt-5 max-w-xl text-lg leading-relaxed text-cliq-text-body">
-              Not just a website agency. A productized client portal plus admin operations so onboarding, KYC, service
-              requests, and status updates run on rails — for you and your customers.
-            </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Button href="/signup" variant="teal" className="rounded-xl px-6 py-3 text-sm font-bold">
-                Create free account
-              </Button>
-              <Button href="/contact" variant="secondary" className="rounded-xl px-6 py-3 text-sm font-bold">
-                Book a demo
-              </Button>
-            </div>
+        <div className="mx-auto flex max-w-[1200px] flex-col items-center px-4 py-16 text-center sm:px-6 lg:px-8 lg:py-24">
+          <SectionLabel className="mx-auto bg-cliq-purple-soft text-cliq-purple">Product</SectionLabel>
+          <h1 className="mx-auto mt-6 max-w-4xl text-4xl font-black leading-tight text-cliq-text-heading sm:text-5xl lg:text-[3.25rem]">
+            The Cedarce platform: portal, verification, and delivery in one place.
+          </h1>
+          <p className="mt-5 max-w-3xl text-balance text-center text-lg leading-relaxed text-cliq-text-body">
+            Not just a website agency. A productized client portal plus admin operations so onboarding, KYC, service
+            requests, and status updates run on rails for you and your customers.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Button href="/signup" variant="teal" className="rounded-xl px-6 py-3 text-sm font-bold">
+              Create free account
+            </Button>
+            <Button href="/contact" variant="secondary" className="rounded-xl px-6 py-3 text-sm font-bold">
+              Book a demo
+            </Button>
           </div>
 
-          <div className="rounded-3xl border border-cliq-gray-200 bg-cliq-navy-900 p-6 shadow-card sm:p-8">
+          <div className="mx-auto mt-12 max-w-xl rounded-3xl border border-cliq-gray-200 bg-cliq-navy-900 p-6 text-left shadow-card sm:p-8">
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cliq-teal">What you get</p>
             <ul className="mt-5 space-y-4">
               {PRODUCT_MODULES.map((m) => {
@@ -61,12 +59,12 @@ export default function ProductPageContent() {
       </section>
 
       <section className="bg-cliq-white py-16 lg:py-24">
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-          <SectionLabel className="bg-cliq-gray-100 text-cliq-navy-800">Platform modules</SectionLabel>
-          <h2 className="mt-5 max-w-2xl text-3xl font-black text-cliq-text-heading lg:text-4xl">
+        <div className="mx-auto max-w-[1200px] px-4 text-center sm:px-6 lg:px-8">
+          <SectionLabel className="mx-auto bg-cliq-gray-100 text-cliq-navy-800">Platform modules</SectionLabel>
+          <h2 className="mx-auto mt-5 max-w-2xl text-3xl font-black text-cliq-text-heading lg:text-4xl">
             Built for repeat delivery, not one-off handoffs.
           </h2>
-          <div className="mt-10 grid gap-4 sm:grid-cols-2">
+          <div className="mt-10 grid gap-4 text-left sm:grid-cols-2">
             {PRODUCT_MODULES.map((m) => {
               const Icon = moduleIcons[m.icon];
               return (
@@ -85,12 +83,12 @@ export default function ProductPageContent() {
       </section>
 
       <section className="border-y border-cliq-gray-200 bg-cliq-gray-50 py-16 lg:py-24">
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1200px] px-4 text-center sm:px-6 lg:px-8">
           <h2 className="text-3xl font-black text-cliq-text-heading lg:text-4xl">How the product works</h2>
-          <p className="mt-3 max-w-2xl text-cliq-text-body">
-            A single journey from signup to verified client to tracked delivery — visible on both sides.
+          <p className="mx-auto mt-3 max-w-2xl text-cliq-text-body">
+            A single journey from signup to verified client to tracked delivery, visible on both sides.
           </p>
-          <ol className="relative mt-12 grid gap-8 lg:grid-cols-4 lg:gap-6">
+          <ol className="relative mt-12 grid gap-8 text-left lg:grid-cols-4 lg:gap-6">
             {PRODUCT_FLOW.map((item, i) => (
               <li key={item.step} className="relative lg:pt-2">
                 {i < PRODUCT_FLOW.length - 1 ? (
@@ -111,12 +109,12 @@ export default function ProductPageContent() {
       </section>
 
       <section className="bg-cliq-navy-800 py-16 lg:py-20">
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-[1200px] px-4 text-center sm:px-6 lg:px-8">
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-cliq-teal">Delivery pillars</p>
-          <h2 className="mt-4 max-w-3xl text-3xl font-black text-white lg:text-4xl">
+          <h2 className="mx-auto mt-4 max-w-3xl text-3xl font-black text-white lg:text-4xl">
             The platform orchestrates work across five service pillars we implement for you.
           </h2>
-          <div className="mt-8 flex flex-wrap gap-2">
+          <div className="mt-8 flex flex-wrap justify-center gap-2">
             {PRODUCT_PILLARS.map((p) => (
               <Link
                 key={p.slug}
@@ -127,7 +125,7 @@ export default function ProductPageContent() {
               </Link>
             ))}
           </div>
-          <p className="mt-6 max-w-2xl text-sm text-white/70">
+          <p className="mx-auto mt-6 max-w-2xl text-sm text-white/70">
             Need outcome-based browsing instead? See{" "}
             <Link href="/services" className="font-semibold text-cliq-teal underline underline-offset-4">
               Solutions by business type
@@ -138,14 +136,12 @@ export default function ProductPageContent() {
       </section>
 
       <section className="bg-white py-16 lg:py-20">
-        <div className="mx-auto flex max-w-[1200px] flex-col items-start justify-between gap-6 px-4 sm:flex-row sm:items-center sm:px-6 lg:px-8">
-          <div>
-            <h2 className="text-2xl font-black text-cliq-text-heading sm:text-3xl">Try the product</h2>
-            <p className="mt-2 max-w-lg text-cliq-text-body">
-              Create an account, complete verification, and submit a service request — the same flow your clients will use.
-            </p>
-          </div>
-          <Button href="/signup" variant="teal" className="rounded-xl px-8 py-3 text-sm font-bold">
+        <div className="mx-auto max-w-[1200px] px-4 text-center sm:px-6 lg:px-8">
+          <h2 className="text-2xl font-black text-cliq-text-heading sm:text-3xl">Try the product</h2>
+          <p className="mx-auto mt-2 max-w-lg text-cliq-text-body">
+            Create an account, complete verification, and submit a service request: the same flow your clients will use.
+          </p>
+          <Button href="/signup" variant="teal" className="mt-6 rounded-xl px-8 py-3 text-sm font-bold">
             Get started for free
           </Button>
         </div>
