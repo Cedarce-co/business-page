@@ -1,16 +1,19 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import WayfindingStrip from "@/components/navigation/WayfindingStrip";
 import { isPublicMarketingWithNavbar } from "@/lib/public-site-routes";
 
 export default function RootMain({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  // `usePathname()` can briefly be undefined on initial mount in dev/hydration.
-  // Fall back to the real browser location to avoid content flashing under the fixed navbar.
-  const resolvedPath =
-    pathname ?? (typeof window !== "undefined" ? window.location.pathname : undefined);
-  const marketing = isPublicMarketingWithNavbar(resolvedPath);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const marketing = mounted && isPublicMarketingWithNavbar(pathname);
 
   return (
     <main className={marketing ? "public-site-main flex-1" : "flex-1"}>

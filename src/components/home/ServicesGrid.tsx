@@ -9,7 +9,7 @@ import { stagger, viewport } from "@/lib/animations";
 
 export default function ServicesGrid() {
   return (
-    <section className="bg-cliq-white py-20 lg:py-28">
+    <section id="home-services-section" className="bg-cliq-white py-20 lg:py-28">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
         <SectionIntro>
           <SectionLabel className="bg-cliq-purple-soft text-cliq-purple">What we deliver</SectionLabel>

@@ -29,9 +29,11 @@ export type WayfindingCrumb = {
 };
 
 const SITE_SEGMENTS: Record<string, { label: string; icon: WayfindingIconKey }> = {
-  about: { label: "About", icon: "building" },
+  about: { label: "Product", icon: "building" },
   pricing: { label: "Pricing", icon: "tag" },
-  services: { label: "Services", icon: "layers" },
+  services: { label: "Solutions", icon: "layers" },
+  product: { label: "Product", icon: "layers" },
+  solutions: { label: "Solutions", icon: "clipboard" },
   blog: { label: "Blog", icon: "book" },
   contact: { label: "Contact", icon: "mail" },
   privacy: { label: "Privacy", icon: "file" },
@@ -70,13 +72,25 @@ export function buildSiteCrumbs(pathname: string): WayfindingCrumb[] {
   if (parts.length === 0) return crumbs;
 
   if (parts[0] === "services" && parts[1]) {
-    crumbs.push({ label: "Services", href: "/services", icon: "layers" });
+    crumbs.push({ label: "Solutions", href: "/services", icon: "layers" });
     const svc = SERVICES.find((x) => x.id === parts[1]);
     crumbs.push({
       label: svc?.name ?? titleCase(parts[1]),
       href: null,
       icon: serviceIconKey(parts[1]),
     });
+    return crumbs;
+  }
+
+  if (parts[0] === "product" && parts[1]) {
+    crumbs.push({ label: "Product", href: "/about", icon: "building" });
+    crumbs.push({ label: titleCase(parts[1]), href: null, icon: "layers" });
+    return crumbs;
+  }
+
+  if (parts[0] === "solutions" && parts[1]) {
+    crumbs.push({ label: "Solutions", href: "/services", icon: "clipboard" });
+    crumbs.push({ label: titleCase(parts[1]), href: null, icon: "clipboard" });
     return crumbs;
   }
 

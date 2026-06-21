@@ -24,7 +24,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="border-t border-cliq-gray-200 bg-gradient-to-b from-white to-cliq-gray-100/80">
+    <footer id="site-footer" className="border-t border-cliq-gray-200 bg-gradient-to-b from-white to-cliq-gray-100/80">
       <div className="mx-auto w-full max-w-[1440px] px-4 py-16 sm:px-6 lg:px-10 lg:py-24">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
           <div className="flex flex-col items-center text-center sm:items-start sm:text-left lg:col-span-4">
