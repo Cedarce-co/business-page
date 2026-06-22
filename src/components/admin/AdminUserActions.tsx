@@ -8,9 +8,11 @@ import Modal from "@/components/ui/Modal";
 export default function AdminUserActions({
   userId,
   canApproveVerification,
+  canRemoveUser = false,
 }: {
   userId: string;
   canApproveVerification: boolean;
+  canRemoveUser?: boolean;
 }) {
   const router = useRouter();
   const [openRemove, setOpenRemove] = useState(false);
@@ -45,14 +47,17 @@ export default function AdminUserActions({
           Approve verification
         </button>
       ) : null}
-      <button
-        type="button"
-        onClick={() => setOpenRemove(true)}
-        className="rounded-lg bg-rose-600 px-3 py-2 text-xs font-semibold text-white"
-      >
-        Remove User
-      </button>
+      {canRemoveUser ? (
+        <button
+          type="button"
+          onClick={() => setOpenRemove(true)}
+          className="rounded-lg bg-rose-600 px-3 py-2 text-xs font-semibold text-white"
+        >
+          Remove User
+        </button>
+      ) : null}
 
+      {canRemoveUser ? (
       <Modal open={openRemove} title="Remove user" onClose={() => setOpenRemove(false)} widthClassName="max-w-lg">
         <div className="space-y-4">
           <p className="text-sm text-slate-700">
@@ -76,6 +81,7 @@ export default function AdminUserActions({
           </div>
         </div>
       </Modal>
+      ) : null}
     </div>
   );
 }

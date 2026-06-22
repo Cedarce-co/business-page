@@ -3,6 +3,7 @@ import Link from "next/link";
 import { requireAdminUser } from "@/lib/server-auth";
 import { getAdminUserDetail } from "@/server/services/admin";
 import VerificationReviewClient from "@/components/admin/VerificationReviewClient";
+import { maskKycDocumentUrls } from "@/lib/kyc-documents";
 
 export default async function AdminVerificationDetailPage({ params }: { params: Promise<{ id: string }> }) {
   await requireAdminUser();
@@ -35,20 +36,24 @@ export default async function AdminVerificationDetailPage({ params }: { params: 
             ? { address: user.profile.address, city: user.profile.city, country: user.profile.country }
             : null,
           kyc: user.kyc
-            ? {
-                status: user.kyc.status,
-                businessName: user.kyc.businessName,
-                businessAddress: user.kyc.businessAddress || user.kyc.address,
-                businessCity: user.kyc.businessCity,
-                businessState: user.kyc.businessState,
-                businessWebsite: user.kyc.businessWebsite,
-                businessEmail: user.kyc.businessEmail,
-                socialHandle: user.kyc.socialHandle,
-                cacNumber: user.kyc.cacNumber,
-                cacUrl: user.kyc.cacUrl,
-                govIdType: user.kyc.govIdType,
-                govIdUrl: user.kyc.govIdUrl,
-              }
+            ? maskKycDocumentUrls(
+                {
+                  status: user.kyc.status,
+                  businessName: user.kyc.businessName,
+                  businessAddress: user.kyc.businessAddress || user.kyc.address,
+                  businessCity: user.kyc.businessCity,
+                  businessState: user.kyc.businessState,
+                  businessWebsite: user.kyc.businessWebsite,
+                  businessEmail: user.kyc.businessEmail,
+                  socialHandle: user.kyc.socialHandle,
+                  cacNumber: user.kyc.cacNumber,
+                  cacUrl: user.kyc.cacUrl,
+                  addressProofUrl: user.kyc.addressProofUrl,
+                  govIdType: user.kyc.govIdType,
+                  govIdUrl: user.kyc.govIdUrl,
+                },
+                user.id,
+              )
             : null,
         }}
       />

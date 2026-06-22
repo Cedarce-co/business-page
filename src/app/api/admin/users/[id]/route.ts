@@ -1,12 +1,20 @@
 import { NextResponse } from "next/server";
-import { getApiAdminUser } from "@/lib/server-auth";
+import { getApiSuperAdminUser } from "@/lib/server-auth";
 import { removeUser } from "@/server/services/admin";
 
 export async function DELETE(_request: Request, { params }: { params: Promise<{ id: string }> }) {
-  const admin = await getApiAdminUser();
-  if (!admin) return NextResponse.json({ error: "Forbidden." }, { status: 403 });
+  const superAdmin = await getApiSuperAdminUser();
+  if (!superAdmin) {
+    return NextResponse.json({ error: "Only the super admin can remove users." }, { status: 403 });
+  }
 
   const { id } = await params;
-  await removeUser(id);
-  return NextResponse.json({ ok: true });
+
+  try {
+    await removeUser(id);
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Could not remove user.";
+    return NextResponse.json({ error: message }, { status: 400 });
+  }
 }

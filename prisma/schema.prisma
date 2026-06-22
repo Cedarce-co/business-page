@@ -13,6 +13,10 @@ model User {
   passwordHash   String
   image          String?
   phone          String?
+  mfaSecret      String?
+  mfaEnabled     Boolean          @default(false)
+  mfaEnabledAt   DateTime?
+  adminRole      UserAdminRole?
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
   profile        Profile?
@@ -21,6 +25,27 @@ model User {
   passwordReset  PasswordResetToken[]
   intake         ServiceIntake[]
   notifications  Notification[]
+  adminInvitesSent AdminInvite[]  @relation("AdminInvitesSent")
+}
+
+enum UserAdminRole {
+  SUPER_ADMIN
+  ADMIN
+}
+
+model AdminInvite {
+  id          String    @id @default(cuid())
+  email       String
+  name        String
+  tokenHash   String    @unique
+  invitedById String
+  expiresAt   DateTime
+  acceptedAt  DateTime?
+  createdAt   DateTime  @default(now())
+  invitedBy   User      @relation("AdminInvitesSent", fields: [invitedById], references: [id], onDelete: Cascade)
+
+  @@index([email])
+  @@index([expiresAt])
 }
 
 model Profile {
@@ -191,6 +216,25 @@ enum AuditEventType {
   ADMIN_SIGN_IN
   ADMIN_SIGN_OUT
   ADMIN_IDLE_SIGN_OUT
+  MFA_ENABLED
+  MFA_DISABLED
+  KYC_DOCUMENT_VIEWED
+}
+
+model KycDocumentAccessLog {
+  id            String         @id @default(cuid())
+  kycId         String
+  documentField String
+  actorType     AuditActorType
+  actorUserId   String?
+  actorEmail    String?
+  ipAddress     String?
+  userAgent     String?
+  createdAt     DateTime       @default(now())
+
+  @@index([kycId])
+  @@index([actorUserId])
+  @@index([createdAt])
 }
 
 model AuthAuditLog {

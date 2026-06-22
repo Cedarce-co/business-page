@@ -1,6 +1,9 @@
 import { notFound } from "next/navigation";
 import AdminUserDetailClient from "@/components/admin/AdminUserDetailClient";
 import { getAdminUserDetail } from "@/server/services/admin";
+import { getServerSession } from "next-auth/next";
+import { adminAuthOptions } from "@/server/auth/admin-options";
+import { isSuperAdminRole } from "@/lib/admin-roles";
 
 type ServiceRequestListItem = {
   id: string;
@@ -11,12 +14,16 @@ type ServiceRequestListItem = {
 };
 
 export default async function AdminUserDetailPage({ params }: { params: Promise<{ id: string }> }) {
+  const session = await getServerSession(adminAuthOptions);
   const { id } = await params;
   const user = await getAdminUserDetail(id);
   if (!user) notFound();
 
+  const canRemoveUser = isSuperAdminRole(session?.user?.adminRole ?? null);
+
   return (
     <AdminUserDetailClient
+      canRemoveUser={canRemoveUser}
       user={{
         id: user.id,
         name: user.name,

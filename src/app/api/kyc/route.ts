@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
-import { getApiUserId } from "@/lib/server-auth";
-import { kycTextSchema } from "@/features/kyc/types";
 import { getKycWithContact, submitKyc } from "@/server/services/kyc";
+import { maskKycDocumentUrls } from "@/lib/kyc-documents";
 import { MAX_UPLOAD_BYTES } from "@/lib/upload-limits";
 import { validateKycUpload } from "@/lib/kyc-upload";
 import { UploadConfigError } from "@/server/uploads/store";
+import { getApiUserId } from "@/lib/server-auth";
+import { rateLimit, rateLimitResponse } from "@/server/lib/rate-limit";
+import { kycTextSchema } from "@/features/kyc/types";
 
 export const maxDuration = 60;
 
@@ -21,7 +23,7 @@ export async function GET() {
   if (!userId) return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
 
   const row = await getKycWithContact(userId);
-  const kyc = row?.kyc ?? null;
+  const kyc = maskKycDocumentUrls(row?.kyc ?? null);
 
   return NextResponse.json({
     kyc,
@@ -38,6 +40,11 @@ export async function POST(request: Request) {
   try {
     const userId = await getApiUserId();
     if (!userId) return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
+
+    const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+    const limited = rateLimit(`kyc-submit:${userId}:${ip}`, 5, 300_000);
+    if (!limited.ok) return rateLimitResponse(limited);
+
     const formData = await request.formData();
 
     const parsed = kycTextSchema.safeParse({

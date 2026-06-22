@@ -148,7 +148,6 @@ export async function submitKyc(userId: string, payload: KycInput) {
       nationality: user.profile?.country ?? null,
       address: payload.personalAddress ?? null,
       govIdType: kyc.govIdType,
-      govIdUrl: kyc.govIdUrl,
     });
     await emailAdminsSafe(adminTpl.subject, adminTpl.html);
 

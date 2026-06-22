@@ -1,4 +1,3 @@
-import { prisma } from "@/server/database/prisma";
 import { hashPassword, verifyPassword } from "@/server/auth/password";
 import type { SignupInput } from "@/features/auth/types";
 import { sendEmailSafe, emailAdminsSafe } from "@/server/emails/sender";
@@ -7,6 +6,8 @@ import { signupAdminEmail } from "@/server/emails/templates/signup-admin";
 import { notifyAdmins } from "@/server/services/notifications";
 import { logAuthAuditEvent } from "@/server/services/auth-audit";
 import type { RequestMeta } from "@/server/lib/request-meta";
+import { ensureSuperAdminAccount, getAdminUserByEmail } from "@/server/services/admin-accounts";
+import { prisma } from "@/server/database/prisma";
 
 export async function createUser(payload: SignupInput, meta?: RequestMeta) {
   const email = payload.email.toLowerCase().trim();
@@ -83,28 +84,14 @@ export async function validateCredentials(email: string, password: string) {
 }
 
 export async function validateAdminLogin(emailRaw: string, passwordRaw: string) {
-  const adminEmail = (process.env.ADMIN_LOGIN_EMAIL ?? "").toLowerCase().trim();
-  const adminPassword = process.env.ADMIN_LOGIN_PASSWORD ?? "";
+  await ensureSuperAdminAccount();
+
   const email = emailRaw.toLowerCase().trim();
-  const password = passwordRaw;
+  const user = await getAdminUserByEmail(email);
+  if (!user?.adminRole) return null;
 
-  if (!adminEmail || !adminPassword) return null;
-  if (email !== adminEmail) return null;
-  if (password !== adminPassword) return null;
-
-  // Ensure a DB user exists so JWT refresh callbacks work.
-  const passwordHash = await hashPassword(adminPassword);
-  const user = await prisma.user.upsert({
-    where: { email: adminEmail },
-    create: {
-      name: "Admin",
-      email: adminEmail,
-      passwordHash,
-      profile: { create: {} },
-    },
-    update: { passwordHash },
-    select: { id: true, email: true, name: true, image: true },
-  });
+  const passwordOk = await verifyPassword(passwordRaw, user.passwordHash);
+  if (!passwordOk) return null;
 
   return {
     id: user.id,
@@ -112,5 +99,6 @@ export async function validateAdminLogin(emailRaw: string, passwordRaw: string) 
     name: user.name,
     image: user.image ?? undefined,
     kycComplete: true,
+    adminRole: user.adminRole,
   };
 }

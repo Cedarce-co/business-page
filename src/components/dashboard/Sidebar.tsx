@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, FileCheck2, UserRoundCog, LogOut, ClipboardList } from "lucide-react";
+import { Home, FileCheck2, UserRoundCog, LogOut, ClipboardList, Shield } from "lucide-react";
 import { signOut } from "next-auth/react";
 import { recordUserSessionEnd } from "@/lib/auth/session-tracking";
 import NotificationBell from "@/components/dashboard/NotificationBell";
@@ -12,6 +12,7 @@ const items = [
   { href: "/dashboard/service-requests", label: "My requests", icon: ClipboardList },
   { href: "/dashboard/request-service?resume=1", label: "Request a Service", icon: FileCheck2 },
   { href: "/dashboard/profile", label: "Profile", icon: UserRoundCog },
+  { href: "/dashboard/security", label: "Security", icon: Shield },
 ];
 
 export default function Sidebar({

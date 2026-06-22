@@ -13,21 +13,78 @@ const baseInput =
 
 const emailLooksValid = (v: string) => /\S+@\S+\.\S+/.test(v.trim());
 
+type Step = "credentials" | "totp";
+
 export default function AdminLogin() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [totpCode, setTotpCode] = useState("");
+  const [step, setStep] = useState<Step>("credentials");
   const [loading, setLoading] = useState(false);
 
-  const canSubmit = useMemo(() => emailLooksValid(email) && password.length > 0 && !loading, [email, password, loading]);
+  const canSubmitCredentials = useMemo(
+    () => emailLooksValid(email) && password.length > 0 && !loading,
+    [email, password, loading],
+  );
+  const canSubmitTotp = useMemo(() => totpCode.trim().length >= 6 && !loading, [totpCode, loading]);
 
-  async function submit() {
+  async function submitCredentials() {
     setLoading(true);
-    const result = await signIn("admin-credentials", { email, password, redirect: false });
+    try {
+      const res = await fetch("/api/admin/auth/login-precheck", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      const data = (await res.json().catch(() => null)) as { step?: string } | null;
+
+      if (!res.ok || data?.step === "complete") {
+        toast.error("Invalid admin credentials.");
+        return;
+      }
+
+      if (data?.step === "mfa_setup") {
+        const result = await signIn("admin-credentials", {
+          email,
+          password,
+          setupOnly: "1",
+          redirect: false,
+        });
+        if (result?.error) {
+          toast.error("Could not start admin session.");
+          return;
+        }
+        toast("Set up Google Authenticator to continue.");
+        router.push("/admin/mfa-setup");
+        router.refresh();
+        return;
+      }
+
+      if (data?.step === "totp") {
+        setStep("totp");
+        toast("Enter your authenticator code.");
+        return;
+      }
+
+      toast.error("Invalid admin credentials.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function submitTotp() {
+    setLoading(true);
+    const result = await signIn("admin-credentials", {
+      email,
+      password,
+      totpCode: totpCode.trim(),
+      redirect: false,
+    });
     setLoading(false);
 
     if (result?.error) {
-      toast.error("Invalid admin credentials.");
+      toast.error("Invalid authentication code.");
       return;
     }
 
@@ -39,38 +96,68 @@ export default function AdminLogin() {
 
   return (
     <div className="space-y-4">
-      <input
-        className={baseInput}
-        type="email"
-        placeholder="Admin email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value.toLowerCase())}
-      />
-      <PasswordInput
-        className={baseInput}
-        toggleClassName="text-slate-400 hover:text-slate-700"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <div className="mt-6 mb-10 flex items-center justify-center gap-3"> 
-      <button
-        className="mx-auto w-full rounded-xl bg-slate-900 px-4 py-3 text-base font-semibold text-white hover:bg-slate-800 disabled:opacity-50 sm:w-1/2"
-        onClick={submit}
-        disabled={!canSubmit}
-        type="button"
-      >
-        {loading ? (
-          <span className="inline-flex items-center justify-center gap-2">
-            <CircleLoader size={18} className="text-white" />
-            Signing in...
-          </span>
-        ) : (
-          "Sign in"
-        )}
-      </button>
+      {step === "credentials" ? (
+        <>
+          <input
+            className={baseInput}
+            type="email"
+            placeholder="Admin email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value.toLowerCase())}
+          />
+          <PasswordInput
+            className={baseInput}
+            toggleClassName="text-slate-400 hover:text-slate-700"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </>
+      ) : (
+        <>
+          <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+            Admin accounts require an authenticator code on every sign-in.
+          </p>
+          <input
+            className={baseInput}
+            inputMode="numeric"
+            autoComplete="one-time-code"
+            placeholder="Authentication code"
+            value={totpCode}
+            onChange={(e) => setTotpCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+          />
+          <button
+            type="button"
+            className="text-sm font-semibold text-slate-700 underline-offset-4 hover:underline"
+            onClick={() => {
+              setStep("credentials");
+              setTotpCode("");
+            }}
+          >
+            Back
+          </button>
+        </>
+      )}
+
+      <div className="mt-6 mb-10 flex items-center justify-center gap-3">
+        <button
+          className="mx-auto w-full rounded-xl bg-slate-900 px-4 py-3 text-base font-semibold text-white hover:bg-slate-800 disabled:opacity-50 sm:w-1/2"
+          onClick={step === "credentials" ? submitCredentials : submitTotp}
+          disabled={step === "credentials" ? !canSubmitCredentials : !canSubmitTotp}
+          type="button"
+        >
+          {loading ? (
+            <span className="inline-flex items-center justify-center gap-2">
+              <CircleLoader size={18} className="text-white" />
+              {step === "credentials" ? "Signing in..." : "Verifying..."}
+            </span>
+          ) : step === "credentials" ? (
+            "Sign in"
+          ) : (
+            "Verify and sign in"
+          )}
+        </button>
       </div>
     </div>
   );
 }
-

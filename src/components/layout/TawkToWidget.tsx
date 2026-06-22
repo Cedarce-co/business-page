@@ -2,19 +2,11 @@
 
 import { useEffect } from "react";
 import { initTawkEmbed } from "@/lib/tawk";
-import { hasAnalyticsConsent } from "@/lib/cookie-consent";
 
+/** Live chat loads for all visitors on marketing pages — guests are not required to sign up or accept optional cookies. */
 export default function TawkToWidget() {
   useEffect(() => {
-    if (!hasAnalyticsConsent()) return;
-
     initTawkEmbed();
-
-    const onConsent = () => {
-      if (hasAnalyticsConsent()) initTawkEmbed();
-    };
-    window.addEventListener("cedarce:cookie-consent", onConsent);
-    return () => window.removeEventListener("cedarce:cookie-consent", onConsent);
   }, []);
 
   return null;

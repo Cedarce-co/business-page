@@ -122,6 +122,7 @@ const DASH_SEGMENTS: Record<string, { label: string; icon: WayfindingIconKey }> 
   kyc: { label: "Verification", icon: "shield" },
   "request-service": { label: "Request service", icon: "clipboard" },
   "service-requests": { label: "My requests", icon: "clipboard" },
+  security: { label: "Security", icon: "shield" },
 };
 
 export function buildDashboardCrumbs(pathname: string): WayfindingCrumb[] {

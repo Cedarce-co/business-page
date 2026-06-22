@@ -100,3 +100,29 @@ export const glowPulse: TargetAndTransition = {
 };
 
 export const viewport = { once: true, margin: "-80px" };
+
+export const EASE_SMOOTH = [0.22, 1, 0.36, 1] as const;
+
+/** Bottom-fixed banners (cookie consent). */
+export const cookieBannerMotion = {
+  initial: { opacity: 0, y: 36, scale: 0.94 },
+  animate: { opacity: 1, y: 0, scale: 1 },
+  exit: { opacity: 0, y: 22, scale: 0.96 },
+  transition: { duration: 0.5, ease: EASE_SMOOTH, delay: 0.5 },
+};
+
+/** Navbar announcement strip. */
+export const navbarBannerMotion = {
+  initial: { opacity: 0, y: -28 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -20 },
+  transition: { duration: 0.42, ease: EASE_SMOOTH },
+};
+
+/** Floating marketing / awareness promo card. */
+export const promoShellMotion = {
+  initial: { opacity: 0, y: 48, x: 32, scale: 0.9, rotate: 1.5 },
+  animate: { opacity: 1, y: 0, x: 0, scale: 1, rotate: 0 },
+  exit: { opacity: 0, y: 28, x: 20, scale: 0.94, rotate: 0.5 },
+  transition: { type: "spring" as const, stiffness: 360, damping: 28 },
+};

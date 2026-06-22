@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, ClipboardList, LogOut, Menu, X, FileCheck2, ScrollText, MessageSquareHeart } from "lucide-react";
+import { useSession } from "next-auth/react";
+import { LayoutDashboard, Users, ClipboardList, LogOut, Menu, X, FileCheck2, ScrollText, MessageSquareHeart, UserCog } from "lucide-react";
 import WayfindingStrip from "@/components/navigation/WayfindingStrip";
 import AdminNotificationBell from "@/components/admin/AdminNotificationBell";
 import IdleSessionWatchdog from "@/components/auth/IdleSessionWatchdog";
@@ -11,7 +12,7 @@ import { recordAdminSessionEnd } from "@/lib/auth/session-tracking";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 
-const nav = [
+const baseNav = [
   { href: "/admin/dashboard", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/verifications", label: "Verifications", icon: FileCheck2 },
   { href: "/admin/requests", label: "Service requests", icon: ClipboardList },
@@ -20,6 +21,8 @@ const nav = [
   { href: "/admin/audit-log", label: "Audit log", icon: ScrollText },
   { href: "/admin/feedbacks", label: "Feedbacks", icon: MessageSquareHeart },
 ];
+
+const superAdminNav = { href: "/admin/admins", label: "Admins", icon: UserCog };
 
 function isNavActive(pathname: string, href: string) {
   if (href === "/admin/dashboard") return pathname === "/admin/dashboard";
@@ -32,6 +35,9 @@ function isNavActive(pathname: string, href: string) {
   if (href === "/admin/feedbacks") {
     return pathname === "/admin/feedbacks" || pathname.startsWith("/admin/feedbacks/");
   }
+  if (href === "/admin/admins") {
+    return pathname === "/admin/admins" || pathname.startsWith("/admin/admins/");
+  }
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
@@ -39,11 +45,17 @@ function NavLinks({
   pathname,
   mobile,
   onNavigate,
+  isSuperAdmin,
 }: {
   pathname: string;
   mobile?: boolean;
   onNavigate?: () => void;
+  isSuperAdmin: boolean;
 }) {
+  const nav = isSuperAdmin
+    ? [...baseNav.slice(0, 4), superAdminNav, ...baseNav.slice(4)]
+    : baseNav;
+
   return (
     <nav className="space-y-2">
       {nav.map(({ href, label, icon: Icon }) => {
@@ -76,6 +88,8 @@ export default function AdminFrame({
 }) {
   const pathname = usePathname() ?? "/admin";
   const [open, setOpen] = useState(false);
+  const { data: session } = useSession();
+  const isSuperAdmin = session?.user?.adminRole === "SUPER_ADMIN";
 
   async function handleSignOut() {
     await recordAdminSessionEnd("ADMIN_SIGN_OUT");
@@ -96,7 +110,7 @@ export default function AdminFrame({
               <AdminNotificationBell />
             </div>
 
-            <NavLinks pathname={pathname} />
+            <NavLinks pathname={pathname} isSuperAdmin={isSuperAdmin} />
 
             <button
               type="button"
@@ -150,7 +164,7 @@ export default function AdminFrame({
                   </button>
                 </div>
                 <div className="p-4">
-                  <NavLinks pathname={pathname} mobile onNavigate={() => setOpen(false)} />
+                  <NavLinks pathname={pathname} mobile onNavigate={() => setOpen(false)} isSuperAdmin={isSuperAdmin} />
                   <button
                     type="button"
                     onClick={() => void handleSignOut()}

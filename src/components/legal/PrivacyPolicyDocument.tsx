@@ -192,7 +192,7 @@ export default function PrivacyPolicyDocument() {
             <strong>Preference cookies:</strong> Remember your cookie choice and basic settings.
           </li>
           <li>
-            <strong>Functional / support cookies:</strong> Power optional features such as live chat (e.g. Tawk.to) when you accept optional cookies.
+            <strong>Functional / support cookies:</strong> Power live chat (e.g. Tawk.to) for visitors who are not signed in. You may be asked for your name and email or phone before chatting. Chat history is not linked to a Cedarce account until you sign up.
           </li>
           <li>
             <strong>Analytics cookies:</strong> Help us understand how people use our site. We only enable these when you accept optional cookies.

@@ -2,9 +2,14 @@ import { NextResponse } from "next/server";
 import { signupSchema } from "@/features/auth/types";
 import { createUser } from "@/server/services/users";
 import { getRequestMetaFromRequest } from "@/server/lib/request-meta";
+import { rateLimit, rateLimitResponse } from "@/server/lib/rate-limit";
 
 export async function POST(request: Request) {
   try {
+    const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "unknown";
+    const limited = rateLimit(`signup:${ip}`, 8, 300_000);
+    if (!limited.ok) return rateLimitResponse(limited);
+
     const body = await request.json();
     const parsed = signupSchema.safeParse(body);
 

@@ -1,8 +1,6 @@
-import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/server-auth";
 import { ActionLink, Badge, Card, Page } from "@/components/dashboard/ui";
-import { requestLabel, requestTone } from "@/components/admin/status";
 import RequestWizard from "@/components/dashboard/RequestWizard";
 
 export default async function RequestServicePage({
@@ -25,14 +23,6 @@ export default async function RequestServicePage({
   const kyc = await prisma.kyc.findUnique({ where: { userId: session.user.id } });
   const kycDone = kyc?.status === "APPROVED";
 
-  const existingRequests = kycDone
-    ? await prisma.serviceRequest.findMany({
-        where: { userId: session.user.id },
-        orderBy: { createdAt: "desc" },
-        take: 6,
-      })
-    : [];
-
   return (
     <Page
       title="Request a service"
@@ -54,53 +44,7 @@ export default async function RequestServicePage({
           </div>
         </Card>
       ) : (
-        <div className="space-y-6">
-          {existingRequests.length > 0 ? (
-            <Card className="p-5">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <p className="text-sm font-black text-slate-900">Your requests</p>
-                  <p className="mt-1 text-sm text-slate-600">
-                    You can edit a request within 48 hours of submitting, or anytime we ask for more information.
-                  </p>
-                </div>
-                <Link
-                  href="/dashboard/service-requests"
-                  className="text-sm font-semibold text-slate-900 underline-offset-4 hover:underline"
-                >
-                  View all
-                </Link>
-              </div>
-              <ul className="mt-4 space-y-3">
-                {existingRequests.map((r) => (
-                  <li
-                    key={r.id}
-                    className="flex flex-col gap-2 rounded-xl border border-slate-200 bg-slate-50/80 px-4 py-3 sm:flex-row sm:items-center sm:justify-between"
-                  >
-                    <div className="min-w-0">
-                      <p className="truncate text-sm font-semibold text-slate-900">{r.serviceType}</p>
-                      <p className="mt-0.5 line-clamp-2 text-xs text-slate-600">{r.summary}</p>
-                    </div>
-                    <div className="flex shrink-0 flex-wrap items-center gap-2">
-                      <Badge tone={requestTone(r.status)}>{requestLabel(r.status)}</Badge>
-                      <Link
-                        href={`/dashboard/service-requests/${r.id}`}
-                        className="text-sm font-semibold text-slate-900 underline-offset-4 hover:underline"
-                      >
-                        View
-                      </Link>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </Card>
-          ) : null}
-          <RequestWizard
-            packageTier={packageTier}
-            startFresh={startFresh}
-            compact={existingRequests.length > 0}
-          />
-        </div>
+        <RequestWizard packageTier={packageTier} startFresh={startFresh} />
       )}
     </Page>
   );

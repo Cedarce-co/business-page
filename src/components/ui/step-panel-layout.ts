@@ -2,7 +2,7 @@
 export const stepPanelHeightClass =
   "h-[calc(100dvh-12rem)] lg:h-[calc(100dvh-15rem)]";
 
-/** Wizard when another block sits above it (e.g. “Your requests”). */
+/** Wizard when another block sits above it (e.g. verification banner). */
 export const stepPanelCompactHeightClass =
   "h-[calc(100dvh-12rem)] lg:h-[calc(100dvh-23rem)]";
 

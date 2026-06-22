@@ -1,1 +1,8 @@
-export { requireUser, getApiUserId, requireAdminUser, getApiAdminUser } from "@/server/auth/guards";
+export {
+  requireUser,
+  getApiUserId,
+  requireAdminUser,
+  requireSuperAdminUser,
+  getApiAdminUser,
+  getApiSuperAdminUser,
+} from "@/server/auth/guards";

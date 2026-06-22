@@ -27,9 +27,8 @@ export function verificationSubmittedAdminEmail(input: {
   nationality?: string | null;
   address?: string | null;
   govIdType?: string | null;
-  govIdUrl?: string | null;
 }) {
-  const adminUrl = `${getAppUrl()}/admin`;
+  const adminUrl = `${getAppUrl()}/admin/users`;
   return {
     subject: `New verification submitted: ${input.name}`,
     html: `
@@ -40,7 +39,7 @@ export function verificationSubmittedAdminEmail(input: {
           <li>Nationality: ${escapeHtml(input.nationality ?? "N/A")}</li>
           <li>Address: ${escapeHtml(input.address ?? "N/A")}</li>
           <li>ID type: ${escapeHtml(input.govIdType ?? "N/A")}</li>
-          <li>ID file: ${input.govIdUrl ? `<a href="${input.govIdUrl}">Open</a>` : "N/A"}</li>
+          <li>Documents: view securely in the admin portal after sign-in.</li>
         </ul>
         <p style="margin:0 0 18px">
           <a href="${adminUrl}" style="display:inline-block;padding:12px 16px;border-radius:12px;background:#0f172a;color:#fff;text-decoration:none;font-weight:600">

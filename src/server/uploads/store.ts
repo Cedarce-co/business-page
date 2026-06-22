@@ -3,6 +3,7 @@ import "server-only";
 import { BlobError, put } from "@vercel/blob";
 import { MAX_UPLOAD_BYTES } from "@/lib/upload-limits";
 import { savePublicUpload } from "@/server/uploads/local";
+import { savePrivateUpload } from "@/server/uploads/private-local";
 
 export class UploadConfigError extends Error {
   constructor(message: string) {
@@ -95,10 +96,17 @@ export async function storeUpload(input: StoreUploadInput): Promise<string> {
     }
   }
 
-  const saved = await savePublicUpload({
-    folder: input.folder,
-    userId: input.userId,
-    file: input.file,
-  });
-  return saved.url;
+  const saved =
+    input.access === "private"
+      ? await savePrivateUpload({
+          folder: input.folder,
+          userId: input.userId,
+          file: input.file,
+        })
+      : await savePublicUpload({
+          folder: input.folder,
+          userId: input.userId,
+          file: input.file,
+        });
+  return typeof saved === "string" ? saved : saved.url;
 }

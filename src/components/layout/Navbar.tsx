@@ -4,7 +4,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, ChevronDown, Globe, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import Button from "@/components/ui/Button";
+import { navbarBannerMotion } from "@/lib/animations";
 import { LOGO_LIGHT_BG, LOGO_NAV_SIZES } from "@/lib/brand-logos";
 import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
@@ -107,8 +109,14 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [activeMega, setActiveMega] = useState<string | null>(null);
   const [showTopBanner, setShowTopBanner] = useState(true);
+  const [bannerEnter, setBannerEnter] = useState(false);
   const closeTimer = useRef<number | null>(null);
   const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setBannerEnter(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
 
   const startCloseDelay = () => {
     if (closeTimer.current) {
@@ -153,23 +161,32 @@ export default function Navbar() {
 
   return (
     <header className="fixed left-0 right-0 top-0 z-40 border-b border-cliq-gray-200 bg-white/95 backdrop-blur-xl transition">
-      {showTopBanner ? (
-        <div className="border-b border-cliq-gray-200 bg-[#EAF4FF] py-4">
-          <div className="relative mx-auto flex w-full max-w-[1440px] flex-col items-center justify-center gap-3 px-6 text-center text-[15px] text-cliq-text-heading sm:flex-row sm:text-left sm:px-10 lg:gap-6 lg:px-12">
-            <span className="max-w-[56rem] text-center font-medium">
-              The gap between where your business is and where it should be is one digital setup away. We close it fast.
-            </span>
-            <span className="flex shrink-0 flex-wrap items-center justify-center gap-2">
-              <Link
-                href="/signup"
-                className="rounded-lg px-4 py-1.5 text-sm font-semibold text-cliq-text-heading transition underline-offset-2 hover:text-cliq-purple"
-              >
-                Get started for free now →
-              </Link>
-            </span>
-          </div>
-        </div>
-      ) : null}
+      <AnimatePresence>
+        {showTopBanner ? (
+          <motion.div
+            key="top-banner"
+            initial={navbarBannerMotion.initial}
+            animate={bannerEnter ? navbarBannerMotion.animate : navbarBannerMotion.initial}
+            exit={navbarBannerMotion.exit}
+            transition={navbarBannerMotion.transition}
+            className="overflow-hidden border-b border-cliq-gray-200 bg-[#EAF4FF]"
+          >
+            <div className="relative mx-auto flex w-full max-w-[1440px] flex-col items-center justify-center gap-3 px-6 py-4 text-center text-[15px] text-cliq-text-heading sm:flex-row sm:text-left sm:px-10 lg:gap-6 lg:px-12">
+              <span className="max-w-[56rem] text-center font-medium">
+                The gap between where your business is and where it should be is one digital setup away. We close it fast.
+              </span>
+              <span className="flex shrink-0 flex-wrap items-center justify-center gap-2">
+                <Link
+                  href="/signup"
+                  className="rounded-lg px-4 py-1.5 text-sm font-semibold text-cliq-text-heading transition underline-offset-2 hover:text-cliq-purple"
+                >
+                  Get started for free now →
+                </Link>
+              </span>
+            </div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
       <div className="mx-auto flex h-[72px] w-full max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:h-[84px] lg:px-10">
         <Link
           href="/"

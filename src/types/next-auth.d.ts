@@ -6,6 +6,9 @@ declare module "next-auth" {
       id: string;
       kycComplete: boolean;
       isAdmin: boolean;
+      mfaVerified?: boolean;
+      mfaSetupRequired?: boolean;
+      adminRole?: "SUPER_ADMIN" | "ADMIN";
     } & DefaultSession["user"];
   }
 }
@@ -15,5 +18,8 @@ declare module "next-auth/jwt" {
     uid?: string;
     kycComplete?: boolean;
     isAdmin?: boolean;
+    mfaVerified?: boolean;
+    mfaSetupRequired?: boolean;
+    adminRole?: "SUPER_ADMIN" | "ADMIN";
   }
 }

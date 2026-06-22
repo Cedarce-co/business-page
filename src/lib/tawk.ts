@@ -64,8 +64,23 @@ export function openTawkChat() {
   if (now - lastOpenAttempt < OPEN_DEBOUNCE_MS) return true;
   lastOpenAttempt = now;
 
+  if (!document.getElementById("tawk-to-script") && isTawkConfigured()) {
+    initTawkEmbed();
+  }
+
   const api = window.Tawk_API;
-  if (!api?.maximize) return false;
+  if (!api?.maximize) {
+    if (api) {
+      api.onLoad = () => {
+        try {
+          window.Tawk_API?.maximize?.();
+        } catch {
+          // ignore
+        }
+      };
+    }
+    return false;
+  }
 
   try {
     api.maximize();

@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { Sparkles, X, Zap } from "lucide-react";
 import { useSession } from "next-auth/react";
+import { promoShellMotion } from "@/lib/animations";
 
 type PromoVariant = {
   id: string;
@@ -461,10 +462,10 @@ export default function AwarenessPromo() {
           role="dialog"
           aria-label="Announcement"
           aria-live="polite"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
+          initial={promoShellMotion.initial}
+          animate={promoShellMotion.animate}
+          exit={promoShellMotion.exit}
+          transition={promoShellMotion.transition}
           className={`fixed z-[52] ${PROMO_POSITION}`}
           onPointerEnter={() => setRotatePaused(true)}
           onPointerLeave={() => setRotatePaused(false)}

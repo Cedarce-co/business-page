@@ -13,19 +13,14 @@ import {
   serviceRequestUpdatedUserEmail,
 } from "@/server/emails/templates/service-request";
 import { createNotification } from "@/server/services/notifications";
+import { loadAdminEmailsFromDb } from "@/server/services/mfa";
 
-function adminEmails() {
-  const list = (process.env.ADMIN_EMAILS ?? "")
-    .split(",")
-    .map((v) => v.trim().toLowerCase())
-    .filter(Boolean);
-  const login = (process.env.ADMIN_LOGIN_EMAIL ?? "").trim().toLowerCase();
-  if (login) list.push(login);
-  return Array.from(new Set(list));
+async function adminEmails() {
+  return loadAdminEmailsFromDb();
 }
 
 export async function getAdminOverview() {
-  const exclude = adminEmails();
+  const exclude = await adminEmails();
   const [users, requests, categories] = await Promise.all([
     prisma.user.findMany({
       where: exclude.length ? { email: { notIn: exclude } } : undefined,
@@ -182,6 +177,13 @@ export async function setVerificationReview(
 }
 
 export async function removeUser(userId: string) {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { adminRole: true },
+  });
+  if (user?.adminRole) {
+    throw new Error("Admin accounts cannot be removed from the users page.");
+  }
   await prisma.user.delete({ where: { id: userId } });
 }
 
@@ -226,7 +228,7 @@ export async function reviewServiceRequest(input: {
 }
 
 export async function listPendingVerifications() {
-  const exclude = adminEmails();
+  const exclude = await adminEmails();
   return prisma.user.findMany({
     where: {
       ...(exclude.length ? { email: { notIn: exclude } } : {}),
@@ -241,15 +243,28 @@ export async function listPendingVerifications() {
   });
 }
 
-export async function listAdminServiceRequests(status?: string | null) {
-  const exclude = adminEmails();
+export async function listAdminServiceRequests(options?: { status?: string | null; q?: string | null }) {
+  const exclude = await adminEmails();
   const normalized =
-    status && status !== "all" ? status : null;
+    options?.status && options.status !== "all" ? options.status : null;
+  const q = options?.q?.trim() ?? "";
 
   return prisma.serviceRequest.findMany({
     where: {
       ...(exclude.length ? { user: { email: { notIn: exclude } } } : {}),
       ...(normalized ? { status: normalized as ServiceRequestStatus } : {}),
+      ...(q
+        ? {
+            OR: [
+              { id: { contains: q, mode: "insensitive" } },
+              { serviceType: { contains: q, mode: "insensitive" } },
+              { summary: { contains: q, mode: "insensitive" } },
+              { user: { name: { contains: q, mode: "insensitive" } } },
+              { user: { email: { contains: q, mode: "insensitive" } } },
+              { user: { id: { contains: q, mode: "insensitive" } } },
+            ],
+          }
+        : {}),
     },
     include: {
       user: { select: { id: true, name: true, email: true } },

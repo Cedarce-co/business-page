@@ -35,6 +35,7 @@ type ServiceReq = {
 
 export default function AdminUserDetailClient({
   user,
+  canRemoveUser = false,
 }: {
   user: {
     id: string;
@@ -46,6 +47,7 @@ export default function AdminUserDetailClient({
     kyc?: KycInfo | null;
     serviceRequest: ServiceReq[];
   };
+  canRemoveUser?: boolean;
 }) {
   const [saving, setSaving] = useState(false);
   const [openRemove, setOpenRemove] = useState(false);
@@ -82,13 +84,15 @@ export default function AdminUserDetailClient({
           </div>
           <div className="flex flex-col items-end gap-2">
             <StatusBadge tone={kycTone(kycStatus)}>{kycLabel(kycStatus)}</StatusBadge>
-            <button
-              type="button"
-              onClick={() => setOpenRemove(true)}
-              className="rounded-xl bg-rose-600 px-4 py-2 text-sm font-semibold text-white hover:bg-rose-700"
-            >
-              Remove user
-            </button>
+            {canRemoveUser ? (
+              <button
+                type="button"
+                onClick={() => setOpenRemove(true)}
+                className="rounded-xl bg-rose-600 px-4 py-2 text-sm font-semibold text-white hover:bg-rose-700"
+              >
+                Remove user
+              </button>
+            ) : null}
           </div>
         </div>
       </div>
