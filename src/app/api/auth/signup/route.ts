@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { signupSchema } from "@/features/auth/types";
 import { createUser } from "@/server/services/users";
+import { getRequestMetaFromRequest } from "@/server/lib/request-meta";
 
 export async function POST(request: Request) {
   try {
@@ -11,7 +12,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid signup data." }, { status: 400 });
     }
 
-    const result = await createUser(parsed.data);
+    const meta = getRequestMetaFromRequest(request);
+    const result = await createUser(parsed.data, meta);
     if (!result.ok) {
       return NextResponse.json({ error: result.error }, { status: 409 });
     }

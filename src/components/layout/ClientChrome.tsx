@@ -1,20 +1,29 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { MessageCircle } from "lucide-react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import TawkToWidget from "@/components/layout/TawkToWidget";
 import { isTawkConfigured, openTawkChat } from "@/lib/tawk";
+import { hasAnalyticsConsent } from "@/lib/cookie-consent";
 
 export default function ClientChrome() {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
-  const tawkEnabled = isTawkConfigured();
+  const [chatAllowed, setChatAllowed] = useState(false);
+  const tawkEnabled = isTawkConfigured() && chatAllowed;
+
+  useEffect(() => {
+    const sync = () => setChatAllowed(hasAnalyticsConsent());
+    sync();
+    window.addEventListener("cedarce:cookie-consent", sync);
+    return () => window.removeEventListener("cedarce:cookie-consent", sync);
+  }, []);
 
   useEffect(() => {
     const openChat = () => {
-      if (isTawkConfigured()) {
+      if (isTawkConfigured() && hasAnalyticsConsent()) {
         openTawkChat();
         return;
       }

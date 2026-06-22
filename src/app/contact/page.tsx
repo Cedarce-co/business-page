@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react";
 import confetti from "canvas-confetti";
 import toast from "react-hot-toast";
 import SectionLabel from "@/components/ui/SectionLabel";
-import { SUPPORT_EMAIL, SUPPORT_PHONE_DISPLAY, SUPPORT_PHONE_TEL } from "@/lib/contact";
+import { SUPPORT_EMAIL, SUPPORT_PHONE_DISPLAY, SUPPORT_PHONE_TEL, OFFICE_ADDRESS, OFFICE_HOURS } from "@/lib/contact";
 
 export default function ContactPage() {
   const [done, setDone] = useState(false);
@@ -69,6 +69,7 @@ export default function ContactPage() {
         </form>
         <div className="rounded-2xl border border-cliq-navy-600 bg-cliq-navy-850 p-6">
           <h2 className="text-2xl font-black text-white">Reach us directly</h2>
+          <p className="mt-4 text-sm leading-relaxed text-white/80">{OFFICE_ADDRESS}</p>
           <p className="mt-4 text-white/70">
             <a href={`mailto:${SUPPORT_EMAIL}`} className="underline-offset-2 hover:underline">
               {SUPPORT_EMAIL}
@@ -79,7 +80,8 @@ export default function ContactPage() {
               {SUPPORT_PHONE_DISPLAY}
             </a>
           </p>
-          <p className="mt-6 text-cliq-teal">Response time: within 2 hours (Mon-Sat)</p>
+          <p className="mt-6 text-sm text-cliq-teal">Office hours: {OFFICE_HOURS}</p>
+          <p className="mt-2 text-sm text-white/60">We aim to reply within 2 hours during office hours.</p>
         </div>
       </div>
     </section>

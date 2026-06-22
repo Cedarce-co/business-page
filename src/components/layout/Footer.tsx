@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight, Clock, Shield } from "lucide-react";
 import { SERVICES } from "@/lib/constants";
 import { LOGO_FOOTER_SIZES, LOGO_LIGHT_BG } from "@/lib/brand-logos";
-import { SUPPORT_EMAIL, SUPPORT_PHONE_DISPLAY, SUPPORT_PHONE_TEL } from "@/lib/contact";
+import { SUPPORT_EMAIL, SUPPORT_PHONE_DISPLAY, SUPPORT_PHONE_TEL, OFFICE_ADDRESS, OFFICE_HOURS_SHORT } from "@/lib/contact";
 import Button from "@/components/ui/Button";
 
 const getStarted = [
@@ -127,6 +127,7 @@ iq-navy-800" aria-hidden />
               Prefer email or phone? We reply quickly, and live chat is on the site when we&apos;re online.
             </p>
             <div className="mt-4 space-y-1 text-sm text-cliq-text-body">
+              <p className="text-cliq-text-muted">{OFFICE_ADDRESS}</p>
               <p>
                 <a href={`mailto:${SUPPORT_EMAIL}`} className="font-medium underline-offset-4 hover:underline">
                   {SUPPORT_EMAIL}
@@ -137,6 +138,7 @@ iq-navy-800" aria-hidden />
                   {SUPPORT_PHONE_DISPLAY}
                 </a>
               </p>
+              <p className="text-cliq-text-muted">{OFFICE_HOURS_SHORT}</p>
             </div>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">

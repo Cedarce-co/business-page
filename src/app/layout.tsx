@@ -12,6 +12,7 @@ import RootFooter from "@/components/layout/RootFooter";
 import AuthSessionProvider from "@/components/auth/AuthSessionProvider";
 import RootMain from "@/components/layout/RootMain";
 import PwaRegister from "@/components/layout/PwaRegister";
+import CookieConsentBanner from "@/components/layout/CookieConsentBanner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -106,6 +107,7 @@ export default function RootLayout({
           <RootChrome />
           <RootMain>{children}</RootMain>
           <RootFooter />
+          <CookieConsentBanner />
         </AuthSessionProvider>
       </body>
     </html>

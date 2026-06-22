@@ -4,6 +4,8 @@ import { z } from "zod";
 import { prisma } from "@/server/database/prisma";
 import { validateCredentials } from "@/server/services/users";
 import { USER_AUTH_COOKIE, sessionCookieOptions } from "@/lib/auth/cookies";
+import { logAuthAuditEvent } from "@/server/services/auth-audit";
+import { getRequestMeta } from "@/server/lib/request-meta";
 
 const credentialsSchema = z.object({
   email: z.string().email(),
@@ -34,7 +36,20 @@ export const authOptions: NextAuthOptions = {
       async authorize(rawCredentials) {
         const parsed = credentialsSchema.safeParse(rawCredentials);
         if (!parsed.success) return null;
-        return validateCredentials(parsed.data.email, parsed.data.password);
+        const user = await validateCredentials(parsed.data.email, parsed.data.password);
+        if (!user) return null;
+
+        const meta = await getRequestMeta();
+        await logAuthAuditEvent({
+          actorType: "USER",
+          eventType: "SIGN_IN",
+          userId: user.id,
+          email: user.email,
+          name: user.name,
+          meta,
+        });
+
+        return user;
       },
     }),
   ],

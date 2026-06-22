@@ -3,6 +3,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { z } from "zod";
 import { ADMIN_AUTH_COOKIE, sessionCookieOptions } from "@/lib/auth/cookies";
 import { validateAdminLogin } from "@/server/services/users";
+import { logAuthAuditEvent } from "@/server/services/auth-audit";
+import { getRequestMeta } from "@/server/lib/request-meta";
 
 const credentialsSchema = z.object({
   email: z.string().email(),
@@ -34,7 +36,20 @@ export const adminAuthOptions: NextAuthOptions = {
       async authorize(rawCredentials) {
         const parsed = credentialsSchema.safeParse(rawCredentials);
         if (!parsed.success) return null;
-        return validateAdminLogin(parsed.data.email, parsed.data.password);
+        const admin = await validateAdminLogin(parsed.data.email, parsed.data.password);
+        if (!admin) return null;
+
+        const meta = await getRequestMeta();
+        await logAuthAuditEvent({
+          actorType: "ADMIN",
+          eventType: "ADMIN_SIGN_IN",
+          userId: admin.id,
+          email: admin.email,
+          name: admin.name,
+          meta,
+        });
+
+        return admin;
       },
     }),
   ],

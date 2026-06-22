@@ -177,3 +177,66 @@ enum IntakeQuestionSetStatus {
   PUBLISHED
   ARCHIVED
 }
+
+enum AuditActorType {
+  USER
+  ADMIN
+}
+
+enum AuditEventType {
+  SIGNUP
+  SIGN_IN
+  SIGN_OUT
+  IDLE_SIGN_OUT
+  ADMIN_SIGN_IN
+  ADMIN_SIGN_OUT
+  ADMIN_IDLE_SIGN_OUT
+}
+
+model AuthAuditLog {
+  id               String         @id @default(cuid())
+  actorType        AuditActorType
+  eventType        AuditEventType
+  userId           String?
+  email            String?
+  name             String?
+  country          String?
+  countryCode      String?
+  city             String?
+  region           String?
+  ipAddress        String?
+  userAgent        String?
+  sessionStartedAt DateTime?
+  sessionEndedAt   DateTime?
+  durationSeconds  Int?
+  metadata         Json?
+  createdAt        DateTime       @default(now())
+
+  @@index([createdAt])
+  @@index([eventType])
+  @@index([actorType])
+  @@index([countryCode])
+  @@index([userId])
+}
+
+enum FeedbackStatus {
+  NEW
+  READ
+  ARCHIVED
+}
+
+model SiteFeedback {
+  id        String         @id @default(cuid())
+  name      String?
+  email     String?
+  topic     String?
+  message   String
+  page      String?
+  userId    String?
+  status    FeedbackStatus @default(NEW)
+  createdAt DateTime       @default(now())
+  readAt    DateTime?
+
+  @@index([createdAt])
+  @@index([status])
+}

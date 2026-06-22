@@ -2,10 +2,12 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Users, ClipboardList, LogOut, Menu, X, FileCheck2 } from "lucide-react";
+import { LayoutDashboard, Users, ClipboardList, LogOut, Menu, X, FileCheck2, ScrollText, MessageSquareHeart } from "lucide-react";
 import WayfindingStrip from "@/components/navigation/WayfindingStrip";
 import AdminNotificationBell from "@/components/admin/AdminNotificationBell";
+import IdleSessionWatchdog from "@/components/auth/IdleSessionWatchdog";
 import { signOut } from "next-auth/react";
+import { recordAdminSessionEnd } from "@/lib/auth/session-tracking";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 
@@ -15,12 +17,20 @@ const nav = [
   { href: "/admin/requests", label: "Service requests", icon: ClipboardList },
   { href: "/admin/users", label: "Users", icon: Users },
   { href: "/admin/questions", label: "Intake questions", icon: ClipboardList },
+  { href: "/admin/audit-log", label: "Audit log", icon: ScrollText },
+  { href: "/admin/feedbacks", label: "Feedbacks", icon: MessageSquareHeart },
 ];
 
 function isNavActive(pathname: string, href: string) {
   if (href === "/admin/dashboard") return pathname === "/admin/dashboard";
   if (href === "/admin/requests") {
     return pathname === "/admin/requests" || pathname.startsWith("/admin/requests/");
+  }
+  if (href === "/admin/audit-log") {
+    return pathname === "/admin/audit-log" || pathname.startsWith("/admin/audit-log/");
+  }
+  if (href === "/admin/feedbacks") {
+    return pathname === "/admin/feedbacks" || pathname.startsWith("/admin/feedbacks/");
   }
   return pathname === href || pathname.startsWith(`${href}/`);
 }
@@ -67,8 +77,14 @@ export default function AdminFrame({
   const pathname = usePathname() ?? "/admin";
   const [open, setOpen] = useState(false);
 
+  async function handleSignOut() {
+    await recordAdminSessionEnd("ADMIN_SIGN_OUT");
+    await signOut({ callbackUrl: "/admin" });
+  }
+
   return (
     <div className="min-h-screen bg-slate-100">
+      <IdleSessionWatchdog scope="admin" />
       <div className="lg:flex">
         <div className="hidden lg:block">
           <aside className="sticky top-0 h-screen w-80 shrink-0 border-r border-slate-200 bg-white/90 p-4 backdrop-blur">
@@ -84,7 +100,7 @@ export default function AdminFrame({
 
             <button
               type="button"
-              onClick={() => signOut({ callbackUrl: "/admin" })}
+              onClick={() => void handleSignOut()}
               className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50"
             >
               <LogOut className="h-4 w-4" />
@@ -137,7 +153,7 @@ export default function AdminFrame({
                   <NavLinks pathname={pathname} mobile onNavigate={() => setOpen(false)} />
                   <button
                     type="button"
-                    onClick={() => signOut({ callbackUrl: "/admin" })}
+                    onClick={() => void handleSignOut()}
                     className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50"
                   >
                     <LogOut className="h-4 w-4" />

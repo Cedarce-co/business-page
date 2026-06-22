@@ -5,8 +5,10 @@ import { sendEmailSafe, emailAdminsSafe } from "@/server/emails/sender";
 import { welcomeEmail } from "@/server/emails/templates/welcome";
 import { signupAdminEmail } from "@/server/emails/templates/signup-admin";
 import { notifyAdmins } from "@/server/services/notifications";
+import { logAuthAuditEvent } from "@/server/services/auth-audit";
+import type { RequestMeta } from "@/server/lib/request-meta";
 
-export async function createUser(payload: SignupInput) {
+export async function createUser(payload: SignupInput, meta?: RequestMeta) {
   const email = payload.email.toLowerCase().trim();
   const exists = await prisma.user.findUnique({ where: { email } });
   if (exists) return { ok: false as const, error: "An account with this email already exists." };
@@ -46,6 +48,17 @@ export async function createUser(payload: SignupInput) {
     message: `${user.name} (${user.email}) created an account.`,
     href: "/admin/users",
   });
+
+  if (meta) {
+    await logAuthAuditEvent({
+      actorType: "USER",
+      eventType: "SIGNUP",
+      userId: user.id,
+      email: user.email,
+      name: user.name,
+      meta,
+    });
+  }
 
   return { ok: true as const, user };
 }

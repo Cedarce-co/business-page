@@ -8,12 +8,14 @@ export default function Modal({
   children,
   onClose,
   widthClassName = "max-w-2xl",
+  eyebrow,
 }: {
   open: boolean;
   title: string;
   children: React.ReactNode;
   onClose: () => void;
   widthClassName?: string;
+  eyebrow?: string | null;
 }) {
   useEffect(() => {
     if (!open) return;
@@ -39,8 +41,12 @@ export default function Modal({
       >
         <div className="mb-4 flex items-start justify-between gap-4">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">Admin</p>
-            <h2 className="mt-1 text-lg font-black text-slate-900">{title}</h2>
+            {eyebrow !== null ? (
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-slate-500">
+                {eyebrow ?? "Admin"}
+              </p>
+            ) : null}
+            <h2 className={`${eyebrow !== null ? "mt-1" : ""} text-lg font-black text-slate-900`}>{title}</h2>
           </div>
           <button
             type="button"

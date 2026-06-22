@@ -1,4 +1,4 @@
-import { SUPPORT_EMAIL, SUPPORT_PHONE_DISPLAY } from "@/lib/contact";
+import { SUPPORT_EMAIL, SUPPORT_PHONE_DISPLAY, OFFICE_ADDRESS, OFFICE_HOURS } from "@/lib/contact";
 
 const SITE = "https://cedarce.ng";
 
@@ -9,7 +9,7 @@ export default function TermsOfServiceDocument() {
         <p className="text-sm font-semibold text-cliq-text-heading">Cedarce Co</p>
         <h1 className="text-4xl font-black text-cliq-text-heading">Terms of Service</h1>
         <p className="text-sm text-cliq-text-muted">
-          Effective Date: May 2026 · Last Updated: May 2026
+          Effective Date: May 2026 · Last Updated: June 2026
         </p>
       </header>
 
@@ -97,9 +97,16 @@ export default function TermsOfServiceDocument() {
           You are responsible for maintaining the confidentiality of your login credentials. You agree to notify us immediately at {SUPPORT_EMAIL} if you suspect any unauthorised access to your account.
         </p>
         <p className="leading-relaxed">
+          For your protection, client portal sessions may end automatically after a period of inactivity (currently 30 minutes). You should sign out when using a shared or public device.
+        </p>
+        <p className="leading-relaxed">
           Cedarce is not liable for any loss or damage resulting from unauthorised access to your account caused by your failure to keep your credentials secure.
         </p>
-        <h3 className="text-lg font-semibold text-cliq-text-heading">5.3 Account Suspension</h3>
+        <h3 className="text-lg font-semibold text-cliq-text-heading">5.3 Identity verification</h3>
+        <p className="leading-relaxed">
+          Before certain services can be requested, we may require business verification (KYC). You agree to submit accurate documents and understand that false or misleading verification information may result in account suspension or refusal of service.
+        </p>
+        <h3 className="text-lg font-semibold text-cliq-text-heading">5.4 Account Suspension</h3>
         <p className="leading-relaxed">We reserve the right to suspend or terminate your account if:</p>
         <ul className="list-disc space-y-2 pl-6 leading-relaxed">
           <li>You provide false or misleading information</li>
@@ -268,9 +275,11 @@ export default function TermsOfServiceDocument() {
           <br />
           Phone: {SUPPORT_PHONE_DISPLAY}
           <br />
+          Address: {OFFICE_ADDRESS}
+          <br />
           Website: {SITE.replace("https://", "")}
         </p>
-        <p className="leading-relaxed text-cliq-text-muted">We are available Monday to Saturday, 8am-8pm (WAT).</p>
+        <p className="leading-relaxed text-cliq-text-muted">Office hours: {OFFICE_HOURS}</p>
       </section>
 
       <p className="border-t border-cliq-gray-200 pt-8 text-sm text-cliq-text-muted">

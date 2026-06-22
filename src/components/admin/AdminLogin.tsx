@@ -6,6 +6,7 @@ import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
 import CircleLoader from "@/components/ui/CircleLoader";
 import PasswordInput from "@/components/ui/PasswordInput";
+import { markSessionStarted } from "@/lib/auth/session-tracking";
 
 const baseInput =
   "w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-slate-900";
@@ -31,6 +32,7 @@ export default function AdminLogin() {
     }
 
     toast.success("Welcome, admin.");
+    markSessionStarted("admin");
     router.push("/admin/dashboard");
     router.refresh();
   }

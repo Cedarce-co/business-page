@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { markSessionStarted } from "@/lib/auth/session-tracking";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import CircleLoader from "@/components/ui/CircleLoader";
@@ -53,6 +54,7 @@ export default function SignupFlow() {
         redirect: false,
       });
       if (login?.error) throw new Error("Signup worked but login failed.");
+      markSessionStarted("user");
       toast.success("Account created. Welcome aboard.");
       router.push("/dashboard");
       router.refresh();

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Sidebar from "@/components/dashboard/Sidebar";
 import WayfindingStrip from "@/components/navigation/WayfindingStrip";
+import IdleSessionWatchdog from "@/components/auth/IdleSessionWatchdog";
 import { Menu, X } from "lucide-react";
 
 export type DashboardFrameProps = {
@@ -46,6 +47,7 @@ export default function DashboardFrame({
 
   return (
     <div className="flex h-dvh flex-col overflow-hidden bg-[radial-gradient(circle_at_20%_10%,rgba(59,130,246,0.10),transparent_36%),radial-gradient(circle_at_90%_0%,rgba(16,185,129,0.08),transparent_40%),linear-gradient(180deg,#f8fafc_0%,#ffffff_70%)] lg:flex-row">
+      <IdleSessionWatchdog scope="user" />
       <div className="hidden shrink-0 lg:block">
         <Sidebar name={name} email={email} image={image} />
       </div>

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, FileCheck2, UserRoundCog, LogOut, ClipboardList } from "lucide-react";
 import { signOut } from "next-auth/react";
+import { recordUserSessionEnd } from "@/lib/auth/session-tracking";
 import NotificationBell from "@/components/dashboard/NotificationBell";
 
 const items = [
@@ -86,7 +87,12 @@ export default function Sidebar({
 
       <button
         type="button"
-        onClick={() => signOut({ callbackUrl: "/" })}
+        onClick={() => {
+          void (async () => {
+            await recordUserSessionEnd("SIGN_OUT");
+            await signOut({ callbackUrl: "/" });
+          })();
+        }}
         className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50"
       >
         <LogOut className="h-4 w-4" />
