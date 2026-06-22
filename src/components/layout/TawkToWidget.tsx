@@ -3,7 +3,7 @@
 import Script from "next/script";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { isTawkConfigured, openTawkChat } from "@/lib/tawk";
+import { isTawkConfigured, openTawkChat, patchTawkDevConsole } from "@/lib/tawk";
 
 const propertyId = process.env.NEXT_PUBLIC_TAWK_PROPERTY_ID;
 const widgetId = process.env.NEXT_PUBLIC_TAWK_WIDGET_ID;
@@ -19,6 +19,10 @@ export default function TawkToWidget() {
   const pathname = usePathname() ?? "/";
   const hidden = HIDDEN_PREFIXES.some((p) => pathname === p || pathname.startsWith(`${p}/`));
   const configured = isTawkConfigured() && propertyId && widgetId;
+
+  useEffect(() => {
+    patchTawkDevConsole();
+  }, []);
 
   useEffect(() => {
     const openChat = () => {
@@ -37,7 +41,7 @@ export default function TawkToWidget() {
   return (
     <>
       <Script id="tawk-api-bootstrap" strategy="afterInteractive">
-        {`window.Tawk_API=window.Tawk_API||{};window.Tawk_LoadStart=new Date();`}
+        {`(function(){if(typeof window!=="undefined"&&!window.__tawkConsolePatched){window.__tawkConsolePatched=true;var _e=console.error.bind(console);console.error=function(){if(arguments.length===1&&arguments[0]===true)return;_e.apply(console,arguments);};}window.Tawk_API=window.Tawk_API||{};window.Tawk_LoadStart=new Date();})();`}
       </Script>
       <Script
         id="tawk-to-script"

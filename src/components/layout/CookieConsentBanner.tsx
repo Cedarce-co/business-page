@@ -4,8 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { X as CloseIcon } from "lucide-react";
-import { dismissCookieBannerForSession, shouldShowCookieBanner, writeCookieConsent } from "@/lib/cookie-consent";
+import { shouldShowCookieBanner, writeCookieConsent } from "@/lib/cookie-consent";
 import { cookieBannerMotion } from "@/lib/animations";
 
 const HIDDEN_PREFIXES = ["/signin", "/signup", "/dashboard", "/admin", "/offline"];
@@ -42,20 +41,8 @@ export default function CookieConsentBanner() {
           exit={cookieBannerMotion.exit}
           transition={cookieBannerMotion.transition}
         >
-          <div className="pointer-events-auto relative rounded-xl bg-white/95 px-3 py-2.5 pr-9 shadow-[0_12px_40px_rgba(15,23,42,0.14)] backdrop-blur-sm sm:px-4 sm:py-3 sm:pr-10">
-            <button
-              type="button"
-              onClick={() => {
-                dismissCookieBannerForSession();
-                setVisible(false);
-              }}
-              className="absolute right-2 top-2 rounded-md p-1 text-slate-400 transition hover:bg-slate-100 hover:text-slate-700"
-              aria-label="Close cookie notice"
-            >
-              <CloseIcon className="h-3.5 w-3.5" aria-hidden />
-            </button>
-
-            <h2 className="pr-6 text-xs font-bold text-slate-900 sm:text-sm">Cookies policy</h2>
+          <div className="pointer-events-auto relative rounded-xl bg-white/95 px-3 py-2.5 shadow-[0_12px_40px_rgba(15,23,42,0.14)] backdrop-blur-sm sm:px-4 sm:py-3">
+            <h2 className="text-xs font-bold text-slate-900 sm:text-sm">Cookies policy</h2>
 
             <div className="mt-1.5 flex flex-col gap-2">
               <p className="text-[11px] leading-snug text-slate-600 sm:text-xs">

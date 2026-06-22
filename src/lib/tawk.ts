@@ -19,8 +19,9 @@ export function isTawkConfigured() {
   );
 }
 
-function suppressTawkDevConsoleNoise() {
+export function patchTawkDevConsole() {
   if (process.env.NODE_ENV !== "development") return;
+  if (typeof window === "undefined") return;
   if (window.__tawkConsolePatched) return;
   window.__tawkConsolePatched = true;
 
@@ -29,6 +30,10 @@ function suppressTawkDevConsoleNoise() {
     if (args.length === 1 && args[0] === true) return;
     original(...args);
   };
+}
+
+function suppressTawkDevConsoleNoise() {
+  patchTawkDevConsole();
 }
 
 /** Legacy helper — prefer <TawkToWidget /> Script tags. Kept for programmatic open. */

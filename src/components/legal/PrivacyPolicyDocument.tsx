@@ -181,7 +181,7 @@ export default function PrivacyPolicyDocument() {
       <section id="cookies" className="space-y-3 scroll-mt-28">
         <h2 className="text-2xl font-bold text-cliq-text-heading">9. Cookies and similar technologies</h2>
         <p className="leading-relaxed">
-          Our website uses cookies and similar technologies. When you first visit our marketing site, we show a cookie banner so you can accept optional cookies, decline them, or close the banner. If you close without choosing, we will ask again on a later visit until you accept or decline.
+          Our website uses cookies and similar technologies. When you first visit our marketing site, we show a cookie banner until you accept optional cookies or decline them.
         </p>
         <p className="leading-relaxed">Cookies we may use include:</p>
         <ul className="list-disc space-y-2 pl-6 leading-relaxed">
