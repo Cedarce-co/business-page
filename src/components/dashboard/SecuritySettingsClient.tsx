@@ -57,7 +57,7 @@ export default function SecuritySettingsClient({ email }: { email: string }) {
       {loading ? (
         <Card className="p-6 text-sm text-slate-600">Loading security settings…</Card>
       ) : enabled ? (
-        <div className="space-y-4">
+        <div className="mx-auto w-full max-w-lg space-y-4">
           <Card className="p-5">
             <p className="text-sm font-semibold text-emerald-800">Two-factor authentication is enabled</p>
             {enabledAt ? (
@@ -93,14 +93,16 @@ export default function SecuritySettingsClient({ email }: { email: string }) {
           </Card>
         </div>
       ) : (
-        <MfaSetupPanel
-          apiPath="/api/mfa"
-          email={email}
-          onEnabled={() => {
-            setEnabled(true);
-            setEnabledAt(new Date().toISOString());
-          }}
-        />
+        <div className="flex justify-center">
+          <MfaSetupPanel
+            apiPath="/api/mfa"
+            email={email}
+            onEnabled={() => {
+              setEnabled(true);
+              setEnabledAt(new Date().toISOString());
+            }}
+          />
+        </div>
       )}
     </Page>
   );

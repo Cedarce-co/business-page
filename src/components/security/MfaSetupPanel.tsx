@@ -71,18 +71,20 @@ export default function MfaSetupPanel({
     }
   }
 
+  const isCompact = variant === "plain" || variant === "card";
+
   return (
     <div
       className={
         variant === "card"
-          ? "space-y-4 rounded-2xl border border-slate-200 bg-white p-5"
+          ? "mx-auto w-full max-w-lg space-y-6 rounded-2xl border border-slate-200 bg-white p-8 text-center shadow-sm"
           : "space-y-4"
       }
     >
       {!hideIntro ? (
         <div>
-          <h2 className="text-lg font-bold text-slate-900">Google Authenticator setup</h2>
-          <p className="mt-1 text-sm text-slate-600">
+          <h2 className="text-xl font-bold text-slate-900">Google Authenticator setup</h2>
+          <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-[15px]">
             {required
               ? "Admin access requires an authenticator app. Scan the QR code, then enter a code to finish setup."
               : "Add an extra layer of security. On your next sign-in you will enter a code from your authenticator app."}
@@ -91,39 +93,33 @@ export default function MfaSetupPanel({
       ) : null}
 
       {!qrDataUrl ? (
-        <div className={variant === "plain" ? "flex justify-center" : undefined}>
+        <div className={isCompact ? "flex justify-center" : undefined}>
           <button
             type="button"
             onClick={startSetup}
             disabled={loading}
-            className="rounded-xl bg-slate-900 px-6 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
+            className="rounded-xl bg-slate-900 px-8 py-3 text-sm font-semibold text-white disabled:opacity-60"
           >
             {loading ? "Preparing…" : "Generate QR code"}
           </button>
         </div>
       ) : (
-        <div
-          className={
-            variant === "plain"
-              ? "flex flex-col items-center space-y-4 text-center"
-              : "flex flex-col items-center space-y-4 text-center sm:items-stretch sm:text-left"
-          }
-        >
+        <div className="flex flex-col items-center space-y-4 text-center">
           {qrDataUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={qrDataUrl}
               alt="Authenticator QR code"
-              className="mx-auto h-48 w-48 rounded-xl border border-slate-200 bg-white p-2"
+              className="h-48 w-48 rounded-xl border border-slate-200 bg-white p-2"
             />
           ) : null}
           {manualKey ? (
-            <p className="text-xs text-slate-600">
+            <p className="max-w-full break-all text-xs text-slate-600">
               Manual key: <span className="font-mono font-semibold text-slate-900">{manualKey}</span>
             </p>
           ) : null}
           <input
-            className={`w-full rounded-xl border border-slate-200 px-3 py-2.5 text-sm ${variant === "plain" ? "max-w-xs" : "sm:max-w-xs"}`}
+            className="w-full max-w-xs rounded-xl border border-slate-200 px-3 py-2.5 text-sm"
             inputMode="numeric"
             placeholder="6-digit code"
             value={code}
