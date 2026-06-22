@@ -35,7 +35,7 @@ const EVENT_LABELS: Record<string, string> = {
 };
 
 function formatDuration(seconds: number | null) {
-  if (seconds == null) return "—";
+  if (seconds == null) return "N/A";
   if (seconds < 60) return `${seconds}s`;
   const mins = Math.floor(seconds / 60);
   const rem = seconds % 60;
@@ -178,15 +178,15 @@ export default function AuditLogClient() {
                     </td>
                     <td className="px-5 py-3 font-medium">{EVENT_LABELS[row.eventType] ?? row.eventType}</td>
                     <td className="px-5 py-3">
-                      <div className="font-medium">{row.name ?? "—"}</div>
+                      <div className="font-medium">{row.name ?? "N/A"}</div>
                       <div className="text-xs text-slate-500">{row.email ?? row.actorType}</div>
                     </td>
-                    <td className="px-5 py-3">{row.country ?? row.countryCode ?? "—"}</td>
+                    <td className="px-5 py-3">{row.country ?? row.countryCode ?? "N/A"}</td>
                     <td className="px-5 py-3 text-xs text-slate-600">
-                      {[row.city, row.region].filter(Boolean).join(", ") || "—"}
+                      {[row.city, row.region].filter(Boolean).join(", ") || "N/A"}
                     </td>
                     <td className="px-5 py-3">{formatDuration(row.durationSeconds)}</td>
-                    <td className="px-5 py-3 font-mono text-xs text-slate-500">{row.ipAddress ?? "—"}</td>
+                    <td className="px-5 py-3 font-mono text-xs text-slate-500">{row.ipAddress ?? "N/A"}</td>
                   </tr>
                 ))}
               </tbody>

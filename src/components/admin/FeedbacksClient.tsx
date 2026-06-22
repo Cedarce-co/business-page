@@ -114,11 +114,11 @@ export default function FeedbacksClient() {
                       <div className="font-medium">{row.name ?? "Anonymous"}</div>
                       {row.email ? <div className="text-xs text-slate-500">{row.email}</div> : null}
                     </td>
-                    <td className="px-5 py-4 text-sm">{row.topic ?? "—"}</td>
+                    <td className="px-5 py-4 text-sm">{row.topic ?? "N/A"}</td>
                     <td className="max-w-md px-5 py-4">
                       <p className="whitespace-pre-wrap text-sm leading-relaxed">{row.message}</p>
                     </td>
-                    <td className="px-5 py-4 text-xs text-slate-500">{row.page ?? "—"}</td>
+                    <td className="px-5 py-4 text-xs text-slate-500">{row.page ?? "N/A"}</td>
                     <td className="px-5 py-4">
                       <select
                         className="rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-xs font-medium"

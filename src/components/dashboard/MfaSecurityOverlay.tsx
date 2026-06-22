@@ -60,12 +60,12 @@ export default function MfaSecurityOverlay({ mfaEnabled }: Props) {
               Help us protect your account
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-slate-600">
-              Cedarce is built with strong security — encrypted sessions, protected documents, and careful access
+              Cedarce is built with strong security: encrypted sessions, protected documents, and careful access
               controls. You can add another layer by turning on two-factor authentication (Google Authenticator).
             </p>
             <p className="mt-2 text-sm leading-relaxed text-slate-600">
               It only takes a minute, and it helps keep your business data, verification documents, and service
-              requests safer — especially if someone ever learns your password.
+              requests safer, especially if someone ever learns your password.
             </p>
           </div>
         </div>

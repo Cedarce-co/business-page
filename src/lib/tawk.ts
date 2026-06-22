@@ -36,7 +36,7 @@ function suppressTawkDevConsoleNoise() {
   patchTawkDevConsole();
 }
 
-/** Legacy helper — prefer <TawkToWidget /> Script tags. Kept for programmatic open. */
+/** Legacy helper. Prefer <TawkToWidget /> Script tags. Kept for programmatic open. */
 export function initTawkEmbed() {
   const propertyId = process.env.NEXT_PUBLIC_TAWK_PROPERTY_ID;
   const widgetId = process.env.NEXT_PUBLIC_TAWK_WIDGET_ID;

@@ -265,7 +265,7 @@ export default function KycFlow() {
           {step === 1 ? (
             <>
               <h2 className="text-xl font-bold text-slate-900">Business address</h2>
-              <p className="text-sm text-slate-600">Optional — add if you have a registered business location.</p>
+              <p className="text-sm text-slate-600">Optional. Add if you have a registered business location.</p>
               <textarea
                 className={`${inputClass} min-h-28`}
                 placeholder="Street address, landmark, area (optional)"
@@ -314,7 +314,7 @@ export default function KycFlow() {
 
               <input
                 className={inputClass}
-                placeholder="ID type (optional) — NIN, driver's license, passport…"
+                placeholder="ID type (optional), e.g. NIN, driver's license, passport…"
                 value={form.govIdType ?? ""}
                 disabled={locked}
                 onChange={(e) => setForm((p) => ({ ...p, govIdType: e.target.value }))}
@@ -327,7 +327,7 @@ export default function KycFlow() {
                 existingUrl={existingDocs.govIdUrl}
                 onViewExisting={(url) => setDocModal({ title: "Government ID", url })}
                 onError={(msg) => toast.error(msg)}
-                hint="Required — PNG, JPEG, or PDF"
+                hint="Required: PNG, JPEG, or PDF"
                 onFileChange={(file) => {
                   if (govIdPreviewUrl) URL.revokeObjectURL(govIdPreviewUrl);
                   const nextPreview =

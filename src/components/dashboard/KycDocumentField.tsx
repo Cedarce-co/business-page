@@ -28,7 +28,7 @@ export default function KycDocumentField({
   onError,
 }: Props) {
   const inputId = useId();
-  const displayName = file?.name ?? (existingUrl ? "File on record — upload to replace" : "No file chosen");
+  const displayName = file?.name ?? (existingUrl ? "File on record (upload to replace)" : "No file chosen");
 
   return (
     <div className="space-y-1.5">

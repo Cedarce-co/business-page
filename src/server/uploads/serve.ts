@@ -43,7 +43,7 @@ export async function streamStoredFile(storedUrl: string) {
     };
   }
 
-  // Legacy public local path — still serve through proxy only.
+  // Legacy public local path. Still serve through proxy only.
   if (storedUrl.startsWith("/uploads/")) {
     const { readFile } = await import("node:fs/promises");
     const path = await import("node:path");

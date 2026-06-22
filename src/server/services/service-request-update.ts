@@ -72,7 +72,7 @@ export async function updateServiceRequestIntake(input: {
     userId: input.userId,
     title: wasNeedsInfo ? "Request updated" : "Request saved",
     message: wasNeedsInfo
-      ? "Thanks — we received your updates and will review them shortly."
+      ? "Thanks. We received your updates and will review them shortly."
       : "Your service request was updated.",
     href: `/dashboard/service-requests/${request.id}`,
   });

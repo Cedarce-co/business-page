@@ -61,7 +61,7 @@ export async function sendEmail({ to, subject, html }: SendEmailInput): Promise<
   }
 }
 
-/** Send without throwing — use after DB writes so a mail failure does not roll back the action. */
+/** Send without throwing. Use after DB writes so a mail failure does not roll back the action. */
 export async function sendEmailSafe(input: SendEmailInput) {
   return sendEmail(input);
 }

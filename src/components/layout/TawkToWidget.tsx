@@ -8,11 +8,11 @@ import { isTawkConfigured, openTawkChat, patchTawkDevConsole } from "@/lib/tawk"
 const propertyId = process.env.NEXT_PUBLIC_TAWK_PROPERTY_ID;
 const widgetId = process.env.NEXT_PUBLIC_TAWK_WIDGET_ID;
 
-/** Staff admin console — customer chat widget not shown here. */
+/** Staff admin console. Customer chat widget not shown here. */
 const HIDDEN_PREFIXES = ["/admin", "/offline"];
 
 /**
- * Native Tawk.to widget — always available for visitors and signed-in clients.
+ * Native Tawk.to widget. Always available for visitors and signed-in clients.
  * Not tied to cookie consent; the banner is informational only.
  */
 export default function TawkToWidget() {

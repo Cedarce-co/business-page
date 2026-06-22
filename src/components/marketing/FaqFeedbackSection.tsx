@@ -61,7 +61,7 @@ export default function FaqFeedbackSection() {
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error((data as { error?: string }).error ?? "Could not send feedback.");
       setSent(true);
-      toast.success("Thank you — we received your feedback.");
+      toast.success("Thank you. We received your feedback.");
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Could not send feedback.");
     } finally {

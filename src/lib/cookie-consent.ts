@@ -15,7 +15,7 @@ export function writeCookieConsent(value: CookieConsentValue) {
 }
 
 export function hasAnalyticsConsent() {
-  /** Optional analytics only — live chat (Tawk) is never gated on this. */
+  /** Optional analytics only. Live chat (Tawk) is never gated on this. */
   return readCookieConsent() === "accepted";
 }
 

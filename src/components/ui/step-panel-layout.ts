@@ -6,7 +6,7 @@ export const stepPanelHeightClass =
 export const stepPanelCompactHeightClass =
   "h-[calc(100dvh-12rem)] lg:h-[calc(100dvh-23rem)]";
 
-/** Full-form edit / read panels — taller than the step wizard. */
+/** Full-form edit / read panels. Taller than the step wizard. */
 export const formPanelHeightClass =
   "h-[calc(100dvh-12rem)] lg:h-[calc(100dvh-14rem)]";
 

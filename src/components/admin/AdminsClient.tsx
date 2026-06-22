@@ -140,7 +140,7 @@ export default function AdminsClient({ currentUserId }: { currentUserId: string 
                     <td className="px-3 py-3">{a.mfaEnabled ? "Enabled" : "Not set up"}</td>
                     <td className="px-3 py-3 text-right">
                       {a.adminRole === "SUPER_ADMIN" || a.id === currentUserId ? (
-                        <span className="text-xs text-slate-400">—</span>
+                        <span className="text-xs text-slate-400">N/A</span>
                       ) : (
                         <button
                           type="button"
