@@ -10,6 +10,7 @@ import {
   type ServiceRequestStatusKey,
 } from "@/lib/service-request-status";
 import IntakeAnswersReadout from "@/components/intake/IntakeAnswersReadout";
+import { formPanelHeightClass } from "@/components/ui/step-panel-layout";
 import type { IntakeAnswerSection } from "@/features/intake/format-answers";
 
 const inputClass =
@@ -99,7 +100,7 @@ export default function ServiceRequestReviewClient({
           Shown on their dashboard with this request. Use it for next steps, clarifications, or rejections.
         </p>
         <textarea
-          className={`${inputClass} mt-4 min-h-28`}
+          className={`${inputClass} mt-4 min-h-28 shrink-0`}
           value={note}
           onChange={(e) => setNote(e.target.value)}
           placeholder="Reason / feedback…"
@@ -144,15 +145,15 @@ export default function ServiceRequestReviewClient({
       </div>
 
       {request.intake ? (
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_1px_0_rgba(15,23,42,0.04)]">
-          <div className="border-b border-slate-100 pb-4">
+        <div className={`flex ${formPanelHeightClass} flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_1px_0_rgba(15,23,42,0.04)]`}>
+          <div className="shrink-0 border-b border-slate-100 pb-4">
             <p className="text-base font-bold text-slate-900">Submitted intake answers</p>
             <p className="mt-1 text-sm text-slate-600">
               Same questions the client saw when submitting. Use this to decide status and follow-ups.
             </p>
           </div>
-          <div className="mt-6 min-h-0">
-            <IntakeAnswersReadout sections={answerSections} meta={intakeMeta} />
+          <div className="mt-4 flex min-h-0 flex-1 flex-col">
+            <IntakeAnswersReadout sections={answerSections} meta={intakeMeta} fillParent />
           </div>
         </div>
       ) : (

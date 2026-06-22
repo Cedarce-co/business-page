@@ -2,57 +2,11 @@
 
 import { useMemo, useState } from "react";
 import toast from "react-hot-toast";
-import Modal from "@/components/ui/Modal";
+import DocumentPreviewModal from "@/components/shared/DocumentPreviewModal";
 import StatusBadge from "@/components/admin/StatusBadge";
 import { kycLabel, kycTone } from "@/components/admin/status";
 import CircleLoader from "@/components/ui/CircleLoader";
-
-function fileKind(url: string) {
-  const clean = url.split("?")[0]?.toLowerCase() ?? "";
-  if (/\.(png|jpe?g|webp|gif)$/i.test(clean)) return "image";
-  if (/\.pdf$/i.test(clean)) return "pdf";
-  return "other";
-}
-
-function PreviewModal({
-  open,
-  title,
-  url,
-  onClose,
-}: {
-  open: boolean;
-  title: string;
-  url: string;
-  onClose: () => void;
-}) {
-  const kind = fileKind(url);
-  return (
-    <Modal open={open} title={title} onClose={onClose} widthClassName="max-w-4xl">
-      <div className="space-y-3">
-        <div className="flex items-center justify-between gap-3">
-          <p className="text-sm text-slate-600">Preview</p>
-          <a className="text-sm font-semibold text-slate-900 underline" href={url} target="_blank" rel="noreferrer">
-            Open in new tab
-          </a>
-        </div>
-        {kind === "image" ? (
-          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={url} alt="" className="max-h-[70vh] w-full object-contain" />
-          </div>
-        ) : kind === "pdf" ? (
-          <div className="overflow-hidden rounded-2xl border border-slate-200 bg-slate-50">
-            <iframe title="Document preview" src={url} className="h-[70vh] w-full" />
-          </div>
-        ) : (
-          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
-            Preview not available for this file type. Use “Open in new tab”.
-          </div>
-        )}
-      </div>
-    </Modal>
-  );
-}
+import Modal from "@/components/ui/Modal";
 
 const inputClass =
   "w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-slate-900";
@@ -78,6 +32,7 @@ export default function VerificationReviewClient({
       socialHandle?: string | null;
       cacNumber?: string | null;
       cacUrl?: string | null;
+      addressProofUrl?: string | null;
       govIdType?: string | null;
       govIdUrl?: string | null;
     };
@@ -170,10 +125,10 @@ export default function VerificationReviewClient({
         </div>
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid gap-4 lg:grid-cols-3">
         <div className="rounded-2xl border border-slate-200 bg-white p-4">
           <p className="text-sm font-bold text-slate-900">Government ID</p>
-          <p className="mt-1 text-sm text-slate-600">Click to preview.</p>
+          <p className="mt-1 text-sm text-slate-600">Required document.</p>
           <div className="mt-3">
             {user.kyc.govIdUrl ? (
               <button
@@ -181,17 +136,35 @@ export default function VerificationReviewClient({
                 onClick={() => setPreview({ title: "Government ID", url: user.kyc!.govIdUrl! })}
                 className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm font-semibold text-slate-900 hover:bg-slate-100"
               >
-                Preview document
+                View document
               </button>
             ) : (
-              <p className="text-sm text-slate-500">N/A</p>
+              <p className="text-sm text-slate-500">Not uploaded</p>
+            )}
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-slate-200 bg-white p-4">
+          <p className="text-sm font-bold text-slate-900">Proof of address</p>
+          <p className="mt-1 text-sm text-slate-600">Optional.</p>
+          <div className="mt-3">
+            {user.kyc.addressProofUrl ? (
+              <button
+                type="button"
+                onClick={() => setPreview({ title: "Proof of address", url: user.kyc!.addressProofUrl! })}
+                className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm font-semibold text-slate-900 hover:bg-slate-100"
+              >
+                View document
+              </button>
+            ) : (
+              <p className="text-sm text-slate-500">Not uploaded</p>
             )}
           </div>
         </div>
 
         <div className="rounded-2xl border border-slate-200 bg-white p-4">
           <p className="text-sm font-bold text-slate-900">CAC document</p>
-          <p className="mt-1 text-sm text-slate-600">Optional. Click to preview.</p>
+          <p className="mt-1 text-sm text-slate-600">Optional.</p>
           <div className="mt-3">
             {user.kyc.cacUrl ? (
               <button
@@ -199,10 +172,10 @@ export default function VerificationReviewClient({
                 onClick={() => setPreview({ title: "CAC document", url: user.kyc!.cacUrl! })}
                 className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-left text-sm font-semibold text-slate-900 hover:bg-slate-100"
               >
-                Preview document
+                View document
               </button>
             ) : (
-              <p className="text-sm text-slate-500">N/A</p>
+              <p className="text-sm text-slate-500">Not uploaded</p>
             )}
           </div>
         </div>
@@ -272,7 +245,7 @@ export default function VerificationReviewClient({
         </div>
       )}
 
-      <PreviewModal
+      <DocumentPreviewModal
         open={preview !== null}
         title={preview?.title ?? "Preview"}
         url={preview?.url ?? ""}

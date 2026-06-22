@@ -13,24 +13,26 @@ function optionalFormString() {
 }
 
 export const kycTextSchema = z.object({
-  phone: z.string().min(7).max(20),
-  personalAddress: z.string().min(3),
-  personalCity: z.string().min(2),
+  phone: optionalFormString(),
+  personalAddress: optionalFormString(),
+  personalCity: optionalFormString(),
   personalCountry: optionalFormString(),
-  businessName: z.string().min(2),
-  businessAddress: z.string().min(5),
-  businessCity: z.string().min(2),
-  businessState: z.string().min(2),
+  businessName: optionalFormString(),
+  businessAddress: optionalFormString(),
+  businessCity: optionalFormString(),
+  businessState: optionalFormString(),
   businessWebsite: optionalFormString(),
   businessEmail: optionalFormString(),
   socialHandle: optionalFormString(),
   cacNumber: optionalFormString(),
-  govIdType: z.string().min(2),
+  govIdType: optionalFormString(),
 });
 
 export type KycInput = z.infer<typeof kycTextSchema> & {
   govIdFile: File | null;
+  addressProofFile?: File | null;
   cacFile?: File | null;
   /** Set when the user already uploaded an ID and is not replacing it. */
   hasExistingGovId?: boolean;
+  hasExistingAddressProof?: boolean;
 };

@@ -1,8 +1,10 @@
 import { prisma } from "@/server/database/prisma";
 import { hashPassword, verifyPassword } from "@/server/auth/password";
 import type { SignupInput } from "@/features/auth/types";
-import { sendEmail } from "@/server/emails/sender";
+import { sendEmailSafe, emailAdminsSafe } from "@/server/emails/sender";
 import { welcomeEmail } from "@/server/emails/templates/welcome";
+import { signupAdminEmail } from "@/server/emails/templates/signup-admin";
+import { notifyAdmins } from "@/server/services/notifications";
 
 export async function createUser(payload: SignupInput) {
   const email = payload.email.toLowerCase().trim();
@@ -29,7 +31,21 @@ export async function createUser(payload: SignupInput) {
   });
 
   const tpl = welcomeEmail({ name: user.name });
-  await sendEmail({ to: user.email, subject: tpl.subject, html: tpl.html });
+  await sendEmailSafe({ to: user.email, subject: tpl.subject, html: tpl.html });
+
+  const adminTpl = signupAdminEmail({
+    name: user.name,
+    email: user.email,
+    phone: payload.phone,
+    city: payload.city,
+  });
+  await emailAdminsSafe(adminTpl.subject, adminTpl.html);
+
+  await notifyAdmins({
+    title: "New account signup",
+    message: `${user.name} (${user.email}) created an account.`,
+    href: "/admin/users",
+  });
 
   return { ok: true as const, user };
 }

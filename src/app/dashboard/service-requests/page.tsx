@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/server-auth";
 import { ActionLink, Badge, Card, Page } from "@/components/dashboard/ui";
 import { requestLabel, requestTone } from "@/components/admin/status";
+import { canUserEditServiceRequest } from "@/lib/service-request-edit";
 
 export default async function MyServiceRequestsPage() {
   const session = await requireUser();
@@ -14,7 +15,7 @@ export default async function MyServiceRequestsPage() {
   return (
     <Page
       title="My service requests"
-      subtitle="Track each request separately. Status updates appear here as your project moves forward."
+      subtitle="Track each request. You can edit within 48 hours of submitting, or anytime we ask for more information."
       right={<ActionLink href="/dashboard/request-service?fresh=1">New request</ActionLink>}
     >
       {requests.length === 0 ? (
@@ -26,7 +27,9 @@ export default async function MyServiceRequestsPage() {
         </Card>
       ) : (
         <div className="space-y-3">
-          {requests.map((r) => (
+          {requests.map((r) => {
+            const editable = canUserEditServiceRequest({ status: r.status, createdAt: r.createdAt });
+            return (
             <Card key={r.id} className="p-5">
               <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div className="min-w-0">
@@ -38,6 +41,14 @@ export default async function MyServiceRequestsPage() {
                 </div>
                 <div className="flex shrink-0 flex-wrap items-center gap-2">
                   <Badge tone={requestTone(r.status)}>{requestLabel(r.status)}</Badge>
+                  {editable ? (
+                    <Link
+                      href={`/dashboard/service-requests/${r.id}`}
+                      className="rounded-xl bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
+                    >
+                      {r.status === "NEEDS_INFO" ? "Update" : "Edit"}
+                    </Link>
+                  ) : null}
                   <Link
                     href={`/dashboard/service-requests/${r.id}`}
                     className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-900 hover:bg-slate-50"
@@ -47,7 +58,8 @@ export default async function MyServiceRequestsPage() {
                 </div>
               </div>
             </Card>
-          ))}
+            );
+          })}
         </div>
       )}
     </Page>

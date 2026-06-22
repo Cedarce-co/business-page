@@ -12,7 +12,7 @@ export default function GoBack({
 }: {
   label?: string;
   arrow?: "left" | "right";
-  variant?: "default" | "onDark";
+  variant?: "default" | "onDark" | "auth";
   className?: string;
 }) {
   const router = useRouter();
@@ -25,7 +25,9 @@ export default function GoBack({
         "inline-flex items-center gap-2 rounded-lg text-sm font-semibold transition",
         variant === "onDark"
           ? "text-slate-200 hover:bg-white/10 hover:text-white"
-          : "text-slate-600 hover:bg-slate-100 hover:text-slate-900",
+          : variant === "auth"
+            ? "text-cliq-purple hover:bg-cliq-purple-soft hover:text-cliq-purple-dark"
+            : "text-slate-600 hover:bg-slate-100 hover:text-slate-900",
         arrow === "left" ? "pr-2 pl-1 py-1.5" : "flex-row-reverse pl-2 pr-1 py-1.5",
         className
       )}

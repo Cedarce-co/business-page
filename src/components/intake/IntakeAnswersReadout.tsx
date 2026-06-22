@@ -3,9 +3,12 @@ import type { IntakeAnswerSection } from "@/features/intake/format-answers";
 export default function IntakeAnswersReadout({
   sections,
   meta,
+  fillParent = false,
 }: {
   sections: IntakeAnswerSection[];
   meta?: { packageTier?: string; questionsVer?: string; submittedAt?: string | null };
+  /** When true, expand scroll area to fill a flex parent instead of using a fixed max-height. */
+  fillParent?: boolean;
 }) {
   if (sections.length === 0) {
     return (
@@ -16,7 +19,7 @@ export default function IntakeAnswersReadout({
   }
 
   return (
-    <div className="flex min-h-0 flex-col gap-4">
+    <div className={fillParent ? "flex min-h-0 flex-1 flex-col gap-4" : "flex min-h-0 flex-col gap-4"}>
       {meta ? (
         <div className="shrink-0 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-500">
           {meta.packageTier ? (
@@ -39,7 +42,11 @@ export default function IntakeAnswersReadout({
       ) : null}
 
       <div
-        className="max-h-[min(28rem,55vh)] overflow-y-auto overscroll-y-contain rounded-xl border border-slate-200/80 bg-slate-50/50 px-3 py-4 sm:px-4 [scrollbar-gutter:stable]"
+        className={
+          fillParent
+            ? "min-h-0 flex-1 overflow-y-auto overscroll-y-contain rounded-xl border border-slate-200/80 bg-slate-50/50 px-3 py-4 sm:px-4 [scrollbar-gutter:stable]"
+            : "max-h-[min(28rem,55vh)] overflow-y-auto overscroll-y-contain rounded-xl border border-slate-200/80 bg-slate-50/50 px-3 py-4 sm:px-4 [scrollbar-gutter:stable]"
+        }
         role="region"
         aria-label="Intake answers"
       >

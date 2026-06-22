@@ -65,14 +65,28 @@ function CrumbIcon({ k }: { k: WayfindingIconKey }) {
   return <Icon className="h-3.5 w-3.5 shrink-0 opacity-80" aria-hidden />;
 }
 
-function BreadcrumbList({ crumbs, tone }: { crumbs: WayfindingCrumb[]; tone: "default" | "onDark" }) {
+function BreadcrumbList({
+  crumbs,
+  tone,
+}: {
+  crumbs: WayfindingCrumb[];
+  tone: "default" | "onDark" | "auth";
+}) {
   const muted = tone === "onDark" ? "text-slate-400" : "text-slate-400";
-  const text = tone === "onDark" ? "text-slate-300" : "text-slate-600";
-  const current = tone === "onDark" ? "font-semibold text-white" : "font-semibold text-slate-900";
+  const text =
+    tone === "onDark" ? "text-slate-300" : tone === "auth" ? "text-cliq-purple" : "text-slate-600";
+  const current =
+    tone === "onDark"
+      ? "font-semibold text-white"
+      : tone === "auth"
+        ? "font-semibold text-cliq-text-heading"
+        : "font-semibold text-slate-900";
   const linkHover =
     tone === "onDark"
       ? "text-slate-300 transition hover:bg-white/10 hover:text-white"
-      : "text-slate-600 transition hover:bg-slate-100 hover:text-slate-900";
+      : tone === "auth"
+        ? "text-cliq-purple transition hover:bg-cliq-purple-soft hover:text-cliq-purple-dark"
+        : "text-slate-600 transition hover:bg-slate-100 hover:text-slate-900";
 
   return (
     <nav aria-label="Breadcrumb" className="min-w-0">
@@ -139,7 +153,7 @@ export default function WayfindingStrip({
     backLabel ??
     (zone === "site" ? "Back" : zone === "auth" ? "Previous page" : "Back to previous page");
 
-  const tone = zone === "auth" ? "onDark" : "default";
+  const tone = zone === "auth" ? "auth" : "default";
 
   return (
     <div
@@ -148,7 +162,7 @@ export default function WayfindingStrip({
         className
       )}
     >
-      <GoBack label={label} arrow={arrow} variant={zone === "auth" ? "onDark" : "default"} />
+      <GoBack label={label} arrow={arrow} variant={zone === "auth" ? "auth" : "default"} />
       <BreadcrumbList crumbs={crumbs} tone={tone} />
     </div>
   );

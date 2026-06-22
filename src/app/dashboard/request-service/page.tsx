@@ -61,7 +61,7 @@ export default async function RequestServicePage({
                 <div>
                   <p className="text-sm font-black text-slate-900">Your requests</p>
                   <p className="mt-1 text-sm text-slate-600">
-                    Submissions are read-only so work can progress without conflicting edits. Track status on each request.
+                    You can edit a request within 48 hours of submitting, or anytime we ask for more information.
                   </p>
                 </div>
                 <Link
@@ -95,7 +95,11 @@ export default async function RequestServicePage({
               </ul>
             </Card>
           ) : null}
-          <RequestWizard packageTier={packageTier} startFresh={startFresh} />
+          <RequestWizard
+            packageTier={packageTier}
+            startFresh={startFresh}
+            compact={existingRequests.length > 0}
+          />
         </div>
       )}
     </Page>

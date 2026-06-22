@@ -3,8 +3,15 @@ import {
   serviceRequestStatusLabel,
   type ServiceRequestStatus,
 } from "@/lib/service-request-status";
-import { sendEmail } from "@/server/emails/sender";
+import { sendEmailSafe } from "@/server/emails/sender";
 import { verificationApprovedEmail } from "@/server/emails/templates/verification-approved";
+import {
+  verificationInvalidInfoEmail,
+  verificationRejectedEmail,
+} from "@/server/emails/templates/verification-review";
+import {
+  serviceRequestUpdatedUserEmail,
+} from "@/server/emails/templates/service-request";
 import { createNotification } from "@/server/services/notifications";
 
 function adminEmails() {
@@ -66,7 +73,7 @@ export async function approveUser(userId: string) {
   const user = await prisma.user.findUnique({ where: { id: userId }, select: { email: true } });
   if (user?.email) {
     const tpl = verificationApprovedEmail();
-    await sendEmail({ to: user.email, subject: tpl.subject, html: tpl.html });
+    await sendEmailSafe({ to: user.email, subject: tpl.subject, html: tpl.html });
   }
 
   return { ok: true as const };
@@ -84,7 +91,7 @@ export async function setVerificationStatus(userId: string, status: "APPROVED" |
     const user = await prisma.user.findUnique({ where: { id: userId }, select: { email: true } });
     if (user?.email) {
       const tpl = verificationApprovedEmail();
-      await sendEmail({ to: user.email, subject: tpl.subject, html: tpl.html });
+      await sendEmailSafe({ to: user.email, subject: tpl.subject, html: tpl.html });
     }
 
     await createNotification({
@@ -94,6 +101,12 @@ export async function setVerificationStatus(userId: string, status: "APPROVED" |
       href: "/dashboard/request-service?fresh=1",
     });
   } else {
+    const user = await prisma.user.findUnique({ where: { id: userId }, select: { email: true } });
+    if (user?.email) {
+      const tpl = verificationRejectedEmail(null);
+      await sendEmailSafe({ to: user.email, subject: tpl.subject, html: tpl.html });
+    }
+
     await createNotification({
       userId,
       title: "Verification needs updates",
@@ -128,7 +141,7 @@ export async function setVerificationReview(
     const user = await prisma.user.findUnique({ where: { id: userId }, select: { email: true } });
     if (user?.email) {
       const tpl = verificationApprovedEmail();
-      await sendEmail({ to: user.email, subject: tpl.subject, html: tpl.html });
+      await sendEmailSafe({ to: user.email, subject: tpl.subject, html: tpl.html });
     }
 
     await createNotification({
@@ -138,6 +151,12 @@ export async function setVerificationReview(
       href: "/dashboard/request-service?fresh=1",
     });
   } else if (status === "REJECTED") {
+    const user = await prisma.user.findUnique({ where: { id: userId }, select: { email: true } });
+    if (user?.email) {
+      const tpl = verificationRejectedEmail(note);
+      await sendEmailSafe({ to: user.email, subject: tpl.subject, html: tpl.html });
+    }
+
     await createNotification({
       userId,
       title: "Verification declined",
@@ -145,6 +164,12 @@ export async function setVerificationReview(
       href: "/dashboard",
     });
   } else {
+    const user = await prisma.user.findUnique({ where: { id: userId }, select: { email: true } });
+    if (user?.email) {
+      const tpl = verificationInvalidInfoEmail(note);
+      await sendEmailSafe({ to: user.email, subject: tpl.subject, html: tpl.html });
+    }
+
     await createNotification({
       userId,
       title: "Invalid business information",
@@ -176,7 +201,19 @@ export async function reviewServiceRequest(input: {
       reviewNote: input.note,
       reviewedAt: new Date(),
     },
+    include: {
+      user: { select: { email: true, name: true } },
+    },
   });
+
+  if (row.user.email) {
+    const tpl = serviceRequestUpdatedUserEmail({
+      serviceType: row.serviceType,
+      statusLabel: serviceRequestStatusLabel(input.status),
+      note: input.note,
+    });
+    await sendEmailSafe({ to: row.user.email, subject: tpl.subject, html: tpl.html });
+  }
 
   await createNotification({
     userId: row.userId,

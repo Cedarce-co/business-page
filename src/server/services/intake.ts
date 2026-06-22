@@ -2,8 +2,15 @@ import type { ServiceRequest } from "@prisma/client";
 import { prisma } from "@/server/database/prisma";
 import { createServiceRequest } from "@/server/services/service-requests";
 import { getPublishedQuestionSet } from "@/server/services/intake-question-sets";
+import { getIntakeAccountDefaults } from "@/server/services/intake-contact";
+import { mergeIntakeAnswers } from "@/features/intake/account-defaults";
 import { createNotification } from "@/server/services/notifications";
 import type { Prisma } from "@prisma/client";
+import {
+  intakeBudgetFromAnswers,
+  intakeSummaryFromAnswers,
+  intakeTimelineFromAnswers,
+} from "@/features/intake/summary-from-answers";
 
 type Answers = Record<string, unknown>;
 
@@ -93,36 +100,26 @@ export async function submitIntake(input: {
     };
   }
 
+  const accountDefaults = await getIntakeAccountDefaults(input.userId);
+  const answers = mergeIntakeAnswers(accountDefaults, input.answers);
+
   const updated = await prisma.serviceIntake.update({
     where: { id: draft.id },
     data: {
       currentStep: input.currentStep,
-      answers: input.answers as Prisma.InputJsonValue,
+      answers: answers as Prisma.InputJsonValue,
       status: "SUBMITTED",
       submittedAt: new Date(),
       questionsVer: draft.questionsVer,
     },
   });
 
-  const summary =
-    (typeof input.answers.business_one_sentence === "string" && input.answers.business_one_sentence.trim()) ||
-    (typeof input.answers.business_one_liner === "string" && input.answers.business_one_liner.trim()) ||
-    (typeof input.answers.vision_notes === "string" && input.answers.vision_notes.trim()) ||
-    (typeof input.answers.anything_else === "string" && input.answers.anything_else.trim()) ||
-    `Service intake submitted for ${input.packageTier}`;
-
   const serviceType = `${input.packageTier} package`;
   const payload = {
     serviceType,
-    summary,
-    budget:
-      (typeof input.answers.budget_mind === "string" && input.answers.budget_mind) ||
-      (typeof input.answers.budget_range === "string" && input.answers.budget_range) ||
-      undefined,
-    timeline:
-      (typeof input.answers.timeline_ready === "string" && input.answers.timeline_ready) ||
-      (typeof input.answers.timeline === "string" && input.answers.timeline) ||
-      undefined,
+    summary: intakeSummaryFromAnswers(answers, input.packageTier),
+    budget: intakeBudgetFromAnswers(answers),
+    timeline: intakeTimelineFromAnswers(answers),
   };
 
   const result = await createServiceRequest(input.userId, payload);

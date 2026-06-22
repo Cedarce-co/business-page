@@ -53,6 +53,7 @@ model Kyc {
   socialHandle    String?
   cacNumber       String?
   cacUrl          String?
+  addressProofUrl String?
   govIdType   String?
   govIdUrl    String?
   reviewNote  String?

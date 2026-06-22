@@ -98,12 +98,14 @@ function resolveDatabaseUrl(): string {
   }
 
   if (isMigrateCommand() && LOCAL_HOST.test(url)) {
-    if (ON_RENDER) {
+    if (ON_RENDER || ON_VERCEL) {
       throw new Error(
-        "DATABASE_URL is localhost on Render. Delete it in Web Service → Environment, then link your Postgres database (Add from database). See docs/RENDER_DEPLOYMENT.md",
+        ON_RENDER
+          ? "DATABASE_URL is localhost on Render. Delete it in Web Service → Environment, then link your Postgres database (Add from database). See docs/RENDER_DEPLOYMENT.md"
+          : "DATABASE_URL points to localhost. Use your production database URL.",
       );
     }
-    throw new Error("DATABASE_URL points to localhost. Use your production database URL.");
+    return url;
   }
 
   return normalizeForPrismaCli(url);

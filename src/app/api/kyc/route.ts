@@ -3,9 +3,18 @@ import { getApiUserId } from "@/lib/server-auth";
 import { kycTextSchema } from "@/features/kyc/types";
 import { getKycWithContact, submitKyc } from "@/server/services/kyc";
 import { MAX_UPLOAD_BYTES } from "@/lib/upload-limits";
+import { validateKycUpload } from "@/lib/kyc-upload";
 import { UploadConfigError } from "@/server/uploads/store";
 
 export const maxDuration = 60;
+
+function validateUploadFile(file: File, label: string) {
+  const maxMb = MAX_UPLOAD_BYTES / (1024 * 1024);
+  if (file.size > MAX_UPLOAD_BYTES) {
+    return `${label} must be ${maxMb}MB or less.`;
+  }
+  return validateKycUpload(file);
+}
 
 export async function GET() {
   const userId = await getApiUserId();
@@ -48,6 +57,7 @@ export async function POST(request: Request) {
     });
 
     const file = formData.get("govIdFile");
+    const addressProofFile = formData.get("addressProofFile");
     const cacFile = formData.get("cacFile");
     const hasExistingGovId = formData.get("hasExistingGovId") === "1";
 
@@ -60,17 +70,23 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Government ID file is required." }, { status: 400 });
     }
 
-    const maxMb = MAX_UPLOAD_BYTES / (1024 * 1024);
-    if (govIdIsFile && file.size > MAX_UPLOAD_BYTES) {
-      return NextResponse.json({ error: `ID file must be ${maxMb}MB or less.` }, { status: 400 });
+    if (govIdIsFile) {
+      const err = validateUploadFile(file, "ID file");
+      if (err) return NextResponse.json({ error: err }, { status: 400 });
     }
-    if (cacFile instanceof File && cacFile.size > MAX_UPLOAD_BYTES) {
-      return NextResponse.json({ error: `CAC file must be ${maxMb}MB or less.` }, { status: 400 });
+    if (addressProofFile instanceof File && addressProofFile.size > 0) {
+      const err = validateUploadFile(addressProofFile, "Proof of address");
+      if (err) return NextResponse.json({ error: err }, { status: 400 });
+    }
+    if (cacFile instanceof File && cacFile.size > 0) {
+      const err = validateUploadFile(cacFile, "CAC file");
+      if (err) return NextResponse.json({ error: err }, { status: 400 });
     }
 
     await submitKyc(userId, {
       ...parsed.data,
       govIdFile: govIdIsFile ? file : null,
+      addressProofFile: addressProofFile instanceof File && addressProofFile.size > 0 ? addressProofFile : null,
       cacFile: cacFile instanceof File && cacFile.size > 0 ? cacFile : null,
       hasExistingGovId,
     });

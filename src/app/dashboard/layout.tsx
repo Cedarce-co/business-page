@@ -10,14 +10,11 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }>) {
   const session = await requireUser();
-  if (!session.user.email) {
-    redirect("/signin");
-  }
 
   return (
     <DashboardFrame
       name={session.user.name || "User"}
-      email={session.user.email}
+      email={session.user.email ?? ""}
     >
       {children}
     </DashboardFrame>

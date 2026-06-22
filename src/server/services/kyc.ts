@@ -1,12 +1,17 @@
 import { prisma } from "@/lib/prisma";
 import type { KycInput } from "@/features/kyc/types";
-import { sendEmail, emailAdmins } from "@/server/emails/sender";
+import { sendEmailSafe, emailAdminsSafe } from "@/server/emails/sender";
 import {
   verificationSubmittedAdminEmail,
   verificationSubmittedUserEmail,
 } from "@/server/emails/templates/verification-submitted";
 import { createNotification, notifyAdmins } from "@/server/services/notifications";
 import { storeUpload } from "@/server/uploads/store";
+
+function trimOrNull(value?: string | null) {
+  const trimmed = value?.trim();
+  return trimmed ? trimmed : null;
+}
 
 export async function getKyc(userId: string) {
   return prisma.kyc.findUnique({ where: { userId } });
@@ -32,12 +37,22 @@ export async function submitKyc(userId: string, payload: KycInput) {
 
   let govIdUrl = existing?.govIdUrl ?? "";
   let cacUrl: string | null = existing?.cacUrl ?? null;
+  let addressProofUrl: string | null = existing?.addressProofUrl ?? null;
 
   if (payload.govIdFile) {
     govIdUrl = await storeUpload({
       folder: "kyc",
       userId,
       file: payload.govIdFile,
+      access: "private",
+    });
+  }
+
+  if (payload.addressProofFile) {
+    addressProofUrl = await storeUpload({
+      folder: "kyc",
+      userId,
+      file: payload.addressProofFile,
       access: "private",
     });
   }
@@ -59,18 +74,18 @@ export async function submitKyc(userId: string, payload: KycInput) {
     await tx.user.update({
       where: { id: userId },
       data: {
-        phone: payload.phone.trim(),
+        phone: trimOrNull(payload.phone),
         profile: {
           upsert: {
             create: {
-              address: payload.personalAddress.trim(),
-              city: payload.personalCity.trim(),
-              country: payload.personalCountry?.trim() || null,
+              address: trimOrNull(payload.personalAddress),
+              city: trimOrNull(payload.personalCity),
+              country: trimOrNull(payload.personalCountry),
             },
             update: {
-              address: payload.personalAddress.trim(),
-              city: payload.personalCity.trim(),
-              country: payload.personalCountry?.trim() || null,
+              address: trimOrNull(payload.personalAddress),
+              city: trimOrNull(payload.personalCity),
+              country: trimOrNull(payload.personalCountry),
             },
           },
         },
@@ -82,33 +97,35 @@ export async function submitKyc(userId: string, payload: KycInput) {
       create: {
         userId,
         status: "SUBMITTED",
-        address: payload.personalAddress.trim(),
-        businessName: payload.businessName,
-        businessAddress: payload.businessAddress,
-        businessCity: payload.businessCity,
-        businessState: payload.businessState,
-        businessWebsite: payload.businessWebsite || null,
-        businessEmail: payload.businessEmail || null,
-        socialHandle: payload.socialHandle || null,
-        cacNumber: payload.cacNumber || null,
+        address: trimOrNull(payload.personalAddress),
+        businessName: trimOrNull(payload.businessName),
+        businessAddress: trimOrNull(payload.businessAddress),
+        businessCity: trimOrNull(payload.businessCity),
+        businessState: trimOrNull(payload.businessState),
+        businessWebsite: trimOrNull(payload.businessWebsite),
+        businessEmail: trimOrNull(payload.businessEmail),
+        socialHandle: trimOrNull(payload.socialHandle),
+        cacNumber: trimOrNull(payload.cacNumber),
         cacUrl,
-        govIdType: payload.govIdType,
+        addressProofUrl,
+        govIdType: trimOrNull(payload.govIdType),
         govIdUrl,
         submittedAt: new Date(),
       },
       update: {
         status: "SUBMITTED",
-        address: payload.personalAddress.trim(),
-        businessName: payload.businessName,
-        businessAddress: payload.businessAddress,
-        businessCity: payload.businessCity,
-        businessState: payload.businessState,
-        businessWebsite: payload.businessWebsite || null,
-        businessEmail: payload.businessEmail || null,
-        socialHandle: payload.socialHandle || null,
-        cacNumber: payload.cacNumber || null,
+        address: trimOrNull(payload.personalAddress),
+        businessName: trimOrNull(payload.businessName),
+        businessAddress: trimOrNull(payload.businessAddress),
+        businessCity: trimOrNull(payload.businessCity),
+        businessState: trimOrNull(payload.businessState),
+        businessWebsite: trimOrNull(payload.businessWebsite),
+        businessEmail: trimOrNull(payload.businessEmail),
+        socialHandle: trimOrNull(payload.socialHandle),
+        cacNumber: trimOrNull(payload.cacNumber),
         cacUrl,
-        govIdType: payload.govIdType,
+        addressProofUrl,
+        govIdType: trimOrNull(payload.govIdType),
         govIdUrl,
         submittedAt: new Date(),
         reviewNote: null,
@@ -123,17 +140,17 @@ export async function submitKyc(userId: string, payload: KycInput) {
   });
   if (user?.email) {
     const tpl = verificationSubmittedUserEmail();
-    await sendEmail({ to: user.email, subject: tpl.subject, html: tpl.html });
+    await sendEmailSafe({ to: user.email, subject: tpl.subject, html: tpl.html });
 
     const adminTpl = verificationSubmittedAdminEmail({
       name: user.name,
       email: user.email,
       nationality: user.profile?.country ?? null,
-      address: payload.personalAddress,
+      address: payload.personalAddress ?? null,
       govIdType: kyc.govIdType,
       govIdUrl: kyc.govIdUrl,
     });
-    await emailAdmins(adminTpl.subject, adminTpl.html);
+    await emailAdminsSafe(adminTpl.subject, adminTpl.html);
 
     await notifyAdmins({
       title: "New verification submitted",

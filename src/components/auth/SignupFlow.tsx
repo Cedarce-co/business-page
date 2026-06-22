@@ -12,7 +12,7 @@ import { signupUser } from "@/features/auth/client";
 import type { SignupInput } from "@/features/auth/types";
 
 const baseInput =
-  "w-full rounded-xl border border-white/20 bg-white/10 px-4 py-3 text-white outline-none placeholder:text-slate-300 focus:border-cyan-300";
+  "w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-slate-900";
 
 const emptyForm: SignupInput = {
   name: "",
@@ -69,7 +69,7 @@ export default function SignupFlow() {
     <div>
       <div className="mb-7 flex items-center gap-2">
         {[0, 1, 2, 3].map((i) => (
-          <div key={i} className={`h-2 flex-1 rounded-full ${i <= step ? "bg-cyan-300" : "bg-white/20"}`} />
+          <div key={i} className={`h-2 flex-1 rounded-full ${i <= step ? "bg-slate-900" : "bg-slate-200"}`} />
         ))}
       </div>
 
@@ -84,7 +84,7 @@ export default function SignupFlow() {
         >
           {step === 0 ? (
             <>
-              <p className="text-sm text-slate-300">Step 1 of 4</p>
+              <p className="text-sm text-slate-600">Step 1 of 4</p>
               <input
                 className={baseInput}
                 placeholder="Full name"
@@ -96,7 +96,7 @@ export default function SignupFlow() {
 
           {step === 1 ? (
             <>
-              <p className="text-sm text-slate-300">Step 2 of 4: Email address</p>
+              <p className="text-sm text-slate-600">Step 2 of 4: Email address</p>
               <input
                 className={baseInput}
                 type="email"
@@ -109,7 +109,7 @@ export default function SignupFlow() {
 
           {step === 2 ? (
             <>
-              <p className="text-sm text-slate-300">Step 3 of 4: Contact details</p>
+              <p className="text-sm text-slate-600">Step 3 of 4: Contact details</p>
               <input
                 className={baseInput}
                 placeholder="Phone / WhatsApp"
@@ -139,10 +139,10 @@ export default function SignupFlow() {
 
           {step === 3 ? (
             <>
-              <p className="text-sm text-slate-300">Step 4 of 4: Create a password</p>
+              <p className="text-sm text-slate-600">Step 4 of 4: Create a password</p>
               <PasswordInput
                 className={baseInput}
-                toggleClassName="text-slate-300 hover:text-white"
+                toggleClassName="text-slate-400 hover:text-slate-700"
                 placeholder="Minimum 8 characters"
                 value={form.password}
                 onChange={(e) => setForm((p) => ({ ...p, password: e.target.value }))}
@@ -152,12 +152,12 @@ export default function SignupFlow() {
         </motion.div>
       </AnimatePresence>
 
-      {error ? <p className="mt-4 text-sm text-rose-300">{error}</p> : null}
+      {error ? <p className="mt-4 text-sm text-rose-600">{error}</p> : null}
 
       <div className="mt-6 mb-10 flex items-center justify-center gap-3">
         {step > 0 ? (
           <button
-            className="w-full rounded-xl border border-white/30 px-4 py-2 text-base font-semibold text-white sm:w-1/2"
+            className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2 text-base font-semibold text-slate-900 hover:bg-slate-50 sm:w-1/2"
             onClick={() => setStep((s) => s - 1)}
             type="button"
           >
@@ -166,7 +166,7 @@ export default function SignupFlow() {
         ) : null}
         {step < 3 ? (
           <button
-            className="w-full rounded-xl bg-white px-5 py-2.5 text-base font-semibold text-slate-900 disabled:opacity-50 sm:w-1/2"
+            className="w-full rounded-xl bg-slate-900 px-5 py-2.5 text-base font-semibold text-white disabled:opacity-50 hover:bg-slate-800 sm:w-1/2"
             disabled={!canContinue}
             onClick={() => setStep((s) => s + 1)}
             type="button"
@@ -175,14 +175,14 @@ export default function SignupFlow() {
           </button>
         ) : (
           <button
-            className="w-full rounded-xl bg-cyan-300 px-5 py-2.5 text-base font-semibold text-slate-950 disabled:opacity-50 sm:w-1/2"
+            className="w-full rounded-xl bg-slate-900 px-5 py-2.5 text-base font-semibold text-white disabled:opacity-50 hover:bg-slate-800 sm:w-1/2"
             disabled={!canContinue || loading}
             onClick={submit}
             type="button"
           >
             {loading ? (
               <span className="inline-flex items-center justify-center gap-2">
-                <CircleLoader size={18} className="text-slate-950" />
+                <CircleLoader size={18} className="text-white" />
                 Creating...
               </span>
             ) : (
@@ -192,9 +192,9 @@ export default function SignupFlow() {
         )}
       </div>
 
-      <p className="text-sm text-slate-300">
+      <p className="text-sm text-slate-600">
         Already have an account?{" "}
-        <Link href="/signin" className="font-semibold text-cyan-300 hover:underline">
+        <Link href="/signin" className="font-semibold text-slate-900 hover:underline">
           Sign in
         </Link>
       </p>

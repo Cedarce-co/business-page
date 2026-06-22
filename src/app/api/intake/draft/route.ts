@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getApiUserId } from "@/lib/server-auth";
 import { getOrCreateDraft, saveDraft } from "@/server/services/intake";
+import { getIntakeAccountDefaults } from "@/server/services/intake-contact";
+import { mergeIntakeAnswers } from "@/features/intake/account-defaults";
 
 export const dynamic = "force-dynamic";
 
@@ -25,10 +27,19 @@ export async function GET(request: Request) {
   if (!parsed.success) return NextResponse.json({ error: "Missing package." }, { status: 400 });
 
   const fresh = url.searchParams.get("fresh") === "1";
-  const draft = await getOrCreateDraft(userId, parsed.data.package, { fresh });
+  const [draft, accountDefaults] = await Promise.all([
+    getOrCreateDraft(userId, parsed.data.package, { fresh }),
+    getIntakeAccountDefaults(userId),
+  ]);
   return NextResponse.json(
     {
-      draft,
+      draft: draft
+        ? {
+            ...draft,
+            answers: mergeIntakeAnswers(accountDefaults, (draft.answers as Record<string, unknown>) ?? {}),
+          }
+        : draft,
+      accountDefaults,
       locked: false,
       requestStatus: null,
       reviewNote: null,

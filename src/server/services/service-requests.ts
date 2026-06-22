@@ -1,6 +1,11 @@
 import { prisma } from "@/lib/prisma";
 import type { ServiceRequestInput } from "@/features/service-requests/types";
 import { notifyAdmins } from "@/server/services/notifications";
+import { sendEmailSafe, emailAdminsSafe } from "@/server/emails/sender";
+import {
+  serviceRequestSubmittedAdminEmail,
+  serviceRequestSubmittedUserEmail,
+} from "@/server/emails/templates/service-request";
 
 export async function getServiceRequests(userId: string) {
   return prisma.serviceRequest.findMany({
@@ -27,8 +32,24 @@ export async function createServiceRequest(userId: string, payload: ServiceReque
 
   const user = await prisma.user.findUnique({
     where: { id: userId },
-    select: { name: true },
+    select: { name: true, email: true },
   });
+
+  if (user?.email) {
+    const userTpl = serviceRequestSubmittedUserEmail({ serviceType: payload.serviceType });
+    await sendEmailSafe({ to: user.email, subject: userTpl.subject, html: userTpl.html });
+  }
+
+  if (user) {
+    const adminTpl = serviceRequestSubmittedAdminEmail({
+      name: user.name,
+      email: user.email,
+      serviceType: payload.serviceType,
+      summary: payload.summary,
+      requestId: request.id,
+    });
+    await emailAdminsSafe(adminTpl.subject, adminTpl.html);
+  }
 
   await notifyAdmins({
     title: "New service request",

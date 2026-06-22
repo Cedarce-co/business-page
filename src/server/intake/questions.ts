@@ -3,9 +3,9 @@ import type { IntakeQuestion } from "@/features/intake/types";
 
 /**
  * Bump when the default questionnaire changes; published DB set is replaced on mismatch.
- * v5: Neutral / business-oriented wording (works for staff submitting on behalf of a business).
+ * v6: Drop duplicate follow-up contact field; account phone/email prefilled from profile.
  */
-export const INTAKE_QUESTIONS_VERSION = "v5-2026-05-01";
+export const INTAKE_QUESTIONS_VERSION = "v6-2026-06-22";
 
 const SERVICES_Q = "services_requested";
 
@@ -23,17 +23,19 @@ export const INTAKE_QUESTIONS: IntakeQuestion[] = [
     id: "whatsapp",
     section: "Business & contact",
     order: 2,
-    prompt: "WhatsApp number to reach for this project",
+    prompt: "WhatsApp number for this project",
     type: "short_text",
     required: true,
+    placeholder: "Uses your account phone when already on file",
   },
   {
     id: "email",
     section: "Business & contact",
     order: 3,
-    prompt: "Primary email for correspondence on this request",
+    prompt: "Email for correspondence on this request",
     type: "short_text",
     required: true,
+    placeholder: "Uses your account email when already on file",
   },
   {
     id: "city_state",
@@ -431,7 +433,7 @@ export const INTAKE_QUESTIONS: IntakeQuestion[] = [
     id: "contact_methods_pref",
     section: "Getting in touch",
     order: 30,
-    prompt: "Preferred ways to follow up on this request (tick all that apply)",
+    prompt: "How should we follow up on this request? (tick all that apply)",
     type: "multi_choice",
     required: true,
     options: [
@@ -440,14 +442,5 @@ export const INTAKE_QUESTIONS: IntakeQuestion[] = [
       { value: "email", label: "Email" },
       { value: "video", label: "Video call (Zoom / Google Meet)" },
     ],
-  },
-  {
-    id: "contact_details_followup",
-    section: "Getting in touch",
-    order: 31,
-    prompt: "Best phone, email, or other details for follow-up on this project",
-    type: "short_text",
-    required: true,
-    placeholder: "e.g. phone, email, WhatsApp (whoever should receive updates)",
   },
 ];

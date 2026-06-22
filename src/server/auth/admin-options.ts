@@ -10,6 +10,7 @@ const credentialsSchema = z.object({
 });
 
 export const adminAuthOptions: NextAuthOptions = {
+  secret: process.env.NEXTAUTH_SECRET,
   pages: {
     signIn: "/admin",
   },

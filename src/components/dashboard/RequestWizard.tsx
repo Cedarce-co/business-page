@@ -4,9 +4,14 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { Skeleton } from "@/components/ui/Skeleton";
+import ScrollableStepShell from "@/components/ui/ScrollableStepShell";
 import { ActionButton, Card } from "@/components/dashboard/ui";
 import type { IntakeQuestion, IntakeQuestionsResponse } from "@/features/intake/types";
 import { filterVisibleIntakeQuestions, isIntakeQuestionVisible } from "@/features/intake/visibility";
+import {
+  filterWizardIntakeQuestions,
+  mergeIntakeAnswers,
+} from "@/features/intake/account-defaults";
 
 type Answers = Record<string, unknown>;
 
@@ -20,10 +25,13 @@ function byOrder(a: IntakeQuestion, b: IntakeQuestion) {
 export default function RequestWizard({
   packageTier,
   startFresh = false,
+  compact = false,
 }: {
   packageTier: string;
   /** When true (default on request page), discard in-progress drafts for this package and start at step 1. False when `?resume=1`. */
   startFresh?: boolean;
+  /** Shorter panel when another block sits above the wizard. */
+  compact?: boolean;
 }) {
   const router = useRouter();
   const submittedRef = useRef(false);
@@ -33,10 +41,14 @@ export default function RequestWizard({
   const [questions, setQuestions] = useState<IntakeQuestion[]>([]);
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Answers>({});
+  const [accountDefaults, setAccountDefaults] = useState<Record<string, unknown>>({});
   const [intakeId, setIntakeId] = useState<string | null>(null);
 
   const flat = useMemo(() => questions.slice().sort(byOrder), [questions]);
-  const visibleFlat = useMemo(() => filterVisibleIntakeQuestions(flat, answers), [flat, answers]);
+  const visibleFlat = useMemo(
+    () => filterWizardIntakeQuestions(flat, answers, accountDefaults),
+    [flat, answers, accountDefaults],
+  );
   const totalSteps = Math.max(1, visibleFlat.length);
   const activeQ = visibleFlat[Math.min(step, Math.max(0, totalSteps - 1))];
   const sectionLabel = activeQ?.section ?? "";
@@ -85,17 +97,23 @@ export default function RequestWizard({
         if (startFresh) qs.set("fresh", "1");
         const dRes = await fetch(`/api/intake/draft?${qs.toString()}`, { cache: "no-store" });
         const dJson = await dRes.json();
+        const defaults = (dJson.accountDefaults as Record<string, unknown>) ?? {};
+        if (!cancelled) setAccountDefaults(defaults);
+
         if (!cancelled && dJson?.draft?.id) {
           setIntakeId(dJson.draft.id as string);
           submittedRef.current = false;
+          const draftAnswers = (dJson.draft.answers as Answers) ?? {};
           if (startFresh) {
             setStep(0);
-            setAnswers({});
+            setAnswers(mergeIntakeAnswers(defaults, {}));
           } else {
             const rawStep = Number(dJson.draft.currentStep ?? 0);
             setStep(Number.isFinite(rawStep) && rawStep >= 0 ? rawStep : 0);
-            setAnswers((dJson.draft.answers as Answers) ?? {});
+            setAnswers(mergeIntakeAnswers(defaults, draftAnswers));
           }
+        } else if (!cancelled && Object.keys(defaults).length > 0) {
+          setAnswers(mergeIntakeAnswers(defaults, {}));
         }
       } catch (e) {
         toast.error(e instanceof Error ? e.message : "Could not load questions.");
@@ -209,33 +227,63 @@ export default function RequestWizard({
     );
   }
 
+  const wizardHeader = (
+    <>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Package</p>
+          <p className="mt-1 text-lg font-black text-slate-900">{packageTier}</p>
+          <p className="mt-1 text-sm text-slate-600">
+            Answer a few quick questions. We’ll use your account phone and email when already on file.
+          </p>
+        </div>
+        <div className="text-right">
+          <p className="text-xs font-semibold text-slate-500">Progress</p>
+          <p className="mt-1 text-sm font-bold text-slate-900">
+            Step {step + 1}/{totalSteps}
+          </p>
+          {saving ? <p className="mt-1 text-xs text-slate-500">Saving…</p> : null}
+        </div>
+      </div>
+
+      <div className="mt-5 flex gap-2">
+        {Array.from({ length: totalSteps }).map((_, i) => (
+          <div key={i} className={`h-2 flex-1 rounded-full ${i <= step ? "bg-slate-900" : "bg-slate-200"}`} />
+        ))}
+      </div>
+    </>
+  );
+
+  const wizardFooter = (
+    <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-center">
+      {step > 0 ? (
+        <ActionButton variant="secondary" onClick={back} className="w-full sm:w-1/2">
+          Back
+        </ActionButton>
+      ) : null}
+
+      {step < totalSteps - 1 ? (
+        <ActionButton variant="primary" disabled={!canContinue} onClick={next} className="w-full sm:w-1/2">
+          Next
+        </ActionButton>
+      ) : (
+        <ActionButton
+          variant="primary"
+          disabled={!canContinue}
+          loading={submitting}
+          onClick={submit}
+          className="w-full sm:w-1/2"
+        >
+          Submit
+        </ActionButton>
+      )}
+    </div>
+  );
+
   return (
     <div className="mx-auto w-full max-w-3xl">
-      <Card className="p-6 sm:p-7">
-        <div className="flex items-start justify-between gap-4">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Package</p>
-            <p className="mt-1 text-lg font-black text-slate-900">{packageTier}</p>
-            <p className="mt-1 text-sm text-slate-600">
-              Answer a few quick questions. We’ll review and recommend the best-fit solution.
-            </p>
-          </div>
-          <div className="text-right">
-            <p className="text-xs font-semibold text-slate-500">Progress</p>
-            <p className="mt-1 text-sm font-bold text-slate-900">
-              Step {step + 1}/{totalSteps}
-            </p>
-            {saving ? <p className="mt-1 text-xs text-slate-500">Saving…</p> : null}
-          </div>
-        </div>
-
-        <div className="mt-5 mb-7 flex gap-2">
-          {Array.from({ length: totalSteps }).map((_, i) => (
-            <div key={i} className={`h-2 flex-1 rounded-full ${i <= step ? "bg-slate-900" : "bg-slate-200"}`} />
-          ))}
-        </div>
-
-        <div className="space-y-4">
+      <ScrollableStepShell compact={compact} scrollResetKey={step} header={wizardHeader} footer={wizardFooter}>
+        <div className="space-y-4 pb-1 pt-5">
           {sectionLabel ? (
             <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Section</p>
@@ -268,7 +316,7 @@ export default function RequestWizard({
               ) : null}
 
               {activeQ.type === "single_choice" ? (
-                <div className="max-h-[420px] space-y-2 overflow-auto pr-1">
+                <div className="space-y-2">
                   {activeQ.options.map((o) => (
                     <label
                       key={o.value}
@@ -287,7 +335,7 @@ export default function RequestWizard({
               ) : null}
 
               {activeQ.type === "multi_choice" ? (
-                <div className="max-h-[420px] space-y-2 overflow-auto pr-1">
+                <div className="space-y-2">
                   {activeQ.options.map((o) => {
                     const picked = Array.isArray(answers[activeQ.id]) ? (answers[activeQ.id] as string[]) : [];
                     const checked = picked.includes(o.value);
@@ -322,31 +370,7 @@ export default function RequestWizard({
             </div>
           )}
         </div>
-
-        <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center sm:justify-center">
-          {step > 0 ? (
-            <ActionButton variant="secondary" onClick={back} className="w-full sm:w-1/2">
-              Back
-            </ActionButton>
-          ) : null}
-
-          {step < totalSteps - 1 ? (
-            <ActionButton variant="primary" disabled={!canContinue} onClick={next} className="w-full sm:w-1/2">
-              Next
-            </ActionButton>
-          ) : (
-            <ActionButton
-              variant="primary"
-              disabled={!canContinue}
-              loading={submitting}
-              onClick={submit}
-              className="w-full sm:w-1/2"
-            >
-              Submit
-            </ActionButton>
-          )}
-        </div>
-      </Card>
+      </ScrollableStepShell>
     </div>
   );
 }

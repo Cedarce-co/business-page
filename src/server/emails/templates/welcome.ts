@@ -7,7 +7,7 @@ export function welcomeEmail(input: { name: string }) {
   const verifyUrl = `${getAppUrl()}/dashboard/kyc`;
 
   return {
-    subject: "Welcome aboard",
+    subject: "Your Cedarce account is confirmed",
     html: `
       <div style="font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.55">
         <h2 style="margin:0 0 10px;color:#0f172a">Welcome, ${escapeHtml(input.name)}.</h2>
