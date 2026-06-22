@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import SectionLabel from "@/components/ui/SectionLabel";
 import Button from "@/components/ui/Button";
 import ChatBubble from "@/components/ui/ChatBubble";
+import { openTawkChat, isTawkConfigured } from "@/lib/tawk";
 import { chatBubble, staggerSlow, viewport } from "@/lib/animations";
 
 export default function AIBuddySection() {
@@ -21,17 +22,19 @@ export default function AIBuddySection() {
               Get answers.
             </h2>
             <p className="mt-4 max-w-lg text-lg leading-relaxed text-cliq-text-body">
-              Websites, payments, invoicing, email, automation: ask what it costs, how long it takes, and what you need first. We respond fast.
+              Websites, payments, invoicing, email, automation: ask what it costs, how long it takes, and what you need first. A real person on our team responds.
             </p>
             <div className="mt-8">
               <Button
                 onClick={() => {
-                  if (typeof window !== "undefined") {
-                    window.dispatchEvent(new Event("open-ai-chat"));
+                  if (isTawkConfigured()) {
+                    openTawkChat();
+                    return;
                   }
+                  window.location.href = "/contact";
                 }}
               >
-                Talk to us: open chat →
+                Chat with our team →
               </Button>
             </div>
           </div>
@@ -54,7 +57,7 @@ export default function AIBuddySection() {
                   { side: "user", text: "How do I start accepting payments online for my food store?" },
                   {
                     side: "assistant",
-                    text: "Great question. We typically wire up cards, bank transfer, and mobile checkout in about 48 hours and connect them to your invoicing.",
+                    text: "We can set up cards, bank transfer, and mobile checkout in about 48 hours and connect them to your invoicing. Want to talk through your setup?",
                   },
                   { side: "user", text: "What does a professional business email cost?" },
                   {
