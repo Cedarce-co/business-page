@@ -13,6 +13,7 @@ import AuthSessionProvider from "@/components/auth/AuthSessionProvider";
 import RootMain from "@/components/layout/RootMain";
 import PwaRegister from "@/components/layout/PwaRegister";
 import CookieConsentBanner from "@/components/layout/CookieConsentBanner";
+import TawkToWidget from "@/components/layout/TawkToWidget";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -104,6 +105,7 @@ export default function RootLayout({
         <PwaRegister />
         <AuthSessionProvider>
           <AppToaster />
+          <TawkToWidget />
           <RootChrome />
           <RootMain>{children}</RootMain>
           <RootFooter />

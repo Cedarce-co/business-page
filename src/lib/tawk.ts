@@ -31,6 +31,7 @@ function suppressTawkDevConsoleNoise() {
   };
 }
 
+/** Legacy helper — prefer <TawkToWidget /> Script tags. Kept for programmatic open. */
 export function initTawkEmbed() {
   const propertyId = process.env.NEXT_PUBLIC_TAWK_PROPERTY_ID;
   const widgetId = process.env.NEXT_PUBLIC_TAWK_WIDGET_ID;
@@ -47,14 +48,9 @@ export function initTawkEmbed() {
   script.async = true;
   script.src = `https://embed.tawk.to/${propertyId}/${widgetId}`;
   script.charset = "UTF-8";
-  script.setAttribute("crossorigin", "*");
+  script.setAttribute("crossorigin", "anonymous");
 
-  const firstScript = document.getElementsByTagName("script")[0];
-  if (firstScript?.parentNode) {
-    firstScript.parentNode.insertBefore(script, firstScript);
-  } else {
-    document.body.appendChild(script);
-  }
+  document.body.appendChild(script);
 }
 
 export function openTawkChat() {
@@ -71,7 +67,9 @@ export function openTawkChat() {
   const api = window.Tawk_API;
   if (!api?.maximize) {
     if (api) {
+      const previous = api.onLoad;
       api.onLoad = () => {
+        previous?.();
         try {
           window.Tawk_API?.maximize?.();
         } catch {

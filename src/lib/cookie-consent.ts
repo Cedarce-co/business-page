@@ -27,6 +27,7 @@ export function isCookieBannerDismissedThisSession() {
 }
 
 export function hasAnalyticsConsent() {
+  /** Optional analytics only — live chat (Tawk) is never gated on this. */
   return readCookieConsent() === "accepted";
 }
 
