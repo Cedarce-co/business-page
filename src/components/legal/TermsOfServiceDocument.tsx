@@ -1,6 +1,6 @@
 import { SUPPORT_EMAIL, SUPPORT_PHONE_DISPLAY, OFFICE_ADDRESS, OFFICE_HOURS } from "@/lib/contact";
 
-const SITE = "https://cedarce.ng";
+const SITE = "https://cedarce.com";
 
 export default function TermsOfServiceDocument() {
   return (
@@ -9,7 +9,7 @@ export default function TermsOfServiceDocument() {
         <p className="text-sm font-semibold text-cliq-text-heading">Cedarce Co</p>
         <h1 className="text-4xl font-black text-cliq-text-heading">Terms of Service</h1>
         <p className="text-sm text-cliq-text-muted">
-          Effective Date: May 2026 · Last Updated: June 2026
+          Effective Date: May 1, 2026 at 12:00 AM · Last Updated: June 3, 2026 at 12:00 AM
         </p>
       </header>
 

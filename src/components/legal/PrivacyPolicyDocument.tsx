@@ -1,6 +1,6 @@
 import { SUPPORT_EMAIL, SUPPORT_PHONE_DISPLAY, OFFICE_ADDRESS, OFFICE_HOURS } from "@/lib/contact";
 
-const SITE = "https://cedarce.ng";
+const SITE = "https://cedarce.com";
 
 export default function PrivacyPolicyDocument() {
   return (
@@ -9,7 +9,7 @@ export default function PrivacyPolicyDocument() {
         <p className="text-sm font-semibold text-cliq-text-heading">Cedarce Co</p>
         <h1 className="text-4xl font-black text-cliq-text-heading">Privacy Policy</h1>
         <p className="text-sm text-cliq-text-muted">
-          Effective Date: May 2026 · Last Updated: June 2026
+          Effective Date: May 1, 2026 at 12:00 AM · Last Updated: June 3, 2026 at 12:00 AM
         </p>
       </header>
 
@@ -138,7 +138,10 @@ export default function PrivacyPolicyDocument() {
           <li>Secure storage practices for all client information</li>
         </ul>
         <p className="leading-relaxed">
-          However, no method of transmission over the internet is 100% secure. While we do our best to protect your information, we cannot guarantee absolute security.
+          We encourage you to use the security features in your client dashboard, including two-factor
+          authentication, protected sign-in sessions, and your account security settings, so you stay protected while
+          using our services. We maintain these measures and work continuously to align our platform with the
+          safeguards we provide there.
         </p>
       </section>
 
@@ -174,7 +177,7 @@ export default function PrivacyPolicyDocument() {
           </li>
         </ul>
         <p className="leading-relaxed">
-          To exercise any of these rights, please contact us at {SUPPORT_EMAIL}. We will respond within 7 business days.
+          To exercise any of these rights, please contact us at {SUPPORT_EMAIL}. We will respond within 3-5 business days.
         </p>
       </section>
 
@@ -192,14 +195,14 @@ export default function PrivacyPolicyDocument() {
             <strong>Preference cookies:</strong> Remember your cookie choice and basic settings.
           </li>
           <li>
-            <strong>Functional / support cookies:</strong> Power live chat (e.g. Tawk.to) for visitors who are not signed in. You may be asked for your name and email or phone before chatting. Chat history is not linked to a Cedarce account until you sign up.
+            <strong>Functional / support cookies:</strong> Power live chat. You may be asked for your name and email or phone before chatting. Chat history is not linked to a Cedarce account until you sign up.
           </li>
           <li>
             <strong>Analytics cookies:</strong> Help us understand how people use our site. We only enable these when you accept optional cookies.
           </li>
         </ul>
         <p className="leading-relaxed">
-          You can change your browser settings to block cookies, but essential portal features may not work correctly. To withdraw optional cookie consent, clear site data for cedarce.ng or contact us at {SUPPORT_EMAIL}.
+          You can change your browser settings to block cookies, but essential portal features may not work correctly. To withdraw optional cookie consent, clear site data for cedarce.com or contact us at {SUPPORT_EMAIL}.
         </p>
       </section>
 

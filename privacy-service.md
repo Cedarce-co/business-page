@@ -1,8 +1,8 @@
 # Privacy Policy
 
 **Cedarce Co**
-Effective Date: May 2025
-Last Updated: May 2025
+Effective Date: May 1, 2026 at 12:00 AM
+Last Updated: June 3, 2026 at 12:00 AM
 
 ---
 
@@ -35,7 +35,7 @@ We collect the following types of information:
 - Business name
 - Email address
 - WhatsApp and phone number
-- State and city of residence
+- State and city of business residence
 - Business type and industry
 - Service requests and project details
 - Payment-related information submitted through our request forms
@@ -98,7 +98,7 @@ These measures include:
 - Restricted internal access to personal data
 - Secure storage practices for all client information
 
-However, no method of transmission over the internet is 100% secure. While we do our best to protect your information, we cannot guarantee absolute security.
+We encourage you to use the security features in your client dashboard, including two-factor authentication, protected sign-in sessions, and your account security settings, so you stay protected while using our services. We maintain these measures and work continuously to align our platform with the safeguards we provide there.
 
 ---
 
@@ -123,7 +123,7 @@ As a user of our services, you have the right to:
 - **Objection** - Object to how we use your information, including for marketing purposes
 - **Withdrawal of consent** - Withdraw your consent to receive marketing communications at any time
 
-To exercise any of these rights, please contact us at support@cedarce.com. We will respond within 7 business days.
+To exercise any of these rights, please contact us at support@cedarce.com. We will respond within 3-5 business days.
 
 ---
 
@@ -180,8 +180,8 @@ We are available Monday to Saturday, 8am – 8pm (WAT).
 # Terms of Service
 
 **Cedarce Co**
-Effective Date: May 2025
-Last Updated: May 2025
+Effective Date: May 1, 2026 at 12:00 AM
+Last Updated: June 3, 2026 at 12:00 AM
 
 ---
 

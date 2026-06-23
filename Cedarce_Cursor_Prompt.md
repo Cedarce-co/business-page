@@ -1,6 +1,6 @@
 # CEDARCE TECHNOLOGIES - Website Build Prompt for Cursor AI
 # Version 1.0 - Dark Navy Scale · Digital Business Buddy
-# cedarce.ng · Lagos, Nigeria · 2025
+# cedarce.com · Lagos, Nigeria · 2025
 
 ---
 
@@ -15,8 +15,8 @@ Build the complete marketing website for **Cedarce Technologies** - Nigeria's di
 | Initials | CC |
 | Positioning | Your Digital Business Buddy |
 | Tagline | Visibility · Automation · Scalability |
-| Domain | cedarce.ng |
-| Email | hello@cedarce.ng |
+| Domain | cedarce.com |
+| Email | support@cedarce.com |
 | Social | @cedarce on all platforms |
 | Market | Nigeria - Lagos, Abuja, Port Harcourt and beyond |
 | Audience | Gen Z and Millennial SME owners, 22–40 years old |
@@ -1368,7 +1368,7 @@ Column 3 - Company
   text-cliq-navy-300 hover:text-white text-sm transition
 
 Column 4 - Get In Touch
-  hello@cedarce.ng
+  support@cedarce.com
   WhatsApp link - text-cliq-teal hover:underline
   Lagos, Nigeria - text-cliq-navy-400 text-xs
   [Book a Service →] bg-cliq-purple text-white rounded-xl px-4 py-2 text-sm mt-4
@@ -1534,13 +1534,13 @@ export const metadata: Metadata = {
     'WhatsApp automation Nigeria',
     'digital agency Lagos',
     'Cedarce Technologies',
-    'cedarce.ng',
+    'cedarce.com',
   ],
   openGraph: {
     title: 'Cedarce Technologies - Your Digital Business Buddy',
     description:
       "Nigeria's digital business buddy. Website, payments, invoicing, email, automation - done for you professionally.",
-    url: 'https://cedarce.ng',
+    url: 'https://cedarce.com',
     siteName: 'Cedarce Technologies',
     locale: 'en_NG',
     type: 'website',
@@ -1552,7 +1552,7 @@ export const metadata: Metadata = {
       "Nigeria's digital business buddy. One click and your business goes pro.",
   },
   robots: { index: true, follow: true },
-  metadataBase: new URL('https://cedarce.ng'),
+  metadataBase: new URL('https://cedarce.com'),
 }
 ```
 
@@ -1596,4 +1596,4 @@ Rules:
 *Cedarce Technologies - Your Digital Business Buddy*
 *Cedar + Commerce · Visibility · Automation · Scalability*
 *Lagos, Nigeria · 2025*
-*cedarce.ng · hello@cedarce.ng · @cedarce*
+*cedarce.com · support@cedarce.com · @cedarce*

@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     "invoicing automation",
     "business automation",
     "digital agency",
-    "cedarce.ng",
+    "cedarce.com",
     SUPPORT_EMAIL,
   ],
   openGraph: {
