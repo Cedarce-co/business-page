@@ -1,14 +1,15 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getApiSuperAdminUser } from "@/lib/server-auth";
-import { inviteAdmin, listAdminAccounts } from "@/server/services/admin-accounts";
+import { inviteAdmin, listAdminAccounts, listPendingAdminInvites } from "@/server/services/admin-accounts";
 
 export async function GET() {
   const superAdmin = await getApiSuperAdminUser();
   if (!superAdmin) return NextResponse.json({ error: "Forbidden." }, { status: 403 });
 
   const admins = await listAdminAccounts();
-  return NextResponse.json({ admins });
+  const pendingInvites = await listPendingAdminInvites();
+  return NextResponse.json({ admins, pendingInvites });
 }
 
 const inviteSchema = z.object({

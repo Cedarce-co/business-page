@@ -87,13 +87,16 @@ function NavLinks({
 
 export default function AdminFrame({
   children,
+  isSuperAdmin: isSuperAdminFromServer = false,
 }: {
   children: React.ReactNode;
+  isSuperAdmin?: boolean;
 }) {
   const pathname = usePathname() ?? "/admin";
   const [open, setOpen] = useState(false);
   const { data: session } = useSession();
-  const isSuperAdmin = session?.user?.adminRole === "SUPER_ADMIN";
+  const isSuperAdmin =
+    isSuperAdminFromServer || session?.user?.adminRole === "SUPER_ADMIN";
 
   async function handleSignOut() {
     await recordAdminSessionEnd("ADMIN_SIGN_OUT");

@@ -203,6 +203,11 @@ export function buildAdminCrumbs(pathname: string): WayfindingCrumb[] {
     return crumbs;
   }
 
+  if (parts[1] === "admins") {
+    crumbs.push({ label: "Admins", href: null, icon: "users" });
+    return crumbs;
+  }
+
   return crumbs;
 }
 

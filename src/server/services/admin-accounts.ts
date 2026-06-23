@@ -23,7 +23,7 @@ export async function ensureSuperAdminAccount() {
   const existing = await prisma.user.findUnique({ where: { email } });
 
   if (existing) {
-    if (!existing.adminRole) {
+    if (existing.adminRole !== "SUPER_ADMIN") {
       await prisma.user.update({
         where: { id: existing.id },
         data: { adminRole: "SUPER_ADMIN" },
@@ -100,6 +100,51 @@ export async function inviteAdmin(input: {
   await sendEmailSafe({ to: email, subject: tpl.subject, html: tpl.html });
 
   return { ok: true as const, joinUrl: `${getAppUrl()}/admin/join?token=${token}` };
+}
+
+export async function listPendingAdminInvites() {
+  return prisma.adminInvite.findMany({
+    where: { acceptedAt: null, expiresAt: { gt: new Date() } },
+    select: {
+      id: true,
+      email: true,
+      name: true,
+      createdAt: true,
+      expiresAt: true,
+    },
+    orderBy: { createdAt: "desc" },
+  });
+}
+
+export async function resendAdminInvite(inviteId: string) {
+  const invite = await prisma.adminInvite.findUnique({ where: { id: inviteId } });
+  if (!invite || invite.acceptedAt) {
+    throw new Error("This invite is no longer active.");
+  }
+
+  const token = newToken();
+  const tokenHash = sha256Hex(token);
+  const expiresAt = new Date(Date.now() + 1000 * 60 * 60 * 24 * 7);
+
+  await prisma.adminInvite.update({
+    where: { id: inviteId },
+    data: { tokenHash, expiresAt },
+  });
+
+  const tpl = adminInviteEmail({ name: invite.name, joinToken: token });
+  await sendEmailSafe({ to: invite.email, subject: tpl.subject, html: tpl.html });
+
+  return { ok: true as const, joinUrl: `${getAppUrl()}/admin/join?token=${token}` };
+}
+
+export async function revokeAdminInvite(inviteId: string) {
+  const invite = await prisma.adminInvite.findUnique({ where: { id: inviteId } });
+  if (!invite || invite.acceptedAt) {
+    throw new Error("This invite is no longer active.");
+  }
+
+  await prisma.adminInvite.delete({ where: { id: inviteId } });
+  return { ok: true as const };
 }
 
 export async function validateAdminInviteToken(token: string) {
