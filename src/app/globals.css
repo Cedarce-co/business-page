@@ -151,3 +151,18 @@ input[type="reset"]:disabled {
 .step-scroll-area::-webkit-scrollbar-thumb:hover {
   background: #64748b;
 }
+
+@keyframes toast-progress-shrink {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+
+.toast-progress-bar {
+  animation-name: toast-progress-shrink;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+}

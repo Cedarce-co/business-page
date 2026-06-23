@@ -1,57 +1,75 @@
-import { getAppUrl } from "@/server/emails/sender";
-import { SUPPORT_EMAIL } from "@/lib/contact";
+import { getAppUrl } from "@/server/emails/config";
+import { escapeHtml } from "@/server/emails/helpers";
+import { emailButton, emailKeyValue, emailLink, emailParagraph, renderEmailLayout } from "@/server/emails/layout";
+import { EMAIL_TEMPLATE_KEYS, type EmailContent } from "@/server/emails/types";
 
-export function verificationSubmittedUserEmail() {
+export function verificationSubmittedUserEmail(): EmailContent {
+  const dashboardUrl = `${getAppUrl()}/dashboard`;
+
+  const bodyHtml = [
+    emailParagraph("Thanks. We received your business verification documents."),
+    emailParagraph("Our team is reviewing your submission. We will email you as soon as there is an update."),
+    emailButton(dashboardUrl, "Open dashboard"),
+    emailParagraph(`Track progress anytime in your ${emailLink(dashboardUrl, "client dashboard")}.`),
+  ].join("");
+
   return {
-    subject: "Verification submitted - under review",
-    html: `
-      <div style="font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.55">
-        <h2 style="margin:0 0 10px;color:#0f172a">Verification received</h2>
-        <p style="margin:0 0 14px;color:#334155">
-          Thanks - your verification is being reviewed. We will email you as soon as it is approved.
-        </p>
-        <p style="margin:0;color:#64748b;font-size:13px">
-          You can track everything in your dashboard:
-          <a href="${getAppUrl()}/dashboard" style="color:#0f172a;font-weight:600;text-decoration:underline">Open dashboard</a>.
-          Need help? Email
-          <a href="mailto:${SUPPORT_EMAIL}" style="color:#0f172a;font-weight:600;text-decoration:underline">${SUPPORT_EMAIL}</a>.
-        </p>
-      </div>
-    `,
+    templateKey: EMAIL_TEMPLATE_KEYS.VERIFICATION_SUBMITTED_USER,
+    subject: "Verification submitted",
+    html: renderEmailLayout({
+      title: "Verification received",
+      preheader: "Your documents are under review.",
+      bodyHtml,
+    }),
+    variables: {
+      DASHBOARD_URL: dashboardUrl,
+    },
   };
 }
 
 export function verificationSubmittedAdminEmail(input: {
   name: string;
   email: string;
+  businessName?: string | null;
   nationality?: string | null;
   address?: string | null;
   govIdType?: string | null;
-}) {
-  const adminUrl = `${getAppUrl()}/admin/users`;
+  userId?: string;
+}): EmailContent {
+  const reviewUrl = input.userId
+    ? `${getAppUrl()}/admin/users/${input.userId}/verification`
+    : `${getAppUrl()}/admin/verifications`;
+
+  const bodyHtml = [
+    emailParagraph("<strong style=\"color:#0f172a;\">A client submitted business verification.</strong>"),
+    emailKeyValue([
+      { label: "Name", value: escapeHtml(input.name) },
+      { label: "Email", value: escapeHtml(input.email) },
+      { label: "Business", value: escapeHtml(input.businessName?.trim() || "N/A") },
+      { label: "Country", value: escapeHtml(input.nationality ?? "N/A") },
+      { label: "Address", value: escapeHtml(input.address ?? "N/A") },
+      { label: "ID type", value: escapeHtml(input.govIdType ?? "N/A") },
+    ]),
+    emailParagraph("Documents are available securely in the admin portal after sign-in."),
+    emailButton(reviewUrl, "Review verification"),
+  ].join("");
+
   return {
-    subject: `New verification submitted: ${input.name}`,
-    html: `
-      <div style="font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.55">
-        <h2 style="margin:0 0 10px;color:#0f172a">New verification submission</h2>
-        <p style="margin:0 0 10px;color:#334155"><b>${escapeHtml(input.name)}</b> (${escapeHtml(input.email)}) submitted verification.</p>
-        <ul style="margin:0 0 16px;padding-left:18px;color:#334155">
-          <li>Nationality: ${escapeHtml(input.nationality ?? "N/A")}</li>
-          <li>Address: ${escapeHtml(input.address ?? "N/A")}</li>
-          <li>ID type: ${escapeHtml(input.govIdType ?? "N/A")}</li>
-          <li>Documents: view securely in the admin portal after sign-in.</li>
-        </ul>
-        <p style="margin:0 0 18px">
-          <a href="${adminUrl}" style="display:inline-block;padding:12px 16px;border-radius:12px;background:#0f172a;color:#fff;text-decoration:none;font-weight:600">
-            Review in admin
-          </a>
-        </p>
-      </div>
-    `,
+    templateKey: EMAIL_TEMPLATE_KEYS.VERIFICATION_SUBMITTED_ADMIN,
+    subject: `Verification submitted: ${input.name}`,
+    html: renderEmailLayout({
+      title: "New verification submission",
+      preheader: `${input.name} submitted verification for review.`,
+      bodyHtml,
+    }),
+    variables: {
+      NAME: input.name,
+      EMAIL: input.email,
+      BUSINESS_NAME: input.businessName?.trim() || "N/A",
+      COUNTRY: input.nationality ?? "N/A",
+      ADDRESS: input.address ?? "N/A",
+      ID_TYPE: input.govIdType ?? "N/A",
+      REVIEW_URL: reviewUrl,
+    },
   };
 }
-
-function escapeHtml(input: string) {
-  return input.replace(/[&<>"']/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]!));
-}
-

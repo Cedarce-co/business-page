@@ -10,10 +10,11 @@ import { getQuestionSetForVersion } from "@/server/services/intake-question-sets
 import { getIntakeAccountDefaults } from "@/server/services/intake-contact";
 import { mergeIntakeAnswers } from "@/features/intake/account-defaults";
 import { createNotification, notifyAdmins } from "@/server/services/notifications";
-import { emailAdminsSafe, sendEmailSafe } from "@/server/emails/sender";
-import { serviceRequestUpdatedUserEmail } from "@/server/emails/templates/service-request";
-import { escapeHtml } from "@/server/emails/helpers";
-import { getAppUrl } from "@/server/emails/sender";
+import { emailAdminsContentSafe, sendEmailContentSafe } from "@/server/emails/sender";
+import {
+  serviceRequestUpdatedUserEmail,
+  serviceRequestUpdatedAdminEmail,
+} from "@/server/emails/templates/service-request";
 
 type Answers = Record<string, unknown>;
 
@@ -83,27 +84,15 @@ export async function updateServiceRequestIntake(input: {
       statusLabel: wasNeedsInfo ? "Back under review" : "Updated",
       note: wasNeedsInfo ? "We received your additional information." : null,
     });
-    await sendEmailSafe({ to: request.user.email, subject: tpl.subject, html: tpl.html });
+    await sendEmailContentSafe(request.user.email, tpl);
   }
 
   if (wasNeedsInfo) {
-    const adminUrl = `${getAppUrl()}/admin/requests/${request.id}`;
-    await emailAdminsSafe(
-      `Request updated: ${request.user.name}`,
-      `
-        <div style="font-family:Inter,system-ui,sans-serif;line-height:1.55">
-          <h2 style="margin:0 0 10px;color:#0f172a">Client provided more information</h2>
-          <p style="margin:0 0 14px;color:#334155">
-            <b>${escapeHtml(request.user.name)}</b> updated their service request after your review note.
-          </p>
-          <p style="margin:0">
-            <a href="${adminUrl}" style="display:inline-block;padding:12px 16px;border-radius:12px;background:#0f172a;color:#fff;text-decoration:none;font-weight:600">
-              Review request
-            </a>
-          </p>
-        </div>
-      `,
-    );
+    const adminTpl = serviceRequestUpdatedAdminEmail({
+      name: request.user.name,
+      requestId: request.id,
+    });
+    await emailAdminsContentSafe(adminTpl);
 
     await notifyAdmins({
       title: "Request updated by client",

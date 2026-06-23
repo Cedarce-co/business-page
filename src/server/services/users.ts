@@ -1,6 +1,6 @@
 import { hashPassword, verifyPassword } from "@/server/auth/password";
 import type { SignupInput } from "@/features/auth/types";
-import { sendEmailSafe, emailAdminsSafe } from "@/server/emails/sender";
+import { sendEmailContentSafe, emailAdminsContentSafe } from "@/server/emails/sender";
 import { welcomeEmail } from "@/server/emails/templates/welcome";
 import { signupAdminEmail } from "@/server/emails/templates/signup-admin";
 import { notifyAdmins } from "@/server/services/notifications";
@@ -34,7 +34,7 @@ export async function createUser(payload: SignupInput, meta?: RequestMeta) {
   });
 
   const tpl = welcomeEmail({ name: user.name });
-  await sendEmailSafe({ to: user.email, subject: tpl.subject, html: tpl.html });
+  await sendEmailContentSafe(user.email, tpl);
 
   const adminTpl = signupAdminEmail({
     name: user.name,
@@ -42,7 +42,7 @@ export async function createUser(payload: SignupInput, meta?: RequestMeta) {
     phone: payload.phone,
     city: payload.city,
   });
-  await emailAdminsSafe(adminTpl.subject, adminTpl.html);
+  await emailAdminsContentSafe(adminTpl);
 
   await notifyAdmins({
     title: "New account signup",

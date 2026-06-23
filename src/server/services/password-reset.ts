@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import { prisma } from "@/server/database/prisma";
 import { hashPassword } from "@/server/auth/password";
-import { sendEmailSafe } from "@/server/emails/sender";
+import { sendEmailContentSafe } from "@/server/emails/sender";
 import { passwordResetEmail } from "@/server/emails/templates/password-reset";
 
 function sha256Hex(input: string) {
@@ -28,7 +28,7 @@ export async function requestPasswordReset(emailRaw: string) {
   });
 
   const tpl = passwordResetEmail({ resetToken: token });
-  await sendEmailSafe({ to: user.email, subject: tpl.subject, html: tpl.html });
+  await sendEmailContentSafe(user.email, tpl);
 
   return { ok: true as const };
 }

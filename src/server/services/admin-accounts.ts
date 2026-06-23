@@ -5,7 +5,7 @@ import type { UserAdminRole } from "@prisma/client";
 import { prisma } from "@/server/database/prisma";
 import { hashPassword, verifyPassword } from "@/server/auth/password";
 import { SUPER_ADMIN_EMAIL } from "@/lib/admin-roles";
-import { sendEmailSafe } from "@/server/emails/sender";
+import { sendEmailContentSafe } from "@/server/emails/sender";
 import { adminInviteEmail } from "@/server/emails/templates/admin-invite";
 import { getAppUrl } from "@/server/emails/sender";
 
@@ -97,7 +97,7 @@ export async function inviteAdmin(input: {
   });
 
   const tpl = adminInviteEmail({ name, joinToken: token });
-  await sendEmailSafe({ to: email, subject: tpl.subject, html: tpl.html });
+  await sendEmailContentSafe(email, tpl);
 
   return { ok: true as const, joinUrl: `${getAppUrl()}/admin/join?token=${token}` };
 }
@@ -132,7 +132,7 @@ export async function resendAdminInvite(inviteId: string) {
   });
 
   const tpl = adminInviteEmail({ name: invite.name, joinToken: token });
-  await sendEmailSafe({ to: invite.email, subject: tpl.subject, html: tpl.html });
+  await sendEmailContentSafe(invite.email, tpl);
 
   return { ok: true as const, joinUrl: `${getAppUrl()}/admin/join?token=${token}` };
 }

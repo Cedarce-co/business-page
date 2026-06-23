@@ -1,23 +1,30 @@
-import { getAppUrl } from "@/server/emails/sender";
+import { getAppUrl } from "@/server/emails/config";
 import { escapeHtml } from "@/server/emails/helpers";
+import { emailButton, emailKeyValue, emailParagraph, renderEmailLayout } from "@/server/emails/layout";
+import { EMAIL_TEMPLATE_KEYS, type EmailContent } from "@/server/emails/types";
 
-export function serviceRequestSubmittedUserEmail(input: { serviceType: string }) {
-  const url = `${getAppUrl()}/dashboard/service-requests`;
+export function serviceRequestSubmittedUserEmail(input: { serviceType: string }): EmailContent {
+  const trackUrl = `${getAppUrl()}/dashboard/service-requests`;
+  const serviceType = escapeHtml(input.serviceType);
+
+  const bodyHtml = [
+    emailParagraph(`Thanks. We received your <strong>${serviceType}</strong> service request.`),
+    emailParagraph("Our team will review it and update you by email."),
+    emailButton(trackUrl, "Track request"),
+  ].join("");
+
   return {
-    subject: "We received your service request",
-    html: `
-      <div style="font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.55">
-        <h2 style="margin:0 0 10px;color:#0f172a">Request received</h2>
-        <p style="margin:0 0 14px;color:#334155">
-          Thanks. Your <b>${escapeHtml(input.serviceType)}</b> request is in our queue. We will review it and update you by email.
-        </p>
-        <p style="margin:0">
-          <a href="${url}" style="display:inline-block;padding:12px 16px;border-radius:12px;background:#0f172a;color:#fff;text-decoration:none;font-weight:600">
-            Track request
-          </a>
-        </p>
-      </div>
-    `,
+    templateKey: EMAIL_TEMPLATE_KEYS.SERVICE_REQUEST_SUBMITTED_USER,
+    subject: "Service request received",
+    html: renderEmailLayout({
+      title: "Request received",
+      preheader: `Your ${input.serviceType} request is in our queue.`,
+      bodyHtml,
+    }),
+    variables: {
+      SERVICE_TYPE: input.serviceType,
+      TRACK_URL: trackUrl,
+    },
   };
 }
 
@@ -27,45 +34,97 @@ export function serviceRequestSubmittedAdminEmail(input: {
   serviceType: string;
   summary: string;
   requestId: string;
-}) {
-  const url = `${getAppUrl()}/admin/requests/${input.requestId}`;
+}): EmailContent {
+  const reviewUrl = `${getAppUrl()}/admin/requests/${input.requestId}`;
+
+  const bodyHtml = [
+    emailParagraph("A client submitted a new service request."),
+    emailKeyValue([
+      { label: "Client", value: escapeHtml(input.name) },
+      { label: "Email", value: escapeHtml(input.email) },
+      { label: "Service", value: escapeHtml(input.serviceType) },
+      { label: "Summary", value: escapeHtml(input.summary) },
+    ]),
+    emailButton(reviewUrl, "Review request"),
+  ].join("");
+
   return {
+    templateKey: EMAIL_TEMPLATE_KEYS.SERVICE_REQUEST_SUBMITTED_ADMIN,
     subject: `New service request: ${input.name}`,
-    html: `
-      <div style="font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.55">
-        <h2 style="margin:0 0 10px;color:#0f172a">New service request</h2>
-        <p style="margin:0 0 10px;color:#334155"><b>${escapeHtml(input.name)}</b> (${escapeHtml(input.email)}) submitted a request.</p>
-        <ul style="margin:0 0 16px;padding-left:18px;color:#334155">
-          <li>Type: ${escapeHtml(input.serviceType)}</li>
-          <li>Summary: ${escapeHtml(input.summary)}</li>
-        </ul>
-        <p style="margin:0">
-          <a href="${url}" style="display:inline-block;padding:12px 16px;border-radius:12px;background:#0f172a;color:#fff;text-decoration:none;font-weight:600">
-            Review request
-          </a>
-        </p>
-      </div>
-    `,
+    html: renderEmailLayout({
+      title: "New service request",
+      preheader: `${input.name} submitted a ${input.serviceType} request.`,
+      bodyHtml,
+    }),
+    variables: {
+      NAME: input.name,
+      EMAIL: input.email,
+      SERVICE_TYPE: input.serviceType,
+      SUMMARY: input.summary,
+      REVIEW_URL: reviewUrl,
+    },
   };
 }
 
-export function serviceRequestUpdatedUserEmail(input: { serviceType: string; statusLabel: string; note?: string | null }) {
-  const url = `${getAppUrl()}/dashboard/service-requests`;
+export function serviceRequestUpdatedUserEmail(input: {
+  serviceType: string;
+  statusLabel: string;
+  note?: string | null;
+}): EmailContent {
+  const trackUrl = `${getAppUrl()}/dashboard/service-requests`;
+  const serviceType = escapeHtml(input.serviceType);
+  const statusLabel = escapeHtml(input.statusLabel);
+  const noteBlock = input.note?.trim()
+    ? emailParagraph(`<strong>Note from our team:</strong><br />${escapeHtml(input.note.trim())}`)
+    : "";
+
+  const bodyHtml = [
+    emailParagraph(`Your <strong>${serviceType}</strong> request was updated.`),
+    emailParagraph(`Current status: <strong>${statusLabel}</strong>`),
+    noteBlock,
+    emailButton(trackUrl, "View details"),
+  ]
+    .filter(Boolean)
+    .join("");
+
   return {
+    templateKey: EMAIL_TEMPLATE_KEYS.SERVICE_REQUEST_UPDATED_USER,
     subject: `Service request update: ${input.statusLabel}`,
-    html: `
-      <div style="font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.55">
-        <h2 style="margin:0 0 10px;color:#0f172a">Your request was updated</h2>
-        <p style="margin:0 0 14px;color:#334155">
-          <b>${escapeHtml(input.serviceType)}</b> is now: <b>${escapeHtml(input.statusLabel)}</b>.
-          ${input.note?.trim() ? `<br /><br />${escapeHtml(input.note.trim())}` : ""}
-        </p>
-        <p style="margin:0">
-          <a href="${url}" style="display:inline-block;padding:12px 16px;border-radius:12px;background:#0f172a;color:#fff;text-decoration:none;font-weight:600">
-            View details
-          </a>
-        </p>
-      </div>
-    `,
+    html: renderEmailLayout({
+      title: "Request updated",
+      preheader: `${input.serviceType} is now ${input.statusLabel}.`,
+      bodyHtml,
+    }),
+    variables: {
+      SERVICE_TYPE: input.serviceType,
+      STATUS_LABEL: input.statusLabel,
+      NOTE: input.note?.trim() || "",
+      TRACK_URL: trackUrl,
+    },
+  };
+}
+
+export function serviceRequestUpdatedAdminEmail(input: { name: string; requestId: string }): EmailContent {
+  const reviewUrl = `${getAppUrl()}/admin/requests/${input.requestId}`;
+  const name = escapeHtml(input.name);
+
+  const bodyHtml = [
+    emailParagraph(`<strong>${name}</strong> updated their service request after your review note.`),
+    emailParagraph("New information is ready for review."),
+    emailButton(reviewUrl, "Review request"),
+  ].join("");
+
+  return {
+    templateKey: EMAIL_TEMPLATE_KEYS.SERVICE_REQUEST_UPDATED_ADMIN,
+    subject: `Request updated: ${input.name}`,
+    html: renderEmailLayout({
+      title: "Client updated a request",
+      preheader: `${input.name} submitted additional information.`,
+      bodyHtml,
+    }),
+    variables: {
+      NAME: input.name,
+      REVIEW_URL: reviewUrl,
+    },
   };
 }

@@ -1,37 +1,36 @@
 import { SERVICES } from "@/lib/constants";
-import { SUPPORT_EMAIL } from "@/lib/contact";
-import { getAppUrl } from "@/server/emails/sender";
+import { getAppUrl } from "@/server/emails/config";
+import { escapeHtml } from "@/server/emails/helpers";
+import { emailButton, emailLink, emailList, emailParagraph, renderEmailLayout } from "@/server/emails/layout";
+import { EMAIL_TEMPLATE_KEYS, type EmailContent } from "@/server/emails/types";
 
-export function welcomeEmail(input: { name: string }) {
-  const serviceNames = SERVICES.slice(0, 6).map((s) => s.name);
+export function welcomeEmail(input: { name: string }): EmailContent {
   const verifyUrl = `${getAppUrl()}/dashboard/kyc`;
+  const serviceNames = SERVICES.slice(0, 6).map((s) => escapeHtml(s.name));
+  const name = escapeHtml(input.name);
+
+  const bodyHtml = [
+    emailParagraph(`Hi ${name}, your Cedarce account is ready.`),
+    emailParagraph(
+      "Complete business verification to unlock service requests: websites, payments, business email, and more.",
+    ),
+    emailButton(verifyUrl, "Verify your account"),
+    emailParagraph("<strong style=\"color:#0f172a;\">Popular services</strong>"),
+    emailList(serviceNames),
+  ].join("");
 
   return {
-    subject: "Your Cedarce account is confirmed",
-    html: `
-      <div style="font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;line-height:1.55">
-        <h2 style="margin:0 0 10px;color:#0f172a">Welcome, ${escapeHtml(input.name)}.</h2>
-        <p style="margin:0 0 14px;color:#334155">
-          You are in. Once you complete account verification, you can request our services immediately.
-        </p>
-        <p style="margin:0 0 18px">
-          <a href="${verifyUrl}" style="display:inline-block;padding:12px 16px;border-radius:12px;background:#0f172a;color:#fff;text-decoration:none;font-weight:600">
-            Verify your account
-          </a>
-        </p>
-        <p style="margin:0 0 10px;color:#334155;font-weight:600">Popular services we offer</p>
-        <ul style="margin:0 0 18px;padding-left:18px;color:#334155">
-          ${serviceNames.map((n) => `<li style="margin:4px 0">${escapeHtml(n)}</li>`).join("")}
-        </ul>
-        <p style="margin:0;color:#64748b;font-size:13px">
-          Questions? Email us at <a href="mailto:${SUPPORT_EMAIL}" style="color:#0f172a;font-weight:600;text-decoration:underline">${SUPPORT_EMAIL}</a>.
-        </p>
-      </div>
-    `,
+    templateKey: EMAIL_TEMPLATE_KEYS.WELCOME,
+    subject: "Welcome to Cedarce",
+    html: renderEmailLayout({
+      title: "Welcome to Cedarce",
+      preheader: "Your account is confirmed. Verify to request services.",
+      bodyHtml,
+    }),
+    variables: {
+      NAME: input.name,
+      VERIFY_URL: verifyUrl,
+      SERVICES_LIST: SERVICES.slice(0, 6).map((s) => s.name).join(", "),
+    },
   };
 }
-
-function escapeHtml(input: string) {
-  return input.replace(/[&<>"']/g, (m) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]!));
-}
-

@@ -1,20 +1,35 @@
 "use client";
 
 import { Toaster } from "react-hot-toast";
+import ToastNotification from "@/components/layout/ToastNotification";
 
 export default function AppToaster() {
   return (
     <Toaster
       position="top-right"
+      gutter={12}
+      containerStyle={{
+        top: 20,
+        right: 20,
+      }}
       toastOptions={{
-        duration: 3000,
+        duration: 4000,
         style: {
-          border: "1px solid #E4E4EF",
-          background: "#FFFFFF",
-          color: "#111122",
-          boxShadow: "0 8px 32px rgba(10,10,20,0.12)",
+          background: "transparent",
+          boxShadow: "none",
+          border: "none",
+          padding: 0,
+          margin: 0,
+        },
+        success: {
+          duration: 4000,
+        },
+        error: {
+          duration: 5000,
         },
       }}
-    />
+    >
+      {(t) => <ToastNotification toast={t} />}
+    </Toaster>
   );
 }

@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import type { ServiceRequestInput } from "@/features/service-requests/types";
 import { notifyAdmins } from "@/server/services/notifications";
-import { sendEmailSafe, emailAdminsSafe } from "@/server/emails/sender";
+import { sendEmailContentSafe, emailAdminsContentSafe } from "@/server/emails/sender";
 import {
   serviceRequestSubmittedAdminEmail,
   serviceRequestSubmittedUserEmail,
@@ -37,7 +37,7 @@ export async function createServiceRequest(userId: string, payload: ServiceReque
 
   if (user?.email) {
     const userTpl = serviceRequestSubmittedUserEmail({ serviceType: payload.serviceType });
-    await sendEmailSafe({ to: user.email, subject: userTpl.subject, html: userTpl.html });
+    await sendEmailContentSafe(user.email, userTpl);
   }
 
   if (user) {
@@ -48,7 +48,7 @@ export async function createServiceRequest(userId: string, payload: ServiceReque
       summary: payload.summary,
       requestId: request.id,
     });
-    await emailAdminsSafe(adminTpl.subject, adminTpl.html);
+    await emailAdminsContentSafe(adminTpl);
   }
 
   await notifyAdmins({

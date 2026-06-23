@@ -10,6 +10,8 @@ import { logAuthAuditEvent } from "@/server/services/auth-audit";
 import type { RequestMeta } from "@/server/lib/request-meta";
 import { generateRecoveryCodeSet, hashRecoveryCode } from "@/server/services/mfa-recovery";
 import { ensureSuperAdminAccount, getAdminUserByEmail } from "@/server/services/admin-accounts";
+import { sendEmailContentSafe } from "@/server/emails/sender";
+import { mfaEnabledEmail } from "@/server/emails/templates/mfa-enabled";
 
 const ISSUER = "Cedarce";
 
@@ -75,6 +77,8 @@ export async function enableMfa(userId: string, code: string, meta?: RequestMeta
     });
   }
 
+  await sendEmailContentSafe(user.email, mfaEnabledEmail({ name: user.name, portal: "user" }));
+
   return { ok: true as const, recoveryCodes: plainCodes };
 }
 
@@ -98,6 +102,8 @@ export async function enableAdminMfa(userId: string, code: string, meta?: Reques
       meta,
     });
   }
+
+  await sendEmailContentSafe(user.email, mfaEnabledEmail({ name: user.name, portal: "admin" }));
 
   return { ok: true as const, recoveryCodes: plainCodes };
 }

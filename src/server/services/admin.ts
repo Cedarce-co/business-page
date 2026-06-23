@@ -3,7 +3,7 @@ import {
   serviceRequestStatusLabel,
   type ServiceRequestStatus,
 } from "@/lib/service-request-status";
-import { sendEmailSafe } from "@/server/emails/sender";
+import { sendEmailContentSafe } from "@/server/emails/sender";
 import { verificationApprovedEmail } from "@/server/emails/templates/verification-approved";
 import {
   verificationInvalidInfoEmail,
@@ -68,7 +68,7 @@ export async function approveUser(userId: string) {
   const user = await prisma.user.findUnique({ where: { id: userId }, select: { email: true } });
   if (user?.email) {
     const tpl = verificationApprovedEmail();
-    await sendEmailSafe({ to: user.email, subject: tpl.subject, html: tpl.html });
+    await sendEmailContentSafe(user.email, tpl);
   }
 
   return { ok: true as const };
@@ -86,7 +86,7 @@ export async function setVerificationStatus(userId: string, status: "APPROVED" |
     const user = await prisma.user.findUnique({ where: { id: userId }, select: { email: true } });
     if (user?.email) {
       const tpl = verificationApprovedEmail();
-      await sendEmailSafe({ to: user.email, subject: tpl.subject, html: tpl.html });
+      await sendEmailContentSafe(user.email, tpl);
     }
 
     await createNotification({
@@ -99,7 +99,7 @@ export async function setVerificationStatus(userId: string, status: "APPROVED" |
     const user = await prisma.user.findUnique({ where: { id: userId }, select: { email: true } });
     if (user?.email) {
       const tpl = verificationRejectedEmail(null);
-      await sendEmailSafe({ to: user.email, subject: tpl.subject, html: tpl.html });
+      await sendEmailContentSafe(user.email, tpl);
     }
 
     await createNotification({
@@ -136,7 +136,7 @@ export async function setVerificationReview(
     const user = await prisma.user.findUnique({ where: { id: userId }, select: { email: true } });
     if (user?.email) {
       const tpl = verificationApprovedEmail();
-      await sendEmailSafe({ to: user.email, subject: tpl.subject, html: tpl.html });
+      await sendEmailContentSafe(user.email, tpl);
     }
 
     await createNotification({
@@ -149,7 +149,7 @@ export async function setVerificationReview(
     const user = await prisma.user.findUnique({ where: { id: userId }, select: { email: true } });
     if (user?.email) {
       const tpl = verificationRejectedEmail(note);
-      await sendEmailSafe({ to: user.email, subject: tpl.subject, html: tpl.html });
+      await sendEmailContentSafe(user.email, tpl);
     }
 
     await createNotification({
@@ -162,7 +162,7 @@ export async function setVerificationReview(
     const user = await prisma.user.findUnique({ where: { id: userId }, select: { email: true } });
     if (user?.email) {
       const tpl = verificationInvalidInfoEmail(note);
-      await sendEmailSafe({ to: user.email, subject: tpl.subject, html: tpl.html });
+      await sendEmailContentSafe(user.email, tpl);
     }
 
     await createNotification({
@@ -214,7 +214,7 @@ export async function reviewServiceRequest(input: {
       statusLabel: serviceRequestStatusLabel(input.status),
       note: input.note,
     });
-    await sendEmailSafe({ to: row.user.email, subject: tpl.subject, html: tpl.html });
+    await sendEmailContentSafe(row.user.email, tpl);
   }
 
   await createNotification({

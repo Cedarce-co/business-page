@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import type { KycInput } from "@/features/kyc/types";
-import { sendEmailSafe, emailAdminsSafe } from "@/server/emails/sender";
+import { sendEmailContentSafe, emailAdminsContentSafe } from "@/server/emails/sender";
 import {
   verificationSubmittedAdminEmail,
   verificationSubmittedUserEmail,
@@ -140,16 +140,18 @@ export async function submitKyc(userId: string, payload: KycInput) {
   });
   if (user?.email) {
     const tpl = verificationSubmittedUserEmail();
-    await sendEmailSafe({ to: user.email, subject: tpl.subject, html: tpl.html });
+    await sendEmailContentSafe(user.email, tpl);
 
     const adminTpl = verificationSubmittedAdminEmail({
       name: user.name,
       email: user.email,
+      businessName: kyc.businessName,
       nationality: user.profile?.country ?? null,
       address: payload.personalAddress ?? null,
       govIdType: kyc.govIdType,
+      userId,
     });
-    await emailAdminsSafe(adminTpl.subject, adminTpl.html);
+    await emailAdminsContentSafe(adminTpl);
 
     await notifyAdmins({
       title: "New verification submitted",
