@@ -6,7 +6,7 @@ import { ADMIN_AUTH_COOKIE, sessionCookieOptions } from "@/lib/auth/cookies";
 import { validateAdminLogin } from "@/server/services/users";
 import { logAuthAuditEvent } from "@/server/services/auth-audit";
 import { getRequestMeta } from "@/server/lib/request-meta";
-import { verifyTotp } from "@/server/services/mfa";
+import { verifyTotp, verifyAndConsumeRecoveryCode } from "@/server/services/mfa";
 import { rateLimit } from "@/server/lib/rate-limit";
 import type { UserAdminRole } from "@prisma/client";
 
@@ -14,6 +14,7 @@ const credentialsSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
   totpCode: z.string().optional(),
+  recoveryCode: z.string().optional(),
   setupOnly: z.string().optional(),
 });
 
@@ -40,6 +41,7 @@ export const adminAuthOptions: NextAuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
         totpCode: { label: "Authentication code", type: "text" },
+        recoveryCode: { label: "Recovery code", type: "text" },
         setupOnly: { label: "Setup only", type: "text" },
       },
       async authorize(rawCredentials, req) {
@@ -73,10 +75,17 @@ export const adminAuthOptions: NextAuthOptions = {
         }
 
         const code = parsed.data.totpCode?.trim();
-        if (!code) return null;
-        if (!dbUser.mfaSecret) return null;
-        const valid = await verifyTotp(dbUser.mfaSecret, code);
-        if (!valid) return null;
+        const recovery = parsed.data.recoveryCode?.trim();
+        if (recovery) {
+          const ok = await verifyAndConsumeRecoveryCode(dbUser.id, recovery);
+          if (!ok) return null;
+        } else if (code) {
+          if (!dbUser.mfaSecret) return null;
+          const valid = await verifyTotp(dbUser.mfaSecret, code);
+          if (!valid) return null;
+        } else {
+          return null;
+        }
 
         const meta = await getRequestMeta();
         await logAuthAuditEvent({

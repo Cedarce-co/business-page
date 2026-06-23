@@ -6,13 +6,14 @@ import { validateCredentials } from "@/server/services/users";
 import { USER_AUTH_COOKIE, sessionCookieOptions } from "@/lib/auth/cookies";
 import { logAuthAuditEvent } from "@/server/services/auth-audit";
 import { getRequestMeta } from "@/server/lib/request-meta";
-import { verifyTotp } from "@/server/services/mfa";
+import { verifyTotp, verifyAndConsumeRecoveryCode } from "@/server/services/mfa";
 import { rateLimit, rateLimitResponse } from "@/server/lib/rate-limit";
 
 const credentialsSchema = z.object({
   email: z.string().email(),
   password: z.string().min(8),
   totpCode: z.string().optional(),
+  recoveryCode: z.string().optional(),
 });
 
 export const authOptions: NextAuthOptions = {
@@ -37,6 +38,7 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
         totpCode: { label: "Authentication code", type: "text" },
+        recoveryCode: { label: "Recovery code", type: "text" },
       },
       async authorize(rawCredentials, req) {
         const ip =
@@ -59,10 +61,17 @@ export const authOptions: NextAuthOptions = {
         if (!user) return null;
 
         if (dbUser.mfaEnabled && dbUser.mfaSecret) {
+          const recovery = parsed.data.recoveryCode?.trim();
           const code = parsed.data.totpCode?.trim();
-          if (!code) return null;
-          const valid = await verifyTotp(dbUser.mfaSecret, code);
-          if (!valid) return null;
+          if (recovery) {
+            const ok = await verifyAndConsumeRecoveryCode(dbUser.id, recovery);
+            if (!ok) return null;
+          } else if (code) {
+            const valid = await verifyTotp(dbUser.mfaSecret, code);
+            if (!valid) return null;
+          } else {
+            return null;
+          }
         }
 
         const meta = await getRequestMeta();

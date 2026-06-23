@@ -6,6 +6,7 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import CircleLoader from "@/components/ui/CircleLoader";
 import PasswordInput from "@/components/ui/PasswordInput";
+import { formatRecoveryCodeInput } from "@/lib/mfa-recovery-download";
 import { markSessionStarted } from "@/lib/auth/session-tracking";
 
 const baseInput =
@@ -20,6 +21,7 @@ export default function SigninFlow() {
   const [password, setPassword] = useState("");
   const [totpCode, setTotpCode] = useState("");
   const [step, setStep] = useState<Step>("credentials");
+  const [useRecoveryCode, setUseRecoveryCode] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -28,18 +30,27 @@ export default function SigninFlow() {
     [email, password, loading],
   );
 
-  const canSubmitTotp = useMemo(() => totpCode.trim().length >= 6 && !loading, [totpCode, loading]);
+  const canSubmitTotp = useMemo(() => {
+    if (loading) return false;
+    if (useRecoveryCode) return totpCode.replace(/[\s-]/g, "").length >= 8;
+    return totpCode.trim().length >= 6;
+  }, [totpCode, loading, useRecoveryCode]);
 
-  async function completeSignIn(includeTotp: boolean) {
+  async function completeSignIn(includeSecondFactor: boolean) {
     const result = await signIn("credentials", {
       email,
       password,
-      totpCode: includeTotp ? totpCode.trim() : undefined,
+      totpCode: includeSecondFactor && !useRecoveryCode ? totpCode.trim() : undefined,
+      recoveryCode: includeSecondFactor && useRecoveryCode ? totpCode.trim() : undefined,
       redirect: false,
     });
 
     if (!result?.ok) {
-      const msg = includeTotp ? "Invalid authentication code." : "Invalid email or password.";
+      const msg = includeSecondFactor
+        ? useRecoveryCode
+          ? "Invalid recovery code."
+          : "Invalid authentication code."
+        : "Invalid email or password.";
       setError(msg);
       toast.error(msg);
       return false;
@@ -72,6 +83,7 @@ export default function SigninFlow() {
 
       if (data?.step === "totp") {
         setStep("totp");
+        setUseRecoveryCode(false);
         toast("Enter the 6-digit code from your authenticator app.");
         return;
       }
@@ -122,22 +134,42 @@ export default function SigninFlow() {
       ) : (
         <>
           <p className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700">
-            Two-factor authentication is enabled. Enter the 6-digit code from Google Authenticator (or similar).
+            {useRecoveryCode
+              ? "Enter one of your saved recovery codes. Each code works once."
+              : "Two-factor authentication is enabled. Enter the 6-digit code from Google Authenticator (or similar)."}
           </p>
           <input
             className={baseInput}
-            inputMode="numeric"
+            inputMode={useRecoveryCode ? "text" : "numeric"}
             autoComplete="one-time-code"
-            placeholder="Authentication code"
+            placeholder={useRecoveryCode ? "Recovery code (XXXX-XXXX)" : "Authentication code"}
             value={totpCode}
-            onChange={(e) => setTotpCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+            onChange={(e) =>
+              setTotpCode(
+                useRecoveryCode
+                  ? formatRecoveryCodeInput(e.target.value)
+                  : e.target.value.replace(/\D/g, "").slice(0, 6),
+              )
+            }
           />
           <button
             type="button"
             className="text-sm font-semibold text-slate-700 underline-offset-4 hover:underline"
             onClick={() => {
+              setUseRecoveryCode((current) => !current);
+              setTotpCode("");
+              setError("");
+            }}
+          >
+            {useRecoveryCode ? "Use authenticator code instead" : "Use a recovery code instead"}
+          </button>
+          <button
+            type="button"
+            className="block text-sm font-semibold text-slate-700 underline-offset-4 hover:underline"
+            onClick={() => {
               setStep("credentials");
               setTotpCode("");
+              setUseRecoveryCode(false);
               setError("");
             }}
           >

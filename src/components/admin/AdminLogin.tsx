@@ -6,6 +6,7 @@ import { signIn } from "next-auth/react";
 import toast from "react-hot-toast";
 import CircleLoader from "@/components/ui/CircleLoader";
 import PasswordInput from "@/components/ui/PasswordInput";
+import { formatRecoveryCodeInput } from "@/lib/mfa-recovery-download";
 import { markSessionStarted } from "@/lib/auth/session-tracking";
 
 const baseInput =
@@ -15,19 +16,24 @@ const emailLooksValid = (v: string) => /\S+@\S+\.\S+/.test(v.trim());
 
 type Step = "credentials" | "totp";
 
-export default function AdminLogin() {
+export default function AdminLogin({ notice }: { notice?: string }) {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [totpCode, setTotpCode] = useState("");
   const [step, setStep] = useState<Step>("credentials");
+  const [useRecoveryCode, setUseRecoveryCode] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const canSubmitCredentials = useMemo(
     () => emailLooksValid(email) && password.length > 0 && !loading,
     [email, password, loading],
   );
-  const canSubmitTotp = useMemo(() => totpCode.trim().length >= 6 && !loading, [totpCode, loading]);
+  const canSubmitTotp = useMemo(() => {
+    if (loading) return false;
+    if (useRecoveryCode) return totpCode.replace(/[\s-]/g, "").length >= 8;
+    return totpCode.trim().length >= 6;
+  }, [totpCode, loading, useRecoveryCode]);
 
   async function submitCredentials() {
     setLoading(true);
@@ -63,6 +69,7 @@ export default function AdminLogin() {
 
       if (data?.step === "totp") {
         setStep("totp");
+        setUseRecoveryCode(false);
         toast("Enter your authenticator code.");
         return;
       }
@@ -78,13 +85,14 @@ export default function AdminLogin() {
     const result = await signIn("admin-credentials", {
       email,
       password,
-      totpCode: totpCode.trim(),
+      totpCode: useRecoveryCode ? undefined : totpCode.trim(),
+      recoveryCode: useRecoveryCode ? totpCode.trim() : undefined,
       redirect: false,
     });
     setLoading(false);
 
     if (result?.error) {
-      toast.error("Invalid authentication code.");
+      toast.error(useRecoveryCode ? "Invalid recovery code." : "Invalid authentication code.");
       return;
     }
 
@@ -96,6 +104,12 @@ export default function AdminLogin() {
 
   return (
     <div className="space-y-4">
+      {notice === "admin-mfa-exists" ? (
+        <p className="rounded-xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-sky-950">
+          Authenticator is already set up for this admin account. Use the same Google Authenticator entry on any
+          device and enter the sign-in code below.
+        </p>
+      ) : null}
       {step === "credentials" ? (
         <>
           <input
@@ -116,22 +130,41 @@ export default function AdminLogin() {
       ) : (
         <>
           <p className="rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
-            Admin accounts require an authenticator code on every sign-in.
+            {useRecoveryCode
+              ? "Enter one of your saved recovery codes. Each code works once."
+              : "Admin accounts require an authenticator code on every sign-in."}
           </p>
           <input
             className={baseInput}
-            inputMode="numeric"
+            inputMode={useRecoveryCode ? "text" : "numeric"}
             autoComplete="one-time-code"
-            placeholder="Authentication code"
+            placeholder={useRecoveryCode ? "Recovery code (XXXX-XXXX)" : "Authentication code"}
             value={totpCode}
-            onChange={(e) => setTotpCode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+            onChange={(e) =>
+              setTotpCode(
+                useRecoveryCode
+                  ? formatRecoveryCodeInput(e.target.value)
+                  : e.target.value.replace(/\D/g, "").slice(0, 6),
+              )
+            }
           />
           <button
             type="button"
             className="text-sm font-semibold text-slate-700 underline-offset-4 hover:underline"
             onClick={() => {
+              setUseRecoveryCode((current) => !current);
+              setTotpCode("");
+            }}
+          >
+            {useRecoveryCode ? "Use authenticator code instead" : "Use a recovery code instead"}
+          </button>
+          <button
+            type="button"
+            className="block text-sm font-semibold text-slate-700 underline-offset-4 hover:underline"
+            onClick={() => {
               setStep("credentials");
               setTotpCode("");
+              setUseRecoveryCode(false);
             }}
           >
             Back

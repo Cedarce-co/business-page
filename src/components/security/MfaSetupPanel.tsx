@@ -4,12 +4,14 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import CircleLoader from "@/components/ui/CircleLoader";
+import MfaRecoveryCodesPanel from "@/components/security/MfaRecoveryCodesPanel";
 
 type Props = {
   apiPath: "/api/mfa" | "/api/admin/mfa";
   email: string;
   required?: boolean;
-  onEnabled?: () => void;
+  portal?: "user" | "admin";
+  onEnabled?: (recoveryCodes?: string[]) => void;
   /** When true, parent supplies title/description (e.g. admin modal). */
   hideIntro?: boolean;
   /** `plain` drops the inner card chrome when embedded in a modal. */
@@ -20,6 +22,7 @@ export default function MfaSetupPanel({
   apiPath,
   email,
   required = false,
+  portal = "user",
   onEnabled,
   hideIntro = false,
   variant = "card",
@@ -29,6 +32,7 @@ export default function MfaSetupPanel({
   const [qrDataUrl, setQrDataUrl] = useState<string | null>(null);
   const [manualKey, setManualKey] = useState<string | null>(null);
   const [code, setCode] = useState("");
+  const [recoveryCodes, setRecoveryCodes] = useState<string[] | null>(null);
 
   async function startSetup() {
     setLoading(true);
@@ -63,15 +67,37 @@ export default function MfaSetupPanel({
         toast.error(data?.error ?? "Invalid code.");
         return;
       }
-      toast.success(required ? "Authenticator configured. You can now access the admin portal." : "Two-factor authentication enabled.");
-      onEnabled?.();
-      router.refresh();
+      const codes = Array.isArray(data.recoveryCodes) ? (data.recoveryCodes as string[]) : [];
+      toast.success(
+        required ? "Authenticator configured. Save your recovery codes next." : "Two-factor authentication enabled.",
+      );
+      if (codes.length > 0) {
+        setRecoveryCodes(codes);
+      } else {
+        onEnabled?.();
+        router.refresh();
+      }
     } finally {
       setLoading(false);
     }
   }
 
   const isCompact = variant === "plain" || variant === "card";
+
+  if (recoveryCodes) {
+    return (
+      <MfaRecoveryCodesPanel
+        codes={recoveryCodes}
+        email={email}
+        portal={portal}
+        onDone={() => {
+          onEnabled?.(recoveryCodes);
+          setRecoveryCodes(null);
+          router.refresh();
+        }}
+      />
+    );
+  }
 
   return (
     <div

@@ -13,9 +13,10 @@ model User {
   passwordHash   String
   image          String?
   phone          String?
-  mfaSecret      String?
-  mfaEnabled     Boolean          @default(false)
-  mfaEnabledAt   DateTime?
+  mfaSecret           String?
+  mfaEnabled          Boolean          @default(false)
+  mfaEnabledAt        DateTime?
+  mfaRecoveryHashes   String[]         @default([])
   adminRole      UserAdminRole?
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt

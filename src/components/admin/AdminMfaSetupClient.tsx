@@ -24,8 +24,8 @@ export default function AdminMfaSetupClient({ email }: { email: string }) {
             Set up authenticator
           </h1>
           <p className="mt-3 text-sm leading-relaxed text-slate-600">
-            Admin access requires Google Authenticator or any TOTP app. Scan the QR code, then enter a code to finish
-            setup.
+            Admin access requires Google Authenticator or any TOTP app. Scan the QR code once, then enter a code to
+            finish setup. The same authenticator entry works on every device you sign in from.
           </p>
         </div>
 
@@ -34,6 +34,7 @@ export default function AdminMfaSetupClient({ email }: { email: string }) {
             apiPath="/api/admin/mfa"
             email={email}
             required
+            portal="admin"
             hideIntro
             variant="plain"
             onEnabled={() => {

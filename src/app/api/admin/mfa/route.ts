@@ -2,11 +2,21 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getServerSession } from "next-auth/next";
 import { adminAuthOptions } from "@/server/auth/admin-options";
-import { createMfaSetup, enableAdminMfa, getUserMfaState } from "@/server/services/mfa";
+import {
+  createMfaSetup,
+  disableAdminMfa,
+  enableAdminMfa,
+  getUserMfaState,
+  regenerateRecoveryCodes,
+} from "@/server/services/mfa";
 import { getRequestMeta } from "@/server/lib/request-meta";
 import { rateLimit, rateLimitResponse } from "@/server/lib/rate-limit";
 
 const enableSchema = z.object({ code: z.string().min(6).max(8) });
+const disableSchema = z.object({
+  password: z.string().min(8),
+  code: z.string().min(6).max(8),
+});
 
 export async function GET() {
   const session = await getServerSession(adminAuthOptions);
@@ -17,6 +27,7 @@ export async function GET() {
   return NextResponse.json({
     enabled: state?.mfaEnabled ?? false,
     enabledAt: state?.mfaEnabledAt ?? null,
+    recoveryCodesRemaining: state?.recoveryCodesRemaining ?? 0,
     setupRequired: Boolean(session.user.mfaSetupRequired),
   });
 }
@@ -44,8 +55,23 @@ export async function POST(request: Request) {
       const parsed = enableSchema.safeParse(json);
       if (!parsed.success) return NextResponse.json({ error: "Invalid code." }, { status: 400 });
       const meta = await getRequestMeta();
-      await enableAdminMfa(userId, parsed.data.code, meta);
+      const result = await enableAdminMfa(userId, parsed.data.code, meta);
+      return NextResponse.json(result);
+    }
+
+    if (action === "disable") {
+      const parsed = disableSchema.safeParse(json);
+      if (!parsed.success) return NextResponse.json({ error: "Invalid payload." }, { status: 400 });
+      const meta = await getRequestMeta();
+      await disableAdminMfa(userId, parsed.data.password, parsed.data.code, meta);
       return NextResponse.json({ ok: true });
+    }
+
+    if (action === "regenerate-recovery") {
+      const parsed = disableSchema.safeParse(json);
+      if (!parsed.success) return NextResponse.json({ error: "Invalid payload." }, { status: 400 });
+      const result = await regenerateRecoveryCodes(userId, parsed.data.password, parsed.data.code, "ADMIN");
+      return NextResponse.json(result);
     }
 
     return NextResponse.json({ error: "Unknown action." }, { status: 400 });

@@ -198,6 +198,11 @@ export function buildAdminCrumbs(pathname: string): WayfindingCrumb[] {
     return crumbs;
   }
 
+  if (parts[1] === "security") {
+    crumbs.push({ label: "Security", href: null, icon: "shield" });
+    return crumbs;
+  }
+
   return crumbs;
 }
 

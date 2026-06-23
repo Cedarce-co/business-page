@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { LayoutDashboard, Users, ClipboardList, LogOut, Menu, X, FileCheck2, ScrollText, MessageSquareHeart, UserCog } from "lucide-react";
+import { LayoutDashboard, Users, ClipboardList, LogOut, Menu, X, FileCheck2, ScrollText, MessageSquareHeart, UserCog, Shield } from "lucide-react";
 import WayfindingStrip from "@/components/navigation/WayfindingStrip";
 import AdminNotificationBell from "@/components/admin/AdminNotificationBell";
 import IdleSessionWatchdog from "@/components/auth/IdleSessionWatchdog";
@@ -20,6 +20,7 @@ const baseNav = [
   { href: "/admin/questions", label: "Intake questions", icon: ClipboardList },
   { href: "/admin/audit-log", label: "Audit log", icon: ScrollText },
   { href: "/admin/feedbacks", label: "Feedbacks", icon: MessageSquareHeart },
+  { href: "/admin/security", label: "Security", icon: Shield },
 ];
 
 const superAdminNav = { href: "/admin/admins", label: "Admins", icon: UserCog };
@@ -37,6 +38,9 @@ function isNavActive(pathname: string, href: string) {
   }
   if (href === "/admin/admins") {
     return pathname === "/admin/admins" || pathname.startsWith("/admin/admins/");
+  }
+  if (href === "/admin/security") {
+    return pathname === "/admin/security" || pathname.startsWith("/admin/security/");
   }
   return pathname === href || pathname.startsWith(`${href}/`);
 }

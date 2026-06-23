@@ -6,6 +6,7 @@ import {
   disableMfa,
   enableMfa,
   getUserMfaState,
+  regenerateRecoveryCodes,
 } from "@/server/services/mfa";
 import { getRequestMeta } from "@/server/lib/request-meta";
 import { rateLimit, rateLimitResponse } from "@/server/lib/rate-limit";
@@ -23,6 +24,7 @@ export async function GET() {
   return NextResponse.json({
     enabled: state?.mfaEnabled ?? false,
     enabledAt: state?.mfaEnabledAt ?? null,
+    recoveryCodesRemaining: state?.recoveryCodesRemaining ?? 0,
   });
 }
 
@@ -48,8 +50,8 @@ export async function POST(request: Request) {
       const parsed = enableSchema.safeParse(json);
       if (!parsed.success) return NextResponse.json({ error: "Invalid code." }, { status: 400 });
       const meta = await getRequestMeta();
-      await enableMfa(userId, parsed.data.code, meta);
-      return NextResponse.json({ ok: true });
+      const result = await enableMfa(userId, parsed.data.code, meta);
+      return NextResponse.json(result);
     }
 
     if (action === "disable") {
@@ -58,6 +60,13 @@ export async function POST(request: Request) {
       const meta = await getRequestMeta();
       await disableMfa(userId, parsed.data.password, parsed.data.code, meta);
       return NextResponse.json({ ok: true });
+    }
+
+    if (action === "regenerate-recovery") {
+      const parsed = disableSchema.safeParse(json);
+      if (!parsed.success) return NextResponse.json({ error: "Invalid payload." }, { status: 400 });
+      const result = await regenerateRecoveryCodes(userId, parsed.data.password, parsed.data.code, "USER");
+      return NextResponse.json(result);
     }
 
     return NextResponse.json({ error: "Unknown action." }, { status: 400 });
