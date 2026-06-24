@@ -31,7 +31,7 @@ async function persistMfaEnable(userId: string, recoveryHashes: string[]) {
 export async function createMfaSetup(userId: string, email: string) {
   const existing = await prisma.user.findUnique({
     where: { id: userId },
-    select: { mfaEnabled: true },
+    select: { mfaEnabled: true, mfaSecret: true },
   });
   if (existing?.mfaEnabled) {
     throw new Error(
@@ -39,19 +39,22 @@ export async function createMfaSetup(userId: string, email: string) {
     );
   }
 
-  const secret = generateSecret();
+  // Reuse a pending setup secret so clicking "Generate QR" again does not invalidate a scan.
+  const secret = existing?.mfaSecret ? decryptSecret(existing.mfaSecret) : generateSecret();
   const otpauthUrl = generateURI({ issuer: ISSUER, label: email, secret });
   const qrDataUrl = await QRCode.toDataURL(otpauthUrl);
 
-  await prisma.user.update({
-    where: { id: userId },
-    data: {
-      mfaSecret: encryptSecret(secret),
-      mfaEnabled: false,
-      mfaEnabledAt: null,
-      mfaRecoveryHashes: [],
-    },
-  });
+  if (!existing?.mfaSecret) {
+    await prisma.user.update({
+      where: { id: userId },
+      data: {
+        mfaSecret: encryptSecret(secret),
+        mfaEnabled: false,
+        mfaEnabledAt: null,
+        mfaRecoveryHashes: [],
+      },
+    });
+  }
 
   return { qrDataUrl, manualKey: secret };
 }
@@ -213,7 +216,12 @@ export async function verifyTotp(encryptedSecret: string, code: string) {
   try {
     const secret = decryptSecret(encryptedSecret);
     const normalized = code.replace(/\s/g, "");
-    const result = await verify({ secret, token: normalized });
+    const result = await verify({
+      secret,
+      token: normalized,
+      // Allow ±30s clock drift between Render servers and user devices.
+      epochTolerance: 1,
+    });
     return result.valid;
   } catch {
     return false;
