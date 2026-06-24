@@ -8,3 +8,11 @@ export async function signupUser(payload: SignupInput) {
     body: JSON.stringify(payload),
   });
 }
+
+export async function checkEmailAvailable(email: string) {
+  return apiJson<{ available: boolean }>("/api/auth/check-email", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email }),
+  });
+}

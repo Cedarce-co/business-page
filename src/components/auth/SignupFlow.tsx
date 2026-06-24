@@ -9,7 +9,7 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import CircleLoader from "@/components/ui/CircleLoader";
 import PasswordInput from "@/components/ui/PasswordInput";
-import { signupUser } from "@/features/auth/client";
+import { signupUser, checkEmailAvailable } from "@/features/auth/client";
 import type { SignupInput } from "@/features/auth/types";
 
 const baseInput =
@@ -41,6 +41,30 @@ export default function SignupFlow() {
     }
     return form.password.length >= 8;
   }, [form, step]);
+
+  async function goNext() {
+    if (step === 1) {
+      setLoading(true);
+      setError("");
+      try {
+        const { available } = await checkEmailAvailable(form.email);
+        if (!available) {
+          const msg = "An account with this email already exists. Sign in instead.";
+          setError(msg);
+          toast.error(msg);
+          return;
+        }
+      } catch {
+        const msg = "Could not verify this email. Try again.";
+        setError(msg);
+        toast.error(msg);
+        return;
+      } finally {
+        setLoading(false);
+      }
+    }
+    setStep((s) => s + 1);
+  }
 
   async function submit() {
     setLoading(true);
@@ -169,11 +193,18 @@ export default function SignupFlow() {
         {step < 3 ? (
           <button
             className="w-full rounded-xl bg-slate-900 px-5 py-2.5 text-base font-semibold text-white disabled:opacity-50 hover:bg-slate-800 sm:w-1/2"
-            disabled={!canContinue}
-            onClick={() => setStep((s) => s + 1)}
+            disabled={!canContinue || loading}
+            onClick={goNext}
             type="button"
           >
-            Next
+            {loading ? (
+              <span className="inline-flex items-center justify-center gap-2">
+                <CircleLoader size={18} className="text-white" />
+                Checking...
+              </span>
+            ) : (
+              "Next"
+            )}
           </button>
         ) : (
           <button

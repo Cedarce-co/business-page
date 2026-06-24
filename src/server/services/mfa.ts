@@ -210,10 +210,14 @@ export async function verifyAndConsumeRecoveryCode(userId: string, code: string)
 }
 
 export async function verifyTotp(encryptedSecret: string, code: string) {
-  const secret = decryptSecret(encryptedSecret);
-  const normalized = code.replace(/\s/g, "");
-  const result = await verify({ secret, token: normalized });
-  return result.valid;
+  try {
+    const secret = decryptSecret(encryptedSecret);
+    const normalized = code.replace(/\s/g, "");
+    const result = await verify({ secret, token: normalized });
+    return result.valid;
+  } catch {
+    return false;
+  }
 }
 
 export async function getUserMfaState(userId: string) {

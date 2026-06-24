@@ -12,7 +12,7 @@ const optionalContact = z.preprocess(
 
 export const signupSchema = z.object({
   name: z.string().min(2),
-  email: z.string().email(),
+  email: z.string().email().transform((v) => v.toLowerCase().trim()),
   password: z.string().min(8),
   phone: optionalContact,
   address: optionalContact,

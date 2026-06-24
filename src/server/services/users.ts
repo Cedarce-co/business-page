@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import { hashPassword, verifyPassword } from "@/server/auth/password";
 import type { SignupInput } from "@/features/auth/types";
 import { sendEmailContentSafe, emailAdminsContentSafe } from "@/server/emails/sender";
@@ -9,6 +10,12 @@ import type { RequestMeta } from "@/server/lib/request-meta";
 import { ensureSuperAdminAccount, getAdminUserByEmail } from "@/server/services/admin-accounts";
 import { prisma } from "@/server/database/prisma";
 
+export async function isEmailRegistered(emailRaw: string) {
+  const email = emailRaw.toLowerCase().trim();
+  const user = await prisma.user.findUnique({ where: { email }, select: { id: true } });
+  return Boolean(user);
+}
+
 export async function createUser(payload: SignupInput, meta?: RequestMeta) {
   const email = payload.email.toLowerCase().trim();
   const exists = await prisma.user.findUnique({ where: { email } });
@@ -16,22 +23,30 @@ export async function createUser(payload: SignupInput, meta?: RequestMeta) {
 
   const passwordHash = await hashPassword(payload.password);
   const name = payload.name.trim();
-  const user = await prisma.user.create({
-    data: {
-      name,
-      email,
-      passwordHash,
-      phone: payload.phone?.trim() || null,
-      profile: {
-        create: {
-          address: payload.address?.trim() || null,
-          city: payload.city?.trim() || null,
-          country: payload.country?.trim() || null,
+  let user: { id: string; email: string; name: string };
+  try {
+    user = await prisma.user.create({
+      data: {
+        name,
+        email,
+        passwordHash,
+        phone: payload.phone?.trim() || null,
+        profile: {
+          create: {
+            address: payload.address?.trim() || null,
+            city: payload.city?.trim() || null,
+            country: payload.country?.trim() || null,
+          },
         },
       },
-    },
-    select: { id: true, email: true, name: true },
-  });
+      select: { id: true, email: true, name: true },
+    });
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+      return { ok: false as const, error: "An account with this email already exists." };
+    }
+    throw error;
+  }
 
   const tpl = welcomeEmail({ name: user.name });
   await sendEmailContentSafe(user.email, tpl);
