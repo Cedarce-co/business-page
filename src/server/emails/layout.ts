@@ -13,6 +13,12 @@ export type EmailLayoutInput = {
   preheader?: string;
 };
 
+export function emailAvailabilityNote() {
+  return emailParagraph(
+    `If you have any questions, our team is ready to help. Email us at <a href="mailto:${SUPPORT_EMAIL}" style="color:#0f172a;font-weight:600;text-decoration:underline;">${SUPPORT_EMAIL}</a> - we are available ${escapeHtml(OFFICE_HOURS_SHORT)} and aim to respond promptly.`,
+  );
+}
+
 export function emailParagraph(text: string) {
   return `<p style="margin:0 0 16px;font-size:15px;line-height:1.65;color:#334155;">${text}</p>`;
 }
@@ -95,14 +101,14 @@ export function renderEmailLayout(input: EmailLayoutInput) {
           <tr>
             <td style="padding:8px 32px 28px;">
               ${emailMuted(
-                `Questions? Reply to this email or contact us at <a href="mailto:${SUPPORT_EMAIL}" style="color:#0f172a;font-weight:600;text-decoration:underline;">${SUPPORT_EMAIL}</a>.`,
+                `We are here for you. Reply to this email or reach us at <a href="mailto:${SUPPORT_EMAIL}" style="color:#0f172a;font-weight:600;text-decoration:underline;">${SUPPORT_EMAIL}</a> — ${escapeHtml(OFFICE_HOURS_SHORT)}.`,
               )}
             </td>
           </tr>
           <tr>
             <td style="padding:20px 32px;background:#f8fafc;border-top:1px solid #e2e8f0;">
               <p style="margin:0 0 6px;font-size:12px;line-height:1.5;color:#94a3b8;text-align:center;">
-                Cedarce · Digital business services
+                Cedarce · Trusted digital services for growing businesses
               </p>
               <p style="margin:0 0 6px;font-size:12px;line-height:1.5;color:#94a3b8;text-align:center;">
                 ${escapeHtml(SUPPORT_PHONE_DISPLAY)} · ${escapeHtml(OFFICE_HOURS_SHORT)}

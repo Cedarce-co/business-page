@@ -1,7 +1,13 @@
 import { SERVICES } from "@/lib/constants";
 import { getAppUrl } from "@/server/emails/config";
 import { escapeHtml } from "@/server/emails/helpers";
-import { emailButton, emailList, emailParagraph, renderEmailLayout } from "@/server/emails/layout";
+import {
+  emailAvailabilityNote,
+  emailButton,
+  emailList,
+  emailParagraph,
+  renderEmailLayout,
+} from "@/server/emails/layout";
 import { EMAIL_TEMPLATE_KEYS, type EmailContent } from "@/server/emails/types";
 
 export function verificationApprovedEmail(): EmailContent {
@@ -9,19 +15,25 @@ export function verificationApprovedEmail(): EmailContent {
   const serviceNames = SERVICES.slice(0, 5).map((s) => escapeHtml(s.name));
 
   const bodyHtml = [
-    emailParagraph("Great news. Your Cedarce account verification is <strong>approved</strong>."),
-    emailParagraph("You can now submit service requests from your dashboard."),
+    emailParagraph("Great news - your business verification has been approved."),
+    emailParagraph(
+      "Your Cedarce account is fully active. You can now request the services your business needs, and our team is ready to work alongside you.",
+    ),
     emailButton(requestUrl, "Request a service"),
-    emailParagraph("<strong style=\"color:#0f172a;\">What we can help with</strong>"),
+    emailParagraph("<strong style=\"color:#0f172a;\">Services we deliver for businesses like yours</strong>"),
     emailList(serviceNames),
+    emailParagraph(
+      "Not sure where to start? Tell us what you are trying to achieve — we will point you in the right direction.",
+    ),
+    emailAvailabilityNote(),
   ].join("");
 
   return {
     templateKey: EMAIL_TEMPLATE_KEYS.VERIFICATION_APPROVED,
-    subject: "Verification approved",
+    subject: "You're verified - let's move your business forward",
     html: renderEmailLayout({
-      title: "You're verified",
-      preheader: "Your account is approved. Request services anytime.",
+      title: "Your account is verified",
+      preheader: "Verification approved. Request services and work with our team.",
       bodyHtml,
     }),
     variables: {

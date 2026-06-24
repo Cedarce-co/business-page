@@ -1,29 +1,40 @@
 import { getAppUrl } from "@/server/emails/config";
 import { escapeHtml } from "@/server/emails/helpers";
-import { emailButton, emailParagraph, renderEmailLayout } from "@/server/emails/layout";
+import {
+  emailAvailabilityNote,
+  emailButton,
+  emailParagraph,
+  renderEmailLayout,
+} from "@/server/emails/layout";
 import { EMAIL_TEMPLATE_KEYS, type EmailContent } from "@/server/emails/types";
 
 export function mfaEnabledEmail(input: { name: string; portal: "user" | "admin" }): EmailContent {
   const securityUrl =
     input.portal === "admin" ? `${getAppUrl()}/admin/security` : `${getAppUrl()}/dashboard/security`;
-  const portalLabel = input.portal === "admin" ? "Admin portal" : "Client dashboard";
+  const portalLabel = input.portal === "admin" ? "admin portal" : "client dashboard";
   const name = escapeHtml(input.name);
 
   const bodyHtml = [
-    emailParagraph(`Hi ${name}, two-factor authentication is now enabled on your Cedarce ${portalLabel.toLowerCase()} account.`),
+    emailParagraph(`Hi ${name},`),
     emailParagraph(
-      "You will need your authenticator app (or a recovery code) when signing in. Keep your recovery codes somewhere safe.",
+      `Two-factor authentication is now active on your Cedarce ${portalLabel}. This extra step helps protect your business and account.`,
+    ),
+    emailParagraph(
+      "When you sign in, you will enter a code from your authenticator app or use a recovery code. Please store your recovery codes somewhere safe.",
     ),
     emailButton(securityUrl, "Review security settings"),
-    emailParagraph("If you did not enable this, contact us immediately."),
+    emailParagraph(
+      "If you did not enable this yourself, contact us immediately so we can help secure your account.",
+    ),
+    emailAvailabilityNote(),
   ].join("");
 
   return {
     templateKey: EMAIL_TEMPLATE_KEYS.MFA_ENABLED,
-    subject: "Two-factor authentication enabled",
+    subject: "Your Cedarce account security has been updated",
     html: renderEmailLayout({
-      title: "Security update",
-      preheader: "Two-factor authentication was enabled on your account.",
+      title: "Two-factor authentication enabled",
+      preheader: "An extra layer of protection is now on your account.",
       bodyHtml,
     }),
     variables: {
