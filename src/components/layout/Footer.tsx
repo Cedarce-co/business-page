@@ -36,7 +36,11 @@ export default function Footer() {
                   alt="Cedarce"
                   width={LOGO_FOOTER_SIZES.mobile.width}
                   height={LOGO_FOOTER_SIZES.mobile.height}
-                  className="h-11 w-11 object-contain object-left"
+                  style={{
+                    width: LOGO_FOOTER_SIZES.mobile.width,
+                    height: LOGO_FOOTER_SIZES.mobile.height,
+                  }}
+                  className="object-contain object-left"
                 />
               </span>
               <span className="hidden items-center sm:flex">
@@ -45,7 +49,11 @@ export default function Footer() {
                   alt="Cedarce"
                   width={LOGO_FOOTER_SIZES.desktop.width}
                   height={LOGO_FOOTER_SIZES.desktop.height}
-                  className="h-12 w-auto max-w-[200px] object-contain object-left"
+                  style={{
+                    width: LOGO_FOOTER_SIZES.desktop.width,
+                    height: LOGO_FOOTER_SIZES.desktop.height,
+                  }}
+                  className="object-contain object-left"
                 />
               </span>
             </Link>

@@ -43,7 +43,7 @@ export default function HeroSection() {
             variants={stagger}
             initial="hidden"
             animate="visible"
-            className="mt-6 text-5xl font-black leading-tight text-cliq-text-heading lg:text-7xl"
+            className="mt-6 text-4xl font-black leading-tight text-cliq-text-heading lg:text-6xl"
           >
             {words.map((word, idx) => (
               <motion.span key={word} variants={wordReveal} className="block text-cliq-text-heading">

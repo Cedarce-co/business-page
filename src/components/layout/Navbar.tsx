@@ -211,7 +211,11 @@ export default function Navbar() {
               alt="Cedarce"
               width={LOGO_NAV_SIZES.desktopLg.width}
               height={LOGO_NAV_SIZES.desktopLg.height}
-              className="h-[44px] w-[180px] object-contain object-left lg:h-[52px] lg:w-[213px]"
+              style={{
+                width: LOGO_NAV_SIZES.desktopLg.width,
+                height: LOGO_NAV_SIZES.desktopLg.height,
+              }}
+              className="object-contain object-left"
               priority
             />
           </span>

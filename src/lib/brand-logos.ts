@@ -47,13 +47,13 @@ function displaySize(
 
 /** Rendered logo size in the site header. */
 export const LOGO_NAV_SIZES = {
-  mobile: displaySize(40, LOGO_INTRINSIC.mobileMark),
-  desktop: displaySize(44, LOGO_INTRINSIC.desktopWordmark),
-  desktopLg: displaySize(52, LOGO_INTRINSIC.desktopWordmark),
+  mobile: displaySize(32, LOGO_INTRINSIC.mobileMark),
+  desktop: displaySize(36, LOGO_INTRINSIC.desktopWordmark),
+  desktopLg: displaySize(40, LOGO_INTRINSIC.desktopWordmark),
 } as const;
 
 /** Rendered logo size in the site footer. */
 export const LOGO_FOOTER_SIZES = {
-  mobile: displaySize(44, LOGO_INTRINSIC.mobileMark),
-  desktop: displaySize(48, LOGO_INTRINSIC.desktopWordmark),
+  mobile: displaySize(32, LOGO_INTRINSIC.mobileMark),
+  desktop: displaySize(36, LOGO_INTRINSIC.desktopWordmark),
 } as const;
