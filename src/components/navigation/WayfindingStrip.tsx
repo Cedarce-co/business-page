@@ -132,11 +132,13 @@ export default function WayfindingStrip({
   backLabel,
   arrow = "left",
   className,
+  tone: toneProp,
 }: {
   zone: "site" | "dashboard" | "admin" | "auth";
   backLabel?: string;
   arrow?: "left" | "right";
   className?: string;
+  tone?: "default" | "onDark" | "auth";
 }) {
   const pathname = usePathname() ?? "/";
 
@@ -153,7 +155,8 @@ export default function WayfindingStrip({
     backLabel ??
     (zone === "site" ? "Back" : zone === "auth" ? "Previous page" : "Back to previous page");
 
-  const tone = zone === "auth" ? "auth" : "default";
+  const tone = toneProp ?? (zone === "auth" ? "auth" : "default");
+  const goBackVariant = tone === "onDark" ? "onDark" : tone === "auth" ? "auth" : "default";
 
   return (
     <div
@@ -162,7 +165,7 @@ export default function WayfindingStrip({
         className
       )}
     >
-      <GoBack label={label} arrow={arrow} variant={zone === "auth" ? "auth" : "default"} />
+      <GoBack label={label} arrow={arrow} variant={goBackVariant} />
       <BreadcrumbList crumbs={crumbs} tone={tone} />
     </div>
   );

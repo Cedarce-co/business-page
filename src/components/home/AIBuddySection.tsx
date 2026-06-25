@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import SectionReveal from "@/components/ui/SectionReveal";
 import SectionLabel from "@/components/ui/SectionLabel";
 import Button from "@/components/ui/Button";
 import ChatBubble from "@/components/ui/ChatBubble";
@@ -9,13 +10,11 @@ import { chatBubble, staggerSlow, viewport } from "@/lib/animations";
 
 export default function AIBuddySection() {
   return (
-    <section className="bg-cliq-white py-20 lg:py-28">
+    <SectionReveal className="bg-cliq-white py-20 lg:py-28">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
           <div className="flex flex-col items-center text-center md:items-start md:text-left">
-            <SectionLabel className="border border-cliq-gray-200 bg-cliq-gray-100 text-cliq-text-heading">
-              Live chat
-            </SectionLabel>
+            <SectionLabel>Live chat</SectionLabel>
             <h2 className="mt-5 text-4xl font-black leading-tight text-cliq-text-heading md:max-w-[50%] lg:max-w-none lg:text-5xl">
               Questions before you commit?
               <br />
@@ -79,6 +78,6 @@ export default function AIBuddySection() {
           </div>
         </div>
       </div>
-    </section>
+    </SectionReveal>
   );
 }

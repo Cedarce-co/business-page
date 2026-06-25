@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import PageHero from "@/components/marketing/PageHero";
+import SectionReveal from "@/components/ui/SectionReveal";
 import FaqAccordion from "@/components/marketing/FaqAccordion";
 import FaqFeedbackSection from "@/components/marketing/FaqFeedbackSection";
 import FinalCTASection from "@/components/home/FinalCTASection";
@@ -26,12 +27,12 @@ export default function FaqPage() {
         </Link>
       </PageHero>
 
-      <section className="bg-cliq-gray-100 py-20">
+      <SectionReveal className="bg-cliq-gray-100 py-20">
         <div className="mx-auto max-w-[900px] px-4 sm:px-6 lg:px-8">
           <FaqAccordion />
           <FaqFeedbackSection />
         </div>
-      </section>
+      </SectionReveal>
 
       <FinalCTASection />
     </>

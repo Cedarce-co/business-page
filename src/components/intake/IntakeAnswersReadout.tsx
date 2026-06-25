@@ -44,8 +44,8 @@ export default function IntakeAnswersReadout({
       <div
         className={
           fillParent
-            ? "min-h-0 flex-1 overflow-y-auto overscroll-y-contain rounded-xl border border-slate-200/80 bg-slate-50/50 px-3 py-4 sm:px-4 [scrollbar-gutter:stable]"
-            : "max-h-[min(28rem,55vh)] overflow-y-auto overscroll-y-contain rounded-xl border border-slate-200/80 bg-slate-50/50 px-3 py-4 sm:px-4 [scrollbar-gutter:stable]"
+            ? "inner-scroll min-h-0 flex-1 overflow-y-auto overscroll-y-contain rounded-xl border border-slate-200/80 bg-slate-50/50 px-3 py-4 sm:px-4"
+            : "inner-scroll max-h-[min(28rem,55vh)] overflow-y-auto overscroll-y-contain rounded-xl border border-slate-200/80 bg-slate-50/50 px-3 py-4 sm:px-4"
         }
         role="region"
         aria-label="Intake answers"

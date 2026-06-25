@@ -85,7 +85,7 @@ export default function AdminNotificationBell() {
 
       <Modal open={open} title="Notifications" onClose={() => setOpen(false)}>
         <div
-          className="max-h-[min(22rem,65vh)] overflow-y-auto overscroll-y-contain pr-1 [scrollbar-gutter:stable]"
+          className="inner-scroll max-h-[min(22rem,65vh)] overflow-y-auto overscroll-y-contain pr-1"
           role="list"
           aria-label="Notification list"
         >

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import PageHero from "@/components/marketing/PageHero";
+import SectionReveal from "@/components/ui/SectionReveal";
 import PricingPackagesSection from "@/components/marketing/PricingPackagesSection";
 import FinalCTASection from "@/components/home/FinalCTASection";
 
@@ -20,7 +21,7 @@ export default function PricingPage() {
 
       <PricingPackagesSection />
 
-      <section className="border-t border-cliq-gray-200 bg-cliq-gray-100 py-12">
+      <SectionReveal className="border-t border-cliq-gray-200 bg-cliq-gray-100 py-12">
         <div className="mx-auto max-w-[1200px] px-4 text-center sm:px-6 lg:px-8">
           <p className="text-cliq-text-body">
             Have questions?{" "}
@@ -34,7 +35,7 @@ export default function PricingPage() {
             .
           </p>
         </div>
-      </section>
+      </SectionReveal>
 
       <FinalCTASection />
     </>

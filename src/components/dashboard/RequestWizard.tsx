@@ -15,8 +15,10 @@ import {
 
 type Answers = Record<string, unknown>;
 
-const inputClass =
-  "w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-slate-900";
+import { Input, Textarea } from "@/components/ui/FormField";
+
+const choiceClass =
+  "flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200/90 bg-white/95 px-4 py-3 shadow-[0_4px_16px_rgba(15,23,42,0.04)] transition duration-200 hover:border-cliq-purple/30 hover:bg-cliq-purple-soft/30 has-[:checked]:border-cliq-purple has-[:checked]:bg-cliq-purple-soft/50";
 
 function byOrder(a: IntakeQuestion, b: IntakeQuestion) {
   return a.order - b.order;
@@ -285,7 +287,7 @@ export default function RequestWizard({
       <ScrollableStepShell compact={compact} scrollResetKey={step} header={wizardHeader} footer={wizardFooter}>
         <div className="space-y-4 pb-1 pt-5">
           {sectionLabel ? (
-            <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+            <div className="rounded-2xl border border-cliq-purple/15 bg-cliq-purple-soft/40 p-4">
               <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Section</p>
               <p className="mt-1 text-sm font-black text-slate-900">{sectionLabel}</p>
             </div>
@@ -298,8 +300,7 @@ export default function RequestWizard({
               </p>
 
               {activeQ.type === "short_text" ? (
-                <input
-                  className={inputClass}
+                <Input
                   value={typeof answers[activeQ.id] === "string" ? (answers[activeQ.id] as string) : ""}
                   onChange={(e) => setValue(activeQ.id, e.target.value)}
                   placeholder={activeQ.placeholder ?? ""}
@@ -307,8 +308,7 @@ export default function RequestWizard({
               ) : null}
 
               {activeQ.type === "paragraph" ? (
-                <textarea
-                  className={`${inputClass} min-h-28`}
+                <Textarea
                   value={typeof answers[activeQ.id] === "string" ? (answers[activeQ.id] as string) : ""}
                   onChange={(e) => setValue(activeQ.id, e.target.value)}
                   placeholder={activeQ.placeholder ?? ""}
@@ -318,10 +318,7 @@ export default function RequestWizard({
               {activeQ.type === "single_choice" ? (
                 <div className="space-y-2">
                   {activeQ.options.map((o) => (
-                    <label
-                      key={o.value}
-                      className="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3"
-                    >
+                    <label key={o.value} className={choiceClass}>
                       <input
                         type="radio"
                         name={activeQ.id}
@@ -340,10 +337,7 @@ export default function RequestWizard({
                     const picked = Array.isArray(answers[activeQ.id]) ? (answers[activeQ.id] as string[]) : [];
                     const checked = picked.includes(o.value);
                     return (
-                      <label
-                        key={o.value}
-                        className="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3"
-                      >
+                      <label key={o.value} className={choiceClass}>
                         <input
                           type="checkbox"
                           checked={checked}
@@ -354,8 +348,7 @@ export default function RequestWizard({
                     );
                   })}
                   {activeQ.allowOther ? (
-                    <input
-                      className={inputClass}
+                    <Input
                       placeholder="If other, specify…"
                       value={typeof answers[`${activeQ.id}_other`] === "string" ? (answers[`${activeQ.id}_other`] as string) : ""}
                       onChange={(e) => setValue(`${activeQ.id}_other`, e.target.value)}

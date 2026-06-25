@@ -1,8 +1,59 @@
-import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { ActionLink, Badge, Page, PageSection, Stat, StatRow, TwoColumn } from "@/components/dashboard/ui";
 import { getAdminOverview } from "@/server/services/admin";
 
 type VerificationAcc = { approved: number; underReview: number; rejected: number; notSubmitted: number };
-type WorkAcc = { completed: number; inProgress: number; rejected: number; pending: number };
+type WorkAcc = { completed: number; active: number; rejected: number; pending: number; closed: number };
+
+function LegendRow({
+  color,
+  label,
+  value,
+}: {
+  color: string;
+  label: string;
+  value: number;
+}) {
+  return (
+    <p className="flex items-center justify-between gap-3">
+      <span className="inline-flex items-center gap-2">
+        <span className={`h-2.5 w-2.5 rounded-full ${color}`} aria-hidden />
+        {label}
+      </span>
+      <span className="font-semibold">{value}</span>
+    </p>
+  );
+}
+
+function AnalyticsPanel({
+  title,
+  description,
+  pie,
+  children,
+}: {
+  title: string;
+  description: string;
+  pie: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+      <div className="min-w-0 flex-1">
+        <h2 className="text-lg font-bold text-slate-900">{title}</h2>
+        <p className="mt-1 text-sm text-slate-600">{description}</p>
+        <div className="mt-5 grid gap-2 text-sm text-slate-700">{children}</div>
+      </div>
+      <div
+        className="relative h-32 w-32 shrink-0 rounded-full p-3 shadow-[inset_0_0_0_1px_rgba(148,163,184,0.35)]"
+        style={{ background: pie }}
+        aria-label={`${title} pie chart`}
+        title={title}
+      >
+        <div className="h-full w-full rounded-full bg-white shadow-[inset_0_0_0_1px_rgba(226,232,240,0.9)]" />
+      </div>
+    </div>
+  );
+}
 
 export default async function AdminDashboardPage() {
   const { users, requests, categories } = await getAdminOverview();
@@ -22,161 +73,99 @@ export default async function AdminDashboardPage() {
   const work = requests.reduce(
     (acc: WorkAcc, r: { status: string }) => {
       const s = r.status;
-      if (s === "COMPLETED") acc.completed += 1;
-      else if (s === "IN_PROGRESS") acc.inProgress += 1;
-      else if (s === "REJECTED") acc.rejected += 1;
+      if (s === "COMPLETED" || s === "PROJECT_COMPLETED") acc.completed += 1;
+      else if (["CONSULTATION", "PRICING", "PROJECT_STARTED", "PROJECT_UNDER_REVIEW", "IN_PROGRESS"].includes(s)) {
+        acc.active += 1;
+      } else if (s === "REJECTED") acc.rejected += 1;
+      else if (s === "CLOSED") acc.closed += 1;
       else acc.pending += 1;
       return acc;
     },
-    { completed: 0, inProgress: 0, rejected: 0, pending: 0 },
+    { completed: 0, active: 0, rejected: 0, pending: 0, closed: 0 },
   );
 
   const verTotal = Math.max(1, users.length);
   const workTotal = Math.max(1, requests.length);
   const verPie = `conic-gradient(#16a34a 0 ${(verification.approved / verTotal) * 360}deg,#f59e0b ${(verification.approved / verTotal) * 360}deg ${((verification.approved + verification.underReview) / verTotal) * 360}deg,#ef4444 ${((verification.approved + verification.underReview) / verTotal) * 360}deg ${((verification.approved + verification.underReview + verification.rejected) / verTotal) * 360}deg,#94a3b8 ${((verification.approved + verification.underReview + verification.rejected) / verTotal) * 360}deg 360deg)`;
-  const workPie = `conic-gradient(#0f172a 0 ${(work.completed / workTotal) * 360}deg,#2563eb ${(work.completed / workTotal) * 360}deg ${((work.completed + work.inProgress) / workTotal) * 360}deg,#e11d48 ${((work.completed + work.inProgress) / workTotal) * 360}deg ${((work.completed + work.inProgress + work.rejected) / workTotal) * 360}deg,#94a3b8 ${((work.completed + work.inProgress + work.rejected) / workTotal) * 360}deg 360deg)`;
+  const workPie = `conic-gradient(#0f172a 0 ${(work.completed / workTotal) * 360}deg,#2563eb ${(work.completed / workTotal) * 360}deg ${((work.completed + work.active) / workTotal) * 360}deg,#f59e0b ${((work.completed + work.active) / workTotal) * 360}deg ${((work.completed + work.active + work.pending) / workTotal) * 360}deg,#e11d48 ${((work.completed + work.active + work.pending) / workTotal) * 360}deg ${((work.completed + work.active + work.pending + work.rejected) / workTotal) * 360}deg,#64748b ${((work.completed + work.active + work.pending + work.rejected) / workTotal) * 360}deg 360deg)`;
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-black text-slate-900">Admin dashboard</h1>
-        <p className="text-sm text-slate-600">Manage users, approvals, categories, and work status.</p>
-      </div>
+    <Page
+      title="Admin dashboard"
+      subtitle="Manage users, approvals, categories, and work status from one polished command center."
+      right={<ActionLink href="/admin/requests">Review requests</ActionLink>}
+    >
+      <PageSection tone="muted" bleed>
+        <StatRow>
+          <Stat label="Total users" value={users.length} hint="Registered client accounts" />
+          <Stat label="Work items" value={requests.length} hint="All service requests" />
+          <Stat label="Categories" value={categories.length} hint="Active request types" />
+        </StatRow>
+      </PageSection>
 
-      <div className="grid gap-4 sm:grid-cols-3">
-        <div className="rounded-2xl border border-slate-200 bg-white p-4">
-          <p className="text-xs uppercase text-slate-500">Total users</p>
-          <p className="mt-2 text-3xl font-black text-slate-900">{users.length}</p>
-        </div>
-        <div className="rounded-2xl border border-slate-200 bg-white p-4">
-          <p className="text-xs uppercase text-slate-500">Work items</p>
-          <p className="mt-2 text-3xl font-black text-slate-900">{requests.length}</p>
-        </div>
-        <div className="rounded-2xl border border-slate-200 bg-white p-4">
-          <p className="text-xs uppercase text-slate-500">Categories</p>
-          <p className="mt-2 text-3xl font-black text-slate-900">{categories.length}</p>
-        </div>
-      </div>
-
-      <div className="grid gap-4 lg:grid-cols-2">
-        <div className="rounded-2xl border border-slate-200 bg-white p-4">
-          <h2 className="text-lg font-bold text-slate-900">Categories</h2>
-          <div className="mt-3 flex flex-wrap gap-2">
-            {categories.map((c: { serviceType: string; _count: { serviceType: number } }) => (
-              <span key={c.serviceType} className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium">
-                {c.serviceType} ({c._count.serviceType})
-              </span>
-            ))}
+      <PageSection>
+        <div className="grid lg:grid-cols-2 lg:divide-x lg:divide-slate-200">
+          <div className="px-6 py-8 lg:px-9 lg:py-9">
+            <AnalyticsPanel title="Verification analytics" description="Approved vs under review vs declined vs not submitted." pie={verPie}>
+              <LegendRow color="bg-emerald-600" label="Approved" value={verification.approved} />
+              <LegendRow color="bg-amber-500" label="Under review" value={verification.underReview} />
+              <LegendRow color="bg-rose-500" label="Rejected" value={verification.rejected} />
+              <LegendRow color="bg-slate-400" label="Not submitted" value={verification.notSubmitted} />
+            </AnalyticsPanel>
+          </div>
+          <div className="border-t border-slate-200 px-6 py-8 lg:border-t-0 lg:px-9 lg:py-9">
+            <AnalyticsPanel title="Work analytics" description="Grouped by request lifecycle stage, including newer project statuses." pie={workPie}>
+              <LegendRow color="bg-slate-900" label="Completed" value={work.completed} />
+              <LegendRow color="bg-blue-600" label="Active project" value={work.active} />
+              <LegendRow color="bg-amber-500" label="Pending review" value={work.pending} />
+              <LegendRow color="bg-rose-600" label="Rejected" value={work.rejected} />
+              <LegendRow color="bg-slate-500" label="Closed" value={work.closed} />
+            </AnalyticsPanel>
           </div>
         </div>
-        <div className="rounded-2xl border border-slate-200 bg-white p-4">
-          <h2 className="text-lg font-bold text-slate-900">Quick links</h2>
-          <div className="mt-3 space-y-2">
-            <Link href="/admin/verifications" className="block rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-900 hover:bg-slate-50">
-              Pending verifications
-            </Link>
-            <Link href="/admin/requests" className="block rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-900 hover:bg-slate-50">
-              All service requests
-            </Link>
-            <Link href="/admin/users" className="block rounded-xl border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-900 hover:bg-slate-50">
-              View users (with filters)
-            </Link>
-          </div>
-        </div>
-      </div>
+      </PageSection>
 
-      <div className="grid gap-4 lg:grid-cols-2">
-        <div className="rounded-2xl border border-slate-200 bg-white p-4">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <h2 className="text-lg font-bold text-slate-900">Verification analytics</h2>
-              <p className="mt-1 text-sm text-slate-600">Approved vs under review vs declined vs not submitted.</p>
-              <div className="mt-4 grid gap-2 text-sm text-slate-700">
-                <p className="flex items-center justify-between gap-3">
-                  <span className="inline-flex items-center gap-2">
-                    <span className="h-2.5 w-2.5 rounded-full bg-emerald-600" />
-                    Approved
-                  </span>
-                  <span className="font-semibold">{verification.approved}</span>
-                </p>
-                <p className="flex items-center justify-between gap-3">
-                  <span className="inline-flex items-center gap-2">
-                    <span className="h-2.5 w-2.5 rounded-full bg-amber-500" />
-                    Under review
-                  </span>
-                  <span className="font-semibold">{verification.underReview}</span>
-                </p>
-                <p className="flex items-center justify-between gap-3">
-                  <span className="inline-flex items-center gap-2">
-                    <span className="h-2.5 w-2.5 rounded-full bg-rose-500" />
-                    Rejected
-                  </span>
-                  <span className="font-semibold">{verification.rejected}</span>
-                </p>
-                <p className="flex items-center justify-between gap-3">
-                  <span className="inline-flex items-center gap-2">
-                    <span className="h-2.5 w-2.5 rounded-full bg-slate-400" />
-                    Not submitted
-                  </span>
-                  <span className="font-semibold">{verification.notSubmitted}</span>
-                </p>
+      <PageSection>
+        <TwoColumn
+          left={
+            <>
+              <h2 className="text-lg font-bold text-slate-900">Categories</h2>
+              <p className="mt-1 text-sm text-slate-600">Most requested service types across client submissions.</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {categories.length === 0 ? (
+                  <p className="text-sm text-slate-500">No request categories yet.</p>
+                ) : (
+                  categories.map((c: { serviceType: string; _count: { serviceType: number } }) => (
+                    <Badge key={c.serviceType} tone="slate">
+                      {c.serviceType} ({c._count.serviceType})
+                    </Badge>
+                  ))
+                )}
               </div>
-            </div>
-            <div
-              className="h-28 w-28 shrink-0 rounded-full ring-1 ring-slate-200"
-              style={{ background: verPie }}
-              aria-label="Verification pie chart"
-              title="Verification breakdown"
-            />
-          </div>
-        </div>
-
-        <div className="rounded-2xl border border-slate-200 bg-white p-4">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <h2 className="text-lg font-bold text-slate-900">Work analytics</h2>
-              <p className="mt-1 text-sm text-slate-600">Service request status overview.</p>
-              <div className="mt-4 grid gap-2 text-sm text-slate-700">
-                <p className="flex items-center justify-between gap-3">
-                  <span className="inline-flex items-center gap-2">
-                    <span className="h-2.5 w-2.5 rounded-full bg-slate-900" />
-                    Completed
-                  </span>
-                  <span className="font-semibold">{work.completed}</span>
-                </p>
-                <p className="flex items-center justify-between gap-3">
-                  <span className="inline-flex items-center gap-2">
-                    <span className="h-2.5 w-2.5 rounded-full bg-blue-600" />
-                    In progress
-                  </span>
-                  <span className="font-semibold">{work.inProgress}</span>
-                </p>
-                <p className="flex items-center justify-between gap-3">
-                  <span className="inline-flex items-center gap-2">
-                    <span className="h-2.5 w-2.5 rounded-full bg-rose-600" />
-                    Rejected
-                  </span>
-                  <span className="font-semibold">{work.rejected}</span>
-                </p>
-                <p className="flex items-center justify-between gap-3">
-                  <span className="inline-flex items-center gap-2">
-                    <span className="h-2.5 w-2.5 rounded-full bg-slate-400" />
-                    Pending review
-                  </span>
-                  <span className="font-semibold">{work.pending}</span>
-                </p>
+            </>
+          }
+          right={
+            <>
+              <h2 className="text-lg font-bold text-slate-900">Quick links</h2>
+              <p className="mt-1 text-sm text-slate-600">Jump into the most common admin tasks.</p>
+              <div className="mt-4 grid gap-2">
+                <ActionLink href="/admin/verifications" variant="secondary" className="w-full justify-between">
+                  Pending verifications
+                  <ArrowRight className="h-4 w-4" aria-hidden />
+                </ActionLink>
+                <ActionLink href="/admin/requests" variant="secondary" className="w-full justify-between">
+                  All service requests
+                  <ArrowRight className="h-4 w-4" aria-hidden />
+                </ActionLink>
+                <ActionLink href="/admin/users" variant="secondary" className="w-full justify-between">
+                  View users (with filters)
+                  <ArrowRight className="h-4 w-4" aria-hidden />
+                </ActionLink>
               </div>
-            </div>
-            <div
-              className="h-28 w-28 shrink-0 rounded-full ring-1 ring-slate-200"
-              style={{ background: workPie }}
-              aria-label="Work pie chart"
-              title="Work status breakdown"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
+            </>
+          }
+        />
+      </PageSection>
+    </Page>
   );
 }
-

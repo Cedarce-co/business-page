@@ -1,8 +1,12 @@
 import Link from "next/link";
 import { ClipboardList, LayoutDashboard, Settings, Shield } from "lucide-react";
 import Button from "@/components/ui/Button";
+import MarketingPageHeader from "@/components/navigation/MarketingPageHeader";
 import SectionLabel from "@/components/ui/SectionLabel";
+import SectionReveal, { RevealItem, StaggerReveal } from "@/components/ui/SectionReveal";
 import { PRODUCT_FLOW, PRODUCT_MODULES, PRODUCT_PILLARS } from "@/lib/marketing-pages";
+import { ruledBlockTop, ruledCell, ruledGridCols, ruledGridColsLg, ruledSplit, ruledSplitCell } from "@/lib/ruled-layout";
+import { cn } from "@/lib/utils";
 
 const moduleIcons = {
   layout: LayoutDashboard,
@@ -14,9 +18,10 @@ const moduleIcons = {
 export default function ProductPageContent() {
   return (
     <>
-      <section className="border-b border-cliq-gray-200 bg-[linear-gradient(165deg,#f8fafc_0%,#ffffff_45%,#f1f5f9_100%)]">
-        <div className="mx-auto flex max-w-[1200px] flex-col items-center px-4 py-16 text-center sm:px-6 lg:px-8 lg:py-24">
-          <SectionLabel className="mx-auto bg-cliq-purple-soft text-cliq-purple">Product</SectionLabel>
+      <section className="relative overflow-hidden border-b border-cliq-gray-200 bg-mesh-light">
+        <MarketingPageHeader tone="light" className="pb-2" />
+        <div className="mx-auto flex max-w-[1200px] flex-col items-center px-4 py-8 text-center sm:px-6 lg:px-8 lg:pb-24 lg:pt-4">
+          <SectionLabel className="mx-auto">Product</SectionLabel>
           <h1 className="mx-auto mt-6 max-w-4xl text-4xl font-black leading-tight text-cliq-text-heading sm:text-5xl lg:text-[3.25rem]">
             The Cedarce platform: portal, verification, and delivery in one place.
           </h1>
@@ -33,16 +38,13 @@ export default function ProductPageContent() {
             </Button>
           </div>
 
-          <div className="mx-auto mt-12 max-w-xl rounded-3xl border border-cliq-gray-200 bg-cliq-navy-900 p-6 text-left shadow-card sm:p-8">
+          <div className={cn("mx-auto mt-12 max-w-xl bg-cliq-navy-900 px-0 py-8 text-left sm:px-8", ruledBlockTop)}>
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cliq-teal">What you get</p>
-            <ul className="mt-5 space-y-4">
+            <ul className="mt-5 divide-y divide-white/10">
               {PRODUCT_MODULES.map((m) => {
                 const Icon = moduleIcons[m.icon];
                 return (
-                  <li
-                    key={m.title}
-                    className="flex gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-sm"
-                  >
+                  <li key={m.title} className="flex gap-4 py-4 first:pt-0">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-cliq-teal/20 text-cliq-teal">
                       <Icon className="h-5 w-5" aria-hidden />
                     </div>
@@ -58,58 +60,52 @@ export default function ProductPageContent() {
         </div>
       </section>
 
-      <section className="bg-cliq-white py-16 lg:py-24">
+      <SectionReveal className="bg-cliq-white py-16 lg:py-24">
         <div className="mx-auto max-w-[1200px] px-4 text-center sm:px-6 lg:px-8">
-          <SectionLabel className="mx-auto bg-cliq-gray-100 text-cliq-navy-800">Platform modules</SectionLabel>
+          <SectionLabel className="mx-auto">Platform modules</SectionLabel>
           <h2 className="mx-auto mt-5 max-w-2xl text-3xl font-black text-cliq-text-heading lg:text-4xl">
             Built for repeat delivery, not one-off handoffs.
           </h2>
-          <div className="mt-10 grid gap-4 text-left sm:grid-cols-2">
+          <StaggerReveal className={cn("mt-10", ruledGridCols(2))}>
             {PRODUCT_MODULES.map((m) => {
               const Icon = moduleIcons[m.icon];
               return (
-                <article
-                  key={m.title}
-                  className="rounded-2xl border border-cliq-gray-200 bg-white p-6 shadow-card transition hover:border-cliq-purple/30"
-                >
+                <RevealItem key={m.title}>
+                <article className={cn("h-full", ruledCell)}>
                   <Icon className="h-6 w-6 text-cliq-purple" aria-hidden />
                   <h3 className="mt-4 text-xl font-bold text-cliq-text-heading">{m.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-cliq-text-body">{m.desc}</p>
                 </article>
+                </RevealItem>
               );
             })}
-          </div>
+          </StaggerReveal>
         </div>
-      </section>
+      </SectionReveal>
 
-      <section className="border-y border-cliq-gray-200 bg-cliq-gray-50 py-16 lg:py-24">
+      <SectionReveal className="border-y border-cliq-gray-200 bg-cliq-gray-50 py-16 lg:py-24">
         <div className="mx-auto max-w-[1200px] px-4 text-center sm:px-6 lg:px-8">
           <h2 className="text-3xl font-black text-cliq-text-heading lg:text-4xl">How the product works</h2>
           <p className="mx-auto mt-3 max-w-2xl text-cliq-text-body">
             A single journey from signup to verified client to tracked delivery, visible on both sides.
           </p>
-          <ol className="relative mt-12 grid gap-8 text-left lg:grid-cols-4 lg:gap-6">
+          <ol className="relative mx-auto mt-12 max-w-2xl space-y-8 border-l-2 border-cliq-gray-200 pl-8 text-left">
             {PRODUCT_FLOW.map((item, i) => (
-              <li key={item.step} className="relative lg:pt-2">
-                {i < PRODUCT_FLOW.length - 1 ? (
-                  <span
-                    aria-hidden
-                    className="absolute left-[1.125rem] top-12 hidden h-[calc(100%+1rem)] w-px bg-cliq-gray-300 lg:left-auto lg:right-0 lg:top-6 lg:h-px lg:w-full lg:translate-x-1/2"
-                  />
-                ) : null}
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-cliq-navy-900 text-xs font-black text-white">
+              <li key={item.step} className="relative">
+                <span className="absolute -left-[2.125rem] top-0 inline-flex h-9 w-9 items-center justify-center rounded-full bg-cliq-navy-900 text-xs font-black text-white ring-4 ring-cliq-gray-50">
                   {item.step}
                 </span>
-                <h3 className="mt-4 text-lg font-bold text-cliq-text-heading">{item.title}</h3>
+                <h3 className="text-lg font-bold text-cliq-text-heading">{item.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-cliq-text-body">{item.body}</p>
               </li>
             ))}
           </ol>
         </div>
-      </section>
+      </SectionReveal>
 
-      <section className="bg-cliq-navy-800 py-16 lg:py-20">
-        <div className="mx-auto max-w-[1200px] px-4 text-center sm:px-6 lg:px-8">
+      <section className="relative overflow-hidden bg-cliq-navy-800 py-16 lg:py-20">
+        <div aria-hidden className="pointer-events-none absolute inset-0 bg-mesh-dark opacity-70" />
+        <div className="relative mx-auto max-w-[1200px] px-4 text-center sm:px-6 lg:px-8">
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-cliq-teal">Delivery pillars</p>
           <h2 className="mx-auto mt-4 max-w-3xl text-3xl font-black text-white lg:text-4xl">
             The platform orchestrates work across five service pillars we implement for you.
@@ -135,7 +131,7 @@ export default function ProductPageContent() {
         </div>
       </section>
 
-      <section className="bg-white py-16 lg:py-20">
+      <SectionReveal className="bg-white py-16 lg:py-20">
         <div className="mx-auto max-w-[1200px] px-4 text-center sm:px-6 lg:px-8">
           <h2 className="text-2xl font-black text-cliq-text-heading sm:text-3xl">Try the product</h2>
           <p className="mx-auto mt-2 max-w-lg text-cliq-text-body">
@@ -145,7 +141,7 @@ export default function ProductPageContent() {
             Get started for free
           </Button>
         </div>
-      </section>
+      </SectionReveal>
     </>
   );
 }

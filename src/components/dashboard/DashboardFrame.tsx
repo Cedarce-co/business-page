@@ -49,7 +49,7 @@ export default function DashboardFrame({
   }, []);
 
   return (
-    <div className="flex h-dvh flex-col overflow-hidden bg-[radial-gradient(circle_at_20%_10%,rgba(59,130,246,0.10),transparent_36%),radial-gradient(circle_at_90%_0%,rgba(16,185,129,0.08),transparent_40%),linear-gradient(180deg,#f8fafc_0%,#ffffff_70%)] lg:flex-row">
+    <div className="flex h-dvh flex-col overflow-hidden bg-app-shell lg:flex-row">
       <IdleSessionWatchdog scope="user" />
       <MfaSecurityOverlay mfaEnabled={mfaEnabled} />
       <div className="hidden shrink-0 lg:block">
@@ -110,9 +110,9 @@ export default function DashboardFrame({
         ) : null}
       </AnimatePresence>
 
-      <main className="flex min-h-0 flex-1 flex-col overflow-y-auto px-4 py-6 sm:px-6 lg:px-10 lg:py-10">
-        <div className="mx-auto flex w-full max-w-6xl flex-col gap-6">
-          <div className="shrink-0 rounded-2xl border border-slate-200 bg-white/90 px-4 py-3 shadow-[0_1px_0_rgba(15,23,42,0.04)] sm:px-5">
+      <main className="inner-scroll flex min-h-0 flex-1 flex-col overflow-y-auto px-4 py-6 sm:px-6 lg:px-10 lg:py-8">
+        <div className="mx-auto flex w-full max-w-6xl flex-col">
+          <div className="mb-8 border-b border-slate-200 pb-4">
             <WayfindingStrip zone="dashboard" />
           </div>
           {children}

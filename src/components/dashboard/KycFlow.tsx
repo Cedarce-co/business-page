@@ -12,8 +12,7 @@ import ScrollableStepShell from "@/components/ui/ScrollableStepShell";
 import KycDocumentField from "@/components/dashboard/KycDocumentField";
 import DocumentPreviewModal from "@/components/shared/DocumentPreviewModal";
 
-const inputClass =
-  "w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-slate-900";
+import { Input, Textarea } from "@/components/ui/FormField";
 
 export default function KycFlow() {
   const router = useRouter();
@@ -207,53 +206,46 @@ export default function KycFlow() {
             <>
               <h2 className="text-xl font-bold text-slate-900">Contact & business</h2>
               <p className="text-sm text-slate-600">Optional details help us verify faster. Only your government ID is required to submit.</p>
-              <input
-                className={inputClass}
+              <Input
                 placeholder="Phone / WhatsApp (optional)"
                 value={form.phone}
                 disabled={locked}
                 onChange={(e) => setForm((p) => ({ ...p, phone: e.target.value }))}
               />
-              <input
-                className={inputClass}
+              <Input
                 placeholder="Residential address (optional)"
                 value={form.personalAddress}
                 disabled={locked}
                 onChange={(e) => setForm((p) => ({ ...p, personalAddress: e.target.value }))}
               />
               <div className="grid gap-3 sm:grid-cols-2">
-                <input
-                  className={inputClass}
+                <Input
                   placeholder="City (optional)"
                   value={form.personalCity}
                   disabled={locked}
                   onChange={(e) => setForm((p) => ({ ...p, personalCity: e.target.value }))}
                 />
-                <input
-                  className={inputClass}
+                <Input
                   placeholder="Country (optional)"
                   value={form.personalCountry ?? ""}
                   disabled={locked}
                   onChange={(e) => setForm((p) => ({ ...p, personalCountry: e.target.value }))}
                 />
               </div>
-              <input
-                className={inputClass}
+              <Input
                 placeholder="Business name (optional)"
                 value={form.businessName}
                 disabled={locked}
                 onChange={(e) => setForm((p) => ({ ...p, businessName: e.target.value }))}
               />
               <div className="grid gap-3 sm:grid-cols-2">
-                <input
-                  className={inputClass}
+                <Input
                   placeholder="Business city (optional)"
                   value={form.businessCity}
                   disabled={locked}
                   onChange={(e) => setForm((p) => ({ ...p, businessCity: e.target.value }))}
                 />
-                <input
-                  className={inputClass}
+                <Input
                   placeholder="Business state (optional)"
                   value={form.businessState}
                   disabled={locked}
@@ -266,8 +258,7 @@ export default function KycFlow() {
             <>
               <h2 className="text-xl font-bold text-slate-900">Business address</h2>
               <p className="text-sm text-slate-600">Optional. Add if you have a registered business location.</p>
-              <textarea
-                className={`${inputClass} min-h-28`}
+              <Textarea
                 placeholder="Street address, landmark, area (optional)"
                 value={form.businessAddress}
                 disabled={locked}
@@ -281,22 +272,19 @@ export default function KycFlow() {
               <p className="text-sm text-slate-600">
                 Many businesses do not have these yet. Add what you have and we will help you set up the rest.
               </p>
-              <input
-                className={inputClass}
+              <Input
                 placeholder="Business email (optional)"
                 value={form.businessEmail ?? ""}
                 disabled={locked}
                 onChange={(e) => setForm((p) => ({ ...p, businessEmail: e.target.value }))}
               />
-              <input
-                className={inputClass}
+              <Input
                 placeholder="Website link (optional)"
                 value={form.businessWebsite ?? ""}
                 disabled={locked}
                 onChange={(e) => setForm((p) => ({ ...p, businessWebsite: e.target.value }))}
               />
-              <input
-                className={inputClass}
+              <Input
                 placeholder="Social handle (optional) e.g. @yourbusiness"
                 value={form.socialHandle ?? ""}
                 disabled={locked}
@@ -312,8 +300,7 @@ export default function KycFlow() {
               </p>
               <p className="text-xs text-slate-500">Max size: {MAX_UPLOAD_MB}MB per file. Uploads are private.</p>
 
-              <input
-                className={inputClass}
+              <Input
                 placeholder="ID type (optional), e.g. NIN, driver's license, passport…"
                 value={form.govIdType ?? ""}
                 disabled={locked}
@@ -377,8 +364,7 @@ export default function KycFlow() {
                 </div>
               ) : null}
 
-              <input
-                className={inputClass}
+              <Input
                 placeholder="CAC number (optional)"
                 value={form.cacNumber ?? ""}
                 disabled={locked}

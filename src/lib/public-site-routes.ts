@@ -2,7 +2,7 @@ const NO_PUBLIC_NAVBAR_PREFIXES = ["/signin", "/signup", "/dashboard", "/admin",
 
 /**
  * Public marketing routes that render the fixed `Navbar` in `RootChrome`.
- * Used for main padding and the global wayfinding strip under the header.
+ * Used to tag the marketing main wrapper (hero sections own top offset via `.site-page-top`).
  */
 export function isPublicMarketingWithNavbar(pathname: string | null | undefined): boolean {
   if (!pathname) return false;

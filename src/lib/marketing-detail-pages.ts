@@ -89,7 +89,7 @@ export const PRODUCT_PAGES: Record<string, MarketingPageConfig> = {
       {
         type: "timeline",
         title: "From brief to live",
-        orientation: "horizontal",
+        orientation: "vertical",
         steps: [
           { title: "Offer mapping", body: "We nail your audience, promise, and the one action each page must drive." },
           { title: "Design & copy", body: "Wireframes become branded pages with headlines that speak business, not tech." },
@@ -233,7 +233,7 @@ export const PRODUCT_PAGES: Record<string, MarketingPageConfig> = {
       {
         type: "timeline",
         title: "Integration path",
-        orientation: "horizontal",
+        orientation: "vertical",
         steps: [
           { title: "Merchant setup", body: "Business verification with your chosen provider." },
           { title: "Test transactions", body: "Sandbox runs before real money moves." },
@@ -400,7 +400,7 @@ export const PRODUCT_PAGES: Record<string, MarketingPageConfig> = {
       {
         type: "timeline",
         title: "Rollout format",
-        orientation: "horizontal",
+        orientation: "vertical",
         steps: [
           { title: "Assess", body: "Who does what today; where handoffs break." },
           { title: "Train", body: "Live walkthroughs + recorded snippets for new hires." },
@@ -490,7 +490,7 @@ export const SOLUTION_PAGES: Record<string, MarketingPageConfig> = {
       {
         type: "timeline",
         title: "Typical 3-week launch",
-        orientation: "horizontal",
+        orientation: "vertical",
         steps: [
           { title: "Week 1", body: "Site structure, domain, and email addresses live." },
           { title: "Week 2", body: "Payments connected; invoice template ready." },
@@ -666,7 +666,7 @@ export const SOLUTION_PAGES: Record<string, MarketingPageConfig> = {
       {
         type: "timeline",
         title: "Launch sequence",
-        orientation: "horizontal",
+        orientation: "vertical",
         steps: [
           { title: "Identity", body: "Domain, email, and brand-aligned landing page." },
           { title: "Commerce", body: "Payment gateway + first invoice template." },

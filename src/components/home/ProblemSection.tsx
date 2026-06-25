@@ -28,10 +28,10 @@ const after = [
 
 export default function ProblemSection() {
   return (
-    <section className="bg-cliq-white py-20 lg:py-28">
+    <section className="relative overflow-hidden bg-mesh-light py-20 lg:py-28">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
         <SectionIntro>
-          <SectionLabel className="bg-cliq-purple-soft text-cliq-purple">Without vs with us</SectionLabel>
+          <SectionLabel>Without vs with us</SectionLabel>
           <h2 className="mt-5 text-4xl font-black text-cliq-text-heading lg:text-5xl">
             Manual is how you started. Automated is how you scale.
           </h2>

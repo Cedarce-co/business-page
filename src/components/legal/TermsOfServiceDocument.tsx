@@ -272,7 +272,7 @@ export default function TermsOfServiceDocument() {
         <p className="leading-relaxed">
           <strong>Cedarce Co</strong>
         </p>
-        <ContactInfoList variant="legal" showAddress showWebsite showHours hours="full" className="mt-2" />
+        <ContactInfoList variant="legal" showWebsite showHours hours="full" className="mt-2" />
       </section>
 
       <p className="border-t border-cliq-gray-200 pt-8 text-sm text-cliq-text-muted">

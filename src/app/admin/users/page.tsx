@@ -4,6 +4,8 @@ import { prisma } from "@/server/database/prisma";
 import StatusBadge from "@/components/admin/StatusBadge";
 import { kycLabel, kycTone } from "@/components/admin/status";
 import { loadAdminEmailsFromDb } from "@/server/services/mfa";
+import { Page } from "@/components/dashboard/ui";
+import { parseTablePagination, resolveTablePage } from "@/lib/table-pagination";
 import {
   DataTable,
   DataTableBody,
@@ -12,7 +14,9 @@ import {
   DataTableTd,
   DataTableTh,
 } from "@/components/ui/DataTable";
+import DataTablePanel from "@/components/ui/DataTablePanel";
 import TableFilterBar from "@/components/ui/TableFilterBar";
+import TablePagination from "@/components/ui/TablePagination";
 import CopyableId from "@/components/ui/CopyableId";
 
 type AdminUsersRow = {
@@ -37,6 +41,7 @@ export default async function AdminUsersPage({
   const params = await searchParams;
   const qRaw = params.q;
   const q = (Array.isArray(qRaw) ? qRaw[0] : qRaw)?.trim() ?? "";
+  const { page, perPage, skip, take } = parseTablePagination(params);
   const exclude = await adminEmails();
 
   const where = {
@@ -54,31 +59,34 @@ export default async function AdminUsersPage({
     ],
   };
 
-  const users = await prisma.user.findMany({
-    where,
-    include: { kyc: true, profile: true, serviceRequest: { take: 1, orderBy: { createdAt: "desc" } } },
-    orderBy: { createdAt: "desc" },
-    take: 100,
-  });
+  const [users, total] = await Promise.all([
+    prisma.user.findMany({
+      where,
+      include: { kyc: true, profile: true, serviceRequest: { take: 1, orderBy: { createdAt: "desc" } } },
+      orderBy: { createdAt: "desc" },
+      skip,
+      take,
+    }),
+    prisma.user.count({ where }),
+  ]);
+
+  const { safePage } = resolveTablePage(page, total, perPage);
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-black text-slate-900">Users</h1>
-        <p className="text-sm text-slate-600">Search by user ID, name, or email. Open a row for full details.</p>
-      </div>
-
-      <Suspense fallback={<div className="h-20 rounded-2xl border border-slate-200 bg-white" />}>
-        <TableFilterBar searchPlaceholder="Search user ID, name, or email…" showStatus={false} />
-      </Suspense>
-
-      <div className="space-y-3">
-        <div className="flex items-center justify-between px-1">
-          <p className="text-sm font-semibold text-slate-900">{users.length} users</p>
-          <p className="text-xs text-slate-500">Showing up to 100</p>
-        </div>
-
-        <DataTable minWidth="920px">
+    <Page title="Users" subtitle="Search by user ID, name, or email. Open a row for full details.">
+      <DataTablePanel
+        filter={
+          <Suspense fallback={<div className="h-11 animate-pulse rounded-xl bg-slate-200/60" />}>
+            <TableFilterBar searchPlaceholder="Search user ID, name, or email…" showStatus={false} />
+          </Suspense>
+        }
+        pagination={
+          <Suspense fallback={null}>
+            <TablePagination total={total} page={safePage} perPage={perPage} />
+          </Suspense>
+        }
+      >
+        <DataTable embedded minWidth="920px">
           <DataTableHead>
             <DataTableTh>User ID</DataTableTh>
             <DataTableTh>Client</DataTableTh>
@@ -92,7 +100,7 @@ export default async function AdminUsersPage({
               <DataTableEmpty colSpan={6} message="No users match your search." />
             ) : (
               users.map((u: AdminUsersRow) => (
-                <tr key={u.id} className="hover:bg-slate-50/80">
+                <tr key={u.id}>
                   <DataTableTd>
                     <CopyableId value={u.id} href={`/admin/users/${u.id}`} label="User ID" />
                   </DataTableTd>
@@ -122,7 +130,7 @@ export default async function AdminUsersPage({
             )}
           </DataTableBody>
         </DataTable>
-      </div>
-    </div>
+      </DataTablePanel>
+    </Page>
   );
 }

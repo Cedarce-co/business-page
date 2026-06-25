@@ -1,11 +1,26 @@
 import type { ComponentType } from "react";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, Check, CreditCard, Globe, GraduationCap, Layers, Mail, MessageSquare, Receipt, Share2, Shield, Smartphone, Users, Zap } from "lucide-react";
+import { ArrowRight, Check, CreditCard, Globe, GraduationCap, Layers, Mail, MessageSquare, Receipt, Share2, Shield, Smartphone, Users, Zap } from "lucide-react";
 import PricingPackagesSection from "@/components/marketing/PricingPackagesSection";
 import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
+import MarketingPageHeader from "@/components/navigation/MarketingPageHeader";
+import SectionReveal, { RevealItem, StaggerReveal } from "@/components/ui/SectionReveal";
 import type { MarketingAccent, MarketingPageConfig, MarketingSection } from "@/lib/marketing-detail-pages";
 import { marketingPagePath } from "@/lib/marketing-detail-pages";
+import {
+  ruledBlockTop,
+  ruledCell,
+  ruledGridCols,
+  ruledGridColsLg,
+  ruledList,
+  ruledListItem,
+  ruledSectionBg,
+  ruledSplit,
+  ruledSplitCell,
+  ruledSplitTone,
+} from "@/lib/ruled-layout";
+import { cn } from "@/lib/utils";
 
 const accentStyles: Record<
   MarketingAccent,
@@ -74,59 +89,65 @@ function SectionBlock({
   index: number;
 }) {
   const a = accentStyles[accent];
-  const altBg = index % 2 === 1 ? "bg-cliq-gray-50" : "bg-white";
+  const altBg = ruledSectionBg(index);
 
   const sectionTitleClass = "text-center text-2xl font-black text-cliq-text-heading lg:text-3xl";
   const sectionSubtitleClass = "mx-auto mt-3 max-w-2xl text-center text-cliq-text-body";
 
   if (section.type === "stats") {
     return (
-      <section className={`${altBg} py-16 lg:py-20`}>
+      <SectionReveal className={`${altBg} py-16 lg:py-20`}>
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
           <h2 className={sectionTitleClass}>{section.title}</h2>
-          <div className="mt-10 grid gap-6 text-left sm:grid-cols-3">
+          <StaggerReveal className={cn("mt-10", ruledGridColsLg(3))}>
             {section.items.map((item) => (
-              <div key={item.label} className={`rounded-2xl border bg-white p-6 shadow-card ${a.ring} ring-1`}>
-                <p className="text-4xl font-black text-cliq-navy-900">{item.value}</p>
-                <p className="mt-2 text-sm text-cliq-text-body">{item.label}</p>
-              </div>
+              <RevealItem key={item.label}>
+                <div className={ruledCell}>
+                  <p className="text-4xl font-black text-cliq-navy-900">{item.value}</p>
+                  <p className="mt-2 text-sm text-cliq-text-body">{item.label}</p>
+                </div>
+              </RevealItem>
             ))}
-          </div>
+          </StaggerReveal>
         </div>
-      </section>
+      </SectionReveal>
     );
   }
 
   if (section.type === "bento") {
     return (
-      <section className={`${altBg} py-16 lg:py-20`}>
+      <SectionReveal className={`${altBg} py-16 lg:py-20`}>
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
           <h2 className={sectionTitleClass}>{section.title}</h2>
           {section.subtitle ? <p className={sectionSubtitleClass}>{section.subtitle}</p> : null}
-          <div className="mt-10 grid gap-4 text-left sm:grid-cols-2">
+          <StaggerReveal className={cn("mt-10", ruledGridCols(2))}>
             {section.items.map((item) => {
               const Icon = bentoIcons[item.icon] ?? Layers;
               return (
-                <article key={item.title} className="rounded-2xl border border-cliq-gray-200 bg-white p-6 shadow-card">
-                  <Icon className="h-6 w-6 text-cliq-navy-800" aria-hidden />
+                <RevealItem key={item.title}>
+                  <article className={cn("group relative h-full", ruledCell)}>
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-cliq-purple-soft text-cliq-navy-800">
+                    <Icon className="h-5 w-5" aria-hidden />
+                  </span>
                   <h3 className="mt-4 text-lg font-bold text-cliq-text-heading">{item.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-cliq-text-body">{item.body}</p>
                 </article>
+                </RevealItem>
               );
             })}
-          </div>
+          </StaggerReveal>
         </div>
-      </section>
+      </SectionReveal>
     );
   }
 
   if (section.type === "split") {
     return (
-      <section className={`${altBg} py-16 lg:py-20`}>
+      <SectionReveal className={`${altBg} py-16 lg:py-20`}>
         <div className="mx-auto max-w-[1200px] px-4 text-center sm:px-6 lg:px-8">
           <h2 className={sectionTitleClass}>{section.title}</h2>
           <p className="mx-auto mt-4 max-w-2xl text-center leading-relaxed text-cliq-text-body">{section.body}</p>
-          <div className={`mx-auto mt-10 max-w-xl rounded-2xl border p-6 text-left lg:p-8 ${a.panel}`}>
+          <div className={cn("mx-auto mt-10 max-w-xl pt-8 text-left", ruledBlockTop)}>
             <p className="text-sm font-bold uppercase tracking-wide text-cliq-text-heading">{section.panelTitle}</p>
             <ul className="mt-4 space-y-3">
               {section.panelItems.map((line) => (
@@ -138,65 +159,59 @@ function SectionBlock({
             </ul>
           </div>
         </div>
-      </section>
+      </SectionReveal>
     );
   }
 
   if (section.type === "timeline") {
     return (
-      <section className={`${altBg} py-16 lg:py-20`}>
+      <SectionReveal className={`${altBg} py-16 lg:py-20`}>
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
           <h2 className={sectionTitleClass}>{section.title}</h2>
-          <ol
-            className={
-              section.orientation === "horizontal"
-                ? "mt-10 grid gap-8 text-left lg:grid-cols-3"
-                : "relative mt-10 space-y-8 border-l-2 border-cliq-gray-200 pl-8 text-left"
-            }
-          >
+          <ol className="relative mx-auto mt-10 max-w-2xl space-y-8 border-l-2 border-cliq-gray-200 pl-8 text-left">
             {section.steps.map((step, i) => (
-              <li key={step.title} className={section.orientation === "vertical" ? "relative" : ""}>
-                {section.orientation === "vertical" ? (
-                  <span className={`absolute -left-[2.125rem] top-1 flex h-4 w-4 rounded-full ring-4 ring-white ${a.dot}`} aria-hidden />
-                ) : null}
-                <span className={`inline-flex h-8 w-8 items-center justify-center rounded-full text-xs font-black text-white ${a.dot}`}>
+              <li key={step.title} className="relative">
+                <span
+                  className={`absolute -left-[2.125rem] top-1 flex h-8 w-8 items-center justify-center rounded-full text-xs font-black text-white ring-4 ring-white ${a.dot}`}
+                  aria-hidden
+                >
                   {i + 1}
                 </span>
-                <h3 className="mt-3 font-bold text-cliq-text-heading">{step.title}</h3>
+                <h3 className="font-bold text-cliq-text-heading">{step.title}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-cliq-text-body">{step.body}</p>
               </li>
             ))}
           </ol>
         </div>
-      </section>
+      </SectionReveal>
     );
   }
 
   if (section.type === "checklist") {
     return (
-      <section className={`${altBg} py-16 lg:py-20`}>
+      <SectionReveal className={`${altBg} py-16 lg:py-20`}>
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
           <h2 className={sectionTitleClass}>{section.title}</h2>
-          <ul className={`mt-8 grid gap-3 text-left ${section.columns === 2 ? "sm:grid-cols-2" : ""}`}>
+          <ul className={cn("mt-8 text-left", ruledList, section.columns === 2 ? "sm:grid sm:grid-cols-2 sm:divide-x sm:divide-y-0" : "")}>
             {section.items.map((item) => (
-              <li key={item} className="flex gap-3 rounded-xl border border-cliq-gray-200 bg-white p-4 text-sm text-cliq-text-body">
+              <li key={item} className={cn("flex gap-3 text-sm text-cliq-text-body", ruledListItem)}>
                 <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" aria-hidden />
                 {item}
               </li>
             ))}
           </ul>
         </div>
-      </section>
+      </SectionReveal>
     );
   }
 
   if (section.type === "comparison") {
     return (
-      <section className={`${altBg} py-16 lg:py-20`}>
+      <SectionReveal className={`${altBg} py-16 lg:py-20`}>
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
           <h2 className={sectionTitleClass}>{section.title}</h2>
-          <div className="mt-10 grid gap-6 lg:grid-cols-2">
-            <div className="rounded-2xl border border-rose-200 bg-rose-50/80 p-6">
+          <div className={cn("mt-10", ruledSplit)}>
+            <div className={cn(ruledSplitCell, ruledSplitTone.rose)}>
               <p className="text-xs font-bold uppercase tracking-wide text-rose-800">Before</p>
               <ul className="mt-4 space-y-2">
                 {section.before.map((line) => (
@@ -204,7 +219,7 @@ function SectionBlock({
                 ))}
               </ul>
             </div>
-            <div className="rounded-2xl border border-emerald-200 bg-emerald-50/80 p-6">
+            <div className={cn(ruledSplitCell, ruledSplitTone.emerald)}>
               <p className="text-xs font-bold uppercase tracking-wide text-emerald-800">After Cedarce</p>
               <ul className="mt-4 space-y-2">
                 {section.after.map((line) => (
@@ -214,45 +229,46 @@ function SectionBlock({
             </div>
           </div>
         </div>
-      </section>
+      </SectionReveal>
     );
   }
 
   if (section.type === "pain-outcome") {
     return (
-      <section className={`${altBg} py-16 lg:py-20`}>
+      <SectionReveal className={`${altBg} py-16 lg:py-20`}>
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-          <div className="grid gap-6 lg:grid-cols-2">
-            <div className="rounded-2xl border border-rose-200 bg-gradient-to-br from-rose-50 to-white p-8">
+          <div className={ruledSplit}>
+            <div className={cn(ruledSplitCell, ruledSplitTone.rose)}>
               <p className="text-xs font-bold uppercase tracking-wide text-rose-700">The situation</p>
               <p className="mt-4 text-lg leading-relaxed text-cliq-text-body">{section.pain}</p>
             </div>
-            <div className="rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-50 to-white p-8">
+            <div className={cn(ruledSplitCell, ruledSplitTone.emerald)}>
               <p className="text-xs font-bold uppercase tracking-wide text-emerald-800">The outcome</p>
               <p className="mt-4 text-lg leading-relaxed text-cliq-text-body">{section.outcome}</p>
             </div>
           </div>
-          <ul className="mt-8 grid gap-3 sm:grid-cols-2">
+          <ul className={cn("mt-8", ruledGridCols(2))}>
             {section.bullets.map((b) => (
-              <li key={b} className={`flex gap-3 rounded-xl border p-4 text-sm ${a.panel}`}>
+              <li key={b} className={cn("flex gap-3 text-sm", ruledCell)}>
                 <Check className="h-4 w-4 shrink-0 text-emerald-600" aria-hidden />
                 {b}
               </li>
             ))}
           </ul>
         </div>
-      </section>
+      </SectionReveal>
     );
   }
 
   if (section.type === "quote") {
     return (
-      <section className="bg-cliq-navy-900 py-16 lg:py-20">
-        <div className="mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
+      <SectionReveal className="relative overflow-hidden bg-cliq-navy-900 py-16 lg:py-20">
+        <div aria-hidden className="pointer-events-none absolute inset-0 bg-mesh-dark opacity-80" />
+        <div className="relative mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
           <p className="text-xl font-medium leading-relaxed text-white/90 lg:text-2xl">&ldquo;{section.text}&rdquo;</p>
           <p className="mt-6 text-sm font-semibold uppercase tracking-wide text-cliq-teal">{section.attribution}</p>
         </div>
-      </section>
+      </SectionReveal>
     );
   }
 
@@ -262,20 +278,14 @@ function SectionBlock({
 function Hero({ page }: { page: MarketingPageConfig }) {
   const a = accentStyles[page.accent];
   const Icon = page.icon;
-  const backHref =
-    page.category === "product" ? "/about" : page.category === "solution" ? "/services" : "/pricing";
-  const backLabel =
-    page.category === "product" ? "Product" : page.category === "solution" ? "Solutions" : "Pricing";
 
   if (page.heroVariant === "split") {
     return (
-      <section className="border-b border-cliq-gray-200 bg-[linear-gradient(165deg,#f8fafc_0%,#ffffff_50%)]">
-        <div className="mx-auto flex max-w-[1200px] flex-col items-center px-4 py-12 text-center sm:px-6 lg:px-8 lg:py-20">
-          <Link href={backHref} className="self-start inline-flex items-center gap-1 text-sm font-semibold text-cliq-text-muted hover:text-cliq-navy-900">
-            <ArrowLeft className="h-4 w-4" aria-hidden />
-            {backLabel}
-          </Link>
-          <Badge className="mt-6 uppercase tracking-wide">{page.eyebrow}</Badge>
+      <section className="relative overflow-hidden border-b border-cliq-gray-200 bg-mesh-light">
+        <div className="pointer-events-none absolute left-1/2 top-12 h-72 w-72 -translate-x-1/2 rounded-full bg-cliq-purple-soft/80 blur-3xl" aria-hidden />
+        <MarketingPageHeader tone="light" className="pb-2" />
+        <div className="relative mx-auto flex max-w-[1200px] flex-col items-center px-4 py-8 text-center sm:px-6 lg:px-8 lg:pb-20 lg:pt-4">
+          <Badge className="uppercase tracking-wide">{page.eyebrow}</Badge>
           <h1 className="mt-4 max-w-4xl text-4xl font-black text-cliq-text-heading lg:text-5xl">{page.title}</h1>
           <p className="mt-2 max-w-3xl text-balance text-center text-xl font-semibold text-cliq-purple">{page.tagline}</p>
           <p className="mt-4 max-w-3xl text-balance text-center leading-relaxed text-cliq-text-body">{page.lead}</p>
@@ -287,7 +297,7 @@ function Hero({ page }: { page: MarketingPageConfig }) {
               {page.secondaryCta.label}
             </Button>
           </div>
-          <div className={`mx-auto mt-10 max-w-md rounded-3xl bg-gradient-to-br p-8 text-left text-white ${a.heroBg}`}>
+          <div className={`mx-auto mt-10 max-w-md rounded-3xl bg-gradient-to-br p-8 text-left text-white shadow-[0_28px_80px_rgba(10,10,20,0.28)] ring-1 ring-white/10 transition duration-300 hover:-translate-y-1 ${a.heroBg}`}>
             <Icon className="h-12 w-12 text-cliq-teal" aria-hidden />
             <p className="mt-6 text-sm uppercase tracking-wide text-white/60">Cedarce {page.category}</p>
             <p className="mt-2 text-2xl font-black">{page.tagline}</p>
@@ -299,13 +309,11 @@ function Hero({ page }: { page: MarketingPageConfig }) {
 
   if (page.heroVariant === "minimal") {
     return (
-      <section className="border-b border-cliq-gray-200 bg-white py-16 lg:py-24">
-        <div className="mx-auto flex max-w-[1200px] flex-col items-center px-4 text-center sm:px-6 lg:px-8">
-          <Link href={backHref} className="self-start inline-flex items-center gap-1 text-sm font-semibold text-cliq-text-muted hover:text-cliq-navy-900">
-            <ArrowLeft className="h-4 w-4" aria-hidden />
-            {backLabel}
-          </Link>
-          <div className="mt-8 flex w-full max-w-3xl flex-col items-center">
+      <section className="relative overflow-hidden border-b border-cliq-gray-200 bg-white">
+        <div aria-hidden className="pointer-events-none absolute inset-0 bg-dot-grid opacity-40" />
+        <MarketingPageHeader tone="light" className="pb-2" />
+        <div className="relative mx-auto flex max-w-[1200px] flex-col items-center px-4 py-8 text-center sm:px-6 lg:px-8 lg:pb-24 lg:pt-4">
+          <div className="flex w-full max-w-3xl flex-col items-center">
             <span className={`inline-flex h-14 w-14 items-center justify-center rounded-2xl ${a.panel}`}>
               <Icon className="h-7 w-7 text-cliq-navy-900" aria-hidden />
             </span>
@@ -328,13 +336,11 @@ function Hero({ page }: { page: MarketingPageConfig }) {
   }
 
   return (
-    <section className={`relative overflow-hidden bg-gradient-to-b pb-20 pt-12 ${a.heroBg}`}>
+    <section className={`relative overflow-hidden bg-gradient-to-b pb-20 ${a.heroBg}`}>
+      <div aria-hidden className="pointer-events-none absolute inset-0 bg-mesh-dark opacity-70" />
+      <MarketingPageHeader tone="dark" />
       <div className="relative mx-auto flex max-w-[1200px] flex-col items-center px-4 text-center sm:px-6 lg:px-8">
-        <Link href={backHref} className="self-start inline-flex items-center gap-1 text-sm font-semibold text-white/70 hover:text-white">
-          <ArrowLeft className="h-4 w-4" aria-hidden />
-          {backLabel}
-        </Link>
-        <div className="mt-8 flex w-full max-w-3xl flex-col items-center">
+        <div className="flex w-full max-w-3xl flex-col items-center">
           <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10">
             <Icon className="h-8 w-8 text-cliq-teal" aria-hidden />
           </span>
@@ -371,18 +377,18 @@ export default function MarketingDetailPage({ page }: { page: MarketingPageConfi
         <SectionBlock key={`${section.type}-${index}`} section={section} accent={page.accent} index={index} />
       ))}
       {page.category === "pricing" ? <PricingPackagesSection highlightSlug={highlightPackage} /> : null}
-      <section className="border-t border-cliq-gray-200 bg-cliq-gray-100 py-16">
+      <SectionReveal className="border-t border-cliq-gray-200 bg-cliq-gray-100 py-16">
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
           <h2 className="text-center text-xl font-black text-cliq-text-heading">
             Related{" "}
             {page.category === "product" ? "products" : page.category === "solution" ? "solutions" : "pricing options"}
           </h2>
-          <div className="mt-6 grid gap-4 text-left sm:grid-cols-3">
+          <div className={cn("mt-6 text-left", ruledGridCols(3))}>
             {page.related.map((r) => (
               <Link
                 key={r.slug}
                 href={marketingPagePath(r.category, r.slug)}
-                className="group flex items-center justify-between rounded-2xl border border-cliq-gray-200 bg-white p-5 shadow-card transition hover:border-cliq-navy-800/20"
+                className={cn("group flex items-center justify-between px-0 py-5 transition hover:bg-white sm:px-6 first:sm:pl-0", ruledCell)}
               >
                 <span className="font-semibold text-cliq-text-heading">{r.label}</span>
                 <ArrowRight className="h-4 w-4 text-cliq-navy-800 transition group-hover:translate-x-0.5" aria-hidden />
@@ -403,7 +409,7 @@ export default function MarketingDetailPage({ page }: { page: MarketingPageConfi
             </p>
           )}
         </div>
-      </section>
+      </SectionReveal>
     </>
   );
 }

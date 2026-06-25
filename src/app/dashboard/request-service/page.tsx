@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/server-auth";
-import { ActionLink, Badge, Card, Page } from "@/components/dashboard/ui";
+import { ActionLink, Badge, Page, PageSection } from "@/components/dashboard/ui";
 import RequestWizard from "@/components/dashboard/RequestWizard";
 
 export default async function RequestServicePage({
@@ -30,7 +30,7 @@ export default async function RequestServicePage({
       right={kycDone ? <Badge tone="emerald">Verified</Badge> : <Badge tone="rose">Verification required</Badge>}
     >
       {!kycDone ? (
-        <Card className="border-rose-200 bg-[linear-gradient(135deg,rgba(255,241,242,1)_0%,rgba(255,255,255,1)_60%)]">
+        <PageSection tone="warning">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="text-sm font-black text-slate-900">Verification required</p>
@@ -42,7 +42,7 @@ export default async function RequestServicePage({
               Verify now
             </ActionLink>
           </div>
-        </Card>
+        </PageSection>
       ) : (
         <RequestWizard packageTier={packageTier} startFresh={startFresh} />
       )}

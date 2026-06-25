@@ -452,7 +452,7 @@ export default function IntakeQuestionBuilder({
                               {q.visibleWhen?.questionId ? (
                                 <div className="space-y-2">
                                   <span className="text-xs font-semibold uppercase tracking-wide text-slate-500">Show if any of</span>
-                                  <div className="max-h-40 space-y-2 overflow-auto rounded-xl border border-slate-200 bg-slate-50 p-3">
+                                  <div className="inner-scroll max-h-40 space-y-2 overflow-auto rounded-xl border border-slate-200 bg-slate-50 p-3">
                                     {(questions.find((x) => x.id === q.visibleWhen?.questionId && x.type === "multi_choice") as
                                       | Extract<IntakeQuestion, { type: "multi_choice" }>
                                       | undefined)?.options.map((opt) => {

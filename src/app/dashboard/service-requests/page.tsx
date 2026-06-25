@@ -7,6 +7,7 @@ import StatusBadge from "@/components/admin/StatusBadge";
 import { requestLabel, requestTone } from "@/components/admin/status";
 import { canUserEditServiceRequest } from "@/lib/service-request-edit";
 import { SERVICE_REQUEST_STATUS_ORDER } from "@/lib/service-request-status";
+import { parseTablePagination, resolveTablePage } from "@/lib/table-pagination";
 import {
   DataTable,
   DataTableBody,
@@ -15,7 +16,9 @@ import {
   DataTableTd,
   DataTableTh,
 } from "@/components/ui/DataTable";
+import DataTablePanel from "@/components/ui/DataTablePanel";
 import TableFilterBar from "@/components/ui/TableFilterBar";
+import TablePagination from "@/components/ui/TablePagination";
 import CopyableId from "@/components/ui/CopyableId";
 import type { ServiceRequestStatus } from "@prisma/client";
 
@@ -30,15 +33,25 @@ export default async function MyServiceRequestsPage({
   const qRaw = params.q;
   const status = (Array.isArray(statusRaw) ? statusRaw[0] : statusRaw)?.trim() ?? "all";
   const q = (Array.isArray(qRaw) ? qRaw[0] : qRaw)?.trim() ?? "";
+  const { page, perPage, skip, take } = parseTablePagination(params);
 
-  const requests = await prisma.serviceRequest.findMany({
-    where: {
-      userId: session.user.id,
-      ...(status !== "all" ? { status: status as ServiceRequestStatus } : {}),
-      ...(q ? { id: { contains: q, mode: "insensitive" } } : {}),
-    },
-    orderBy: { createdAt: "desc" },
-  });
+  const where = {
+    userId: session.user.id,
+    ...(status !== "all" ? { status: status as ServiceRequestStatus } : {}),
+    ...(q ? { id: { contains: q, mode: "insensitive" as const } } : {}),
+  };
+
+  const [requests, total] = await Promise.all([
+    prisma.serviceRequest.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      skip,
+      take,
+    }),
+    prisma.serviceRequest.count({ where }),
+  ]);
+
+  const { safePage } = resolveTablePage(page, total, perPage);
 
   const statusOptions = SERVICE_REQUEST_STATUS_ORDER.map((s) => ({
     value: s,
@@ -51,18 +64,23 @@ export default async function MyServiceRequestsPage({
       subtitle="Search by request ID or filter by status. You can edit within 48 hours of submitting, or anytime we ask for more information."
       right={<ActionLink href="/dashboard/request-service?fresh=1">New request</ActionLink>}
     >
-      <Suspense fallback={<div className="h-20 rounded-2xl border border-slate-200 bg-white" />}>
-        <TableFilterBar
-          searchPlaceholder="Search request ID…"
-          statusOptions={statusOptions}
-          statusLabel="Status"
-        />
-      </Suspense>
-
-      <div className="mt-4 space-y-3">
-        <p className="px-1 text-sm font-semibold text-slate-900">{requests.length} requests</p>
-
-        <DataTable minWidth="880px">
+      <DataTablePanel
+        filter={
+          <Suspense fallback={<div className="h-11 animate-pulse rounded-xl bg-slate-200/60" />}>
+            <TableFilterBar
+              searchPlaceholder="Search request ID…"
+              statusOptions={statusOptions}
+              statusLabel="Status"
+            />
+          </Suspense>
+        }
+        pagination={
+          <Suspense fallback={null}>
+            <TablePagination total={total} page={safePage} perPage={perPage} />
+          </Suspense>
+        }
+      >
+        <DataTable embedded minWidth="880px">
           <DataTableHead>
             <DataTableTh>Request ID</DataTableTh>
             <DataTableTh>Service</DataTableTh>
@@ -77,7 +95,7 @@ export default async function MyServiceRequestsPage({
               requests.map((r) => {
                 const editable = canUserEditServiceRequest({ status: r.status, createdAt: r.createdAt });
                 return (
-                  <tr key={r.id} className="hover:bg-slate-50/80">
+                  <tr key={r.id}>
                     <DataTableTd>
                       <CopyableId value={r.id} label="Request ID" />
                     </DataTableTd>
@@ -113,7 +131,7 @@ export default async function MyServiceRequestsPage({
             )}
           </DataTableBody>
         </DataTable>
-      </div>
+      </DataTablePanel>
     </Page>
   );
 }

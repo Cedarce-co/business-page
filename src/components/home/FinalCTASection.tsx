@@ -1,10 +1,11 @@
 "use client";
 
 import Button from "@/components/ui/Button";
+import SectionReveal from "@/components/ui/SectionReveal";
 
 export default function FinalCTASection() {
   return (
-    <section className="bg-white py-20 lg:py-28">
+    <SectionReveal className="bg-white py-20 lg:py-28">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
         <div className="relative overflow-hidden rounded-3xl border border-cliq-gray-200 bg-white px-6 py-12 shadow-card sm:px-10 lg:px-14">
           <div
@@ -42,6 +43,6 @@ export default function FinalCTASection() {
           </div>
         </div>
       </div>
-    </section>
+    </SectionReveal>
   );
 }

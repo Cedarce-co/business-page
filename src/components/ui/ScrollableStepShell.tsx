@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { Card } from "@/components/dashboard/ui";
 import {
   stepPanelCompactHeightClass,
   stepPanelHeightClass,
@@ -18,7 +17,7 @@ export {
 } from "@/components/ui/step-panel-layout";
 
 const footerClass =
-  "shrink-0 border-t border-slate-100 bg-white pt-4 pb-[max(0px,env(safe-area-inset-bottom))]";
+  "shrink-0 border-t border-slate-100/80 bg-white/80 pt-4 backdrop-blur-sm pb-[max(0px,env(safe-area-inset-bottom))]";
 
 export default function ScrollableStepShell({
   header,
@@ -49,17 +48,17 @@ export default function ScrollableStepShell({
   }, [scrollResetKey]);
 
   return (
-    <Card
-      className={`grid ${heightClass} grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden p-6 sm:p-7 ${className}`}
+    <div
+      className={`grid border border-slate-200/90 bg-white/80 ${heightClass} grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden p-6 sm:p-7 ${className}`}
     >
       {header ? <div className="shrink-0">{header}</div> : null}
       <div
         ref={scrollRef}
-        className="step-scroll-area min-h-0 overflow-y-auto overscroll-y-contain pr-1"
+        className="inner-scroll step-scroll-area min-h-0 overflow-y-auto overscroll-y-contain pr-1"
       >
         {children}
       </div>
       <div className={footerClass}>{footer}</div>
-    </Card>
+    </div>
   );
 }

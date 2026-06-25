@@ -66,6 +66,7 @@ const config: Config = {
         marquee: "marquee 30s linear infinite",
         "marquee-r": "marqueeR 30s linear infinite",
         "pulse-slow": "pulse 4s ease-in-out infinite",
+        shimmer: "shimmer 1.8s ease-in-out infinite",
       },
       keyframes: {
         float: {
@@ -83,6 +84,9 @@ const config: Config = {
         marqueeR: {
           "0%": { transform: "translateX(-50%)" },
           "100%": { transform: "translateX(0%)" },
+        },
+        shimmer: {
+          "100%": { transform: "translateX(100%)" },
         },
       },
     },

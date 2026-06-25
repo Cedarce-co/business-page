@@ -6,8 +6,10 @@ import { filterWizardIntakeQuestions } from "@/features/intake/account-defaults"
 
 type Answers = Record<string, unknown>;
 
-const inputClass =
-  "w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-slate-900";
+import { Input, Textarea } from "@/components/ui/FormField";
+
+const choiceClass =
+  "flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200/90 bg-white/95 px-4 py-3 shadow-[0_4px_16px_rgba(15,23,42,0.04)] transition duration-200 hover:border-cliq-purple/30 hover:bg-cliq-purple-soft/30 has-[:checked]:border-cliq-purple has-[:checked]:bg-cliq-purple-soft/50";
 
 function byOrder(a: IntakeQuestion, b: IntakeQuestion) {
   return a.order - b.order;
@@ -81,8 +83,8 @@ export default function IntakeFormFields({
             return (
               <div
                 key={q.id}
-                className={`space-y-2 rounded-2xl border p-4 ${
-                  highlighted ? "border-amber-300 bg-amber-50/60" : "border-slate-200 bg-white"
+                className={`space-y-2 rounded-2xl border p-4 transition duration-200 ${
+                  highlighted ? "border-amber-300 bg-amber-50/60" : "border-slate-200/90 bg-white/95 shadow-[0_4px_16px_rgba(15,23,42,0.03)]"
                 }`}
               >
                 <p className="text-sm font-semibold text-slate-900">
@@ -90,8 +92,7 @@ export default function IntakeFormFields({
                 </p>
 
                 {q.type === "short_text" ? (
-                  <input
-                    className={inputClass}
+                  <Input
                     value={typeof answers[q.id] === "string" ? (answers[q.id] as string) : ""}
                     onChange={(e) => setValue(q.id, e.target.value)}
                     placeholder={q.placeholder ?? ""}
@@ -99,8 +100,7 @@ export default function IntakeFormFields({
                 ) : null}
 
                 {q.type === "paragraph" ? (
-                  <textarea
-                    className={`${inputClass} min-h-28`}
+                  <Textarea
                     value={typeof answers[q.id] === "string" ? (answers[q.id] as string) : ""}
                     onChange={(e) => setValue(q.id, e.target.value)}
                     placeholder={q.placeholder ?? ""}
@@ -112,7 +112,7 @@ export default function IntakeFormFields({
                     {q.options.map((o) => (
                       <label
                         key={o.value}
-                        className="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3"
+                        className={choiceClass}
                       >
                         <input
                           type="radio"
@@ -134,7 +134,7 @@ export default function IntakeFormFields({
                       return (
                         <label
                           key={o.value}
-                          className="flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3"
+                          className={choiceClass}
                         >
                           <input
                             type="checkbox"
@@ -146,8 +146,7 @@ export default function IntakeFormFields({
                       );
                     })}
                     {q.allowOther ? (
-                      <input
-                        className={inputClass}
+                      <Input
                         placeholder="If other, specify…"
                         value={
                           typeof answers[`${q.id}_other`] === "string"

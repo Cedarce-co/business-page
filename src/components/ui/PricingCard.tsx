@@ -29,7 +29,7 @@ export default function PricingCard({ item, activeSlug }: { item: Pricing; activ
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-3xl border-2 p-8",
+        "relative overflow-hidden rounded-3xl border-2 p-8 transition duration-300 hover:-translate-y-1",
         item.featured
           ? "bg-g-card border-cliq-purple shadow-purple"
           : "border-cliq-gray-200 bg-white",

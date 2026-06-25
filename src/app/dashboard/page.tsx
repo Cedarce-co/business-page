@@ -1,7 +1,17 @@
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/server-auth";
-import { ActionLink, Badge, Card, Page, Stat } from "@/components/dashboard/ui";
+import {
+  ActionLink,
+  Badge,
+  ChecklistRow,
+  ListRow,
+  Page,
+  PageSection,
+  Stat,
+  StatRow,
+  TwoColumn,
+} from "@/components/dashboard/ui";
 import ContactInfoList from "@/components/ui/ContactInfoList";
 import { requestLabel, requestTone } from "@/components/admin/status";
 
@@ -29,7 +39,7 @@ export default async function DashboardHomePage() {
   return (
     <Page
       title="Dashboard"
-      subtitle="Track onboarding, verification, and active work - delivered with premium execution."
+      subtitle="Track onboarding, verification, and active work."
       right={
         kycDone ? (
           <div className="flex flex-wrap items-center gap-2">
@@ -41,43 +51,43 @@ export default async function DashboardHomePage() {
             </ActionLink>
           </div>
         ) : (
-          <ActionLink href="/dashboard/kyc" variant={kycSubmitted ? "secondary" : kycInvalid ? "amber" : "amber"}>
+          <ActionLink href="/dashboard/kyc" variant={kycSubmitted ? "secondary" : "amber"}>
             {kycSubmitted ? "View verification" : kycInvalid ? "Update verification" : kycRejected ? "Resubmit verification" : "Start verification"}
           </ActionLink>
         )
       }
     >
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <Stat
-          label="Verification"
-          value={
-            <span className="inline-flex items-center gap-2">
+      <PageSection tone="muted" bleed>
+        <StatRow>
+          <Stat
+            label="Verification"
+            value={
               <Badge tone={kycDone ? "emerald" : kycSubmitted ? "amber" : kycInvalid ? "amber" : kycRejected ? "rose" : "slate"}>
                 {verificationLabel}
               </Badge>
-            </span>
-          }
-          hint={
-            kycDone
-              ? "You can request any service."
-              : kycSubmitted
-                ? "Awaiting approval."
-                : kycInvalid
-                  ? "Update your business information and resubmit."
-                : kycRejected
-                  ? "Update details and resubmit."
-                  : "Required before requesting services."
-          }
-        />
-        <Stat label="Requests" value={totalRequests} hint="Service requests created so far." />
-        <Stat label="Account" value={<Badge tone="emerald">Active</Badge>} hint="Your portal is ready." />
-      </div>
+            }
+            hint={
+              kycDone
+                ? "You can request any service."
+                : kycSubmitted
+                  ? "Awaiting approval."
+                  : kycInvalid
+                    ? "Update your business information and resubmit."
+                    : kycRejected
+                      ? "Update details and resubmit."
+                      : "Required before requesting services."
+            }
+          />
+          <Stat label="Requests" value={totalRequests} hint="Service requests created so far." />
+          <Stat label="Account" value={<Badge tone="emerald">Active</Badge>} hint="Your portal is ready." />
+        </StatRow>
+      </PageSection>
 
       {!kycDone ? (
-        <Card className={kycSubmitted ? "border-slate-200 bg-white/80" : "border-amber-200 bg-[linear-gradient(135deg,rgba(255,251,235,1)_0%,rgba(255,255,255,1)_55%)]"}>
+        <PageSection tone="warning">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <Badge tone={kycSubmitted ? "slate" : kycInvalid ? "amber" : kycRejected ? "rose" : "amber"}>
                   {kycSubmitted ? "Under review" : kycInvalid ? "Update needed" : kycRejected ? "Action required" : "Action required"}
                 </Badge>
@@ -86,9 +96,9 @@ export default async function DashboardHomePage() {
                     ? "Verification submitted. Awaiting approval."
                     : kycInvalid
                       ? "Some business information is invalid. Please update and resubmit."
-                    : kycRejected
-                      ? "Verification was rejected. Please update and resubmit."
-                      : "Complete account verification to unlock service requests"}
+                      : kycRejected
+                        ? "Verification was rejected. Please update and resubmit."
+                        : "Complete account verification to unlock service requests"}
                 </p>
               </div>
               <p className="mt-2 text-sm text-slate-700">
@@ -96,102 +106,103 @@ export default async function DashboardHomePage() {
                   ? "Our team is reviewing your business details and documents. You will get an email once approved."
                   : kycInvalid
                     ? "Open your verification page, correct the details, and submit again."
-                  : "Your account is active. Verification is required before requesting services."}
+                    : "Your account is active. Verification is required before requesting services."}
               </p>
             </div>
             <ActionLink href="/dashboard/kyc" variant={kycSubmitted ? "secondary" : kycInvalid ? "amber" : kycRejected ? "danger" : "amber"}>
               {kycSubmitted ? "View details" : kycInvalid ? "Update verification" : kycRejected ? "Resubmit verification" : "Start verification"}
             </ActionLink>
           </div>
-        </Card>
+        </PageSection>
       ) : null}
 
-      <div className="grid gap-4 lg:grid-cols-3">
-        <Card className="lg:col-span-2">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <h2 className="text-lg font-black text-slate-900">Next steps</h2>
-              <p className="mt-1 text-sm text-slate-600">A simple checklist to get you from setup to delivery.</p>
-            </div>
-            <Badge tone={kycDone ? "emerald" : "amber"}>{kycDone ? "Verified" : "Not verified"}</Badge>
-          </div>
-          <div className="mt-5 space-y-3">
-            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-4">
-              <div>
-                <p className="text-sm font-semibold text-slate-900">Account verification</p>
-                <p className="mt-1 text-sm text-slate-600">Confirm your identity to unlock requests.</p>
+      <PageSection>
+        <TwoColumn
+          left={
+            <>
+              <div className="mb-5 flex items-start justify-between gap-4">
+                <div>
+                  <h2 className="text-lg font-black text-slate-900">Next steps</h2>
+                  <p className="mt-1 text-sm text-slate-600">A simple checklist to get you from setup to delivery.</p>
+                </div>
+                <Badge tone={kycDone ? "emerald" : "amber"}>{kycDone ? "Verified" : "Not verified"}</Badge>
               </div>
-              {kycDone ? (
-                <Badge tone="emerald">Done</Badge>
-              ) : kycSubmitted ? (
-                <Badge tone="amber">Under review</Badge>
-              ) : kycInvalid ? (
-                <ActionLink href="/dashboard/kyc" variant="amber">
-                  Update now
-                </ActionLink>
-              ) : (
-                <ActionLink href="/dashboard/kyc" variant={kycRejected ? "danger" : "amber"}>
-                  {kycRejected ? "Resubmit" : "Verify now"}
-                </ActionLink>
-              )}
-            </div>
-            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-4">
-              <div>
-                <p className="text-sm font-semibold text-slate-900">Create a service request</p>
-                <p className="mt-1 text-sm text-slate-600">Describe what you need and your timeline.</p>
+              <div className="divide-y divide-slate-200">
+              <ChecklistRow
+                title="Account verification"
+                description="Confirm your identity to unlock requests."
+                action={
+                  kycDone ? (
+                    <Badge tone="emerald">Done</Badge>
+                  ) : kycSubmitted ? (
+                    <Badge tone="amber">Under review</Badge>
+                  ) : kycInvalid ? (
+                    <ActionLink href="/dashboard/kyc" variant="amber">
+                      Update now
+                    </ActionLink>
+                  ) : (
+                    <ActionLink href="/dashboard/kyc" variant={kycRejected ? "danger" : "amber"}>
+                      {kycRejected ? "Resubmit" : "Verify now"}
+                    </ActionLink>
+                  )
+                }
+              />
+              <ChecklistRow
+                title="Create a service request"
+                description="Describe what you need and your timeline."
+                action={
+                  kycDone ? (
+                    <ActionLink href="/dashboard/request-service?fresh=1" variant="primary">
+                      New request
+                    </ActionLink>
+                  ) : (
+                    <Badge tone="amber">Locked</Badge>
+                  )
+                }
+              />
+              <ChecklistRow
+                title="Update profile settings"
+                description="Keep contact and address details accurate."
+                action={
+                  <ActionLink href="/dashboard/profile" variant="secondary">
+                    Open profile
+                  </ActionLink>
+                }
+              />
               </div>
-              {kycDone ? (
-                <ActionLink href="/dashboard/request-service?fresh=1" variant="primary">
-                  New request
-                </ActionLink>
-              ) : (
-                <Badge tone="amber">Locked</Badge>
-              )}
-            </div>
-            <div className="flex items-center justify-between rounded-xl border border-slate-200 bg-white p-4">
-              <div>
-                <p className="text-sm font-semibold text-slate-900">Update profile settings</p>
-                <p className="mt-1 text-sm text-slate-600">Keep contact and address details accurate.</p>
+            </>
+          }
+          right={
+            <>
+              <h2 className="text-lg font-black text-slate-900">Support</h2>
+              <p className="mt-1 text-sm text-slate-600">Need help scoping your request or completing verification?</p>
+              <div className="mt-5 border-t border-slate-200 pt-5">
+                <ContactInfoList variant="dashboard" showHours hours="short" />
               </div>
-              <ActionLink href="/dashboard/profile" variant="secondary">
-                Open profile
-              </ActionLink>
-            </div>
-          </div>
-        </Card>
+              <div className="mt-6">
+                <ActionLink href="/contact" variant="secondary" className="w-full sm:w-auto">
+                  Book a consultation
+                </ActionLink>
+              </div>
+            </>
+          }
+        />
+      </PageSection>
 
-        <Card>
-          <h2 className="text-lg font-black text-slate-900">Support</h2>
-          <p className="mt-1 text-sm text-slate-600">Need help scoping your request or completing verification?</p>
-          <div className="mt-5 space-y-4">
-            <div className="rounded-xl border border-slate-200 bg-white p-4">
-              <ContactInfoList variant="dashboard" showAddress showHours hours="short" />
-            </div>
-            <ActionLink href="/contact" variant="secondary" className="w-full">
-              Book a consultation
-            </ActionLink>
-          </div>
-        </Card>
-      </div>
-
-      <Card>
-        <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <h2 className="text-lg font-black text-slate-900">Recent requests</h2>
-            <p className="text-sm text-slate-600">Each submission is tracked separately with its own status.</p>
-          </div>
-          {totalRequests > 0 ? (
-            <Link
-              href="/dashboard/service-requests"
-              className="text-sm font-semibold text-slate-900 underline-offset-4 hover:underline"
-            >
+      <PageSection
+        title="Recent requests"
+        description="Each submission is tracked separately with its own status."
+      >
+        {totalRequests > 0 ? (
+          <p className="-mt-4 mb-4 text-right text-sm">
+            <Link href="/dashboard/service-requests" className="font-semibold text-slate-900 underline-offset-4 hover:underline">
               View all ({totalRequests})
             </Link>
-          ) : null}
-        </div>
+          </p>
+        ) : null}
 
         {requests.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-slate-200 p-6 text-center">
+          <div className="border-t border-dashed border-slate-200 py-8 text-center">
             <p className="text-sm font-semibold text-slate-800">No requests yet</p>
             <p className="mt-1 text-sm text-slate-600">Create a request to start your delivery workflow.</p>
             <div className="mt-4">
@@ -207,29 +218,24 @@ export default async function DashboardHomePage() {
             </div>
           </div>
         ) : (
-          <div className="space-y-3">
+          <div className="border-t border-slate-200">
             {requests.map((req: (typeof requests)[number]) => (
-              <div key={req.id} className="rounded-xl border border-slate-200 bg-white p-4">
+              <ListRow key={req.id} href={`/dashboard/service-requests/${req.id}`}>
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                   <div>
-                    <p className="text-sm font-bold text-slate-900">{req.serviceType}</p>
-                    <p className="mt-1 text-sm text-slate-700">{req.summary}</p>
+                    <p className="text-sm font-bold text-slate-900 group-hover:text-cliq-purple">{req.serviceType}</p>
+                    <p className="mt-1 line-clamp-2 text-sm text-slate-700">{req.summary}</p>
                   </div>
                   <div className="flex shrink-0 flex-wrap items-center gap-2">
                     <Badge tone={requestTone(req.status)}>{requestLabel(req.status)}</Badge>
-                    <Link
-                      href={`/dashboard/service-requests/${req.id}`}
-                      className="text-sm font-semibold text-slate-900 underline-offset-4 hover:underline"
-                    >
-                      View
-                    </Link>
+                    <span className="text-sm font-semibold text-slate-500 group-hover:text-slate-900">View →</span>
                   </div>
                 </div>
-              </div>
+              </ListRow>
             ))}
           </div>
         )}
-      </Card>
+      </PageSection>
     </Page>
   );
 }

@@ -505,7 +505,7 @@ export default function AwarenessPromo() {
               <Link
                 href={active.href}
                 onClick={() => setVisible(false)}
-                className="relative z-10 block max-h-[min(48vh,26rem)] overflow-y-auto overscroll-y-contain p-4 pb-5 sm:p-5 md:max-h-none md:p-6"
+                className="inner-scroll relative z-10 block max-h-[min(48vh,26rem)] overflow-y-auto overscroll-y-contain p-4 pb-5 sm:p-5 md:max-h-none md:p-6"
               >
                 <div
                   className={`mb-3 h-1 w-14 rounded-full bg-gradient-to-r ${accent.bar}`}

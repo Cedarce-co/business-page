@@ -278,7 +278,7 @@ export const PRICING_PAGES: Record<string, MarketingPageConfig> = {
       {
         type: "timeline",
         title: "Phased rollout",
-        orientation: "horizontal",
+        orientation: "vertical",
         steps: [
           { title: "Foundation", body: "Site, email, payments." },
           { title: "Operations", body: "Invoicing, messaging, integrations." },

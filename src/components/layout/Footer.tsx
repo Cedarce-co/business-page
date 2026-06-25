@@ -36,7 +36,7 @@ export default function Footer() {
                   alt="Cedarce"
                   width={LOGO_FOOTER_SIZES.mobile.width}
                   height={LOGO_FOOTER_SIZES.mobile.height}
-                  className="h-[72px] w-[74px] object-contain object-left"
+                  className="h-11 w-11 object-contain object-left"
                 />
               </span>
               <span className="hidden items-center sm:flex">
@@ -45,7 +45,7 @@ export default function Footer() {
                   alt="Cedarce"
                   width={LOGO_FOOTER_SIZES.desktop.width}
                   height={LOGO_FOOTER_SIZES.desktop.height}
-                  className="h-20 w-[327px] object-contain object-left"
+                  className="h-12 w-auto max-w-[200px] object-contain object-left"
                 />
               </span>
             </Link>
@@ -120,7 +120,7 @@ iq-navy-800" aria-hidden />
           </div>
         </div>
 
-        <div className="mx-auto mt-14 grid w-full max-w-2xl gap-8 rounded-3xl border border-cliq-gray-200 bg-white p-8 shadow-card md:grid-cols-2 lg:mt-16 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-12">
+        <div className="mx-auto mt-14 grid w-full max-w-2xl gap-8 border-t border-cliq-gray-200 pt-10 md:grid-cols-2 lg:mt-16 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-12">
           <div>
             <h4 className="text-lg font-bold text-cliq-text-heading">Talk to us</h4>
             <p className="mt-2 text-sm text-cliq-text-muted">

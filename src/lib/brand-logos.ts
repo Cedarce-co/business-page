@@ -54,6 +54,6 @@ export const LOGO_NAV_SIZES = {
 
 /** Rendered logo size in the site footer. */
 export const LOGO_FOOTER_SIZES = {
-  mobile: displaySize(72, LOGO_INTRINSIC.mobileMark),
-  desktop: displaySize(80, LOGO_INTRINSIC.desktopWordmark),
+  mobile: displaySize(44, LOGO_INTRINSIC.mobileMark),
+  desktop: displaySize(48, LOGO_INTRINSIC.desktopWordmark),
 } as const;

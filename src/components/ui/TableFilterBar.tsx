@@ -2,6 +2,8 @@
 
 import { useRouter, useSearchParams } from "next/navigation";
 import { useTransition } from "react";
+import { ActionButton } from "@/components/dashboard/ui";
+import { cn } from "@/lib/utils";
 
 type FilterOption = { value: string; label: string };
 
@@ -13,6 +15,9 @@ type Props = {
   statusLabel?: string;
   showStatus?: boolean;
 };
+
+const fieldClass =
+  "w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-2.5 text-sm text-slate-900 shadow-[inset_0_1px_2px_rgba(15,23,42,0.04)] transition focus:border-cliq-purple/40 focus:outline-none focus:ring-2 focus:ring-cliq-purple/15";
 
 export default function TableFilterBar({
   searchPlaceholder = "Search…",
@@ -30,11 +35,18 @@ export default function TableFilterBar({
   const currentStatus = searchParams.get(statusParam) ?? "all";
 
   function apply(form: FormData) {
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete("page");
+
     const q = String(form.get(searchParam) ?? "").trim();
     const status = String(form.get(statusParam) ?? "all").trim();
+
     if (q) params.set(searchParam, q);
+    else params.delete(searchParam);
+
     if (showStatus && status && status !== "all") params.set(statusParam, status);
+    else params.delete(statusParam);
+
     const qs = params.toString();
     startTransition(() => {
       router.push(qs ? `?${qs}` : "?");
@@ -49,7 +61,7 @@ export default function TableFilterBar({
 
   return (
     <form
-      className="grid gap-3 rounded-2xl border border-slate-200 bg-white p-4 md:grid-cols-[1fr_auto_auto_auto]"
+      className="grid gap-2 md:grid-cols-[1fr_auto_auto_auto]"
       onSubmit={(e) => {
         e.preventDefault();
         apply(new FormData(e.currentTarget));
@@ -59,14 +71,10 @@ export default function TableFilterBar({
         name={searchParam}
         defaultValue={currentQ}
         placeholder={searchPlaceholder}
-        className="w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900"
+        className={fieldClass}
       />
       {showStatus ? (
-        <select
-          name={statusParam}
-          defaultValue={currentStatus}
-          className="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm text-slate-900"
-        >
+        <select name={statusParam} defaultValue={currentStatus} className={cn(fieldClass, "md:min-w-[10rem]")}>
           <option value="all">All {statusLabel.toLowerCase()}es</option>
           {statusOptions.map((opt) => (
             <option key={opt.value} value={opt.value}>
@@ -75,21 +83,12 @@ export default function TableFilterBar({
           ))}
         </select>
       ) : null}
-      <button
-        type="submit"
-        disabled={pending}
-        className="rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
-      >
+      <ActionButton type="submit" disabled={pending} loading={pending} className="min-w-[6.5rem]">
         {pending ? "Filtering…" : "Apply"}
-      </button>
-      <button
-        type="button"
-        onClick={reset}
-        disabled={pending}
-        className="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50 disabled:opacity-60"
-      >
+      </ActionButton>
+      <ActionButton type="button" variant="secondary" disabled={pending} onClick={reset}>
         Reset
-      </button>
+      </ActionButton>
     </form>
   );
 }

@@ -103,6 +103,15 @@ export const viewport = { once: true, margin: "-80px" };
 
 export const EASE_SMOOTH = [0.22, 1, 0.36, 1] as const;
 
+export const sectionEnter: Variants = {
+  hidden: { opacity: 0, y: 28 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: EASE_SMOOTH },
+  },
+};
+
 /** Bottom-fixed banners (cookie consent). */
 export const cookieBannerMotion = {
   initial: { opacity: 0, y: 36, scale: 0.94 },

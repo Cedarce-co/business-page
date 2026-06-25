@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import type { Prisma } from "@prisma/client";
 import {
   serviceRequestStatusLabel,
   type ServiceRequestStatus,
@@ -227,49 +228,77 @@ export async function reviewServiceRequest(input: {
   return row;
 }
 
-export async function listPendingVerifications() {
+export async function listPendingVerifications(options?: { page?: number; perPage?: number }) {
   const exclude = await adminEmails();
-  return prisma.user.findMany({
-    where: {
-      ...(exclude.length ? { email: { notIn: exclude } } : {}),
-      kyc: { status: { in: ["SUBMITTED", "INVALID_INFO"] } },
-    },
-    include: {
-      kyc: true,
-      profile: true,
-    },
-    orderBy: { kyc: { submittedAt: "desc" } },
-    take: 100,
-  });
+  const page = options?.page ?? 1;
+  const perPage = options?.perPage ?? 10;
+  const skip = (page - 1) * perPage;
+
+  const where: Prisma.UserWhereInput = {
+    ...(exclude.length ? { email: { notIn: exclude } } : {}),
+    kyc: { status: { in: ["SUBMITTED", "INVALID_INFO"] } },
+  };
+
+  const [items, total] = await Promise.all([
+    prisma.user.findMany({
+      where,
+      include: {
+        kyc: true,
+        profile: true,
+      },
+      orderBy: { kyc: { submittedAt: "desc" } },
+      skip,
+      take: perPage,
+    }),
+    prisma.user.count({ where }),
+  ]);
+
+  return { items, total, page, perPage };
 }
 
-export async function listAdminServiceRequests(options?: { status?: string | null; q?: string | null }) {
+export async function listAdminServiceRequests(options?: {
+  status?: string | null;
+  q?: string | null;
+  page?: number;
+  perPage?: number;
+}) {
   const exclude = await adminEmails();
   const normalized =
     options?.status && options.status !== "all" ? options.status : null;
   const q = options?.q?.trim() ?? "";
+  const page = options?.page ?? 1;
+  const perPage = options?.perPage ?? 10;
+  const skip = (page - 1) * perPage;
 
-  return prisma.serviceRequest.findMany({
-    where: {
-      ...(exclude.length ? { user: { email: { notIn: exclude } } } : {}),
-      ...(normalized ? { status: normalized as ServiceRequestStatus } : {}),
-      ...(q
-        ? {
-            OR: [
-              { id: { contains: q, mode: "insensitive" } },
-              { serviceType: { contains: q, mode: "insensitive" } },
-              { summary: { contains: q, mode: "insensitive" } },
-              { user: { name: { contains: q, mode: "insensitive" } } },
-              { user: { email: { contains: q, mode: "insensitive" } } },
-              { user: { id: { contains: q, mode: "insensitive" } } },
-            ],
-          }
-        : {}),
-    },
-    include: {
-      user: { select: { id: true, name: true, email: true } },
-    },
-    orderBy: { createdAt: "desc" },
-    take: 100,
-  });
+  const where: Prisma.ServiceRequestWhereInput = {
+    ...(exclude.length ? { user: { email: { notIn: exclude } } } : {}),
+    ...(normalized ? { status: normalized as ServiceRequestStatus } : {}),
+    ...(q
+      ? {
+          OR: [
+            { id: { contains: q, mode: "insensitive" } },
+            { serviceType: { contains: q, mode: "insensitive" } },
+            { summary: { contains: q, mode: "insensitive" } },
+            { user: { name: { contains: q, mode: "insensitive" } } },
+            { user: { email: { contains: q, mode: "insensitive" } } },
+            { user: { id: { contains: q, mode: "insensitive" } } },
+          ],
+        }
+      : {}),
+  };
+
+  const [items, total] = await Promise.all([
+    prisma.serviceRequest.findMany({
+      where,
+      include: {
+        user: { select: { id: true, name: true, email: true } },
+      },
+      orderBy: { createdAt: "desc" },
+      skip,
+      take: perPage,
+    }),
+    prisma.serviceRequest.count({ where }),
+  ]);
+
+  return { items, total, page, perPage };
 }
