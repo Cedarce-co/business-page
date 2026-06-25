@@ -8,7 +8,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import Button from "@/components/ui/Button";
 import { navbarBannerMotion } from "@/lib/animations";
 import { LOGO_LIGHT_BG, LOGO_NAV_SIZES } from "@/lib/brand-logos";
-import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 
 const links = [
@@ -104,7 +103,6 @@ const megaMenus: Record<string, MegaBlock> = {
 };
 
 export default function Navbar() {
-  const router = useRouter();
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
   const [activeMega, setActiveMega] = useState<string | null>(null);
@@ -220,17 +218,14 @@ export default function Navbar() {
         </Link>
         <nav className="hidden items-center gap-8 lg:flex" onMouseLeave={startCloseDelay}>
           {links.map((link) => (
-            <button
+            <Link
               key={link.href}
-              type="button"
+              href={link.href}
               onMouseEnter={() => {
                 cancelCloseDelay();
                 setActiveMega(megaMenus[link.label] ? link.label : null);
               }}
-              onClick={() => {
-                router.push(link.href);
-                setActiveMega(null);
-              }}
+              onClick={() => setActiveMega(null)}
               className="text-[15px] font-medium text-cliq-text-body transition hover:text-cliq-text-heading"
             >
               <span className="inline-flex items-center gap-1">
@@ -243,7 +238,7 @@ export default function Navbar() {
                   />
                 ) : null}
               </span>
-            </button>
+            </Link>
           ))}
         </nav>
         <div className="hidden items-center gap-4 whitespace-nowrap lg:flex">

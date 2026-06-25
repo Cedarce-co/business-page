@@ -1,4 +1,5 @@
-import { SUPPORT_EMAIL, SUPPORT_PHONE_DISPLAY, OFFICE_ADDRESS, OFFICE_HOURS } from "@/lib/contact";
+import ContactInfoList from "@/components/ui/ContactInfoList";
+import { SUPPORT_EMAIL } from "@/lib/contact";
 
 const SITE = "https://cedarce.com";
 
@@ -30,15 +31,8 @@ export default function PrivacyPolicyDocument() {
         <h2 className="text-2xl font-bold text-cliq-text-heading">2. Who We Are</h2>
         <p className="leading-relaxed">
           <strong>Cedarce Co</strong>
-          <br />
-          Website: {SITE.replace("https://", "")}
-          <br />
-          Email: {SUPPORT_EMAIL}
-          <br />
-          Phone: {SUPPORT_PHONE_DISPLAY}
-          <br />
-          Location: {OFFICE_ADDRESS}
         </p>
+        <ContactInfoList variant="legal" showAddress showWebsite showHours={false} className="mt-2" />
       </section>
 
       <section className="space-y-3">
@@ -237,16 +231,8 @@ export default function PrivacyPolicyDocument() {
         </p>
         <p className="leading-relaxed">
           <strong>Cedarce Co</strong>
-          <br />
-          Email: {SUPPORT_EMAIL}
-          <br />
-          Phone: {SUPPORT_PHONE_DISPLAY}
-          <br />
-          Address: {OFFICE_ADDRESS}
-          <br />
-          Website: {SITE.replace("https://", "")}
         </p>
-        <p className="leading-relaxed text-cliq-text-muted">Office hours: {OFFICE_HOURS}</p>
+        <ContactInfoList variant="legal" showAddress showWebsite showHours hours="full" className="mt-2" />
       </section>
 
       <p className="border-t border-cliq-gray-200 pt-8 text-sm text-cliq-text-muted">

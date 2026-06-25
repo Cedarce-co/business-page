@@ -2,8 +2,8 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { requireUser } from "@/lib/server-auth";
 import { ActionLink, Badge, Card, Page, Stat } from "@/components/dashboard/ui";
+import ContactInfoList from "@/components/ui/ContactInfoList";
 import { requestLabel, requestTone } from "@/components/admin/status";
-import { SUPPORT_EMAIL, SUPPORT_PHONE_DISPLAY, SUPPORT_PHONE_TEL } from "@/lib/contact";
 
 export default async function DashboardHomePage() {
   const session = await requireUser();
@@ -163,18 +163,9 @@ export default async function DashboardHomePage() {
         <Card>
           <h2 className="text-lg font-black text-slate-900">Support</h2>
           <p className="mt-1 text-sm text-slate-600">Need help scoping your request or completing verification?</p>
-          <div className="mt-5 space-y-3">
+          <div className="mt-5 space-y-4">
             <div className="rounded-xl border border-slate-200 bg-white p-4">
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Email</p>
-              <a className="mt-1 block text-sm font-semibold text-slate-900 underline-offset-4 hover:underline" href={`mailto:${SUPPORT_EMAIL}`}>
-                {SUPPORT_EMAIL}
-              </a>
-            </div>
-            <div className="rounded-xl border border-slate-200 bg-white p-4">
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Phone</p>
-              <a className="mt-1 block text-sm font-semibold text-slate-900 underline-offset-4 hover:underline" href={`tel:${SUPPORT_PHONE_TEL}`}>
-                {SUPPORT_PHONE_DISPLAY}
-              </a>
+              <ContactInfoList variant="dashboard" showAddress showHours hours="short" />
             </div>
             <ActionLink href="/contact" variant="secondary" className="w-full">
               Book a consultation

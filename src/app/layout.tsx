@@ -6,6 +6,7 @@ import { BRAND_ICON_VERSION } from "@/lib/brand-logos";
 import { SITE_URL } from "@/lib/site";
 
 const iconQuery = `?v=${BRAND_ICON_VERSION}`;
+import ScrollToTop from "@/components/layout/ScrollToTop";
 import AppToaster from "@/components/layout/AppToaster";
 import RootChrome from "@/components/layout/RootChrome";
 import RootFooter from "@/components/layout/RootFooter";
@@ -101,9 +102,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col">
+      <body className="flex min-h-full flex-col" suppressHydrationWarning>
         <PwaRegister />
         <AuthSessionProvider>
+          <ScrollToTop />
           <AppToaster />
           <TawkToWidget />
           <RootChrome />

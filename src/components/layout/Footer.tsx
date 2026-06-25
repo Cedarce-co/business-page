@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Clock, Shield } from "lucide-react";
+import { ArrowRight, Clock } from "lucide-react";
 import { SERVICES } from "@/lib/constants";
 import { LOGO_FOOTER_SIZES, LOGO_LIGHT_BG } from "@/lib/brand-logos";
-import { SUPPORT_EMAIL, SUPPORT_PHONE_DISPLAY, SUPPORT_PHONE_TEL, OFFICE_ADDRESS, OFFICE_HOURS_SHORT } from "@/lib/contact";
+import ContactInfoList from "@/components/ui/ContactInfoList";
 import Button from "@/components/ui/Button";
 
 const getStarted = [
@@ -50,7 +50,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="mt-3 max-w-sm text-sm leading-relaxed text-cliq-text-body">
-              Going professional isn&apos;t a cost; it&apos;s the investment that makes every other investment work. We set up websites, payments, email, and automation so businesses look credible and get paid faster.
+            We give your business its digital pulse.
             </p>
             <div className="mt-5 flex flex-wrap gap-4 text-xs text-cliq-text-muted">
               <span className="inline-flex items-center gap-1.5">
@@ -126,24 +126,13 @@ iq-navy-800" aria-hidden />
             <p className="mt-2 text-sm text-cliq-text-muted">
               Prefer email or phone? We reply quickly, and live chat is on the site when we&apos;re online.
             </p>
-            <div className="mt-4 space-y-1 text-sm text-cliq-text-body">
-              <p className="text-cliq-text-muted">{OFFICE_ADDRESS}</p>
-              <p>
-                <a href={`mailto:${SUPPORT_EMAIL}`} className="font-medium underline-offset-4 hover:underline">
-                  {SUPPORT_EMAIL}
-                </a>
-              </p>
-              <p>
-                <a href={`tel:${SUPPORT_PHONE_TEL}`} className="font-medium underline-offset-4 hover:underline">
-                  {SUPPORT_PHONE_DISPLAY}
-                </a>
-              </p>
-              <p className="text-cliq-text-muted">{OFFICE_HOURS_SHORT}</p>
+            <div className="mt-4">
+              <ContactInfoList showHours hours="short" />
             </div>
           </div>
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
             <Button href="/signup" variant="secondary" className="rounded-xl px-6 py-3 text-sm font-bold">
-              Get started for free now
+              Or get started for free now
             </Button>
           </div>
         </div>

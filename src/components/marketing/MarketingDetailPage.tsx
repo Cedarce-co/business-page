@@ -2,52 +2,47 @@ import type { ComponentType } from "react";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, Check, CreditCard, Globe, GraduationCap, Layers, Mail, MessageSquare, Receipt, Share2, Shield, Smartphone, Users, Zap } from "lucide-react";
 import PricingPackagesSection from "@/components/marketing/PricingPackagesSection";
+import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import type { MarketingAccent, MarketingPageConfig, MarketingSection } from "@/lib/marketing-detail-pages";
 import { marketingPagePath } from "@/lib/marketing-detail-pages";
 
 const accentStyles: Record<
   MarketingAccent,
-  { heroBg: string; badge: string; panel: string; dot: string; ring: string }
+  { heroBg: string; panel: string; dot: string; ring: string }
 > = {
   teal: {
     heroBg: "from-teal-950 via-cliq-navy-900 to-cliq-navy-900",
-    badge: "bg-teal-500/20 text-teal-300",
     panel: "bg-teal-500/10 border-teal-500/20",
     dot: "bg-teal-500",
     ring: "ring-teal-500/30",
   },
   purple: {
     heroBg: "from-violet-950 via-cliq-navy-900 to-cliq-navy-900",
-    badge: "bg-violet-500/20 text-violet-300",
     panel: "bg-violet-500/10 border-violet-500/20",
     dot: "bg-violet-500",
     ring: "ring-violet-500/30",
   },
   emerald: {
     heroBg: "from-emerald-950 via-cliq-navy-900 to-cliq-navy-900",
-    badge: "bg-emerald-500/20 text-emerald-300",
     panel: "bg-emerald-500/10 border-emerald-500/20",
     dot: "bg-emerald-500",
     ring: "ring-emerald-500/30",
   },
   amber: {
     heroBg: "from-amber-950 via-cliq-navy-900 to-cliq-navy-900",
-    badge: "bg-amber-500/20 text-amber-300",
     panel: "bg-amber-500/10 border-amber-500/20",
     dot: "bg-amber-500",
     ring: "ring-amber-500/30",
   },
   cyan: {
     heroBg: "from-cyan-950 via-cliq-navy-900 to-cliq-navy-900",
-    badge: "bg-cyan-500/20 text-cyan-300",
     panel: "bg-cyan-500/10 border-cyan-500/20",
     dot: "bg-cyan-500",
     ring: "ring-cyan-500/30",
   },
   rose: {
     heroBg: "from-rose-950 via-cliq-navy-900 to-cliq-navy-900",
-    badge: "bg-rose-500/20 text-rose-300",
     panel: "bg-rose-500/10 border-rose-500/20",
     dot: "bg-rose-500",
     ring: "ring-rose-500/30",
@@ -280,9 +275,7 @@ function Hero({ page }: { page: MarketingPageConfig }) {
             <ArrowLeft className="h-4 w-4" aria-hidden />
             {backLabel}
           </Link>
-          <p className={`mt-6 inline-block rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide ${a.badge}`}>
-            {page.eyebrow}
-          </p>
+          <Badge className="mt-6 uppercase tracking-wide">{page.eyebrow}</Badge>
           <h1 className="mt-4 max-w-4xl text-4xl font-black text-cliq-text-heading lg:text-5xl">{page.title}</h1>
           <p className="mt-2 max-w-3xl text-balance text-center text-xl font-semibold text-cliq-purple">{page.tagline}</p>
           <p className="mt-4 max-w-3xl text-balance text-center leading-relaxed text-cliq-text-body">{page.lead}</p>
