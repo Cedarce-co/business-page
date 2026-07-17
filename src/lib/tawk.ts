@@ -3,6 +3,12 @@ declare global {
     Tawk_API?: {
       maximize?: () => void;
       onLoad?: () => void;
+      customStyle?: {
+        visibility?: {
+          desktop?: { position?: string; xOffset?: number; yOffset?: number };
+          mobile?: { position?: string; xOffset?: number; yOffset?: number };
+        };
+      };
     };
     Tawk_LoadStart?: Date;
     __tawkConsolePatched?: boolean;
@@ -46,6 +52,13 @@ export function initTawkEmbed() {
   suppressTawkDevConsoleNoise();
 
   window.Tawk_API = window.Tawk_API || {};
+  window.Tawk_API.customStyle = {
+    visibility: {
+      desktop: { position: "br", xOffset: 16, yOffset: 20 },
+      // Sit above the mobile bottom tab bar
+      mobile: { position: "br", xOffset: 12, yOffset: 72 },
+    },
+  };
   window.Tawk_LoadStart = new Date();
 
   const script = document.createElement("script");

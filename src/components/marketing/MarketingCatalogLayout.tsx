@@ -1,9 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
-import type { LucideIcon } from "lucide-react";
+import { ArrowRight, type LucideIcon } from "lucide-react";
 import Button from "@/components/ui/Button";
 import WayfindingStrip from "@/components/navigation/WayfindingStrip";
+import MobileSnapRail from "@/components/marketing/MobileSnapRail";
 import type { MarketingImage } from "@/lib/marketing-images";
+import { cn } from "@/lib/utils";
 
 export type CatalogCardItem = {
   id: string;
@@ -14,33 +16,66 @@ export type CatalogCardItem = {
   badge?: string | null;
 };
 
-function CatalogCard({ card }: { card: CatalogCardItem }) {
+function CatalogCard({
+  card,
+  compact = false,
+}: {
+  card: CatalogCardItem;
+  compact?: boolean;
+}) {
   const Icon = card.icon;
 
   return (
     <Link
       href={card.href}
-      className="group relative flex min-h-[300px] flex-col overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-[#121110]/90 shadow-[0_18px_60px_rgba(0,0,0,0.28)] transition duration-300 hover:-translate-y-1 hover:border-cedar-accent/35 hover:bg-[#18150f] hover:shadow-[0_28px_80px_rgba(0,0,0,0.48)]"
+      className={cn(
+        "group relative flex h-full flex-col overflow-hidden border border-white/[0.08] bg-[#121110]/90 transition duration-300",
+        compact
+          ? "min-h-[12.5rem] rounded-2xl p-5 active:scale-[0.98]"
+          : "min-h-[300px] rounded-[1.75rem] shadow-[0_18px_60px_rgba(0,0,0,0.28)] hover:-translate-y-1 hover:border-cedar-accent/35 hover:bg-[#18150f] hover:shadow-[0_28px_80px_rgba(0,0,0,0.48)]",
+      )}
     >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-cedar-accent/10 to-transparent opacity-0 transition duration-300 group-hover:opacity-100"
-      />
-      <div className="relative flex flex-1 flex-col p-7 sm:p-8">
-        <div className="mb-7 flex h-14 w-14 items-center justify-center rounded-2xl border border-cedar-accent/15 bg-cedar-accentSoft">
-          <Icon className="h-6 w-6 text-cedar-accent" aria-hidden />
+      {!compact ? (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-cedar-accent/10 to-transparent opacity-0 transition duration-300 group-hover:opacity-100"
+        />
+      ) : null}
+      <div className={cn("relative flex flex-1 flex-col", compact ? "" : "p-7 sm:p-8")}>
+        <div
+          className={cn(
+            "flex items-center justify-center rounded-2xl border border-cedar-accent/15 bg-cedar-accentSoft",
+            compact ? "mb-4 h-11 w-11" : "mb-7 h-14 w-14",
+          )}
+        >
+          <Icon className={cn(compact ? "h-5 w-5" : "h-6 w-6", "text-cedar-accent")} aria-hidden />
         </div>
         {card.badge ? (
           <span className="mb-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-cedar-accent">
             {card.badge}
           </span>
         ) : null}
-        <h3 className="text-xl font-bold leading-snug text-cedar-ivory sm:text-2xl">
+        <h3
+          className={cn(
+            "font-bold leading-snug text-cedar-ivory",
+            compact ? "text-lg" : "text-xl sm:text-2xl",
+          )}
+        >
           {card.title}
         </h3>
-        <p className="mt-4 flex-1 text-sm leading-7 text-cedar-mist sm:text-[0.95rem]">
+        <p
+          className={cn(
+            "mt-3 text-sm leading-6 text-cedar-mist",
+            compact ? "line-clamp-4 flex-1" : "flex-1 leading-7 sm:text-[0.95rem]",
+          )}
+        >
           {card.description}
         </p>
+        {compact ? (
+          <span className="mt-4 inline-flex text-cedar-accent" aria-hidden>
+            <ArrowRight className="h-4 w-4" />
+          </span>
+        ) : null}
       </div>
     </Link>
   );
@@ -102,11 +137,11 @@ export default function MarketingCatalogLayout({
           </div>
 
           <div className="site-scroll-column px-4 pb-8 sm:px-8 lg:px-10 lg:pb-16">
-            <div className="mb-8 border border-white/10 bg-white/[0.03] px-3 py-3 sm:px-4">
+            <div className="mb-6 border border-white/10 bg-white/[0.03] px-3 py-2.5 sm:px-4 sm:py-3 lg:mb-8">
               <WayfindingStrip zone="site" tone="onDark" />
             </div>
 
-            <div className="relative mb-10 min-h-[26rem] overflow-hidden rounded-[2rem] border border-white/10 lg:hidden">
+            <div className="relative mb-6 min-h-[14rem] overflow-hidden rounded-2xl border border-white/10 lg:hidden">
               <Image
                 src={panelImage.src}
                 alt={panelImage.alt}
@@ -115,27 +150,31 @@ export default function MarketingCatalogLayout({
                 sizes="100vw"
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-black/15" />
-              <div className="relative flex min-h-[26rem] flex-col justify-end p-7 sm:p-9">
-                <p className="text-xs font-semibold uppercase tracking-[0.32em] text-cedar-accent">
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/55 to-black/20" />
+              <div className="relative flex min-h-[14rem] flex-col justify-end p-5">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-cedar-accent">
                   {eyebrow}
                 </p>
-                <h1 className="mt-5 font-display text-4xl leading-tight text-cedar-ivory sm:text-5xl">
+                <h1 className="mt-2 font-display text-[1.85rem] leading-tight text-cedar-ivory">
                   {title}
                 </h1>
-                <p className="mt-4 text-base leading-relaxed text-white/80 sm:text-lg">
-                  {description}
-                </p>
+                <p className="mt-2 text-sm leading-relaxed text-white/75">{description}</p>
               </div>
             </div>
 
-            <div className="grid gap-5 sm:grid-cols-2 sm:gap-7 lg:gap-8">
-              <div className="flex flex-col gap-5 sm:gap-7 lg:gap-8 lg:pt-6">
+            <MobileSnapRail
+              slides={cards.map((card) => (
+                <CatalogCard key={card.id} card={card} compact />
+              ))}
+            />
+
+            <div className="hidden gap-5 lg:grid lg:grid-cols-2 lg:gap-8">
+              <div className="flex flex-col gap-8 lg:pt-6">
                 {leftColumn.map((card) => (
                   <CatalogCard key={card.id} card={card} />
                 ))}
               </div>
-              <div className="flex flex-col gap-5 sm:mt-16 sm:gap-7 lg:mt-28 lg:gap-8">
+              <div className="flex flex-col gap-8 lg:mt-28">
                 {rightColumn.map((card) => (
                   <CatalogCard key={card.id} card={card} />
                 ))}
@@ -145,9 +184,9 @@ export default function MarketingCatalogLayout({
         </div>
       </section>
 
-      <section className="border-t border-white/10 bg-zinc-950 py-16 lg:py-24">
+      <section className="border-t border-white/10 bg-zinc-950 py-12 lg:py-24">
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-          <div className="relative grid overflow-hidden rounded-[2rem] border border-cedar-accent/20 bg-black px-8 py-12 sm:px-12 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-10 lg:py-14">
+          <div className="relative grid overflow-hidden rounded-2xl border border-cedar-accent/20 bg-black px-5 py-8 sm:rounded-[2rem] sm:px-12 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-10 lg:py-14">
             <div
               aria-hidden
               className="pointer-events-none absolute inset-0"
@@ -160,12 +199,12 @@ export default function MarketingCatalogLayout({
               <p className="text-xs font-semibold uppercase tracking-[0.28em] text-cedar-accent">
                 Ready when you are
               </p>
-              <h2 className="mt-4 font-display text-3xl text-cedar-ivory sm:text-4xl">
+              <h2 className="mt-3 font-display text-2xl text-cedar-ivory sm:mt-4 sm:text-4xl">
                 {ctaTitle}
               </h2>
-              <p className="mt-3 max-w-xl text-cedar-mist">{ctaText}</p>
+              <p className="mt-3 max-w-xl text-sm text-cedar-mist sm:text-base">{ctaText}</p>
             </div>
-            <Button href="/contact" variant="accent" className="relative mt-8 px-8 lg:mt-0">
+            <Button href="/contact" variant="accent" className="relative mt-6 w-full px-8 sm:w-auto lg:mt-0">
               Build with us
             </Button>
           </div>

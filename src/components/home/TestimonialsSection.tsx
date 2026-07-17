@@ -16,21 +16,21 @@ export default function TestimonialsSection() {
   const item = TESTIMONIALS[active]!;
 
   return (
-    <section className="bg-black py-20 lg:py-28">
+    <section className="bg-black py-14 lg:py-28">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-        <div className="grid items-center gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+        <div className="grid items-center gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
           <div>
             <SectionLabel>Client stories</SectionLabel>
-            <h2 className="mt-5 font-display text-3xl leading-tight text-cedar-ivory sm:text-4xl lg:text-5xl">
+            <h2 className="mt-4 font-display text-[1.85rem] leading-tight text-cedar-ivory sm:mt-5 sm:text-4xl lg:text-5xl">
               Real businesses.
               <br />
               Real results.
             </h2>
-            <p className="mt-4 max-w-sm text-cedar-mist">
+            <p className="mt-3 max-w-sm text-sm text-cedar-mist sm:mt-4 sm:text-base">
               Hear how owners moved from informal ops to a setup that looks and pays like a real company.
             </p>
 
-            <div className="mt-10 flex items-center gap-3">
+            <div className="mt-8 flex items-center gap-2.5 overflow-x-auto pb-1 sm:mt-10 sm:gap-3">
               {TESTIMONIALS.map((t, index) => {
                 const selected = active === index;
                 const portrait = TESTIMONIAL_IMAGES[index];
@@ -41,9 +41,9 @@ export default function TestimonialsSection() {
                     onClick={() => setActive(index)}
                     aria-label={`Show testimonial from ${t.name}`}
                     aria-pressed={selected}
-                    className={`relative h-14 w-14 overflow-hidden rounded-full border-2 transition ${
+                    className={`relative h-12 w-12 shrink-0 overflow-hidden rounded-full border-2 transition sm:h-14 sm:w-14 ${
                       selected
-                        ? "border-cedar-accent scale-110"
+                        ? "scale-110 border-cedar-accent"
                         : "border-white/20 opacity-80 hover:border-white/40 hover:opacity-100"
                     }`}
                   >
@@ -66,10 +66,10 @@ export default function TestimonialsSection() {
             </div>
           </div>
 
-          <div className="relative min-h-[16rem] rounded-[2rem] border border-white/10 bg-zinc-950 p-8 sm:p-10">
+          <div className="relative min-h-[14rem] rounded-[1.5rem] border border-white/10 bg-zinc-950 p-6 sm:min-h-[16rem] sm:rounded-[2rem] sm:p-10">
             <span
               aria-hidden
-              className="font-display text-7xl leading-none text-cedar-accent/30"
+              className="font-display text-6xl leading-none text-cedar-accent/30 sm:text-7xl"
             >
               “
             </span>
@@ -80,14 +80,14 @@ export default function TestimonialsSection() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={reduced ? undefined : { opacity: 0, y: -10 }}
                 transition={{ duration: 0.28 }}
-                className="-mt-6"
+                className="-mt-5 sm:-mt-6"
               >
-                <p className="text-lg leading-relaxed text-cedar-ivory sm:text-xl">{item.quote}</p>
-                <p className="mt-8 text-base font-semibold text-cedar-ivory">{item.name}</p>
+                <p className="text-base leading-relaxed text-cedar-ivory sm:text-xl">{item.quote}</p>
+                <p className="mt-6 text-base font-semibold text-cedar-ivory sm:mt-8">{item.name}</p>
                 <p className="mt-1 text-sm text-cedar-mist">{item.role}</p>
                 <Link
                   href="/contact"
-                  className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-cedar-accent transition hover:gap-3"
+                  className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-cedar-accent transition hover:gap-3 sm:mt-6"
                 >
                   Start your story
                   <ArrowRight className="h-4 w-4" aria-hidden />

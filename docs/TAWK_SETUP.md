@@ -58,6 +58,7 @@ Guests cannot send “hello” until they submit the form. Your team then sees t
 - Tawk’s widget bubble appears bottom-right.  
 - Guests complete Tawk’s pre-chat form before messaging.  
 - Homepage **“Chat with our team”** opens the same Tawk window.  
+- On mobile, the bottom tab bar leaves space on the right so the bubble doesn’t cover nav icons.  
 
 ## 7. Optional: remove “Powered by tawk.to”
 

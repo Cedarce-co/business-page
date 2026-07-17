@@ -22,6 +22,40 @@ const productLinks = [
   { label: "View all products", href: "/product" },
 ] as const;
 
+type FooterLinkItem = {
+  label: string;
+  href: string;
+};
+
+function FooterLinkPanel({
+  title,
+  links,
+  wide = false,
+}: {
+  title: string;
+  links: readonly FooterLinkItem[];
+  wide?: boolean;
+}) {
+  return (
+    <div
+      className={`rounded-2xl border border-white/10 bg-zinc-950/70 p-4 lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 ${
+        wide ? "col-span-2 lg:col-span-1" : ""
+      }`}
+    >
+      <h4 className="text-sm font-semibold text-cedar-ivory">{title}</h4>
+      <ul className={`mt-4 grid gap-2.5 ${wide ? "grid-cols-2 lg:grid-cols-1" : "grid-cols-1"}`}>
+        {links.map((item) => (
+          <li key={item.href}>
+            <Link href={item.href} className="text-sm text-cedar-mist transition hover:text-cedar-ivory">
+              {item.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 export default function Footer() {
   const companyLinks = [
     { label: "How it works", href: "/#how-it-works" },
@@ -33,11 +67,11 @@ export default function Footer() {
   ];
 
   return (
-    <footer id="site-footer" className="border-t border-white/10 bg-black">
-      <div className="mx-auto w-full max-w-[1440px] px-4 py-16 sm:px-6 lg:px-10 lg:py-24">
-        <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-[1.35fr_repeat(4,minmax(0,1fr))] lg:gap-8">
-          <div className="flex flex-col items-center text-center sm:items-start sm:text-left">
-            <Link href="/" className="inline-flex min-w-0 items-center justify-center sm:justify-start" aria-label="Home">
+    <footer id="site-footer" className="border-t border-white/10 bg-black pb-[calc(var(--site-mobile-tab-height)+0.5rem)] lg:pb-0">
+      <div className="mx-auto w-full max-w-[1440px] px-4 py-10 sm:px-6 lg:px-10 lg:py-24">
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-[1.35fr_repeat(4,minmax(0,1fr))] lg:gap-8">
+          <div className="col-span-2 rounded-[1.75rem] border border-white/10 bg-zinc-950/80 p-6 text-center lg:col-span-1 lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:text-left">
+            <Link href="/" className="inline-flex min-w-0 items-center justify-center lg:justify-start" aria-label="Home">
               <span className="flex items-center sm:hidden">
                 <Image
                   src={LOGO_DARK_BG.mobile}
@@ -65,10 +99,10 @@ export default function Footer() {
                 />
               </span>
             </Link>
-            <p className="mt-4 max-w-sm text-sm leading-relaxed text-cedar-mist">
+            <p className="mx-auto mt-4 max-w-sm text-sm leading-relaxed text-cedar-mist lg:mx-0">
               We give your business its digital pulse.
             </p>
-            <div className="mt-5 flex flex-wrap gap-4 text-xs text-cedar-mist">
+            <div className="mt-5 flex justify-center text-xs text-cedar-mist lg:justify-start">
               <span className="inline-flex items-center gap-1.5">
                 <Clock className="h-4 w-4 text-cedar-accent" aria-hidden />
                 Typical setup in days
@@ -76,63 +110,20 @@ export default function Footer() {
             </div>
           </div>
 
-          <div>
-            <h4 className="text-sm font-semibold text-cedar-ivory">Services</h4>
-            <ul className="mt-4 space-y-2.5">
-              {SERVICES.map((service) => (
-                <li key={service.id}>
-                  <Link
-                    href={`/services/${service.id}`}
-                    className="text-sm text-cedar-mist transition hover:text-cedar-ivory"
-                  >
-                    {service.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-sm font-semibold text-cedar-ivory">Solutions</h4>
-            <ul className="mt-4 space-y-2.5">
-              {solutionLinks.map((item) => (
-                <li key={item.href}>
-                  <Link href={item.href} className="text-sm text-cedar-mist transition hover:text-cedar-ivory">
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-sm font-semibold text-cedar-ivory">Products</h4>
-            <ul className="mt-4 space-y-2.5">
-              {productLinks.map((item) => (
-                <li key={item.href}>
-                  <Link href={item.href} className="text-sm text-cedar-mist transition hover:text-cedar-ivory">
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-sm font-semibold text-cedar-ivory">Company</h4>
-            <ul className="mt-4 space-y-2.5">
-              {companyLinks.map((item) => (
-                <li key={item.label}>
-                  <Link href={item.href} className="text-sm text-cedar-mist transition hover:text-cedar-ivory">
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <FooterLinkPanel
+            title="Services"
+            wide
+            links={SERVICES.map((service) => ({
+              label: service.name,
+              href: `/services/${service.id}`,
+            }))}
+          />
+          <FooterLinkPanel title="Solutions" links={solutionLinks} />
+          <FooterLinkPanel title="Products" links={productLinks} />
+          <FooterLinkPanel title="Company" wide links={companyLinks} />
         </div>
 
-        <div className="mx-auto mt-14 grid w-full max-w-2xl gap-8 border-t border-white/10 pt-10 md:grid-cols-2 lg:mt-16 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-12">
+        <div className="mx-auto mt-6 grid w-full gap-4 rounded-[1.75rem] border border-cedar-accent/20 bg-cedar-accentSoft p-5 md:grid-cols-2 lg:mt-16 lg:max-w-2xl lg:grid-cols-[1fr_auto] lg:items-center lg:gap-12 lg:rounded-none lg:border-0 lg:border-t lg:border-white/10 lg:bg-transparent lg:p-0 lg:pt-10">
           <div>
             <h4 className="font-display text-2xl text-cedar-ivory">Talk to us</h4>
             <p className="mt-2 text-sm text-cedar-mist">
@@ -149,7 +140,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-12 border-t border-white/10 pt-8">
+        <div className="mt-8 border-t border-white/10 pt-6 lg:mt-12 lg:pt-8">
           <p className="text-center text-sm text-cedar-mist">
             © {new Date().getFullYear()} Cedarce Co. All rights reserved.
           </p>

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
+import { ArrowUpRight, ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Button from "@/components/ui/Button";
@@ -106,7 +106,6 @@ const megaMenus: Record<string, MegaBlock> = {
 export default function Navbar() {
   const pathname = usePathname();
   const { data: session } = useSession();
-  const [open, setOpen] = useState(false);
   const [activeMega, setActiveMega] = useState<string | null>(null);
   const [showTopBanner, setShowTopBanner] = useState(true);
   const [bannerEnter, setBannerEnter] = useState(false);
@@ -114,7 +113,7 @@ export default function Navbar() {
   const headerRef = useRef<HTMLElement | null>(null);
   const closeTimer = useRef<number | null>(null);
   const lastScrollY = useRef(0);
-  const transparentChrome = pathname === "/" && !scrolled && !open && !activeMega;
+  const transparentChrome = pathname === "/" && !scrolled && !activeMega;
 
   useEffect(() => {
     const id = requestAnimationFrame(() => setBannerEnter(true));
@@ -169,12 +168,6 @@ export default function Navbar() {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
 
   return (
     <header
@@ -212,7 +205,7 @@ export default function Navbar() {
         ) : null}
       </AnimatePresence>
 
-      <div className="mx-auto flex h-[72px] w-full max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:h-[84px] lg:px-10">
+      <div className="mx-auto hidden h-[72px] w-full max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:flex lg:h-[84px] lg:px-10">
         <Link href="/" className="flex min-w-0 shrink-0 items-center" aria-label="Home">
           <span className="flex items-center sm:hidden">
             <Image
@@ -296,67 +289,7 @@ export default function Navbar() {
             </>
           )}
         </div>
-
-        <button
-          type="button"
-          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-white/15 text-cedar-ivory lg:hidden"
-          onClick={() => setOpen((s) => !s)}
-          aria-label={open ? "Close menu" : "Open menu"}
-          aria-expanded={open}
-        >
-          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
       </div>
-
-      <AnimatePresence>
-        {open ? (
-          <motion.div
-            initial={{ opacity: 0, y: -8 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -8 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-x-0 bottom-0 top-[var(--site-nav-height)] z-50 flex flex-col overflow-y-auto border-t border-white/10 bg-black lg:hidden"
-          >
-            <div className="mx-auto flex w-full max-w-[1440px] flex-1 flex-col gap-1 px-4 py-6 sm:px-6">
-              {links.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  className="rounded-xl px-3 py-4 text-2xl font-display text-cedar-ivory transition hover:bg-white/5"
-                  onClick={() => setOpen(false)}
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <div className="mt-auto flex flex-col gap-3 border-t border-white/10 pt-6">
-                {session?.user?.id ? (
-                  <>
-                    <Button href="/dashboard" full onClick={() => setOpen(false)}>
-                      Dashboard
-                    </Button>
-                    <button
-                      type="button"
-                      onClick={() => signOut({ callbackUrl: "/" })}
-                      className="w-full rounded-lg border border-white/20 px-5 py-3 text-sm font-semibold text-cedar-ivory"
-                    >
-                      Sign out
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <Button href="/signin" variant="secondary" full onClick={() => setOpen(false)}>
-                      Sign in
-                    </Button>
-                    <Button href="/signup" variant="accent" full onClick={() => setOpen(false)}>
-                      Create account
-                    </Button>
-                  </>
-                )}
-              </div>
-            </div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
 
       {activeMega ? (
         <div

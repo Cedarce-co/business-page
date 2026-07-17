@@ -36,7 +36,7 @@ export default function PageHero({
   const centered = align === "center";
 
   return (
-    <section className={cn("relative overflow-hidden bg-black pb-16", className)}>
+    <section className={cn("relative overflow-hidden bg-black pb-10 sm:pb-16", className)}>
       {image ? (
         <>
           <div className="absolute inset-0">
@@ -70,7 +70,7 @@ export default function PageHero({
         ) : null}
         <h1
           className={cn(
-            "mt-6 max-w-3xl font-display text-4xl leading-tight text-cedar-ivory sm:text-5xl lg:text-6xl",
+            "mt-4 max-w-3xl font-display text-[1.85rem] leading-tight text-cedar-ivory sm:mt-6 sm:text-5xl lg:text-6xl",
             titleClassName
           )}
         >
@@ -79,7 +79,7 @@ export default function PageHero({
         {description ? (
           <p
             className={cn(
-              "mt-4 max-w-2xl text-balance text-lg text-white/75",
+              "mt-3 max-w-2xl text-balance text-sm text-white/75 sm:mt-4 sm:text-lg",
               centered && "text-center",
               descriptionClassName
             )}
@@ -90,7 +90,7 @@ export default function PageHero({
         {children ? (
           <div
             className={cn(
-              "mt-8 flex flex-wrap gap-3",
+              "mt-6 flex flex-wrap gap-3 sm:mt-8",
               centered ? "justify-center" : "justify-start"
             )}
           >

@@ -20,7 +20,7 @@ export default function HowItWorksSection() {
   const image = HOW_IT_WORKS_IMAGES[active % HOW_IT_WORKS_IMAGES.length]!;
 
   return (
-    <section id="how-it-works" className="relative overflow-hidden bg-black py-20 lg:py-28">
+    <section id="how-it-works" className="relative overflow-hidden bg-black py-14 lg:py-28">
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-40 [background-image:radial-gradient(rgba(255,255,255,0.05)_1px,transparent_1px)] [background-size:22px_22px]"
@@ -29,20 +29,22 @@ export default function HowItWorksSection() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div className="max-w-xl">
             <SectionLabel>How it works</SectionLabel>
-            <h2 className="mt-5 font-display text-3xl leading-tight text-cedar-ivory sm:text-4xl lg:text-5xl">
+            <h2 className="mt-4 font-display text-[1.85rem] leading-tight text-cedar-ivory sm:mt-5 sm:text-4xl lg:text-5xl">
               Three steps to going professional.
             </h2>
-            <p className="mt-4 text-lg text-cedar-mist">
+            <p className="mt-3 text-sm text-cedar-mist sm:mt-4 sm:text-lg">
               No complicated processes. No long waiting. Just results.
             </p>
           </div>
-          <Button href="/signup" variant="accent" className="shrink-0 self-start sm:self-auto">
-            Start building
-          </Button>
+          <div className="hidden lg:block">
+            <Button href="/signup" variant="accent" className="shrink-0">
+              Start building
+            </Button>
+          </div>
         </div>
 
-        <div className="mt-14 grid items-start gap-10 lg:grid-cols-2 lg:gap-14">
-          <div className="space-y-3">
+        <div className="mt-8 grid items-start gap-6 lg:mt-14 lg:grid-cols-2 lg:gap-14">
+          <div className="space-y-2.5 sm:space-y-3">
             {HOW_IT_WORKS.map((item, index) => {
               const ItemIcon = iconMap[item.icon as keyof typeof iconMap] ?? Calendar;
               const open = active === index;
@@ -51,7 +53,7 @@ export default function HowItWorksSection() {
                   key={item.step}
                   type="button"
                   onClick={() => setActive(index)}
-                  className={`w-full rounded-3xl border px-5 py-5 text-left transition ${
+                  className={`w-full rounded-2xl border px-4 py-4 text-left transition sm:rounded-3xl sm:px-5 sm:py-5 ${
                     open
                       ? "border-cedar-accent/35 bg-cedar-accentSoft"
                       : "border-white/10 hover:bg-white/[0.03]"
@@ -59,25 +61,40 @@ export default function HowItWorksSection() {
                 >
                   <div className="flex items-center gap-3">
                     <ItemIcon className={`h-5 w-5 ${open ? "text-cedar-accent" : "text-cedar-mist"}`} />
-                    <h3 className={`text-lg font-semibold ${open ? "text-cedar-ivory" : "text-cedar-mist"}`}>
+                    <h3 className={`text-base font-semibold sm:text-lg ${open ? "text-cedar-ivory" : "text-cedar-mist"}`}>
                       {item.title}
                     </h3>
                   </div>
                   <AnimatePresence initial={false}>
                     {open ? (
-                      <motion.p
+                      <motion.div
                         initial={reduced ? false : { height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}
                         exit={reduced ? undefined : { height: 0, opacity: 0 }}
-                        className="mt-3 overflow-hidden text-sm leading-relaxed text-cedar-mist lg:hidden"
+                        className="overflow-hidden lg:hidden"
                       >
-                        {item.desc}
-                      </motion.p>
+                        <p className="mt-3 text-sm leading-relaxed text-cedar-mist">{item.desc}</p>
+                        <div className="relative mt-4 h-36 overflow-hidden rounded-xl border border-white/10">
+                          <Image
+                            src={(HOW_IT_WORKS_IMAGES[index % HOW_IT_WORKS_IMAGES.length]!).src}
+                            alt={(HOW_IT_WORKS_IMAGES[index % HOW_IT_WORKS_IMAGES.length]!).alt}
+                            fill
+                            sizes="100vw"
+                            className="object-cover"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                        </div>
+                      </motion.div>
                     ) : null}
                   </AnimatePresence>
                 </button>
               );
             })}
+          </div>
+          <div className="lg:hidden">
+            <Button href="/signup" variant="accent" full>
+              Start building
+            </Button>
           </div>
 
           <div className="relative hidden min-h-[22rem] overflow-hidden rounded-[2rem] border border-white/10 bg-zinc-950 lg:sticky lg:top-[calc(var(--site-nav-height)+2rem)] lg:block">

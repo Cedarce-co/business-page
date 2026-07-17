@@ -23,7 +23,7 @@ export default function AuthShell({
   );
 
   return (
-    <section className="relative min-h-screen bg-black">
+    <section className="relative min-h-screen bg-black pb-[calc(var(--site-mobile-tab-height)+0.75rem)] lg:pb-0">
       <div className="absolute left-4 top-4 z-20 sm:left-8 sm:top-8">
         <Link
           href="/"

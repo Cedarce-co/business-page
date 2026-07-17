@@ -57,8 +57,8 @@ export const HERO_COUPLE_IMAGE: MarketingImage = {
 };
 
 export const HERO_STORE_WOMEN_IMAGE: MarketingImage = {
-  src: unsplash("premium_photo-1686981905868-c28fa2b97eaf", 1600),
-  alt: "Women business owners standing in front of a store",
+  src: unsplash("photo-1579998120708-682dd8a5624f", 1600),
+  alt: "Small fruit business serving customers in Lagos",
 };
 
 /** Static home hero background (woman with phone / blue sky) */

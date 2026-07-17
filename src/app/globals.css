@@ -3,6 +3,7 @@
 
 :root {
   --site-nav-height: 8.75rem;
+  --site-mobile-tab-height: 3.25rem;
 }
 
 *,
@@ -254,6 +255,19 @@ html::-webkit-scrollbar-thumb:hover {
 
 .snap-start-center {
   scroll-snap-align: start;
+}
+
+/* Force Tawk minimized bubble to bottom-right, above mobile tab bar */
+@media (max-width: 1023px) {
+  #tawkchat-container,
+  #tawkchat-minified-wrapper,
+  #tawkchat-minified-iframe-wrapper,
+  .tawk-min-container {
+    left: auto !important;
+    right: 12px !important;
+    bottom: calc(var(--site-mobile-tab-height, 3.25rem) + 0.75rem) !important;
+    top: auto !important;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

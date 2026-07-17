@@ -16,9 +16,71 @@ export default function FoodStorySection() {
   const image = storyImageAt(active);
 
   return (
-    <section className="bg-zinc-950 py-20 lg:py-28">
+    <section className="bg-zinc-950 py-14 lg:py-28">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-        <div className="grid items-start gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+        {/* Mobile: app-style step rail + one story card */}
+        <div className="lg:hidden">
+          <SectionLabel>In action</SectionLabel>
+          <h2 className="mt-4 font-display text-[1.85rem] leading-tight text-cedar-ivory">
+            From manual orders to a system that runs while you sleep.
+          </h2>
+          <p className="mt-3 text-sm text-cedar-mist">
+            Real retail story: customers find you online, pay faster, and get receipts automatically.
+          </p>
+
+          <div className="mt-6 flex gap-2 overflow-x-auto pb-1">
+            {FOOD_STORY_STEPS.map((item, index) => {
+              const open = active === index;
+              return (
+                <button
+                  key={item.step}
+                  type="button"
+                  onClick={() => setActive(index)}
+                  className={`shrink-0 rounded-full border px-3.5 py-2 text-xs font-semibold transition ${
+                    open
+                      ? "border-cedar-accent bg-cedar-accent text-black"
+                      : "border-white/15 text-cedar-mist"
+                  }`}
+                >
+                  {item.step}. {item.title.split(" ")[0]}
+                </button>
+              );
+            })}
+          </div>
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={step.step}
+              initial={reduced ? false : { opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={reduced ? undefined : { opacity: 0, y: -8 }}
+              transition={{ duration: 0.25 }}
+              className="mt-5 overflow-hidden rounded-2xl border border-white/10 bg-black"
+            >
+              <div className="relative h-44">
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  sizes="100vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/25 to-transparent" />
+              </div>
+              <div className="p-5">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.22em] text-cedar-accent">
+                  Step {step.step} of {FOOD_STORY_STEPS.length}
+                </p>
+                <h3 className="mt-2 text-xl font-bold text-cedar-ivory">{step.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-cedar-mist">{step.desc}</p>
+              </div>
+            </motion.div>
+          </AnimatePresence>
+
+        </div>
+
+        {/* Desktop: original two-column stack */}
+        <div className="hidden items-start gap-12 lg:grid lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
           <div className="order-2 space-y-2 lg:order-1">
             {FOOD_STORY_STEPS.map((item, index) => {
               const open = active === index;

@@ -35,7 +35,7 @@ export default function MarketingSplitShell({
   return (
     <section className={cn("relative min-h-screen bg-black", className)}>
       {showHomeLink ? (
-        <div className="absolute left-4 top-[calc(var(--site-nav-height)+1rem)] z-20 sm:left-8">
+        <div className="absolute left-4 top-[calc(var(--site-nav-height)+1rem)] z-20 hidden sm:left-8 lg:block">
           <Link
             href="/"
             aria-label="Back to website"
@@ -75,14 +75,29 @@ export default function MarketingSplitShell({
           </div>
         </div>
 
-        <div className="site-scroll-column flex flex-col px-4 pb-16 sm:px-8 lg:px-12 lg:pb-20">
-          <div className="mb-8 lg:hidden">
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-cedar-accent">
-              {eyebrow}
-            </p>
-            <h1 className="mt-4 font-display text-4xl leading-tight text-cedar-ivory">{title}</h1>
-            <p className="mt-4 text-base leading-relaxed text-cedar-mist">{description}</p>
-            {aside ? <div className="mt-6">{aside}</div> : null}
+        <div className="site-scroll-column flex flex-col px-4 pb-10 pt-6 sm:px-8 lg:px-12 lg:pb-20 lg:pt-0">
+          <div className="mb-6 overflow-hidden rounded-2xl border border-white/10 lg:hidden">
+            <div className="relative h-40">
+              <Image
+                src={image.src}
+                alt={image.alt}
+                fill
+                priority
+                sizes="100vw"
+                className="object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/10" />
+              <div className="absolute inset-x-0 bottom-0 p-4">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-cedar-accent">
+                  {eyebrow}
+                </p>
+                <h1 className="mt-1.5 font-display text-2xl leading-tight text-cedar-ivory">{title}</h1>
+              </div>
+            </div>
+            <div className="bg-zinc-950 px-4 py-4">
+              <p className="text-sm leading-relaxed text-cedar-mist">{description}</p>
+              {aside ? <div className="mt-4">{aside}</div> : null}
+            </div>
           </div>
 
           <motion.div
@@ -92,7 +107,7 @@ export default function MarketingSplitShell({
             className="mx-auto w-full max-w-lg lg:mx-0 lg:max-w-none"
           >
             {showWayfinding ? (
-              <div className="mb-8 border border-white/10 bg-white/[0.03] px-3 py-3 sm:px-4">
+              <div className="mb-6 border border-white/10 bg-white/[0.03] px-3 py-2.5 sm:mb-8 sm:px-4 sm:py-3">
                 <WayfindingStrip zone="site" tone="onDark" />
               </div>
             ) : null}

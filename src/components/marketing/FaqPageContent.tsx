@@ -29,7 +29,7 @@ export default function FaqPageContent() {
           </ul>
         }
       >
-        <div className="rounded-[1.75rem] border border-white/10 bg-zinc-950 p-6 sm:p-8">
+        <div className="rounded-2xl border border-white/10 bg-zinc-950 p-4 sm:rounded-[1.75rem] sm:p-8">
           <FaqAccordion />
         </div>
         <div className="mt-8">

@@ -160,7 +160,7 @@ const VARIANTS_AUTH: PromoVariant[] = [
 ];
 
 const PROMO_POSITION =
-  "bottom-2 left-4 w-[min(calc(100vw-2rem),22rem)] sm:bottom-3 sm:left-5 lg:bottom-6 lg:left-6 lg:w-[19rem] xl:w-[21rem]";
+  "bottom-[calc(var(--site-mobile-tab-height)+0.55rem)] left-2.5 right-auto w-[min(calc(100vw-6.75rem),13.75rem)] sm:left-5 sm:w-[min(calc(100vw-6rem),17rem)] lg:bottom-6 lg:left-6 lg:w-[19rem] xl:w-[21rem]";
 
 const ROTATE_MS = 3000;
 
@@ -397,7 +397,64 @@ export default function AwarenessPromo() {
           onPointerEnter={() => setRotatePaused(true)}
           onPointerLeave={() => setRotatePaused(false)}
         >
-          <div className="relative min-h-[19rem] overflow-hidden rounded-2xl rounded-bl-none border border-b-0 border-white/15 bg-black shadow-elegant ring-1 ring-white/10 sm:min-h-[21rem] sm:rounded-3xl sm:rounded-bl-none lg:min-h-[28rem] xl:min-h-[30rem]">
+          <div className="relative overflow-hidden rounded-2xl rounded-bl-none border border-b-0 border-white/15 bg-black shadow-elegant ring-1 ring-white/10 sm:rounded-3xl sm:rounded-bl-none">
+            {/* Mobile: compact card with visible photo header */}
+            <div className="lg:hidden">
+              <div className="relative h-[5.25rem] overflow-hidden bg-zinc-900">
+                <Image
+                  src={active.image.src}
+                  alt=""
+                  fill
+                  priority
+                  sizes="220px"
+                  className="object-cover object-center"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/15 to-transparent" />
+                <div className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${accent.bar}`} />
+                <button
+                  type="button"
+                  onClick={dismiss}
+                  className="absolute right-1.5 top-1.5 z-20 rounded-full border border-white/15 bg-black/60 p-1 text-cedar-ivory backdrop-blur-sm"
+                  aria-label="Dismiss"
+                >
+                  <X className="h-3 w-3" />
+                </button>
+              </div>
+              <Link
+                href={active.href}
+                onClick={() => setVisible(false)}
+                className="block px-3 pb-3 pt-2.5"
+              >
+                <p className="text-[9px] font-semibold uppercase tracking-[0.16em] text-cedar-accent">
+                  {active.eyebrow}
+                </p>
+                <p className="mt-1 text-[13px] font-semibold leading-snug text-cedar-ivory">
+                  {active.title}
+                </p>
+                <p className="mt-1.5 line-clamp-2 text-[11px] leading-relaxed text-white/70">{active.body}</p>
+                <span
+                  className={`mt-2.5 inline-flex items-center justify-center rounded-md px-3 py-1.5 text-[11px] font-semibold ${accent.btn}`}
+                >
+                  {active.cta}
+                </span>
+              </Link>
+              <div className="flex items-center justify-between border-t border-white/10 px-3 py-1.5">
+                <div className="flex gap-1">
+                  {variants.map((v, i) => (
+                    <span
+                      key={v.id}
+                      className={`h-1 rounded-full transition-all ${
+                        i === variantIndex % variants.length ? "w-3.5 bg-cedar-accent" : "w-1 bg-white/25"
+                      }`}
+                    />
+                  ))}
+                </div>
+                <Zap className="h-3 w-3 text-cedar-accent opacity-70" aria-hidden />
+              </div>
+            </div>
+
+            {/* Desktop: full-bleed background image */}
+            <div className="relative hidden min-h-[28rem] xl:min-h-[30rem] lg:block">
             <div className="absolute inset-0 bg-black" aria-hidden />
 
             {variants.map((variant, i) => (
@@ -414,7 +471,7 @@ export default function AwarenessPromo() {
                   alt=""
                   fill
                   priority={i === 0}
-                  sizes="(max-width: 1024px) 384px, 416px"
+                  sizes="416px"
                   className="object-cover object-center"
                 />
               </div>
@@ -447,7 +504,7 @@ export default function AwarenessPromo() {
             </button>
 
             <motion.div
-              className="relative z-10 flex min-h-[19rem] flex-col sm:min-h-[21rem] lg:min-h-[28rem] xl:min-h-[30rem]"
+              className="relative z-10 flex min-h-[28rem] flex-col xl:min-h-[30rem]"
               initial={bannerEntrance.initial}
               animate={bannerEntrance.animate}
               exit={bannerEntrance.exit}
@@ -456,12 +513,8 @@ export default function AwarenessPromo() {
               <Link
                 href={active.href}
                 onClick={() => setVisible(false)}
-                className="relative z-10 flex flex-1 flex-col overflow-hidden pt-16 sm:pt-20 lg:pt-24"
+                className="relative z-10 flex flex-1 flex-col overflow-hidden pt-24"
               >
-                {/*
-                  Absolute slides prevent AnimatePresence sync stacking (old+new
-                  in document flow), which briefly doubled banner height.
-                */}
                 {variants.map((variant, i) => {
                   const isActive = i === variantIndex % variants.length;
                   const slideAccent = accentMap[variant.accent];
@@ -470,21 +523,19 @@ export default function AwarenessPromo() {
                       key={variant.id}
                       aria-hidden={!isActive}
                       className={cn(
-                        "absolute inset-x-0 bottom-0 px-4 pb-3 transition-opacity duration-500 ease-in-out sm:px-5 sm:pb-4 lg:px-6 lg:pb-5",
+                        "absolute inset-x-0 bottom-0 px-6 pb-5 transition-opacity duration-500 ease-in-out",
                         isActive ? "z-[1] opacity-100" : "z-0 opacity-0 pointer-events-none",
                       )}
                     >
                       <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-cedar-accent">
                         {variant.eyebrow}
                       </p>
-                      <p className="mt-2 text-lg font-semibold leading-snug text-cedar-ivory sm:text-xl lg:text-[1.35rem] lg:leading-tight">
+                      <p className="mt-2 text-[1.35rem] font-semibold leading-tight text-cedar-ivory">
                         {variant.title}
                       </p>
-                      <p className="mt-3 text-sm leading-relaxed text-white/80 lg:mt-4 lg:text-[0.95rem] lg:leading-7">
-                        {variant.body}
-                      </p>
+                      <p className="mt-4 text-[0.95rem] leading-7 text-white/80">{variant.body}</p>
                       <span
-                        className={`motion-safe:animate-breathe mt-5 inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-semibold shadow-lg transition motion-safe:hover:[animation-play-state:paused] lg:mt-6 lg:px-6 lg:py-3 ${slideAccent.btn}`}
+                        className={`motion-safe:animate-breathe mt-6 inline-flex items-center justify-center rounded-lg px-6 py-3 text-sm font-semibold shadow-lg transition motion-safe:hover:[animation-play-state:paused] ${slideAccent.btn}`}
                       >
                         {variant.cta}
                       </span>
@@ -494,7 +545,7 @@ export default function AwarenessPromo() {
               </Link>
 
               <div
-                className="relative z-10 flex items-center justify-between border-t border-white/10 px-4 py-2.5 backdrop-blur-md sm:px-5 lg:px-6 lg:py-3"
+                className="relative z-10 flex items-center justify-between border-t border-white/10 px-6 py-3 backdrop-blur-md"
                 style={glassPanelStyle()}
               >
                 <div className="flex gap-1">
@@ -510,6 +561,7 @@ export default function AwarenessPromo() {
                 <Zap className="h-4 w-4 text-cedar-accent opacity-70" aria-hidden />
               </div>
             </motion.div>
+            </div>
           </div>
         </motion.div>
       ) : null}
