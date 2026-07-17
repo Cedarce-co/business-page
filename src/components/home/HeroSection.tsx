@@ -62,6 +62,7 @@ export default function HeroSection() {
         />
         <div className="absolute inset-0 bg-black/38" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/48 via-black/22 to-black/10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-transparent to-black/50 lg:hidden" />
       </div>
       <div
         aria-hidden
@@ -91,19 +92,19 @@ export default function HeroSection() {
         : null}
 
       {/* —— Mobile app hero —— */}
-      <div className="relative z-10 flex min-h-[100svh] flex-col justify-end px-4 pb-8 pt-28 lg:hidden">
+      <div className="relative z-10 flex min-h-[100svh] flex-col px-4 pb-8 pt-[calc(var(--site-nav-height)+0.5rem)] lg:hidden">
         <motion.div
           initial={reduced ? false : { opacity: 0, y: 18 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.55 }}
-          className="mb-6"
+          className="flex flex-1 flex-col justify-center"
         >
-          <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-cedar-accent">Cedarce</p>
+          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-cedar-accent">Cedarce</p>
           <motion.h1
             variants={stagger}
             initial="hidden"
             animate="visible"
-            className="mt-4 font-display text-[2.65rem] leading-[1.05] tracking-tight text-cedar-ivory"
+            className="mt-5 font-display text-[3.35rem] leading-[1.02] tracking-tight text-cedar-ivory sm:text-[3.75rem]"
           >
             {["Findable.", "Credible.", "Paid faster."].map((word) => (
               <motion.span key={word} variants={wordReveal} className="block">
@@ -111,49 +112,51 @@ export default function HeroSection() {
               </motion.span>
             ))}
           </motion.h1>
-          <p className="mt-4 max-w-md text-[15px] leading-relaxed text-white/75">
+          <p className="mt-5 max-w-md text-base leading-relaxed text-white/80 sm:text-lg">
             Websites, payments, invoicing, and business email — one professional setup.
           </p>
         </motion.div>
 
-        <div
-          ref={scrollerRef}
-          onScroll={onSnapScroll}
-          className="snap-x-mandatory -mx-4 flex gap-3 overflow-x-auto px-4 pb-2"
-          aria-label="Outcomes"
-        >
-          {outcomes.map((card) => (
-            <article
-              key={card.title}
-              className="snap-start-center w-[82%] shrink-0 overflow-hidden rounded-[1.5rem] border border-white/15 bg-black/45 backdrop-blur-md"
-            >
-              <div className="flex min-h-[7.5rem]">
-                <div className="flex w-[38%] flex-col justify-between bg-cedar-accent px-4 py-4 text-black">
-                  <p className="text-[10px] font-bold uppercase tracking-[0.18em]">Outcome</p>
-                  <p className="text-3xl font-bold leading-none">{card.accent}</p>
+        <div className="shrink-0 pb-[calc(var(--site-mobile-tab-height)+0.25rem)]">
+          <div
+            ref={scrollerRef}
+            onScroll={onSnapScroll}
+            className="snap-x-mandatory -mx-4 flex gap-3 overflow-x-auto px-4 pb-2"
+            aria-label="Outcomes"
+          >
+            {outcomes.map((card) => (
+              <article
+                key={card.title}
+                className="snap-start-center w-[82%] shrink-0 overflow-hidden rounded-[1.5rem] border border-white/15 bg-black/45 backdrop-blur-md"
+              >
+                <div className="flex min-h-[7.5rem]">
+                  <div className="flex w-[38%] flex-col justify-between bg-cedar-accent px-4 py-4 text-black">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.18em]">Outcome</p>
+                    <p className="text-3xl font-bold leading-none">{card.accent}</p>
+                  </div>
+                  <div className="flex flex-1 flex-col justify-center px-4 py-4">
+                    <p className="text-base font-bold text-cedar-ivory">{card.title}</p>
+                    <p className="mt-1 text-sm text-cedar-mist">{card.meta}</p>
+                  </div>
                 </div>
-                <div className="flex flex-1 flex-col justify-center px-4 py-4">
-                  <p className="text-base font-bold text-cedar-ivory">{card.title}</p>
-                  <p className="mt-1 text-sm text-cedar-mist">{card.meta}</p>
-                </div>
-              </div>
-            </article>
-          ))}
+              </article>
+            ))}
+          </div>
+          <div className="mt-3 flex justify-center gap-1.5" aria-hidden>
+            {outcomes.map((card, i) => (
+              <span
+                key={card.accent}
+                className={cn(
+                  "h-1.5 rounded-full transition-all",
+                  i === slide ? "w-5 bg-cedar-accent" : "w-1.5 bg-white/25",
+                )}
+              />
+            ))}
+          </div>
+          <p className="mt-4 text-center text-xs text-white/40">
+            Trusted by food stores, pharmacies, churches & more
+          </p>
         </div>
-        <div className="mt-3 flex justify-center gap-1.5" aria-hidden>
-          {outcomes.map((card, i) => (
-            <span
-              key={card.accent}
-              className={cn(
-                "h-1.5 rounded-full transition-all",
-                i === slide ? "w-5 bg-cedar-accent" : "w-1.5 bg-white/25",
-              )}
-            />
-          ))}
-        </div>
-        <p className="mt-5 text-center text-xs text-white/40">
-          Trusted by food stores, pharmacies, churches & more
-        </p>
       </div>
 
       {/* —— Desktop hero —— */}
