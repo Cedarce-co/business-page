@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
 import { SUPPORT_EMAIL } from "@/lib/contact";
 import { BRAND_ICON_VERSION } from "@/lib/brand-logos";
@@ -16,9 +16,16 @@ import PwaRegister from "@/components/layout/PwaRegister";
 import CookieConsentBanner from "@/components/layout/CookieConsentBanner";
 import TawkToWidget from "@/components/layout/TawkToWidget";
 
-const inter = Inter({
+const sans = Outfit({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-sans",
+});
+
+const display = Outfit({
+  subsets: ["latin"],
+  weight: ["600", "700", "800"],
+  variable: "--font-display",
 });
 
 export const metadata: Metadata = {
@@ -83,7 +90,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     title: "Cedarce",
-    statusBarStyle: "default",
+    statusBarStyle: "black-translucent",
   },
   formatDetection: { telephone: false, email: false, address: false },
   robots: { index: true, follow: true },
@@ -91,8 +98,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#111122",
-  colorScheme: "light",
+  themeColor: "#000000",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({
@@ -101,8 +108,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col" suppressHydrationWarning>
+    <html lang="en" className={`${sans.variable} ${display.variable} h-full antialiased`}>
+      <body className="flex min-h-full flex-col font-sans" suppressHydrationWarning>
         <PwaRegister />
         <AuthSessionProvider>
           <ScrollToTop />

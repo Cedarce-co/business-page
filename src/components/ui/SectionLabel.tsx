@@ -10,7 +10,7 @@ export default function SectionLabel({
   return (
     <span
       className={cn(
-        "inline-flex rounded-full bg-cliq-purple-soft px-4 py-2 text-sm font-semibold text-cliq-purple",
+        "inline-flex text-[11px] font-semibold uppercase tracking-[0.28em] text-cedar-accent",
         className
       )}
     >

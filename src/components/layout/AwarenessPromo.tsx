@@ -1,12 +1,26 @@
 "use client";
 
 import { useEffect, useMemo, useState, type CSSProperties } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Sparkles, X, Zap } from "lucide-react";
+import { X, Zap } from "lucide-react";
 import { useSession } from "next-auth/react";
 import { promoShellMotion } from "@/lib/animations";
+import { cn } from "@/lib/utils";
+import {
+  FINAL_CTA_IMAGE,
+  HERO_BG_IMAGE,
+  HERO_COUPLE_IMAGE,
+  HERO_LAPTOP_PHONE_IMAGE,
+  HERO_STORE_WOMEN_IMAGE,
+  MOBILE_BUSINESS_IMAGE,
+  PAYMENTS_PHONE_IMAGE,
+  STORE_SHELF_IMAGE,
+  TEAM_PORTRAIT_IMAGE,
+  type MarketingImage,
+} from "@/lib/marketing-images";
 
 type PromoVariant = {
   id: string;
@@ -16,6 +30,7 @@ type PromoVariant = {
   cta: string;
   href: string;
   accent: "sky" | "rose" | "emerald" | "amber";
+  image: MarketingImage;
 };
 
 const VARIANTS_GUEST: PromoVariant[] = [
@@ -27,6 +42,7 @@ const VARIANTS_GUEST: PromoVariant[] = [
     cta: "Go Pro Today",
     href: "/signup",
     accent: "sky",
+    image: HERO_LAPTOP_PHONE_IMAGE,
   },
   {
     id: "gap",
@@ -36,6 +52,7 @@ const VARIANTS_GUEST: PromoVariant[] = [
     cta: "Book free consultation",
     href: "/contact",
     accent: "rose",
+    image: HERO_BG_IMAGE,
   },
   {
     id: "look-the-part",
@@ -45,6 +62,7 @@ const VARIANTS_GUEST: PromoVariant[] = [
     cta: "See packages",
     href: "/pricing",
     accent: "emerald",
+    image: HERO_COUPLE_IMAGE,
   },
   {
     id: "compete",
@@ -54,6 +72,7 @@ const VARIANTS_GUEST: PromoVariant[] = [
     cta: "Create free account",
     href: "/signup",
     accent: "amber",
+    image: PAYMENTS_PHONE_IMAGE,
   },
   {
     id: "manual",
@@ -61,8 +80,9 @@ const VARIANTS_GUEST: PromoVariant[] = [
     title: "Stop running a serious business on manual tools",
     body: "We set you up right and fast, with automation that saves time and wins trust.",
     cta: "Explore services",
-    href: "/services",
+    href: "/solutions",
     accent: "sky",
+    image: STORE_SHELF_IMAGE,
   },
   {
     id: "automation",
@@ -72,6 +92,7 @@ const VARIANTS_GUEST: PromoVariant[] = [
     cta: "Let's get you professional",
     href: "/signup",
     accent: "rose",
+    image: MOBILE_BUSINESS_IMAGE,
   },
   {
     id: "trust",
@@ -81,6 +102,7 @@ const VARIANTS_GUEST: PromoVariant[] = [
     cta: "Talk to us",
     href: "/contact",
     accent: "emerald",
+    image: TEAM_PORTRAIT_IMAGE,
   },
   {
     id: "roi",
@@ -90,6 +112,7 @@ const VARIANTS_GUEST: PromoVariant[] = [
     cta: "Get set up in 48 hours",
     href: "/contact",
     accent: "amber",
+    image: HERO_STORE_WOMEN_IMAGE,
   },
 ];
 
@@ -102,6 +125,7 @@ const VARIANTS_AUTH: PromoVariant[] = [
     cta: "Open dashboard",
     href: "/dashboard",
     accent: "sky",
+    image: FINAL_CTA_IMAGE,
   },
   {
     id: "request",
@@ -111,6 +135,7 @@ const VARIANTS_AUTH: PromoVariant[] = [
     cta: "Request a service",
     href: "/dashboard/request-service",
     accent: "rose",
+    image: PAYMENTS_PHONE_IMAGE,
   },
   {
     id: "pricing",
@@ -120,6 +145,7 @@ const VARIANTS_AUTH: PromoVariant[] = [
     cta: "View pricing",
     href: "/pricing",
     accent: "emerald",
+    image: STORE_SHELF_IMAGE,
   },
   {
     id: "consult",
@@ -129,11 +155,12 @@ const VARIANTS_AUTH: PromoVariant[] = [
     cta: "Book consultation",
     href: "/contact",
     accent: "amber",
+    image: TEAM_PORTRAIT_IMAGE,
   },
 ];
 
 const PROMO_POSITION =
-  "bottom-4 left-4 w-[min(calc(100vw-2rem),36rem)] max-w-xl sm:bottom-5 sm:left-5 md:bottom-6 md:left-6";
+  "bottom-2 left-4 w-[min(calc(100vw-2rem),22rem)] sm:bottom-3 sm:left-5 lg:bottom-6 lg:left-6 lg:w-[19rem] xl:w-[21rem]";
 
 const ROTATE_MS = 3000;
 
@@ -197,64 +224,12 @@ const BANNER_ENTRANCES: MotionPreset[] = [
   },
 ];
 
-const SLIDE_TRANSITIONS: MotionPreset[] = [
-  {
-    initial: { opacity: 0, x: 28 },
-    animate: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: -28 },
-    transition: { duration: 0.2, ease: [0.22, 1, 0.36, 1] },
-  },
-  {
-    initial: { opacity: 0, x: -28 },
-    animate: { opacity: 1, x: 0 },
-    exit: { opacity: 0, x: 28 },
-    transition: { duration: 0.2, ease: [0.22, 1, 0.36, 1] },
-  },
-  {
-    initial: { opacity: 0, y: 20 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -16 },
-    transition: { duration: 0.22, ease: [0.22, 1, 0.36, 1] },
-  },
-  {
-    initial: { opacity: 0, y: -18 },
-    animate: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: 14 },
-    transition: { duration: 0.22, ease: [0.22, 1, 0.36, 1] },
-  },
-  {
-    initial: { opacity: 0, scale: 0.92 },
-    animate: { opacity: 1, scale: 1 },
-    exit: { opacity: 0, scale: 0.96 },
-    transition: { duration: 0.24, ease: [0.22, 1, 0.36, 1] },
-  },
-  {
-    initial: { opacity: 0, scale: 1.06 },
-    animate: { opacity: 1, scale: 1 },
-    exit: { opacity: 0, scale: 0.94 },
-    transition: { duration: 0.24, ease: [0.22, 1, 0.36, 1] },
-  },
-  {
-    initial: { opacity: 0, x: 16, rotate: 2 },
-    animate: { opacity: 1, x: 0, rotate: 0 },
-    exit: { opacity: 0, x: -12, rotate: -2 },
-    transition: { duration: 0.22, ease: [0.22, 1, 0.36, 1] },
-  },
-  {
-    initial: { opacity: 0, filter: "blur(6px)", y: 8 },
-    animate: { opacity: 1, filter: "blur(0px)", y: 0 },
-    exit: { opacity: 0, filter: "blur(4px)", y: -6 },
-    transition: { duration: 0.26, ease: [0.22, 1, 0.36, 1] },
-  },
-];
-
 const VARIANT_CURSOR_KEY = "cedarce-promo-variant-cursor";
 
 /** Resets on full page reload. */
 let promoBlockedAfterNav = false;
 let promoShownOnHomeThisLoad = false;
-let servicesPromoUsedThisLoad = false;
-let footerPromoUsedThisLoad = false;
+let liveChatPromoUsedThisLoad = false;
 let promoVariantCursor = 0;
 
 function readVariantCursor() {
@@ -281,24 +256,24 @@ function markPromoShownOnHome() {
   promoShownOnHomeThisLoad = true;
 }
 
-const CEDARCE_GLASS_BG = "rgba(51, 65, 85, 0.12)"; /* #334155 */
+const CEDARCE_GLASS_BG = "rgba(8, 8, 8, 0.96)";
 
 const accentMap = {
   sky: {
-    bar: "from-sky-400 to-blue-600",
-    btn: "bg-sky-500 hover:bg-sky-400",
+    bar: "from-cedar-accent to-cedar-accent/40",
+    btn: "bg-cedar-accent text-black hover:brightness-110",
   },
   rose: {
-    bar: "from-rose-400 to-rose-600",
-    btn: "bg-rose-500 hover:bg-rose-400",
+    bar: "from-cedar-accent to-cedar-accent/40",
+    btn: "bg-cedar-accent text-black hover:brightness-110",
   },
   emerald: {
-    bar: "from-emerald-400 to-emerald-700",
-    btn: "bg-emerald-500 hover:bg-emerald-400",
+    bar: "from-cedar-accent to-cedar-accent/40",
+    btn: "bg-cedar-accent text-black hover:brightness-110",
   },
   amber: {
-    bar: "from-amber-400 to-amber-600",
-    btn: "bg-amber-500 hover:bg-amber-400",
+    bar: "from-cedar-accent to-cedar-accent/40",
+    btn: "bg-cedar-accent text-black hover:brightness-110",
   },
 };
 
@@ -316,7 +291,7 @@ export default function AwarenessPromo() {
   const { data: session } = useSession();
   const [visible, setVisible] = useState(false);
   const [variantIndex, setVariantIndex] = useState(0);
-  const [trigger, setTrigger] = useState<"services-exit" | "footer-up" | null>(null);
+  const [trigger, setTrigger] = useState<"live-chat" | null>(null);
   const [entranceStyleIndex, setEntranceStyleIndex] = useState(0);
   const [rotatePaused, setRotatePaused] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -349,88 +324,40 @@ export default function AwarenessPromo() {
       return;
     }
 
-    let servicesWasVisible = false;
-    let reachedFooterEnd = false;
-    let lastScrollY = window.scrollY;
-
-    const tryOpen = (kind: "services-exit" | "footer-up") => {
-      if (kind === "services-exit" && servicesPromoUsedThisLoad) return;
-      if (kind === "footer-up" && footerPromoUsedThisLoad) return;
-
-      if (kind === "services-exit") servicesPromoUsedThisLoad = true;
-      if (kind === "footer-up") footerPromoUsedThisLoad = true;
+    const tryOpen = () => {
+      if (liveChatPromoUsedThisLoad) return;
+      liveChatPromoUsedThisLoad = true;
 
       const startIdx = nextVariantIndex(variants.length);
       setVariantIndex(startIdx);
-      setEntranceStyleIndex((startIdx + (kind === "footer-up" ? 2 : 5)) % BANNER_ENTRANCES.length);
-      setTrigger(kind);
+      setEntranceStyleIndex(startIdx % BANNER_ENTRANCES.length);
+      setTrigger("live-chat");
       setVisible(true);
       markPromoShownOnHome();
     };
 
-    const servicesEl = document.getElementById("home-services-section");
-    let servicesObserver: IntersectionObserver | undefined;
+    const sectionEl = document.getElementById("home-section-live-chat");
+    let sectionObserver: IntersectionObserver | undefined;
 
-    if (servicesEl) {
-      servicesObserver = new IntersectionObserver(
+    if (sectionEl) {
+      sectionObserver = new IntersectionObserver(
         ([entry]) => {
-          if (!entry) return;
-          if (entry.isIntersecting) {
-            servicesWasVisible = true;
-            return;
-          }
-          if (servicesWasVisible && entry.boundingClientRect.top < 0) {
-            tryOpen("services-exit");
+          if (!entry?.isIntersecting) return;
+          if (entry.intersectionRatio >= 0.2) {
+            tryOpen();
           }
         },
-        { threshold: [0, 0.05, 0.15] },
+        { threshold: [0, 0.15, 0.2, 0.35, 0.5] },
       );
-      servicesObserver.observe(servicesEl);
+      sectionObserver.observe(sectionEl);
     }
 
-    const footerEl = document.getElementById("site-footer");
-
-    const syncFooterEnd = () => {
-      const scrollY = window.scrollY;
-      const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
-      const atDocumentBottom = scrollY >= maxScroll - 48;
-
-      if (footerEl) {
-        const rect = footerEl.getBoundingClientRect();
-        const footerEndVisible = rect.bottom <= window.innerHeight + 24 && rect.top < window.innerHeight;
-        if (atDocumentBottom || footerEndVisible) {
-          reachedFooterEnd = true;
-        }
-      } else if (atDocumentBottom) {
-        reachedFooterEnd = true;
-      }
-    };
-
-    const onScroll = () => {
-      const scrollY = window.scrollY;
-      const scrollingUp = scrollY < lastScrollY - 2;
-
-      syncFooterEnd();
-
-      if (reachedFooterEnd && scrollingUp) {
-        tryOpen("footer-up");
-        reachedFooterEnd = false;
-      }
-
-      lastScrollY = scrollY;
-    };
-
-    syncFooterEnd();
-    window.addEventListener("scroll", onScroll, { passive: true });
-
     return () => {
-      servicesObserver?.disconnect();
-      window.removeEventListener("scroll", onScroll);
+      sectionObserver?.disconnect();
     };
   }, [isHome, variants.length, variantKey]);
 
   const bannerEntrance = BANNER_ENTRANCES[entranceStyleIndex % BANNER_ENTRANCES.length];
-  const slideTransition = SLIDE_TRANSITIONS[variantIndex % SLIDE_TRANSITIONS.length];
 
   useEffect(() => {
     if (!visible || variants.length <= 1 || rotatePaused) return;
@@ -470,33 +397,57 @@ export default function AwarenessPromo() {
           onPointerEnter={() => setRotatePaused(true)}
           onPointerLeave={() => setRotatePaused(false)}
         >
-          <div
-            className="relative overflow-hidden rounded-2xl border border-white/40 shadow-[0_20px_50px_rgba(15,23,42,0.14),inset_0_1px_1px_rgba(255,255,255,0.45),inset_0_-1px_0_rgba(255,255,255,0.08)] ring-1 ring-white/25"
-            style={glassPanelStyle()}
-          >
+          <div className="relative min-h-[19rem] overflow-hidden rounded-2xl rounded-bl-none border border-b-0 border-white/15 bg-black shadow-elegant ring-1 ring-white/10 sm:min-h-[21rem] sm:rounded-3xl sm:rounded-bl-none lg:min-h-[28rem] xl:min-h-[30rem]">
+            <div className="absolute inset-0 bg-black" aria-hidden />
+
+            {variants.map((variant, i) => (
+              <div
+                key={variant.id}
+                aria-hidden={i !== variantIndex % variants.length}
+                className={cn(
+                  "absolute inset-0 transition-opacity duration-700 ease-in-out",
+                  i === variantIndex % variants.length ? "z-[1] opacity-100" : "z-0 opacity-0",
+                )}
+              >
+                <Image
+                  src={variant.image.src}
+                  alt=""
+                  fill
+                  priority={i === 0}
+                  sizes="(max-width: 1024px) 384px, 416px"
+                  className="object-cover object-center"
+                />
+              </div>
+            ))}
+
             <div
-              className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/18 via-white/4 to-transparent"
+              className="pointer-events-none absolute inset-0 z-[2] bg-black/10"
               aria-hidden
             />
             <div
-              className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent"
+              className="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-t from-black via-black/55 to-transparent"
               aria-hidden
             />
             <div
-              className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"
+              className="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-br from-black/25 via-transparent to-black/20"
+              aria-hidden
+            />
+            <div
+              className={`pointer-events-none absolute inset-x-0 top-0 z-[3] h-1 bg-gradient-to-r ${accent.bar}`}
               aria-hidden
             />
 
             <button
               type="button"
               onClick={dismiss}
-              className="absolute right-2 top-2 z-20 rounded-xl border border-white/40 bg-white/12 p-2 text-slate-900 shadow-[inset_0_1px_0_rgba(255,255,255,0.45)] backdrop-blur-2xl transition hover:bg-white/22 md:right-3 md:top-3"
+              className="absolute right-2 top-2 z-20 rounded-full border border-white/15 bg-black/50 p-2 text-cedar-ivory backdrop-blur-sm transition hover:bg-black/70 md:right-3 md:top-3"
               aria-label="Dismiss"
             >
               <X className="h-4 w-4 md:h-[18px] md:w-[18px]" />
             </button>
 
             <motion.div
+              className="relative z-10 flex min-h-[19rem] flex-col sm:min-h-[21rem] lg:min-h-[28rem] xl:min-h-[30rem]"
               initial={bannerEntrance.initial}
               animate={bannerEntrance.animate}
               exit={bannerEntrance.exit}
@@ -505,56 +456,58 @@ export default function AwarenessPromo() {
               <Link
                 href={active.href}
                 onClick={() => setVisible(false)}
-                className="inner-scroll relative z-10 block max-h-[min(48vh,26rem)] overflow-y-auto overscroll-y-contain p-4 pb-5 sm:p-5 md:max-h-none md:p-6"
+                className="relative z-10 flex flex-1 flex-col overflow-hidden pt-16 sm:pt-20 lg:pt-24"
               >
-                <div
-                  className={`mb-3 h-1 w-14 rounded-full bg-gradient-to-r ${accent.bar}`}
-                  aria-hidden
-                />
-
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={active.id}
-                    initial={slideTransition.initial}
-                    animate={slideTransition.animate}
-                    exit={slideTransition.exit}
-                    transition={slideTransition.transition}
-                  >
-                    <p className="pr-10 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-800 drop-shadow-[0_1px_1px_rgba(255,255,255,0.85)]">
-                      {active.eyebrow}
-                    </p>
-                    <p className="mt-2 text-[17px] font-black leading-snug text-slate-950 drop-shadow-[0_1px_2px_rgba(255,255,255,0.9)] sm:text-xl md:text-2xl md:leading-tight">
-                      {active.title}
-                    </p>
-                    <p className="mt-3 text-sm leading-relaxed text-slate-900 drop-shadow-[0_1px_1px_rgba(255,255,255,0.75)] md:text-[15px]">
-                      {active.body}
-                    </p>
-
-                    <span
-                      className={`mt-5 inline-flex items-center justify-center rounded-xl px-5 py-2.5 text-sm font-bold text-white shadow-md transition ${accent.btn}`}
+                {/*
+                  Absolute slides prevent AnimatePresence sync stacking (old+new
+                  in document flow), which briefly doubled banner height.
+                */}
+                {variants.map((variant, i) => {
+                  const isActive = i === variantIndex % variants.length;
+                  const slideAccent = accentMap[variant.accent];
+                  return (
+                    <div
+                      key={variant.id}
+                      aria-hidden={!isActive}
+                      className={cn(
+                        "absolute inset-x-0 bottom-0 px-4 pb-3 transition-opacity duration-500 ease-in-out sm:px-5 sm:pb-4 lg:px-6 lg:pb-5",
+                        isActive ? "z-[1] opacity-100" : "z-0 opacity-0 pointer-events-none",
+                      )}
                     >
-                      {active.cta}
-                    </span>
-                    <p className="mt-3 flex items-center gap-1.5 text-[11px] text-slate-700 md:text-xs">
-                      <Sparkles className="h-3.5 w-3.5 shrink-0 text-amber-500 md:h-4 md:w-4" />
-                      Or tap anywhere on this card to continue
-                    </p>
-                  </motion.div>
-                </AnimatePresence>
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-cedar-accent">
+                        {variant.eyebrow}
+                      </p>
+                      <p className="mt-2 text-lg font-semibold leading-snug text-cedar-ivory sm:text-xl lg:text-[1.35rem] lg:leading-tight">
+                        {variant.title}
+                      </p>
+                      <p className="mt-3 text-sm leading-relaxed text-white/80 lg:mt-4 lg:text-[0.95rem] lg:leading-7">
+                        {variant.body}
+                      </p>
+                      <span
+                        className={`motion-safe:animate-breathe mt-5 inline-flex items-center justify-center rounded-lg px-5 py-2.5 text-sm font-semibold shadow-lg transition motion-safe:hover:[animation-play-state:paused] lg:mt-6 lg:px-6 lg:py-3 ${slideAccent.btn}`}
+                      >
+                        {variant.cta}
+                      </span>
+                    </div>
+                  );
+                })}
               </Link>
 
-              <div className="relative z-10 flex items-center justify-between border-t border-white/25 px-4 py-2 md:px-5">
+              <div
+                className="relative z-10 flex items-center justify-between border-t border-white/10 px-4 py-2.5 backdrop-blur-md sm:px-5 lg:px-6 lg:py-3"
+                style={glassPanelStyle()}
+              >
                 <div className="flex gap-1">
                   {variants.map((v, i) => (
                     <span
                       key={v.id}
                       className={`h-1.5 rounded-full transition-all ${
-                        i === variantIndex % variants.length ? "w-6 bg-slate-900" : "w-1.5 bg-slate-600/45"
+                        i === variantIndex % variants.length ? "w-6 bg-cedar-accent" : "w-1.5 bg-white/25"
                       }`}
                     />
                   ))}
                 </div>
-                <Zap className="h-4 w-4 text-amber-500 opacity-70" aria-hidden />
+                <Zap className="h-4 w-4 text-cedar-accent opacity-70" aria-hidden />
               </div>
             </motion.div>
           </div>

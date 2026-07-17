@@ -10,7 +10,7 @@ import PasswordInput from "@/components/ui/PasswordInput";
 import { resetPassword } from "@/features/password-reset/client";
 
 const baseInput =
-  "w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-slate-900";
+  "w-full rounded-xl border border-white/15 bg-white/[0.04] px-4 py-3 text-cedar-ivory outline-none placeholder:text-white/35 focus:border-cedar-accent/50 focus:ring-2 focus:ring-cedar-accent/20";
 
 export default function ResetPasswordFlow({ token }: { token: string }) {
   const router = useRouter();
@@ -45,21 +45,21 @@ export default function ResetPasswordFlow({ token }: { token: string }) {
     >
       <PasswordInput
         className={baseInput}
-        toggleClassName="text-slate-400 hover:text-slate-700"
+        toggleClassName="text-white/40 hover:text-cedar-ivory"
         placeholder="New password (min 8 characters)"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
       <PasswordInput
         className={baseInput}
-        toggleClassName="text-slate-400 hover:text-slate-700"
+        toggleClassName="text-white/40 hover:text-cedar-ivory"
         placeholder="Confirm new password"
         value={confirm}
         onChange={(e) => setConfirm(e.target.value)}
       />
 
       <button
-        className="mx-auto w-full rounded-xl bg-slate-900 px-4 py-3 text-base font-semibold text-white hover:bg-slate-800 disabled:opacity-50 sm:w-1/2"
+        className="mx-auto w-full rounded-xl bg-slate-900 px-4 py-3 text-base font-semibold text-white hover:brightness-110 disabled:opacity-50 sm:w-1/2"
         onClick={submit}
         disabled={!canSubmit}
         type="button"
@@ -74,9 +74,9 @@ export default function ResetPasswordFlow({ token }: { token: string }) {
         )}
       </button>
 
-      <p className="text-sm text-slate-600">
+      <p className="text-sm text-cedar-mist">
         Back to{" "}
-        <Link href="/signin" className="font-semibold text-slate-900 hover:underline">
+        <Link href="/signin" className="font-semibold text-cedar-accent hover:underline">
           Sign in
         </Link>
       </p>

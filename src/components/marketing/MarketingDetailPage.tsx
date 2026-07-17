@@ -1,67 +1,38 @@
 import type { ComponentType } from "react";
 import Link from "next/link";
-import { ArrowRight, Check, CreditCard, Globe, GraduationCap, Layers, Mail, MessageSquare, Receipt, Share2, Shield, Smartphone, Users, Zap } from "lucide-react";
+import Image from "next/image";
+import {
+  ArrowRight,
+  Check,
+  CreditCard,
+  Globe,
+  GraduationCap,
+  Layers,
+  Mail,
+  MessageSquare,
+  Receipt,
+  Share2,
+  Shield,
+  Smartphone,
+  Users,
+  Zap,
+} from "lucide-react";
 import PricingPackagesSection from "@/components/marketing/PricingPackagesSection";
-import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import MarketingPageHeader from "@/components/navigation/MarketingPageHeader";
 import SectionReveal, { RevealItem, StaggerReveal } from "@/components/ui/SectionReveal";
 import type { MarketingAccent, MarketingPageConfig, MarketingSection } from "@/lib/marketing-detail-pages";
-import { marketingPagePath } from "@/lib/marketing-detail-pages";
-import {
-  ruledBlockTop,
-  ruledCell,
-  ruledGridCols,
-  ruledGridColsLg,
-  ruledList,
-  ruledListItem,
-  ruledSectionBg,
-  ruledSplit,
-  ruledSplitCell,
-  ruledSplitTone,
-} from "@/lib/ruled-layout";
+import { getMarketingCatalogEntries, marketingPagePath } from "@/lib/marketing-detail-pages";
+import { CATALOG_CARD_IMAGES, DETAIL_HERO_BY_CATEGORY } from "@/lib/marketing-images";
 import { cn } from "@/lib/utils";
 
-const accentStyles: Record<
-  MarketingAccent,
-  { heroBg: string; panel: string; dot: string; ring: string }
-> = {
-  teal: {
-    heroBg: "from-teal-950 via-cliq-navy-900 to-cliq-navy-900",
-    panel: "bg-teal-500/10 border-teal-500/20",
-    dot: "bg-teal-500",
-    ring: "ring-teal-500/30",
-  },
-  purple: {
-    heroBg: "from-violet-950 via-cliq-navy-900 to-cliq-navy-900",
-    panel: "bg-violet-500/10 border-violet-500/20",
-    dot: "bg-violet-500",
-    ring: "ring-violet-500/30",
-  },
-  emerald: {
-    heroBg: "from-emerald-950 via-cliq-navy-900 to-cliq-navy-900",
-    panel: "bg-emerald-500/10 border-emerald-500/20",
-    dot: "bg-emerald-500",
-    ring: "ring-emerald-500/30",
-  },
-  amber: {
-    heroBg: "from-amber-950 via-cliq-navy-900 to-cliq-navy-900",
-    panel: "bg-amber-500/10 border-amber-500/20",
-    dot: "bg-amber-500",
-    ring: "ring-amber-500/30",
-  },
-  cyan: {
-    heroBg: "from-cyan-950 via-cliq-navy-900 to-cliq-navy-900",
-    panel: "bg-cyan-500/10 border-cyan-500/20",
-    dot: "bg-cyan-500",
-    ring: "ring-cyan-500/30",
-  },
-  rose: {
-    heroBg: "from-rose-950 via-cliq-navy-900 to-cliq-navy-900",
-    panel: "bg-rose-500/10 border-rose-500/20",
-    dot: "bg-rose-500",
-    ring: "ring-rose-500/30",
-  },
+const accentStyles: Record<MarketingAccent, { panel: string; dot: string }> = {
+  teal: { panel: "bg-cedar-accentSoft border-cedar-accent/25", dot: "bg-cedar-accent" },
+  purple: { panel: "bg-white/[0.04] border-white/15", dot: "bg-cedar-accent" },
+  emerald: { panel: "bg-cedar-accentSoft border-cedar-accent/25", dot: "bg-cedar-accent" },
+  amber: { panel: "bg-cedar-accentSoft border-cedar-accent/25", dot: "bg-cedar-accent" },
+  cyan: { panel: "bg-white/[0.04] border-white/15", dot: "bg-cedar-accent" },
+  rose: { panel: "bg-white/[0.04] border-white/15", dot: "bg-cedar-accent" },
 };
 
 const bentoIcons: Record<string, ComponentType<{ className?: string }>> = {
@@ -79,6 +50,85 @@ const bentoIcons: Record<string, ComponentType<{ className?: string }>> = {
   graduation: GraduationCap,
 };
 
+function NetworkDecor() {
+  return (
+    <svg
+      aria-hidden
+      className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.16]"
+      viewBox="0 0 1200 700"
+      fill="none"
+      preserveAspectRatio="xMidYMid slice"
+    >
+      <path
+        d="M120 140 C 280 90, 420 220, 580 170 S 900 250, 1080 180"
+        stroke="rgba(31,58,95,0.45)"
+        strokeWidth="1"
+        strokeDasharray="4 8"
+      />
+      <path
+        d="M80 420 C 260 360, 420 520, 620 460 S 920 540, 1120 470"
+        stroke="rgba(255,255,255,0.22)"
+        strokeWidth="1"
+        strokeDasharray="4 8"
+      />
+      <circle cx="580" cy="170" r="4" fill="rgba(31,58,95,0.55)" />
+      <circle cx="620" cy="460" r="4" fill="rgba(255,255,255,0.3)" />
+    </svg>
+  );
+}
+
+function ElegantCard({
+  href,
+  title,
+  body,
+  icon: Icon,
+}: {
+  href?: string;
+  title: string;
+  body: string;
+  icon?: ComponentType<{ className?: string }>;
+}) {
+  const content = (
+    <>
+      {Icon ? (
+        <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-2xl border border-cedar-accent/15 bg-cedar-accentSoft">
+          <Icon className="h-5 w-5 text-cedar-accent" aria-hidden />
+        </div>
+      ) : null}
+      <h3 className="text-xl font-bold text-cedar-ivory">{title}</h3>
+      <p className="mt-3 flex-1 text-sm leading-7 text-cedar-mist">{body}</p>
+      {href ? (
+        <span className="mt-7 inline-flex items-center gap-2 text-sm font-semibold text-cedar-accent">
+          Learn more
+          <ArrowRight className="h-4 w-4 transition duration-200 group-hover:translate-x-1" aria-hidden />
+        </span>
+      ) : null}
+    </>
+  );
+
+  const className =
+    "group relative flex min-h-[220px] flex-col overflow-hidden rounded-[1.75rem] border border-white/[0.08] bg-[#121110]/90 p-7 transition duration-300 hover:-translate-y-1 hover:border-cedar-accent/35 hover:bg-[#18150f] sm:p-8";
+
+  if (href) {
+    return (
+      <Link href={href} className={className}>
+        {content}
+      </Link>
+    );
+  }
+
+  return <article className={className}>{content}</article>;
+}
+
+function SectionIntro({ title, subtitle }: { title: string; subtitle?: string }) {
+  return (
+    <div className="max-w-2xl text-left">
+      <h2 className="font-display text-3xl leading-tight text-cedar-ivory lg:text-4xl">{title}</h2>
+      {subtitle ? <p className="mt-4 text-base leading-relaxed text-cedar-mist lg:text-lg">{subtitle}</p> : null}
+    </div>
+  );
+}
+
 function SectionBlock({
   section,
   accent,
@@ -89,22 +139,19 @@ function SectionBlock({
   index: number;
 }) {
   const a = accentStyles[accent];
-  const altBg = ruledSectionBg(index);
-
-  const sectionTitleClass = "text-center text-2xl font-black text-cliq-text-heading lg:text-3xl";
-  const sectionSubtitleClass = "mx-auto mt-3 max-w-2xl text-center text-cliq-text-body";
+  const altBg = index % 2 === 0 ? "bg-black" : "bg-zinc-950";
 
   if (section.type === "stats") {
     return (
-      <SectionReveal className={`${altBg} py-16 lg:py-20`}>
+      <SectionReveal className={`${altBg} py-16 lg:py-24`}>
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-          <h2 className={sectionTitleClass}>{section.title}</h2>
-          <StaggerReveal className={cn("mt-10", ruledGridColsLg(3))}>
+          <SectionIntro title={section.title} />
+          <StaggerReveal className="mt-12 grid gap-4 sm:grid-cols-3">
             {section.items.map((item) => (
               <RevealItem key={item.label}>
-                <div className={ruledCell}>
-                  <p className="text-4xl font-black text-cliq-navy-900">{item.value}</p>
-                  <p className="mt-2 text-sm text-cliq-text-body">{item.label}</p>
+                <div className="rounded-[1.75rem] border border-white/[0.08] bg-[#121110] p-7 text-left">
+                  <p className="font-display text-4xl text-cedar-ivory lg:text-5xl">{item.value}</p>
+                  <p className="mt-3 text-sm text-cedar-mist">{item.label}</p>
                 </div>
               </RevealItem>
             ))}
@@ -115,27 +162,39 @@ function SectionBlock({
   }
 
   if (section.type === "bento") {
+    const left = section.items.filter((_, i) => i % 2 === 0);
+    const right = section.items.filter((_, i) => i % 2 === 1);
+
     return (
-      <SectionReveal className={`${altBg} py-16 lg:py-20`}>
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-          <h2 className={sectionTitleClass}>{section.title}</h2>
-          {section.subtitle ? <p className={sectionSubtitleClass}>{section.subtitle}</p> : null}
-          <StaggerReveal className={cn("mt-10", ruledGridCols(2))}>
-            {section.items.map((item) => {
-              const Icon = bentoIcons[item.icon] ?? Layers;
-              return (
-                <RevealItem key={item.title}>
-                  <article className={cn("group relative h-full", ruledCell)}>
-                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-cliq-purple-soft text-cliq-navy-800">
-                    <Icon className="h-5 w-5" aria-hidden />
-                  </span>
-                  <h3 className="mt-4 text-lg font-bold text-cliq-text-heading">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-cliq-text-body">{item.body}</p>
-                </article>
-                </RevealItem>
-              );
-            })}
-          </StaggerReveal>
+      <SectionReveal preserveSticky className={`${altBg} py-16 lg:py-24`}>
+        <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
+          <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,380px)_1fr] lg:gap-16">
+            <div className="lg:sticky lg:top-[calc(var(--site-nav-height)+2rem)]">
+              <SectionIntro title={section.title} subtitle={section.subtitle} />
+            </div>
+            <div className="grid gap-5 sm:grid-cols-2 sm:gap-6">
+              <div className="flex flex-col gap-5 sm:gap-6 lg:pt-16">
+                {left.map((item) => (
+                  <ElegantCard
+                    key={item.title}
+                    title={item.title}
+                    body={item.body}
+                    icon={bentoIcons[item.icon] ?? Layers}
+                  />
+                ))}
+              </div>
+              <div className="flex flex-col gap-5 sm:gap-6">
+                {right.map((item) => (
+                  <ElegantCard
+                    key={item.title}
+                    title={item.title}
+                    body={item.body}
+                    icon={bentoIcons[item.icon] ?? Layers}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </SectionReveal>
     );
@@ -143,16 +202,19 @@ function SectionBlock({
 
   if (section.type === "split") {
     return (
-      <SectionReveal className={`${altBg} py-16 lg:py-20`}>
-        <div className="mx-auto max-w-[1200px] px-4 text-center sm:px-6 lg:px-8">
-          <h2 className={sectionTitleClass}>{section.title}</h2>
-          <p className="mx-auto mt-4 max-w-2xl text-center leading-relaxed text-cliq-text-body">{section.body}</p>
-          <div className={cn("mx-auto mt-10 max-w-xl pt-8 text-left", ruledBlockTop)}>
-            <p className="text-sm font-bold uppercase tracking-wide text-cliq-text-heading">{section.panelTitle}</p>
-            <ul className="mt-4 space-y-3">
+      <SectionReveal preserveSticky className={`${altBg} py-16 lg:py-24`}>
+        <div className="mx-auto grid max-w-[1200px] items-start gap-10 px-4 sm:px-6 lg:grid-cols-2 lg:gap-16 lg:px-8">
+          <div className="lg:sticky lg:top-[calc(var(--site-nav-height)+2rem)]">
+            <SectionIntro title={section.title} subtitle={section.body} />
+          </div>
+          <div className="rounded-[1.75rem] border border-white/[0.08] bg-[#121110] p-7 sm:p-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cedar-accent">
+              {section.panelTitle}
+            </p>
+            <ul className="mt-6 space-y-4">
               {section.panelItems.map((line) => (
-                <li key={line} className="flex gap-2 text-sm text-cliq-text-body">
-                  <span className={`mt-2 h-1.5 w-1.5 shrink-0 rounded-full ${a.dot}`} aria-hidden />
+                <li key={line} className="flex gap-3 text-sm leading-relaxed text-cedar-mist">
+                  <span className={cn("mt-2 h-1.5 w-1.5 shrink-0 rounded-full", a.dot)} aria-hidden />
                   {line}
                 </li>
               ))}
@@ -165,23 +227,23 @@ function SectionBlock({
 
   if (section.type === "timeline") {
     return (
-      <SectionReveal className={`${altBg} py-16 lg:py-20`}>
+      <SectionReveal className={`${altBg} py-16 lg:py-24`}>
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-          <h2 className={sectionTitleClass}>{section.title}</h2>
-          <ol className="relative mx-auto mt-10 max-w-2xl space-y-8 border-l-2 border-cliq-gray-200 pl-8 text-left">
+          <SectionIntro title={section.title} />
+          <div className="mt-12 grid gap-4 lg:grid-cols-3">
             {section.steps.map((step, i) => (
-              <li key={step.title} className="relative">
-                <span
-                  className={`absolute -left-[2.125rem] top-1 flex h-8 w-8 items-center justify-center rounded-full text-xs font-black text-white ring-4 ring-white ${a.dot}`}
-                  aria-hidden
-                >
-                  {i + 1}
+              <article
+                key={step.title}
+                className="rounded-[1.75rem] border border-white/[0.08] bg-[#121110] p-7"
+              >
+                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-cedar-accent text-sm font-bold text-black">
+                  {String(i + 1).padStart(2, "0")}
                 </span>
-                <h3 className="font-bold text-cliq-text-heading">{step.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-cliq-text-body">{step.body}</p>
-              </li>
+                <h3 className="mt-5 text-xl font-bold text-cedar-ivory">{step.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-cedar-mist">{step.body}</p>
+              </article>
             ))}
-          </ol>
+          </div>
         </div>
       </SectionReveal>
     );
@@ -189,13 +251,21 @@ function SectionBlock({
 
   if (section.type === "checklist") {
     return (
-      <SectionReveal className={`${altBg} py-16 lg:py-20`}>
+      <SectionReveal className={`${altBg} py-16 lg:py-24`}>
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-          <h2 className={sectionTitleClass}>{section.title}</h2>
-          <ul className={cn("mt-8 text-left", ruledList, section.columns === 2 ? "sm:grid sm:grid-cols-2 sm:divide-x sm:divide-y-0" : "")}>
+          <SectionIntro title={section.title} />
+          <ul
+            className={cn(
+              "mt-10 grid gap-3",
+              section.columns === 2 ? "sm:grid-cols-2" : "max-w-2xl"
+            )}
+          >
             {section.items.map((item) => (
-              <li key={item} className={cn("flex gap-3 text-sm text-cliq-text-body", ruledListItem)}>
-                <Check className="mt-0.5 h-4 w-4 shrink-0 text-emerald-600" aria-hidden />
+              <li
+                key={item}
+                className="flex gap-3 rounded-2xl border border-white/[0.08] bg-[#121110] px-5 py-4 text-sm text-cedar-mist"
+              >
+                <Check className="mt-0.5 h-4 w-4 shrink-0 text-cedar-accent" aria-hidden />
                 {item}
               </li>
             ))}
@@ -207,23 +277,30 @@ function SectionBlock({
 
   if (section.type === "comparison") {
     return (
-      <SectionReveal className={`${altBg} py-16 lg:py-20`}>
+      <SectionReveal className={`${altBg} py-16 lg:py-24`}>
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-          <h2 className={sectionTitleClass}>{section.title}</h2>
-          <div className={cn("mt-10", ruledSplit)}>
-            <div className={cn(ruledSplitCell, ruledSplitTone.rose)}>
-              <p className="text-xs font-bold uppercase tracking-wide text-rose-800">Before</p>
-              <ul className="mt-4 space-y-2">
+          <SectionIntro title={section.title} />
+          <div className="mt-12 grid gap-5 lg:grid-cols-2">
+            <div className="rounded-[1.75rem] border border-white/[0.08] bg-[#121110] p-7 sm:p-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/40">Before</p>
+              <ul className="mt-6 space-y-4">
                 {section.before.map((line) => (
-                  <li key={line} className="text-sm text-cliq-text-body">• {line}</li>
+                  <li key={line} className="text-sm leading-relaxed text-cedar-mist">
+                    {line}
+                  </li>
                 ))}
               </ul>
             </div>
-            <div className={cn(ruledSplitCell, ruledSplitTone.emerald)}>
-              <p className="text-xs font-bold uppercase tracking-wide text-emerald-800">After Cedarce</p>
-              <ul className="mt-4 space-y-2">
+            <div className="rounded-[1.75rem] border border-cedar-accent/25 bg-cedar-accentSoft p-7 sm:p-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cedar-accent">
+                After Cedarce
+              </p>
+              <ul className="mt-6 space-y-4">
                 {section.after.map((line) => (
-                  <li key={line} className="text-sm text-cliq-text-body">• {line}</li>
+                  <li key={line} className="flex gap-3 text-sm leading-relaxed text-cedar-ivory/90">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-cedar-accent" aria-hidden />
+                    {line}
+                  </li>
                 ))}
               </ul>
             </div>
@@ -235,22 +312,29 @@ function SectionBlock({
 
   if (section.type === "pain-outcome") {
     return (
-      <SectionReveal className={`${altBg} py-16 lg:py-20`}>
+      <SectionReveal className={`${altBg} py-16 lg:py-24`}>
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-          <div className={ruledSplit}>
-            <div className={cn(ruledSplitCell, ruledSplitTone.rose)}>
-              <p className="text-xs font-bold uppercase tracking-wide text-rose-700">The situation</p>
-              <p className="mt-4 text-lg leading-relaxed text-cliq-text-body">{section.pain}</p>
+          <div className="grid gap-5 lg:grid-cols-2">
+            <div className="rounded-[1.75rem] border border-white/[0.08] bg-[#121110] p-7 sm:p-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/40">
+                The situation
+              </p>
+              <p className="mt-5 text-lg leading-relaxed text-cedar-mist">{section.pain}</p>
             </div>
-            <div className={cn(ruledSplitCell, ruledSplitTone.emerald)}>
-              <p className="text-xs font-bold uppercase tracking-wide text-emerald-800">The outcome</p>
-              <p className="mt-4 text-lg leading-relaxed text-cliq-text-body">{section.outcome}</p>
+            <div className="rounded-[1.75rem] border border-cedar-accent/25 bg-cedar-accentSoft p-7 sm:p-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cedar-accent">
+                The outcome
+              </p>
+              <p className="mt-5 text-lg leading-relaxed text-cedar-ivory/90">{section.outcome}</p>
             </div>
           </div>
-          <ul className={cn("mt-8", ruledGridCols(2))}>
+          <ul className="mt-6 grid gap-3 sm:grid-cols-2">
             {section.bullets.map((b) => (
-              <li key={b} className={cn("flex gap-3 text-sm", ruledCell)}>
-                <Check className="h-4 w-4 shrink-0 text-emerald-600" aria-hidden />
+              <li
+                key={b}
+                className="flex gap-3 rounded-2xl border border-white/[0.08] bg-[#121110] px-5 py-4 text-sm text-cedar-mist"
+              >
+                <Check className="mt-0.5 h-4 w-4 shrink-0 text-cedar-accent" aria-hidden />
                 {b}
               </li>
             ))}
@@ -262,11 +346,19 @@ function SectionBlock({
 
   if (section.type === "quote") {
     return (
-      <SectionReveal className="relative overflow-hidden bg-cliq-navy-900 py-16 lg:py-20">
-        <div aria-hidden className="pointer-events-none absolute inset-0 bg-mesh-dark opacity-80" />
-        <div className="relative mx-auto max-w-3xl px-4 text-center sm:px-6 lg:px-8">
-          <p className="text-xl font-medium leading-relaxed text-white/90 lg:text-2xl">&ldquo;{section.text}&rdquo;</p>
-          <p className="mt-6 text-sm font-semibold uppercase tracking-wide text-cliq-teal">{section.attribution}</p>
+      <SectionReveal className="bg-black py-16 lg:py-24">
+        <div className="mx-auto max-w-[900px] px-4 sm:px-6 lg:px-8">
+          <div className="rounded-[2rem] border border-white/[0.08] bg-zinc-950 p-8 sm:p-12">
+            <span aria-hidden className="font-display text-7xl leading-none text-cedar-accent/30">
+              “
+            </span>
+            <p className="-mt-6 text-xl leading-relaxed text-cedar-ivory sm:text-2xl">
+              {section.text}
+            </p>
+            <p className="mt-8 text-sm font-semibold uppercase tracking-[0.2em] text-cedar-accent">
+              {section.attribution}
+            </p>
+          </div>
         </div>
       </SectionReveal>
     );
@@ -276,87 +368,96 @@ function SectionBlock({
 }
 
 function Hero({ page }: { page: MarketingPageConfig }) {
-  const a = accentStyles[page.accent];
   const Icon = page.icon;
-
-  if (page.heroVariant === "split") {
-    return (
-      <section className="relative overflow-hidden border-b border-cliq-gray-200 bg-mesh-light">
-        <div className="pointer-events-none absolute left-1/2 top-12 h-72 w-72 -translate-x-1/2 rounded-full bg-cliq-purple-soft/80 blur-3xl" aria-hidden />
-        <MarketingPageHeader tone="light" className="pb-2" />
-        <div className="relative mx-auto flex max-w-[1200px] flex-col items-center px-4 py-8 text-center sm:px-6 lg:px-8 lg:pb-20 lg:pt-4">
-          <Badge className="uppercase tracking-wide">{page.eyebrow}</Badge>
-          <h1 className="mt-4 max-w-4xl text-4xl font-black text-cliq-text-heading lg:text-5xl">{page.title}</h1>
-          <p className="mt-2 max-w-3xl text-balance text-center text-xl font-semibold text-cliq-purple">{page.tagline}</p>
-          <p className="mt-4 max-w-3xl text-balance text-center leading-relaxed text-cliq-text-body">{page.lead}</p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Button href={page.primaryCta.href} variant="teal" className="rounded-xl px-6 py-3 text-sm font-bold">
-              {page.primaryCta.label}
-            </Button>
-            <Button href={page.secondaryCta.href} variant="secondary" className="rounded-xl px-6 py-3 text-sm font-bold">
-              {page.secondaryCta.label}
-            </Button>
-          </div>
-          <div className={`mx-auto mt-10 max-w-md rounded-3xl bg-gradient-to-br p-8 text-left text-white shadow-[0_28px_80px_rgba(10,10,20,0.28)] ring-1 ring-white/10 transition duration-300 hover:-translate-y-1 ${a.heroBg}`}>
-            <Icon className="h-12 w-12 text-cliq-teal" aria-hidden />
-            <p className="mt-6 text-sm uppercase tracking-wide text-white/60">Cedarce {page.category}</p>
-            <p className="mt-2 text-2xl font-black">{page.tagline}</p>
-          </div>
-        </div>
-      </section>
-    );
-  }
-
-  if (page.heroVariant === "minimal") {
-    return (
-      <section className="relative overflow-hidden border-b border-cliq-gray-200 bg-white">
-        <div aria-hidden className="pointer-events-none absolute inset-0 bg-dot-grid opacity-40" />
-        <MarketingPageHeader tone="light" className="pb-2" />
-        <div className="relative mx-auto flex max-w-[1200px] flex-col items-center px-4 py-8 text-center sm:px-6 lg:px-8 lg:pb-24 lg:pt-4">
-          <div className="flex w-full max-w-3xl flex-col items-center">
-            <span className={`inline-flex h-14 w-14 items-center justify-center rounded-2xl ${a.panel}`}>
-              <Icon className="h-7 w-7 text-cliq-navy-900" aria-hidden />
-            </span>
-            <p className="mt-6 text-sm font-semibold uppercase tracking-wider text-cliq-text-muted">{page.eyebrow}</p>
-            <h1 className="mt-2 text-4xl font-black text-cliq-text-heading lg:text-6xl">{page.title}</h1>
-            <p className="mt-4 max-w-3xl text-balance text-center text-xl text-cliq-purple">{page.tagline}</p>
-            <p className="mt-4 max-w-3xl text-balance text-center text-lg leading-relaxed text-cliq-text-body">{page.lead}</p>
-            <div className="mt-8 flex flex-wrap justify-center gap-3">
-              <Button href={page.primaryCta.href} variant="teal" className="rounded-xl px-6 py-3 text-sm font-bold">
-                {page.primaryCta.label}
-              </Button>
-              <Button href={page.secondaryCta.href} variant="secondary" className="rounded-xl px-6 py-3 text-sm font-bold">
-                {page.secondaryCta.label}
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-    );
-  }
+  const image =
+    CATALOG_CARD_IMAGES[page.slug] ??
+    DETAIL_HERO_BY_CATEGORY[page.category] ??
+    DETAIL_HERO_BY_CATEGORY.product;
+  const titleParts = page.title.split(" ");
+  const accentWord = titleParts.length > 1 ? titleParts[titleParts.length - 1] : null;
+  const titleLead =
+    accentWord && titleParts.length > 1 ? titleParts.slice(0, -1).join(" ") : page.title;
 
   return (
-    <section className={`relative overflow-hidden bg-gradient-to-b pb-20 ${a.heroBg}`}>
-      <div aria-hidden className="pointer-events-none absolute inset-0 bg-mesh-dark opacity-70" />
-      <MarketingPageHeader tone="dark" />
-      <div className="relative mx-auto flex max-w-[1200px] flex-col items-center px-4 text-center sm:px-6 lg:px-8">
-        <div className="flex w-full max-w-3xl flex-col items-center">
-          <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/10">
-            <Icon className="h-8 w-8 text-cliq-teal" aria-hidden />
-          </span>
-          <p className="mt-6 text-sm font-semibold uppercase tracking-wider text-cliq-teal">
+    <section className="relative overflow-hidden bg-black pb-16 lg:pb-24">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-[0.28] [background-image:radial-gradient(rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:22px_22px]"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(ellipse 55% 45% at 82% 18%, rgba(31,58,95,0.14), transparent 55%)",
+        }}
+      />
+      <NetworkDecor />
+      <MarketingPageHeader tone="dark" className="pb-2" />
+
+      <div className="relative mx-auto grid max-w-[1200px] items-start gap-12 px-4 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:px-8">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.32em] text-cedar-accent">
             {page.eyebrow}
           </p>
-          <h1 className="mt-3 text-4xl font-black text-white lg:text-5xl">{page.title}</h1>
-          <p className="mt-3 max-w-3xl text-balance text-center text-xl font-semibold text-white/90">{page.tagline}</p>
-          <p className="mt-4 max-w-3xl text-balance text-center text-base leading-relaxed text-white/75">{page.lead}</p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Button href={page.primaryCta.href} variant="onBanner" className="rounded-xl px-6 py-3 text-sm font-bold">
+          <h1 className="mt-7 max-w-xl font-display text-4xl leading-[1.05] tracking-tight text-cedar-ivory sm:text-5xl lg:text-[3.75rem]">
+            {accentWord ? (
+              <>
+                {titleLead} <span className="text-cedar-accent">{accentWord}</span>
+              </>
+            ) : (
+              page.title
+            )}
+          </h1>
+          <p className="mt-5 max-w-lg text-xl font-semibold text-cedar-ivory/90">{page.tagline}</p>
+          <p className="mt-5 max-w-lg text-base leading-relaxed text-cedar-mist lg:text-lg">
+            {page.lead}
+          </p>
+          <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <Button href={page.primaryCta.href} variant="accent" className="min-h-12 px-7">
               {page.primaryCta.label}
             </Button>
-            <Button href={page.secondaryCta.href} variant="onDark" className="rounded-xl px-6 py-3 text-sm font-bold">
+            <Button href={page.secondaryCta.href} variant="ghost" className="min-h-12 px-0">
               {page.secondaryCta.label}
             </Button>
+          </div>
+        </div>
+
+        <div className="relative hidden min-h-[22rem] lg:block">
+          <div className="absolute inset-0 overflow-hidden rounded-[2rem] border border-white/[0.08] bg-[#121110]/80 p-8 backdrop-blur-sm">
+            {image ? (
+              <>
+                <Image
+                  src={image.src}
+                  alt={image.alt}
+                  fill
+                  sizes="(min-width: 1024px) 520px, 100vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/78 to-black/30" />
+                <div className="absolute inset-0 bg-cedar-accent/10 mix-blend-color" />
+              </>
+            ) : null}
+            <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl border border-cedar-accent/20 bg-cedar-accentSoft">
+              <Icon className="h-7 w-7 text-cedar-accent" aria-hidden />
+            </div>
+            <p className="relative mt-10 text-xs font-semibold uppercase tracking-[0.28em] text-cedar-accent">
+              What you get
+            </p>
+            <p className="relative mt-4 text-2xl font-bold leading-snug text-cedar-ivory">{page.title}</p>
+            <p className="relative mt-4 text-sm leading-7 text-cedar-mist">{page.tagline}</p>
+            <div className="relative mt-8 flex flex-wrap gap-2">
+              {(page.category === "product" ? "Product" : page.category === "solution" ? "Solution" : "Pricing")
+                .split(" ")
+                .map((label) => (
+                  <span
+                    key={label}
+                    className="rounded-full border border-white/15 px-3 py-1 text-xs font-medium text-cedar-mist"
+                  >
+                    {label}
+                  </span>
+                ))}
+            </div>
           </div>
         </div>
       </div>
@@ -370,6 +471,22 @@ export default function MarketingDetailPage({ page }: { page: MarketingPageConfi
   const highlightPackage =
     page.category === "pricing" && PACKAGE_SLUGS.has(page.slug) ? page.slug : undefined;
 
+  const relatedCatalog =
+    page.category === "product" || page.category === "solution"
+      ? getMarketingCatalogEntries(page.category).filter((entry) => entry.id !== page.slug).slice(0, 4)
+      : [];
+
+  const relatedCards =
+    relatedCatalog.length > 0
+      ? relatedCatalog
+      : page.related.map((r) => ({
+          id: r.slug,
+          title: r.label,
+          description: `Explore ${r.label}`,
+          href: marketingPagePath(r.category, r.slug),
+          icon: Layers,
+        }));
+
   return (
     <>
       <Hero page={page} />
@@ -377,37 +494,56 @@ export default function MarketingDetailPage({ page }: { page: MarketingPageConfi
         <SectionBlock key={`${section.type}-${index}`} section={section} accent={page.accent} index={index} />
       ))}
       {page.category === "pricing" ? <PricingPackagesSection highlightSlug={highlightPackage} /> : null}
-      <SectionReveal className="border-t border-cliq-gray-200 bg-cliq-gray-100 py-16">
+
+      <SectionReveal preserveSticky className="border-t border-white/10 bg-zinc-950 py-16 lg:py-24">
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-          <h2 className="text-center text-xl font-black text-cliq-text-heading">
-            Related{" "}
-            {page.category === "product" ? "products" : page.category === "solution" ? "solutions" : "pricing options"}
-          </h2>
-          <div className={cn("mt-6 text-left", ruledGridCols(3))}>
-            {page.related.map((r) => (
-              <Link
-                key={r.slug}
-                href={marketingPagePath(r.category, r.slug)}
-                className={cn("group flex items-center justify-between px-0 py-5 transition hover:bg-white sm:px-6 first:sm:pl-0", ruledCell)}
-              >
-                <span className="font-semibold text-cliq-text-heading">{r.label}</span>
-                <ArrowRight className="h-4 w-4 text-cliq-navy-800 transition group-hover:translate-x-0.5" aria-hidden />
-              </Link>
-            ))}
+          <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,360px)_1fr] lg:gap-16">
+            <div className="lg:sticky lg:top-[calc(var(--site-nav-height)+2rem)]">
+              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-cedar-accent">
+                Explore more
+              </p>
+              <h2 className="mt-4 font-display text-3xl text-cedar-ivory lg:text-4xl">
+                Related{" "}
+                <span className="text-cedar-accent">
+                  {page.category === "product"
+                    ? "products"
+                    : page.category === "solution"
+                      ? "solutions"
+                      : "options"}
+                </span>
+              </h2>
+              <p className="mt-4 text-cedar-mist">
+                Browse more from the same list you opened in the menu.
+              </p>
+              {page.category !== "pricing" ? (
+                <Link
+                  href={page.category === "product" ? "/product" : "/solutions"}
+                  className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-cedar-accent"
+                >
+                  View all {page.category === "product" ? "products" : "solutions"}
+                  <ArrowRight className="h-4 w-4" aria-hidden />
+                </Link>
+              ) : (
+                <Link href="/faq" className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-cedar-accent">
+                  Pricing FAQ
+                  <ArrowRight className="h-4 w-4" aria-hidden />
+                </Link>
+              )}
+            </div>
+
+            <div className="grid gap-5 sm:grid-cols-2">
+              {relatedCards.map((card, index) => (
+                <div key={card.id} className={index % 2 === 1 ? "sm:mt-10" : undefined}>
+                  <ElegantCard
+                    href={card.href}
+                    title={card.title}
+                    body={card.description}
+                    icon={card.icon}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-          {page.category !== "pricing" ? (
-            <p className="mt-8 text-center">
-              <Link href="/pricing" className="text-sm font-semibold text-cliq-navy-800 underline-offset-4 hover:underline">
-                Compare packages on pricing →
-              </Link>
-            </p>
-          ) : (
-            <p className="mt-8 text-center">
-              <Link href="/faq" className="text-sm font-semibold text-cliq-navy-800 underline-offset-4 hover:underline">
-                Pricing FAQ →
-              </Link>
-            </p>
-          )}
         </div>
       </SectionReveal>
     </>

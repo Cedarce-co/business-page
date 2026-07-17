@@ -8,7 +8,7 @@ import CircleLoader from "@/components/ui/CircleLoader";
 import { requestPasswordReset } from "@/features/password-reset/client";
 
 const baseInput =
-  "w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-slate-900";
+  "w-full rounded-xl border border-white/15 bg-white/[0.04] px-4 py-3 text-cedar-ivory outline-none placeholder:text-white/35 focus:border-cedar-accent/50 focus:ring-2 focus:ring-cedar-accent/20";
 
 const emailLooksValid = (v: string) => /\S+@\S+\.\S+/.test(v.trim());
 
@@ -41,9 +41,9 @@ export default function ForgotPasswordFlow() {
     >
       {sent ? (
         <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 text-slate-700">
-          <p className="text-sm font-semibold text-slate-900">Check your inbox</p>
+          <p className="text-sm font-semibold text-cedar-ivory">Check your inbox</p>
           <p className="mt-1 text-sm">
-            Kindly check your inbox for a reset link sent to <span className="font-semibold text-slate-900">{email}</span>.
+            Kindly check your inbox for a reset link sent to <span className="font-semibold text-cedar-ivory">{email}</span>.
           </p>
         </div>
       ) : (
@@ -56,7 +56,7 @@ export default function ForgotPasswordFlow() {
             onChange={(e) => setEmail(e.target.value.toLowerCase())}
           />
           <button
-            className="mx-auto w-full rounded-xl bg-slate-900 px-4 py-3 text-base font-semibold text-white hover:bg-slate-800 disabled:opacity-50 sm:w-1/2"
+            className="mx-auto w-full rounded-xl bg-slate-900 px-4 py-3 text-base font-semibold text-white hover:brightness-110 disabled:opacity-50 sm:w-1/2"
             onClick={submit}
             disabled={!canSubmit}
             type="button"
@@ -73,9 +73,9 @@ export default function ForgotPasswordFlow() {
         </>
       )}
 
-      <p className="text-sm text-slate-600">
+      <p className="text-sm text-cedar-mist">
         Remembered it?{" "}
-        <Link href="/signin" className="font-semibold text-slate-900 hover:underline">
+        <Link href="/signin" className="font-semibold text-cedar-accent hover:underline">
           Sign in
         </Link>
       </p>

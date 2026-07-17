@@ -52,6 +52,57 @@ export const PRODUCT_PILLARS = [
   { slug: "integrations", label: "Integrations & ops", href: "/product/integrations" },
 ];
 
+export const PRODUCT_CATALOG = [
+  {
+    id: "website-landing-pages",
+    title: "Website & landing pages",
+    description:
+      "Mobile-first pages that convert browsers into buyers — fast load, clear CTAs, and SEO-ready structure.",
+    href: "/product/website-landing-pages",
+    icon: "Globe" as const,
+  },
+  {
+    id: "payments-integration",
+    title: "Payments integration",
+    description:
+      "Cards, bank transfer, and mobile money checkout so customers pay without back-and-forth.",
+    href: "/product/payments-integration",
+    icon: "CreditCard" as const,
+  },
+  {
+    id: "business-email",
+    title: "Business email",
+    description:
+      "Professional inboxes on your domain — credible outbound email that lands reliably in every inbox.",
+    href: "/product/business-email",
+    icon: "Mail" as const,
+  },
+  {
+    id: "bulk-messaging",
+    title: "Campaigns & reach",
+    description:
+      "Bulk messaging and structured campaigns that drive people back to book, pay, or request a quote.",
+    href: "/product/bulk-messaging",
+    icon: "Megaphone" as const,
+  },
+  {
+    id: "integrations",
+    title: "Integrations & ops",
+    description:
+      "Connect your tools, automate follow-ups, and keep operations running without manual chasing.",
+    href: "/product/integrations",
+    icon: "Settings" as const,
+  },
+  {
+    id: "invoicing-receipts",
+    title: "Invoicing & receipts",
+    description:
+      "Branded invoices and receipts sent automatically — less typing, faster collections, cleaner records.",
+    href: "/product/invoicing-receipts",
+    icon: "FileText" as const,
+  },
+];
+
 export const SOLUTION_SEGMENTS = [
   {
     id: "solo",

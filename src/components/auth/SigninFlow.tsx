@@ -10,7 +10,7 @@ import { formatRecoveryCodeInput } from "@/lib/mfa-recovery-download";
 import { markSessionStarted } from "@/lib/auth/session-tracking";
 
 const baseInput =
-  "w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none placeholder:text-slate-400 focus:border-slate-900";
+  "w-full rounded-xl border border-white/15 bg-white/[0.04] px-4 py-3 text-cedar-ivory outline-none placeholder:text-white/35 focus:border-cedar-accent/50 focus:ring-2 focus:ring-cedar-accent/20";
 
 const emailLooksValid = (v: string) => /\S+@\S+\.\S+/.test(v.trim());
 
@@ -125,7 +125,7 @@ export default function SigninFlow() {
           />
           <PasswordInput
             className={baseInput}
-            toggleClassName="text-slate-400 hover:text-slate-700"
+            toggleClassName="text-white/40 hover:text-cedar-ivory"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -182,7 +182,7 @@ export default function SigninFlow() {
         <div className="-mt-1 flex items-center justify-end">
           <Link
             href="/forgot-password"
-            className="inline-flex items-center rounded-lg px-2 py-1 text-sm font-semibold text-slate-900 underline-offset-4 hover:underline"
+            className="inline-flex items-center rounded-lg px-2 py-1 text-sm font-semibold text-cedar-ivory underline-offset-4 hover:underline"
           >
             Forgot password?
           </Link>
@@ -193,7 +193,7 @@ export default function SigninFlow() {
 
       <div className="mt-6 mb-10 flex items-center justify-center gap-3">
         <button
-          className="w-full rounded-xl bg-slate-900 px-5 py-2.5 text-base font-semibold text-white disabled:opacity-50 sm:w-1/2 hover:bg-slate-800"
+          className="w-full rounded-xl bg-slate-900 px-5 py-2.5 text-base font-semibold text-white disabled:opacity-50 sm:w-1/2 hover:brightness-110"
           onClick={step === "credentials" ? submitCredentials : submitTotp}
           disabled={step === "credentials" ? !canSubmitCredentials : !canSubmitTotp}
           type="button"
@@ -212,9 +212,9 @@ export default function SigninFlow() {
       </div>
 
       {step === "credentials" ? (
-        <p className="text-sm text-slate-600">
+        <p className="text-sm text-cedar-mist">
           New here?{" "}
-          <Link href="/signup" className="font-semibold text-slate-900 hover:underline">
+          <Link href="/signup" className="font-semibold text-cedar-accent hover:underline">
             Create an account
           </Link>
         </p>

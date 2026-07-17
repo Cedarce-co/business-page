@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { LOGO_LIGHT_BG } from "@/lib/brand-logos";
+import { LOGO_DARK_BG } from "@/lib/brand-logos";
 import { useEffect, useState } from "react";
+import Button from "@/components/ui/Button";
 
 export default function OfflinePage() {
   const [online, setOnline] = useState(true);
@@ -24,20 +25,12 @@ export default function OfflinePage() {
   };
 
   return (
-    <section className="relative flex min-h-[100dvh] items-center justify-center overflow-hidden bg-cliq-white px-4 py-16">
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse at 80% 50%, rgba(15,23,42,0.07) 0%, transparent 60%)",
-        }}
-      />
-      <div className="pointer-events-none absolute inset-0 opacity-[0.03] [background-image:radial-gradient(#111122_1px,transparent_1px)] [background-size:18px_18px]" />
-
+    <section className="relative flex min-h-[100dvh] items-center justify-center overflow-hidden bg-black px-4 py-16">
+      <div aria-hidden className="pointer-events-none absolute inset-0 bg-mesh-dark opacity-70" />
       <div className="relative mx-auto flex w-full max-w-md flex-col items-center text-center">
         <Link href="/" aria-label="Home" className="mb-8 inline-flex items-center">
           <Image
-            src={LOGO_LIGHT_BG.desktop}
+            src={LOGO_DARK_BG.desktop}
             alt="Cedarce"
             width={1011}
             height={247}
@@ -46,46 +39,32 @@ export default function OfflinePage() {
           />
         </Link>
 
-        <span className="inline-flex items-center gap-2 rounded-full border border-cliq-gray-300 bg-white px-3 py-1.5 text-xs font-semibold text-cliq-text-body shadow-card">
+        <span className="inline-flex items-center gap-2 border border-white/15 px-3 py-1.5 text-xs font-semibold text-cedar-mist">
           <span
-            className={
-              "inline-block h-2 w-2 rounded-full " +
-              (online ? "bg-emerald-500" : "bg-red-500")
-            }
+            className={`inline-block h-2 w-2 rounded-full ${online ? "bg-emerald-500" : "bg-red-500"}`}
             aria-hidden
           />
           {online ? "Connection restored" : "You are offline"}
         </span>
 
-        <h1 className="mt-5 text-3xl font-black leading-tight text-cliq-text-heading sm:text-4xl">
+        <h1 className="mt-5 font-display text-3xl leading-tight text-cedar-ivory sm:text-4xl">
           {online ? "Back online." : "No internet connection."}
         </h1>
 
-        <p className="mt-3 text-base text-cliq-text-body">
+        <p className="mt-3 text-base text-cedar-mist">
           {online
             ? "Reload the page to continue where you left off."
-            : "Check your Wi-Fi or mobile data, then try again. Anything you've already opened in the app is still available."}
+            : "Check your Wi-Fi or mobile data, then try again."}
         </p>
 
         <div className="mt-8 flex w-full flex-col gap-3 sm:flex-row sm:justify-center">
-          <button
-            type="button"
-            onClick={retry}
-            className="inline-flex items-center justify-center rounded-xl bg-cliq-navy-800 px-6 py-3 text-base font-bold text-white shadow-md transition hover:bg-cliq-navy-900"
-          >
+          <Button type="button" variant="accent" onClick={retry} full>
             {online ? "Reload page" : "Try again"}
-          </button>
-          <Link
-            href="/"
-            className="inline-flex items-center justify-center rounded-xl border-2 border-cliq-gray-300 bg-white px-6 py-3 text-base font-bold text-cliq-navy-900 transition hover:bg-cliq-gray-100"
-          >
+          </Button>
+          <Button href="/" variant="outlineLight" full>
             Go home
-          </Link>
+          </Button>
         </div>
-
-        <p className="mt-8 text-xs text-cliq-text-muted">
-          Cedarce: Business websites, payments &amp; automation
-        </p>
       </div>
     </section>
   );

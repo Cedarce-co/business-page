@@ -1,12 +1,6 @@
-import type { Metadata } from "next";
-import SolutionsPageContent from "@/components/marketing/SolutionsPageContent";
+import { redirect } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "Solutions",
-  description:
-    "Digital solutions by business stage and outcome: web presence, payments, email, campaigns, and operations for SMEs.",
-};
-
-export default function SolutionsPage() {
-  return <SolutionsPageContent />;
+/** Legacy route — Solutions hub lives at /solutions */
+export default function ServicesRedirectPage() {
+  redirect("/solutions");
 }

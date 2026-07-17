@@ -5,7 +5,7 @@ export const fieldClass =
   "w-full rounded-xl border border-slate-200/90 bg-white/95 px-4 py-3 text-sm text-slate-900 shadow-[inset_0_1px_2px_rgba(15,23,42,0.04)] outline-none transition placeholder:text-slate-400 focus:border-cliq-purple/50 focus:ring-2 focus:ring-cliq-purple/12 disabled:cursor-not-allowed disabled:opacity-60";
 
 export const fieldClassDark =
-  "w-full rounded-xl border border-cliq-navy-600 bg-cliq-navy-800/90 px-4 py-3 text-sm text-white shadow-[inset_0_1px_2px_rgba(0,0,0,0.15)] outline-none transition placeholder:text-cliq-navy-300 focus:border-cliq-purple focus:ring-2 focus:ring-cliq-purple/20 disabled:cursor-not-allowed disabled:opacity-60";
+  "w-full rounded-lg border border-white/15 bg-white/[0.04] px-4 py-3 text-sm text-cedar-ivory outline-none transition placeholder:text-white/35 focus:border-cedar-accent/50 focus:ring-2 focus:ring-cedar-accent/20 disabled:cursor-not-allowed disabled:opacity-60";
 
 export function Label({
   children,

@@ -41,14 +41,14 @@ export default function CookieConsentBanner() {
           exit={cookieBannerMotion.exit}
           transition={cookieBannerMotion.transition}
         >
-          <div className="pointer-events-auto relative rounded-xl bg-white/95 px-3 py-2.5 shadow-[0_12px_40px_rgba(15,23,42,0.14)] backdrop-blur-sm sm:px-4 sm:py-3">
-            <h2 className="text-xs font-bold text-slate-900 sm:text-sm">Cookies policy</h2>
+          <div className="pointer-events-auto relative border border-white/15 bg-zinc-950/95 px-3 py-2.5 shadow-elegant backdrop-blur-sm sm:px-4 sm:py-3">
+            <h2 className="text-xs font-bold text-cedar-ivory sm:text-sm">Cookies policy</h2>
 
             <div className="mt-1.5 flex flex-col gap-2">
-              <p className="text-[11px] leading-snug text-slate-600 sm:text-xs">
+              <p className="text-[11px] leading-snug text-cedar-mist sm:text-xs">
                 Essential cookies run sign-in and the portal. Live chat is always available. Optional cookies help us
                 understand site use.{" "}
-                <Link href="/privacy#cookies" className="font-semibold text-slate-900 underline-offset-2 hover:underline">
+                <Link href="/privacy#cookies" className="font-semibold text-cedar-ivory underline-offset-2 hover:underline">
                   Privacy Policy
                 </Link>
               </p>
@@ -59,7 +59,7 @@ export default function CookieConsentBanner() {
                     writeCookieConsent("declined");
                     setVisible(false);
                   }}
-                  className="rounded-md px-2.5 py-1.5 text-[11px] font-semibold text-rose-600 hover:bg-rose-50 sm:px-3 sm:text-xs"
+                  className="rounded-md px-2.5 py-1.5 text-[11px] font-semibold text-white/60 hover:bg-white/5 sm:px-3 sm:text-xs"
                 >
                   Decline cookies
                 </button>
@@ -69,7 +69,7 @@ export default function CookieConsentBanner() {
                     writeCookieConsent("accepted");
                     setVisible(false);
                   }}
-                  className="rounded-md bg-emerald-600 px-2.5 py-1.5 text-[11px] font-semibold text-white hover:bg-emerald-700 sm:px-3 sm:text-xs"
+                  className="rounded-md bg-cedar-accent px-2.5 py-1.5 text-[11px] font-semibold text-black hover:brightness-110 sm:px-3 sm:text-xs"
                 >
                   Accept all
                 </button>

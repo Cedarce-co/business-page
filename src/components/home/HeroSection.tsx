@@ -1,91 +1,174 @@
 "use client";
 
-import { motion } from "framer-motion";
-import FloatingCard from "@/components/ui/FloatingCard";
+import Image from "next/image";
+import { motion, useReducedMotion } from "framer-motion";
 import Button from "@/components/ui/Button";
-import { floatLoop, stagger, wordReveal } from "@/lib/animations";
+import { stagger, wordReveal } from "@/lib/animations";
+import { HERO_BG_IMAGE } from "@/lib/marketing-images";
 
-const words = ["Findable", "Credible", "Paid faster"];
+/** Floating tags sit on the visual side only — never over the copy */
+const floating = [
+  { label: "</> Setup", x: "62%", y: "12%" },
+  { label: "Payments", x: "84%", y: "48%" },
+  { label: "Support", x: "58%", y: "78%" },
+];
 
-const notifications = [
-  { icon: "✅", title: "Invoice #0042 sent to Amaka Foods", meta: "Just now" },
-  { icon: "💰", title: "Payment received", meta: "2 mins ago" },
-  { icon: "📧", title: "Business email configured", meta: "hello@amakas.ng" },
-  { icon: "📱", title: "WhatsApp follow-up sent", meta: "Automated" },
-  { icon: "🌐", title: "Website live at amakas.ng", meta: "3 set up today" },
+const outcomes = [
+  {
+    title: "Website live",
+    meta: "Customers find you first",
+    accent: "01",
+    className: "left-0 top-0 z-10 -rotate-2",
+  },
+  {
+    title: "Invoice paid",
+    meta: "Confirmed in real time",
+    accent: "02",
+    className: "left-[10%] top-[30%] z-20 rotate-[1.5deg]",
+  },
+  {
+    title: "Business email",
+    meta: "hello@yourbrand.com",
+    accent: "03",
+    className: "left-[2%] top-[58%] z-30 -rotate-1",
+  },
 ];
 
 export default function HeroSection() {
+  const reduced = useReducedMotion();
+
   return (
-    <section className="relative overflow-hidden bg-cliq-white pt-44 lg:pt-32">
+    <section className="relative overflow-hidden bg-black">
+      <div className="absolute inset-0" aria-hidden>
+        <Image
+          src={HERO_BG_IMAGE.src}
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-black/38" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/48 via-black/22 to-black/10" />
+      </div>
       <div
-        className="absolute inset-0"
+        aria-hidden
+        className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse at 80% 50%, rgba(15,23,42,0.07) 0%, transparent 60%)",
+            "radial-gradient(ellipse 70% 55% at 75% 35%, rgba(31,58,95,0.22), transparent 55%), radial-gradient(ellipse 45% 40% at 10% 85%, rgba(255,255,255,0.035), transparent 50%)",
         }}
       />
-      <div className="absolute inset-0 opacity-[0.03] [background-image:radial-gradient(#111122_1px,transparent_1px)] [background-size:18px_18px]" />
-      <div className="relative mx-auto grid min-h-screen w-full max-w-[1440px] items-center gap-12 px-4 py-10 sm:w-[80%] sm:px-0 lg:grid-cols-2">
-        <div className="flex flex-col items-start text-left">
-          <motion.span
-            initial={{ opacity: 0, y: 24 }}
-            animate={floatLoop(0.2)}
-            className="inline-flex max-w-full items-center gap-2 rounded-full border border-white/20 bg-white/30 px-3 py-1 text-left text-[11px] font-semibold leading-tight text-cliq-text-body shadow-card shadow-slate-700/10 backdrop-blur-md backdrop-saturate-150 text-opacity-100 whitespace-nowrap sm:px-4 sm:py-2 sm:text-[13px] sm:whitespace-normal"
-          >
-            <span className="sm:hidden">Your hustle is real. Match it online.</span>
-            <span className="hidden sm:inline">
-              Your hustle is real. Your digital presence should match.
-            </span>
-          </motion.span>
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 opacity-[0.12] [background-image:linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.045)_1px,transparent_1px)] [background-size:72px_72px] [mask-image:radial-gradient(ellipse_70%_60%_at_70%_40%,black,transparent)]"
+      />
 
+      {!reduced
+        ? floating.map((item) => (
+            <motion.span
+              key={item.label}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: [0, -7, 0] }}
+              transition={{
+                opacity: { duration: 0.6 },
+                y: { duration: 5.5, repeat: Infinity, ease: "easeInOut" },
+              }}
+              className="pointer-events-none absolute z-[1] hidden rounded-full border border-white/20 bg-black/40 px-3 py-1.5 text-xs font-medium text-cedar-ivory/90 backdrop-blur-md lg:inline-flex"
+              style={{ left: item.x, top: item.y }}
+            >
+              {item.label}
+            </motion.span>
+          ))
+        : null}
+
+      <div className="relative z-10 mx-auto grid min-h-[100svh] w-full max-w-[1200px] items-center gap-14 px-4 pb-20 pt-36 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20 lg:px-8 lg:pb-16 lg:pt-40">
+        <motion.div
+          initial={reduced ? false : { opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+          className="motion-safe:animate-breathe-soft flex max-w-2xl flex-col items-start rounded-3xl border border-white/10 bg-black/35 p-6 text-left backdrop-blur-md sm:p-8 lg:border-transparent lg:bg-transparent lg:p-0 lg:backdrop-blur-none"
+        >
           <motion.h1
             variants={stagger}
             initial="hidden"
             animate="visible"
-            className="mt-6 text-4xl font-black leading-tight text-cliq-text-heading lg:text-6xl"
+            className="mt-8 font-display text-5xl leading-[1.05] tracking-tight text-cedar-ivory/95 sm:mt-10 sm:text-6xl lg:text-[4.85rem]"
           >
-            {words.map((word, idx) => (
-              <motion.span key={word} variants={wordReveal} className="block text-cliq-text-heading">
-                {idx === words.length - 1 ? <span className="text-gradient">{word}</span> : word}
+            {["Findable.", "Credible.", "Paid faster."].map((word) => (
+              <motion.span key={word} variants={wordReveal} className="block">
+                {word}
               </motion.span>
             ))}
           </motion.h1>
+          <motion.p
+            initial={reduced ? false : { opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25 }}
+            className="mt-8 max-w-xl text-lg leading-relaxed text-cedar-mist/90 sm:mt-10 sm:text-xl"
+          >
+            We combine websites, payments, invoicing, and business email into one professional setup
+            so customers find you, trust you, and pay you faster.
+          </motion.p>
 
-          <p className="mt-6 max-w-lg text-lg text-cliq-text-body">
-            Customers search for you before they buy from you.{" "}
-            <strong className="font-semibold text-cliq-text-heading">what do they find?</strong> We set up your website,
-            payments, invoicing, business email, and automation so you look credible and get paid faster.
+          <motion.div
+            initial={reduced ? false : { opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.35 }}
+            className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3 sm:mt-12"
+          >
+            <Button href="/signup" variant="accent" className="min-h-12 px-7">
+              Get started
+            </Button>
+            <Button href="/contact" variant="ghost" className="min-h-12 px-0">
+              Book free consultation
+            </Button>
+          </motion.div>
+          <p className="pt-10 text-sm text-white/40 sm:pt-12">
+            Trusted by food stores, pharmacies, churches, startups & more.
           </p>
-          <div className="mt-8 flex flex-wrap items-center gap-2">
-            <Button
-              href="/signup"
-              variant="dark"
-              className="min-w-[140px] rounded-xl px-4 py-3 text-center text-xs font-bold leading-tight sm:px-5 sm:text-sm"
-            >
-              Get Started
-            </Button>
-            <span className="inline-flex items-center gap-1 text-xs font-semibold text-cliq-text-body sm:text-sm">
-              or <span aria-hidden="true">→</span>
-            </span>
-            <Button
-              href="/contact"
-              variant="ghost"
-              className="min-w-[180px] rounded-xl px-0 py-3 text-left text-xs font-semibold leading-tight text-cliq-navy-900 underline underline-offset-4 decoration-cliq-navy-900 transition hover:bg-transparent hover:text-cliq-teal sm:text-sm"
-            >
-              Book your free consultation
-            </Button>
+        </motion.div>
+
+        <div className="relative mx-auto w-full max-w-md lg:mx-0 lg:max-w-none lg:self-center">
+          <div className="relative h-[22rem] sm:h-[26rem] lg:h-[30rem]">
+            {outcomes.map((card, i) => (
+              <motion.article
+                key={card.title}
+                initial={reduced ? false : { opacity: 0, y: 28, scale: 0.98 }}
+                animate={
+                  reduced
+                    ? { opacity: 1, y: 0, scale: 1 }
+                    : {
+                        opacity: 1,
+                        y: [0, -10, 0],
+                        scale: 1,
+                        transition: {
+                          opacity: { delay: 0.2 + i * 0.12, duration: 0.55 },
+                          scale: { delay: 0.2 + i * 0.12, duration: 0.55 },
+                          y: {
+                            delay: 0.9 + i * 0.25,
+                            duration: 4.2 + i * 0.35,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                          },
+                        },
+                      }
+                }
+                className={`absolute w-[90%] overflow-hidden rounded-[1.75rem] border border-white/20 bg-black/30 shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-[6px] sm:w-[86%] ${card.className}`}
+              >
+                <div className="flex">
+                  <div className="flex w-[42%] flex-col justify-between bg-cedar-accent/70 px-4 py-5 text-black sm:px-5 sm:py-6">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.2em]">Outcome</p>
+                    <p className="text-3xl font-bold leading-none">{card.accent}</p>
+                  </div>
+                  <div className="flex flex-1 flex-col justify-center px-5 py-5 sm:px-6">
+                    <p className="text-lg font-bold text-cedar-ivory/95 sm:text-xl">{card.title}</p>
+                    <p className="mt-1 text-sm text-cedar-mist/85">{card.meta}</p>
+                  </div>
+                </div>
+              </motion.article>
+            ))}
           </div>
-          <div className="mt-8">
-          <p className="mt-6 text-sm text-cliq-text-muted">
-              ✦ Trusted by food stores, pharmacies, churches, startups &amp; more businesses.
-            </p>
-          </div>
-        </div>
-        <div className="space-y-4">
-          {notifications.map((card, idx) => (
-            <FloatingCard key={card.title} {...card} index={idx} />
-          ))}
         </div>
       </div>
     </section>

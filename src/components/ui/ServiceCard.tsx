@@ -1,5 +1,5 @@
-import type { ReactNode } from "react";
-import { motion } from "framer-motion";
+"use client";
+
 import Link from "next/link";
 import {
   CreditCard,
@@ -14,9 +14,6 @@ import {
   Users,
 } from "lucide-react";
 import type { Service } from "@/lib/constants";
-import Badge from "@/components/ui/Badge";
-import { ruledCell } from "@/lib/ruled-layout";
-import { cn } from "@/lib/utils";
 
 const iconMap = {
   Globe,
@@ -35,23 +32,23 @@ export default function ServiceCard({ service }: { service: Service }) {
   const Icon = iconMap[service.icon as keyof typeof iconMap] ?? Globe;
 
   return (
-    <motion.div className={cn("group h-full", ruledCell)}>
-      <div className="mb-4 w-fit rounded-xl bg-cliq-purple-soft p-3">
-        <Icon className="h-6 w-6 text-cliq-purple" />
+    <article className="group flex h-full flex-col rounded-3xl border border-white/10 bg-zinc-950 p-6 transition hover:border-cedar-accent/35 hover:bg-cedar-accentSoft sm:p-7">
+      <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04]">
+        <Icon className="h-5 w-5 text-cedar-accent" />
       </div>
       {service.badge ? (
-        <Badge variant="popular" className="mb-3">
+        <span className="mb-2 inline-block text-[11px] font-semibold uppercase tracking-[0.2em] text-cedar-accent">
           {service.badge}
-        </Badge>
+        </span>
       ) : null}
-      <h3 className="mb-2 text-lg font-bold text-cliq-text-heading">{service.name}</h3>
-      <p className="mb-4 text-sm leading-relaxed text-cliq-text-body">{service.desc}</p>
+      <h3 className="mb-2 text-xl font-semibold text-cedar-ivory">{service.name}</h3>
+      <p className="mb-6 flex-1 text-sm leading-relaxed text-cedar-mist">{service.desc}</p>
       <Link
         href={`/services/${service.id}`}
-        className="text-sm font-semibold text-cliq-purple"
+        className="inline-flex items-center gap-1 text-sm font-semibold text-cedar-accent transition group-hover:gap-2"
       >
-        See what we can build for you →
+        Learn more →
       </Link>
-    </motion.div>
+    </article>
   );
 }

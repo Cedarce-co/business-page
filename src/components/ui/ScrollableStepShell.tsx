@@ -7,9 +7,11 @@ import {
   stepShellHeightClass,
   type StepShellVariant,
 } from "@/components/ui/step-panel-layout";
+import { cn } from "@/lib/utils";
 
 export {
   formPanelHeightClass,
+  formPanelShellClass,
   stepPanelCompactHeightClass,
   stepPanelHeightClass,
   stepShellHeightClass,
@@ -17,7 +19,7 @@ export {
 } from "@/components/ui/step-panel-layout";
 
 const footerClass =
-  "shrink-0 border-t border-slate-100/80 bg-white/80 pt-4 backdrop-blur-sm pb-[max(0px,env(safe-area-inset-bottom))]";
+  "shrink-0 border-t border-slate-100/80 bg-white/80 pt-4 backdrop-blur-sm pb-[max(0.75rem,env(safe-area-inset-bottom))]";
 
 export default function ScrollableStepShell({
   header,
@@ -49,12 +51,17 @@ export default function ScrollableStepShell({
 
   return (
     <div
-      className={`grid border border-slate-200/90 bg-white/80 ${heightClass} grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden p-6 sm:p-7 ${className}`}
+      className={cn(
+        "grid border border-slate-200/90 bg-white/80",
+        heightClass,
+        "grid-rows-[auto_auto_auto] overflow-visible p-4 sm:p-6 lg:grid-rows-[auto_minmax(0,1fr)_auto] lg:overflow-hidden lg:p-7",
+        className,
+      )}
     >
       {header ? <div className="shrink-0">{header}</div> : null}
       <div
         ref={scrollRef}
-        className="inner-scroll step-scroll-area min-h-0 overflow-y-auto overscroll-y-contain pr-1"
+        className="inner-scroll step-scroll-area min-h-0 overflow-visible overscroll-y-contain pr-0 lg:overflow-y-auto lg:pr-1"
       >
         {children}
       </div>

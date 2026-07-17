@@ -746,3 +746,68 @@ export function marketingPagePath(category: "product" | "solution" | "pricing", 
   if (category === "pricing") return `/pricing/${slug}`;
   return category === "product" ? `/product/${slug}` : `/solutions/${slug}`;
 }
+
+export type MarketingCatalogEntry = {
+  id: string;
+  title: string;
+  description: string;
+  href: string;
+  icon: LucideIcon;
+};
+
+/** Navbar order — product catalog index at /product */
+export const PRODUCT_CATALOG_ORDER = [
+  "website-landing-pages",
+  "domain-hosting",
+  "business-email",
+  "payments-integration",
+  "invoicing-receipts",
+  "bulk-messaging",
+  "marketing-setup",
+  "staff-training",
+  "integrations",
+] as const;
+
+/** Navbar order — solutions catalog index at /solutions */
+export const SOLUTION_CATALOG_ORDER = [
+  "self-employed",
+  "micro-businesses",
+  "smes",
+  "associations",
+  "business-launch-setup",
+  "brand-and-automation",
+] as const;
+
+export function getMarketingCatalogEntries(
+  category: "product" | "solution"
+): MarketingCatalogEntry[] {
+  const order = category === "product" ? PRODUCT_CATALOG_ORDER : SOLUTION_CATALOG_ORDER;
+  const map = category === "product" ? PRODUCT_PAGES : SOLUTION_PAGES;
+
+  const ordered: MarketingCatalogEntry[] = [];
+  for (const slug of order) {
+    const page = map[slug];
+    if (!page) continue;
+    ordered.push({
+      id: slug,
+      title: page.title,
+      description: page.lead,
+      href: marketingPagePath(category, slug),
+      icon: page.icon,
+    });
+  }
+
+  const seen = new Set(ordered.map((entry) => entry.id));
+  for (const [slug, page] of Object.entries(map)) {
+    if (seen.has(slug)) continue;
+    ordered.push({
+      id: slug,
+      title: page.title,
+      description: page.lead,
+      href: marketingPagePath(category, slug),
+      icon: page.icon,
+    });
+  }
+
+  return ordered;
+}

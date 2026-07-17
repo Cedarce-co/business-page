@@ -1,14 +1,15 @@
-/** Step-by-step intake wizard (one question per screen). */
-export const stepPanelHeightClass =
-  "h-[calc(100dvh-12rem)] lg:h-[calc(100dvh-15rem)]";
+/** Step-by-step intake wizard (one question per screen). Desktop only: fixed viewport panel. */
+export const stepPanelHeightClass = "max-lg:h-auto lg:h-[calc(100dvh-15rem)]";
 
 /** Wizard when another block sits above it (e.g. verification banner). */
-export const stepPanelCompactHeightClass =
-  "h-[calc(100dvh-12rem)] lg:h-[calc(100dvh-23rem)]";
+export const stepPanelCompactHeightClass = "max-lg:h-auto lg:h-[calc(100dvh-23rem)]";
 
 /** Full-form edit / read panels. Taller than the step wizard. */
-export const formPanelHeightClass =
-  "h-[calc(100dvh-12rem)] lg:h-[calc(100dvh-14rem)]";
+export const formPanelHeightClass = "max-lg:h-auto lg:h-[calc(100dvh-14rem)]";
+
+/** Flex shell for read-only intake panels (mobile scrolls with page). */
+export const formPanelShellClass =
+  "flex flex-col max-lg:overflow-visible lg:min-h-0 lg:overflow-hidden";
 
 export type StepShellVariant = "wizard" | "wizard-compact" | "form";
 

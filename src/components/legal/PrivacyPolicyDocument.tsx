@@ -5,17 +5,17 @@ const SITE = "https://cedarce.com";
 
 export default function PrivacyPolicyDocument() {
   return (
-    <article className="space-y-6 text-cliq-text-body">
-      <header className="space-y-2 border-b border-cliq-gray-200 pb-8">
-        <p className="text-sm font-semibold text-cliq-text-heading">Cedarce Co</p>
-        <h1 className="text-4xl font-black text-cliq-text-heading">Privacy Policy</h1>
-        <p className="text-sm text-cliq-text-muted">
+    <article className="space-y-6 text-cedar-mist">
+      <header className="space-y-2 border-b border-white/10 pb-8">
+        <p className="text-sm font-semibold text-cedar-ivory">Cedarce Co</p>
+        <h1 className="text-4xl font-display text-cedar-ivory">Privacy Policy</h1>
+        <p className="text-sm text-cedar-mist">
           Effective Date: May 1, 2026 at 12:00 AM · Last Updated: June 3, 2026 at 12:00 AM
         </p>
       </header>
 
       <section className="space-y-3">
-        <h2 className="text-2xl font-bold text-cliq-text-heading">1. Introduction</h2>
+        <h2 className="text-2xl font-bold text-cedar-ivory">1. Introduction</h2>
         <p className="leading-relaxed">
           Welcome to Cedarce. We are a digital business services company registered in Nigeria, helping businesses set up their websites, payments, invoicing, business email, bulk messaging, mobile apps, and more.
         </p>
@@ -28,7 +28,7 @@ export default function PrivacyPolicyDocument() {
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-2xl font-bold text-cliq-text-heading">2. Who We Are</h2>
+        <h2 className="text-2xl font-bold text-cedar-ivory">2. Who We Are</h2>
         <p className="leading-relaxed">
           <strong>Cedarce Co</strong>
         </p>
@@ -36,8 +36,8 @@ export default function PrivacyPolicyDocument() {
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-2xl font-bold text-cliq-text-heading">3. Information We Collect</h2>
-        <h3 className="text-lg font-semibold text-cliq-text-heading">3.1 Information You Give Us Directly</h3>
+        <h2 className="text-2xl font-bold text-cedar-ivory">3. Information We Collect</h2>
+        <h3 className="text-lg font-semibold text-cedar-ivory">3.1 Information You Give Us Directly</h3>
         <ul className="list-disc space-y-2 pl-6 leading-relaxed">
           <li>Full name</li>
           <li>Business name</li>
@@ -49,7 +49,7 @@ export default function PrivacyPolicyDocument() {
           <li>Payment-related information submitted through our request forms</li>
           <li>Any other information you voluntarily provide when filling out a form, booking a consultation, or contacting us</li>
         </ul>
-        <h3 className="text-lg font-semibold text-cliq-text-heading">3.2 Information We Collect Automatically</h3>
+        <h3 className="text-lg font-semibold text-cedar-ivory">3.2 Information We Collect Automatically</h3>
         <p className="leading-relaxed">When you visit our site, we may automatically collect:</p>
         <ul className="list-disc space-y-2 pl-6 leading-relaxed">
           <li>IP address</li>
@@ -60,7 +60,7 @@ export default function PrivacyPolicyDocument() {
           <li>Approximate location (country/region/city) derived from IP address for security and fraud prevention</li>
           <li>Date and time of your visit</li>
         </ul>
-        <h3 className="text-lg font-semibold text-cliq-text-heading">3.3 Client portal and verification data</h3>
+        <h3 className="text-lg font-semibold text-cedar-ivory">3.3 Client portal and verification data</h3>
         <p className="leading-relaxed">When you create an account and use our client portal, we also collect and process:</p>
         <ul className="list-disc space-y-2 pl-6 leading-relaxed">
           <li>Account credentials (stored as secure password hashes)</li>
@@ -71,7 +71,7 @@ export default function PrivacyPolicyDocument() {
             duration) to protect your account and our platform
           </li>
         </ul>
-        <h3 className="text-lg font-semibold text-cliq-text-heading">3.4 Information From Third Parties</h3>
+        <h3 className="text-lg font-semibold text-cedar-ivory">3.4 Information From Third Parties</h3>
         <p className="leading-relaxed">We may receive information from third-party platforms such as:</p>
         <ul className="list-disc space-y-2 pl-6 leading-relaxed">
           <li>Payment processors (e.g. Paystack, Flutterwave) when we integrate payment services for your business</li>
@@ -81,7 +81,7 @@ export default function PrivacyPolicyDocument() {
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-2xl font-bold text-cliq-text-heading">4. How We Use Your Information</h2>
+        <h2 className="text-2xl font-bold text-cedar-ivory">4. How We Use Your Information</h2>
         <p className="leading-relaxed">We use the information we collect to:</p>
         <ul className="list-disc space-y-2 pl-6 leading-relaxed">
           <li>Respond to your service requests and enquiries</li>
@@ -99,7 +99,7 @@ export default function PrivacyPolicyDocument() {
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-2xl font-bold text-cliq-text-heading">5. How We Share Your Information</h2>
+        <h2 className="text-2xl font-bold text-cedar-ivory">5. How We Share Your Information</h2>
         <p className="leading-relaxed">
           We do not sell, rent, or trade your personal information to any third party.
         </p>
@@ -121,7 +121,7 @@ export default function PrivacyPolicyDocument() {
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-2xl font-bold text-cliq-text-heading">6. Data Storage and Security</h2>
+        <h2 className="text-2xl font-bold text-cedar-ivory">6. Data Storage and Security</h2>
         <p className="leading-relaxed">
           Your information is stored securely on our systems. We take reasonable technical and organisational measures to protect your data from unauthorised access, loss, misuse, or disclosure.
         </p>
@@ -140,7 +140,7 @@ export default function PrivacyPolicyDocument() {
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-2xl font-bold text-cliq-text-heading">7. How Long We Keep Your Data</h2>
+        <h2 className="text-2xl font-bold text-cedar-ivory">7. How Long We Keep Your Data</h2>
         <p className="leading-relaxed">We retain your personal information for as long as is necessary to:</p>
         <ul className="list-disc space-y-2 pl-6 leading-relaxed">
           <li>Deliver and support the services you have requested</li>
@@ -151,7 +151,7 @@ export default function PrivacyPolicyDocument() {
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-2xl font-bold text-cliq-text-heading">8. Your Rights</h2>
+        <h2 className="text-2xl font-bold text-cedar-ivory">8. Your Rights</h2>
         <p className="leading-relaxed">As a user of our services, you have the right to:</p>
         <ul className="list-disc space-y-2 pl-6 leading-relaxed">
           <li>
@@ -176,7 +176,7 @@ export default function PrivacyPolicyDocument() {
       </section>
 
       <section id="cookies" className="space-y-3 scroll-mt-28">
-        <h2 className="text-2xl font-bold text-cliq-text-heading">9. Cookies and similar technologies</h2>
+        <h2 className="text-2xl font-bold text-cedar-ivory">9. Cookies and similar technologies</h2>
         <p className="leading-relaxed">
           Our website uses cookies and similar technologies. When you first visit our marketing site, we show a cookie banner until you accept optional cookies or decline them.
         </p>
@@ -201,21 +201,21 @@ export default function PrivacyPolicyDocument() {
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-2xl font-bold text-cliq-text-heading">10. Third-Party Links</h2>
+        <h2 className="text-2xl font-bold text-cedar-ivory">10. Third-Party Links</h2>
         <p className="leading-relaxed">
           Our website may contain links to third-party websites, tools, or services. We are not responsible for the privacy practices or content of those external sites. We encourage you to read their privacy policies before providing any personal information.
         </p>
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-2xl font-bold text-cliq-text-heading">11. Children&apos;s Privacy</h2>
+        <h2 className="text-2xl font-bold text-cedar-ivory">11. Children&apos;s Privacy</h2>
         <p className="leading-relaxed">
           Our services are intended for businesses and individuals aged 18 and above. We do not knowingly collect personal information from anyone under the age of 18. If we discover that we have inadvertently collected data from a minor, we will delete it immediately.
         </p>
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-2xl font-bold text-cliq-text-heading">12. Changes to This Policy</h2>
+        <h2 className="text-2xl font-bold text-cedar-ivory">12. Changes to This Policy</h2>
         <p className="leading-relaxed">
           We may update this Privacy Policy from time to time to reflect changes in our services, technology, or legal requirements. When we do, we will update the &quot;Last Updated&quot; date at the top of this page.
         </p>
@@ -225,7 +225,7 @@ export default function PrivacyPolicyDocument() {
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-2xl font-bold text-cliq-text-heading">13. Contact Us</h2>
+        <h2 className="text-2xl font-bold text-cedar-ivory">13. Contact Us</h2>
         <p className="leading-relaxed">
           If you have any questions, concerns, or requests regarding this Privacy Policy, please reach out to us:
         </p>
@@ -235,7 +235,7 @@ export default function PrivacyPolicyDocument() {
         <ContactInfoList variant="legal" showWebsite showHours hours="full" className="mt-2" />
       </section>
 
-      <p className="border-t border-cliq-gray-200 pt-8 text-sm text-cliq-text-muted">
+      <p className="border-t border-white/10 pt-8 text-sm text-cedar-mist">
         © {new Date().getFullYear()} Cedarce Co. All rights reserved.
       </p>
     </article>

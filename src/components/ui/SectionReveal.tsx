@@ -9,34 +9,51 @@ export default function SectionReveal({
   children,
   className,
   delay = 0,
+  preserveSticky = false,
+  id,
 }: {
   children: ReactNode;
   className?: string;
   delay?: number;
+  /** Uses opacity-only motion so sticky descendants keep their viewport containing block. */
+  preserveSticky?: boolean;
+  id?: string;
 }) {
   const reduced = useReducedMotion();
 
   if (reduced) {
-    return <section className={className}>{children}</section>;
+    return (
+      <section id={id} className={className}>
+        {children}
+      </section>
+    );
   }
 
   return (
     <motion.section
+      id={id}
       initial="hidden"
       whileInView="visible"
       viewport={viewport}
-      variants={{
-        hidden: fadeUp.hidden,
-        visible: {
-          ...fadeUp.visible,
-          transition: {
-            ...(typeof fadeUp.visible === "object" && "transition" in fadeUp.visible
-              ? fadeUp.visible.transition
-              : {}),
-            delay,
-          },
-        },
-      }}
+      variants={
+        preserveSticky
+          ? {
+              hidden: { opacity: 0 },
+              visible: { opacity: 1, transition: { duration: 0.45, delay } },
+            }
+          : {
+              hidden: fadeUp.hidden,
+              visible: {
+                ...fadeUp.visible,
+                transition: {
+                  ...(typeof fadeUp.visible === "object" && "transition" in fadeUp.visible
+                    ? fadeUp.visible.transition
+                    : {}),
+                  delay,
+                },
+              },
+            }
+      }
       className={className}
     >
       {children}

@@ -1,42 +1,38 @@
 "use client";
 
+import Image from "next/image";
 import Button from "@/components/ui/Button";
 import SectionReveal from "@/components/ui/SectionReveal";
+import { FINAL_CTA_IMAGE } from "@/lib/marketing-images";
 
 export default function FinalCTASection() {
   return (
-    <SectionReveal className="bg-white py-20 lg:py-28">
+    <SectionReveal className="bg-black pb-28 pt-20 lg:pb-28 lg:pt-28">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden rounded-3xl border border-cliq-gray-200 bg-white px-6 py-12 shadow-card sm:px-10 lg:px-14">
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0 opacity-60"
-            style={{
-              background:
-                "radial-gradient(1200px 300px at 20% 35%, rgba(2,132,199,0.12), transparent 60%),radial-gradient(900px 260px at 70% 40%, rgba(16,185,129,0.10), transparent 58%),radial-gradient(1000px 260px at 50% 65%, rgba(99,102,241,0.10), transparent 60%)",
-            }}
-          />
-          <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.06] [background-image:radial-gradient(#111122_1px,transparent_1px)] [background-size:18px_18px]" />
-
-          <div className="relative grid items-start gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
-            <div className="flex min-w-0 flex-col items-center text-center md:max-w-[600px] md:items-start md:text-left">
-              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-cliq-text-muted">Trust</p>
-              <h2 className="mt-3 text-3xl font-black leading-tight text-cliq-text-heading sm:text-4xl lg:text-5xl">
+        <div className="relative overflow-hidden border border-white/10">
+          <div className="absolute inset-0">
+            <Image
+              src={FINAL_CTA_IMAGE.src}
+              alt=""
+              fill
+              sizes="1200px"
+              className="object-cover"
+            />
+            <div className="absolute inset-0 bg-black/75" />
+            <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-black/50" />
+          </div>
+          <div className="relative grid items-center gap-8 px-6 py-14 text-center sm:px-10 lg:grid-cols-[1fr_auto] lg:px-16 lg:text-left">
+            <div className="flex min-w-0 flex-col items-center lg:items-start">
+              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-cedar-accent">Next step</p>
+              <h2 className="mt-4 font-display text-3xl leading-tight text-cedar-ivory sm:text-4xl lg:text-5xl">
                 Look credible where people check first.
               </h2>
-              <p className="mt-4 text-lg leading-relaxed text-cliq-text-body">
-                When details are thin or inconsistent, people naturally grow skeptical. A clear website, business email,
-                and professional touchpoints help you show up the way buyers expect. First impressions happen online. Make
-                yours count.
+              <p className="mt-4 max-w-xl text-lg leading-relaxed text-white/75">
+                A clear website, business email, and professional touchpoints help you show up the way buyers expect.
               </p>
             </div>
-
-            <div className="flex flex-col gap-3 sm:flex-row lg:flex-col lg:items-stretch">
-              <Button
-                href="/signup"
-                variant="secondary"
-                className="rounded-xl border-2 !border-emerald-600 bg-white px-6 py-3 text-sm font-bold !text-cliq-navy-800 shadow-sm transition hover:!border-emerald-700 hover:bg-emerald-50 whitespace-nowrap"
-              >
+            <div className="flex w-full justify-center lg:w-auto lg:justify-start">
+              <Button href="/signup" variant="accent" className="whitespace-nowrap px-8">
                 Get started for free
               </Button>
             </div>

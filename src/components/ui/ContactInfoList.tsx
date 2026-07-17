@@ -32,22 +32,22 @@ type Props = {
 function rowClass(variant: Variant) {
   if (variant === "dark") return "text-sm text-white/85";
   if (variant === "dashboard") return "text-sm text-slate-900";
-  if (variant === "legal") return "text-sm leading-relaxed text-cliq-text-body";
-  return "text-sm text-cliq-text-body";
+  if (variant === "legal") return "text-sm leading-relaxed text-cedar-mist";
+  return "text-sm text-cedar-mist";
 }
 
 function linkClass(variant: Variant) {
   if (variant === "dark") return "font-medium underline-offset-2 hover:underline";
   if (variant === "dashboard") return "font-semibold underline-offset-4 hover:underline";
-  if (variant === "legal") return "font-medium text-cliq-text-heading underline-offset-4 hover:underline";
+  if (variant === "legal") return "font-medium text-cedar-ivory underline-offset-4 hover:underline";
   return "font-medium underline-offset-4 hover:underline";
 }
 
 function hoursClass(variant: Variant) {
   if (variant === "dark") return "text-white/85";
   if (variant === "dashboard") return "text-slate-700";
-  if (variant === "legal") return "text-cliq-text-muted";
-  return "text-cliq-text-muted";
+  if (variant === "legal") return "text-cedar-mist";
+  return "text-cedar-mist";
 }
 
 function ContactRow({

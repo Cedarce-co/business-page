@@ -34,9 +34,9 @@ function Marquee({ items, reverse }: { items: string[]; reverse?: boolean }) {
     <div className="overflow-hidden py-3">
       <div className={`flex w-max ${reverse ? "animate-marquee-r" : "animate-marquee"}`}>
         {list.map((item, index) => (
-          <span key={`${item}-${index}`} className="text-sm font-medium text-cliq-text-muted">
+          <span key={`${item}-${index}`} className="text-sm font-medium text-cedar-mist">
             {item}
-            <span className="mx-3 text-cliq-navy-500">•</span>
+            <span className="mx-3 text-cedar-accent/50">·</span>
           </span>
         ))}
       </div>
@@ -46,7 +46,7 @@ function Marquee({ items, reverse }: { items: string[]; reverse?: boolean }) {
 
 export default function TickerSection() {
   return (
-    <section className="border-y border-cliq-gray-200 bg-cliq-gray-100">
+    <section className="border-y border-white/10 bg-black">
       <div className="mx-auto max-w-[1200px] overflow-hidden px-4 sm:px-6 lg:px-8">
         <Marquee items={rowOne} />
         <Marquee items={rowTwo} reverse />

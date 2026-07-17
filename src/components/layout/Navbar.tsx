@@ -2,17 +2,18 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, ChevronDown, Globe, Menu, X } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { ArrowUpRight, ChevronDown, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import Button from "@/components/ui/Button";
 import { navbarBannerMotion } from "@/lib/animations";
-import { LOGO_LIGHT_BG, LOGO_NAV_SIZES } from "@/lib/brand-logos";
+import { LOGO_DARK_BG, LOGO_NAV_SIZES } from "@/lib/brand-logos";
 import { useSession, signOut } from "next-auth/react";
 
 const links = [
-  { href: "/services", label: "Solutions" },
-  { href: "/about", label: "Product" },
+  { href: "/solutions", label: "Solutions" },
+  { href: "/product", label: "Product" },
   { href: "/pricing", label: "Pricing" },
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
@@ -50,7 +51,7 @@ const megaMenus: Record<string, MegaBlock> = {
     cardTag: "By stage",
     cardTitle: "Which situation sounds like yours?",
     cardText: "Browse solutions for freelancers, micro-businesses, SMEs, and associations, mapped to the right service mix.",
-    cardCtaHref: "/services",
+    cardCtaHref: "/solutions",
     cardCtaLabel: "Browse solutions",
     footerLink: "Talk to our team",
     footerLinkHref: "/contact",
@@ -74,7 +75,7 @@ const megaMenus: Record<string, MegaBlock> = {
     cardTag: "Platform",
     cardTitle: "Portal, verification & delivery ops",
     cardText: "See how Cedarce runs client onboarding, KYC, service requests, and admin workflows as one product.",
-    cardCtaHref: "/about",
+    cardCtaHref: "/product",
     cardCtaLabel: "Explore product",
     footerLink: "Compare packages",
     footerLinkHref: "/pricing",
@@ -103,13 +104,17 @@ const megaMenus: Record<string, MegaBlock> = {
 };
 
 export default function Navbar() {
+  const pathname = usePathname();
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
   const [activeMega, setActiveMega] = useState<string | null>(null);
   const [showTopBanner, setShowTopBanner] = useState(true);
   const [bannerEnter, setBannerEnter] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const headerRef = useRef<HTMLElement | null>(null);
   const closeTimer = useRef<number | null>(null);
   const lastScrollY = useRef(0);
+  const transparentChrome = pathname === "/" && !scrolled && !open && !activeMega;
 
   useEffect(() => {
     const id = requestAnimationFrame(() => setBannerEnter(true));
@@ -117,9 +122,7 @@ export default function Navbar() {
   }, []);
 
   const startCloseDelay = () => {
-    if (closeTimer.current) {
-      window.clearTimeout(closeTimer.current);
-    }
+    if (closeTimer.current) window.clearTimeout(closeTimer.current);
     closeTimer.current = window.setTimeout(() => setActiveMega(null), 180);
   };
 
@@ -132,33 +135,56 @@ export default function Navbar() {
 
   useEffect(() => {
     return () => {
-      if (closeTimer.current) {
-        window.clearTimeout(closeTimer.current);
-      }
+      if (closeTimer.current) window.clearTimeout(closeTimer.current);
     };
   }, []);
 
   useEffect(() => {
     const onScroll = () => {
       const y = window.scrollY;
-
-      if (y < 40) {
-        setShowTopBanner(true);
-      } else if (y > lastScrollY.current + 4) {
-        setShowTopBanner(false);
-      } else if (y < lastScrollY.current - 4) {
-        setShowTopBanner(true);
-      }
-
+      setScrolled(y > 16);
+      if (y < 40) setShowTopBanner(true);
+      else if (y > lastScrollY.current + 4) setShowTopBanner(false);
+      else if (y < lastScrollY.current - 4) setShowTopBanner(true);
       lastScrollY.current = y;
     };
-
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => {
+    const header = headerRef.current;
+    if (!header) return;
+
+    const syncNavHeight = () => {
+      document.documentElement.style.setProperty(
+        "--site-nav-height",
+        `${Math.ceil(header.getBoundingClientRect().height)}px`,
+      );
+    };
+
+    syncNavHeight();
+    const observer = new ResizeObserver(syncNavHeight);
+    observer.observe(header);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
   return (
-    <header className="fixed left-0 right-0 top-0 z-40 border-b border-cliq-gray-200 bg-white/95 backdrop-blur-xl transition">
+    <header
+      ref={headerRef}
+      className={`fixed left-0 right-0 top-0 z-40 border-b transition-colors duration-300 ${
+        transparentChrome
+          ? "border-white/10 bg-black/15 backdrop-blur-sm"
+          : "border-white/10 bg-black/80 backdrop-blur-xl"
+      }`}
+    >
       <AnimatePresence>
         {showTopBanner ? (
           <motion.div
@@ -167,59 +193,51 @@ export default function Navbar() {
             animate={bannerEnter ? navbarBannerMotion.animate : navbarBannerMotion.initial}
             exit={navbarBannerMotion.exit}
             transition={navbarBannerMotion.transition}
-            className="overflow-hidden border-b border-cliq-gray-200 bg-[#EAF4FF]"
+            className={`overflow-hidden border-b border-white/10 transition-colors duration-300 ${
+              transparentChrome ? "bg-black/15" : "bg-cedar-raised"
+            }`}
           >
-            <div className="relative mx-auto flex w-full max-w-[1440px] flex-col items-center justify-center gap-3 px-6 py-4 text-center text-[15px] text-cliq-text-heading sm:flex-row sm:text-left sm:px-10 lg:gap-6 lg:px-12">
+            <div className="relative mx-auto flex w-full max-w-[1440px] flex-col items-center justify-center gap-3 px-6 py-3 text-center text-sm text-cedar-ivory/90 sm:flex-row sm:text-left sm:px-10 lg:gap-6 lg:px-12">
               <span className="max-w-[56rem] text-center font-medium">
-                The gap between where your business is and where it should be is one digital setup away. We close it fast.
+                The gap between where your business is and where it should be is one digital setup away.
               </span>
-              <span className="flex shrink-0 flex-wrap items-center justify-center gap-2">
-                <Link
-                  href="/signup"
-                  className="rounded-lg px-4 py-1.5 text-sm font-semibold text-cliq-text-heading transition underline-offset-2 hover:text-cliq-purple"
-                >
-                  Get started for free now →
-                </Link>
-              </span>
+              <Link
+                href="/signup"
+                className="shrink-0 text-sm font-semibold text-cedar-accent transition hover:text-cedar-ivory"
+              >
+                Get started →
+              </Link>
             </div>
           </motion.div>
         ) : null}
       </AnimatePresence>
+
       <div className="mx-auto flex h-[72px] w-full max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:h-[84px] lg:px-10">
-        <Link
-          href="/"
-          className="flex min-w-0 shrink-0 items-center"
-          aria-label="Home"
-        >
+        <Link href="/" className="flex min-w-0 shrink-0 items-center" aria-label="Home">
           <span className="flex items-center sm:hidden">
             <Image
-              src={LOGO_LIGHT_BG.mobile}
+              src={LOGO_DARK_BG.mobile}
               alt="Cedarce"
               width={LOGO_NAV_SIZES.mobile.width}
               height={LOGO_NAV_SIZES.mobile.height}
-              style={{
-                width: LOGO_NAV_SIZES.mobile.width,
-                height: LOGO_NAV_SIZES.mobile.height,
-              }}
+              style={{ width: LOGO_NAV_SIZES.mobile.width, height: LOGO_NAV_SIZES.mobile.height }}
               className="object-contain object-left"
               priority
             />
           </span>
           <span className="hidden items-center sm:flex">
             <Image
-              src={LOGO_LIGHT_BG.desktop}
+              src={LOGO_DARK_BG.desktop}
               alt="Cedarce"
               width={LOGO_NAV_SIZES.desktopLg.width}
               height={LOGO_NAV_SIZES.desktopLg.height}
-              style={{
-                width: LOGO_NAV_SIZES.desktopLg.width,
-                height: LOGO_NAV_SIZES.desktopLg.height,
-              }}
+              style={{ width: LOGO_NAV_SIZES.desktopLg.width, height: LOGO_NAV_SIZES.desktopLg.height }}
               className="object-contain object-left"
               priority
             />
           </span>
         </Link>
+
         <nav className="hidden items-center gap-8 lg:flex" onMouseLeave={startCloseDelay}>
           {links.map((link) => (
             <Link
@@ -230,177 +248,180 @@ export default function Navbar() {
                 setActiveMega(megaMenus[link.label] ? link.label : null);
               }}
               onClick={() => setActiveMega(null)}
-              className="text-[15px] font-medium text-cliq-text-body transition hover:text-cliq-text-heading"
+              className="text-[15px] font-medium text-white/70 transition hover:text-cedar-ivory"
             >
               <span className="inline-flex items-center gap-1">
                 {link.label}
                 {megaMenus[link.label] ? (
                   <ChevronDown
-                    className={`h-3.5 w-3.5 transition ${
-                      activeMega === link.label ? "rotate-180" : ""
-                    }`}
+                    className={`h-3.5 w-3.5 transition ${activeMega === link.label ? "rotate-180" : ""}`}
                   />
                 ) : null}
               </span>
             </Link>
           ))}
         </nav>
-        <div className="hidden items-center gap-4 whitespace-nowrap lg:flex">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1 text-[15px] text-cliq-text-muted transition hover:text-cliq-text-heading"
-          >
-            <Globe className="h-3.5 w-3.5" />
-            EN
-          </Link>
+
+        <div className="hidden items-center gap-3 whitespace-nowrap lg:flex">
           {session?.user?.id ? (
-            <div className="flex items-center gap-2 rounded-2xl border-2 border-cliq-navy-900/10 bg-gradient-to-b from-white to-[#f1f5f9] p-1 shadow-[0_8px_30px_rgba(15,23,42,0.08)]">
+            <>
               <Link
                 href="/dashboard"
-                className="rounded-xl bg-cliq-navy-900 px-5 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-cliq-navy-800"
+                className="rounded-lg bg-cedar-ivory px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-white"
               >
                 Dashboard
               </Link>
               <button
                 type="button"
                 onClick={() => signOut({ callbackUrl: "/" })}
-                className="rounded-xl border-2 border-cliq-gray-300 bg-white px-4 py-2.5 text-sm font-bold text-cliq-navy-900 transition hover:border-cliq-gray-400 hover:bg-cliq-gray-100"
+                className="rounded-lg border border-white/20 px-4 py-2.5 text-sm font-semibold text-cedar-ivory transition hover:border-white/40"
               >
                 Sign out
               </button>
-            </div>
+            </>
           ) : (
-            <div className="flex items-center gap-2 rounded-2xl border-2 border-cliq-navy-900/12 bg-gradient-to-b from-white to-[#f0f7ff] p-1.5 pl-2 shadow-[0_8px_32px_rgba(37,99,235,0.12)]">
+            <>
               <Link
                 href="/signin"
-                className="rounded-xl px-4 py-2.5 text-sm font-bold text-cliq-navy-900 transition hover:bg-cliq-gray-100"
+                className="rounded-lg px-4 py-2.5 text-sm font-semibold text-white/80 transition hover:text-cedar-ivory"
               >
                 Sign in
               </Link>
               <Link
                 href="/signup"
-                className="inline-flex min-h-[40px] items-center justify-center whitespace-nowrap rounded-xl bg-cliq-navy-800 px-5 py-2.5 text-sm font-bold text-white shadow-md transition hover:bg-cliq-navy-900"
+                className="motion-safe:animate-breathe rounded-lg bg-cedar-accent px-5 py-2.5 text-sm font-semibold text-black transition hover:brightness-110 motion-safe:hover:[animation-play-state:paused]"
               >
                 Create account
               </Link>
-            </div>
+            </>
           )}
         </div>
+
         <button
           type="button"
-          className="rounded-lg border border-cliq-gray-300 bg-white p-1.5 text-cliq-text-heading lg:hidden"
+          className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-full border border-white/15 text-cedar-ivory lg:hidden"
           onClick={() => setOpen((s) => !s)}
-          aria-label="Open menu"
+          aria-label={open ? "Close menu" : "Open menu"}
+          aria-expanded={open}
         >
-          {open ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
-      {open ? (
-        <div className="border-b border-cliq-gray-200 bg-white lg:hidden">
-          <div className="mx-auto flex w-full max-w-[1440px] flex-col gap-3 px-4 py-4 sm:px-6 lg:px-10">
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-cliq-text-body"
-                onClick={() => setOpen(false)}
-              >
-                {link.label}
-              </Link>
-            ))}
-            {session?.user?.id ? (
-              <>
-                <Button href="/dashboard" full>
-                  Dashboard
-                </Button>
-                <button
-                  type="button"
-                  onClick={() => signOut({ callbackUrl: "/" })}
-                  className="w-full rounded-xl border-2 border-cliq-gray-300 bg-white px-5 py-3 text-sm font-bold text-cliq-navy-900 transition hover:border-cliq-gray-400 hover:bg-cliq-gray-100"
-                >
-                  Sign out
-                </button>
-              </>
-            ) : (
-              <div className="flex flex-col gap-2">
-                <Button href="/signin" full className="!font-bold hover:!bg-cliq-gray-100">
-                  Sign in
-                </Button>
+
+      <AnimatePresence>
+        {open ? (
+          <motion.div
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-x-0 bottom-0 top-[var(--site-nav-height)] z-50 flex flex-col overflow-y-auto border-t border-white/10 bg-black lg:hidden"
+          >
+            <div className="mx-auto flex w-full max-w-[1440px] flex-1 flex-col gap-1 px-4 py-6 sm:px-6">
+              {links.map((link) => (
                 <Link
-                  href="/signup"
-                  className="inline-flex w-full min-h-12 items-center justify-center rounded-xl bg-cliq-navy-800 px-5 py-3 text-sm font-bold text-white shadow-md transition hover:bg-cliq-navy-900"
+                  key={link.href}
+                  href={link.href}
+                  className="rounded-xl px-3 py-4 text-2xl font-display text-cedar-ivory transition hover:bg-white/5"
+                  onClick={() => setOpen(false)}
                 >
-                  Create account
+                  {link.label}
                 </Link>
+              ))}
+              <div className="mt-auto flex flex-col gap-3 border-t border-white/10 pt-6">
+                {session?.user?.id ? (
+                  <>
+                    <Button href="/dashboard" full onClick={() => setOpen(false)}>
+                      Dashboard
+                    </Button>
+                    <button
+                      type="button"
+                      onClick={() => signOut({ callbackUrl: "/" })}
+                      className="w-full rounded-lg border border-white/20 px-5 py-3 text-sm font-semibold text-cedar-ivory"
+                    >
+                      Sign out
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <Button href="/signin" variant="secondary" full onClick={() => setOpen(false)}>
+                      Sign in
+                    </Button>
+                    <Button href="/signup" variant="accent" full onClick={() => setOpen(false)}>
+                      Create account
+                    </Button>
+                  </>
+                )}
               </div>
-            )}
-          </div>
-        </div>
-      ) : null}
+            </div>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+
       {activeMega ? (
         <div
           onMouseEnter={cancelCloseDelay}
           onMouseLeave={startCloseDelay}
-          className="absolute left-0 right-0 top-full hidden border-b border-cliq-gray-200 bg-[#f7f8fb] text-cliq-text-heading shadow-[0_18px_40px_rgba(15,23,42,0.10)] lg:block"
+          className="absolute left-0 right-0 top-full hidden border-b border-white/10 bg-cedar-ink text-cedar-ivory shadow-elegant lg:block"
         >
           <div className="mx-auto w-full max-w-[1440px] px-6 py-6 sm:px-10 lg:px-12">
             <div className="grid grid-cols-[2.1fr_2.1fr_1.2fr] gap-5">
-              <div className="rounded-xl border border-cliq-gray-200 bg-white px-5 py-4">
-                <p className="text-xs font-semibold uppercase tracking-wide text-cliq-text-muted">
+              <div className="border border-white/10 bg-black/40 px-5 py-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cedar-mist">
                   {megaMenus[activeMega].leftTitle}
                 </p>
-                <div className="mt-3 space-y-1.5">
+                <div className="mt-3 space-y-1">
                   {megaMenus[activeMega].leftItems.map((item) => (
                     <Link
                       key={item.name}
                       href={item.href}
                       onClick={() => setActiveMega(null)}
-                      className="block rounded-lg px-2.5 py-2 transition hover:bg-cliq-gray-100"
+                      className="block rounded-lg px-2.5 py-2 transition hover:bg-white/5"
                     >
-                      <p className="text-[15px] font-medium text-cliq-text-heading">{item.name}</p>
-                      <p className="text-[13px] text-cliq-text-muted">{item.desc}</p>
+                      <p className="text-[15px] font-medium text-cedar-ivory">{item.name}</p>
+                      <p className="text-[13px] text-cedar-mist">{item.desc}</p>
                     </Link>
                   ))}
                 </div>
               </div>
-              <div className="rounded-xl border border-cliq-gray-200 bg-white px-5 py-4">
-                <p className="text-xs font-semibold uppercase tracking-wide text-cliq-text-muted">
+              <div className="border border-white/10 bg-black/40 px-5 py-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cedar-mist">
                   {megaMenus[activeMega].rightTitle}
                 </p>
-                <div className="mt-3 space-y-1.5">
+                <div className="mt-3 space-y-1">
                   {megaMenus[activeMega].rightItems.map((item) => (
                     <Link
                       key={item.name}
                       href={item.href}
                       onClick={() => setActiveMega(null)}
-                      className="block rounded-lg px-2.5 py-2 transition hover:bg-cliq-gray-100"
+                      className="block rounded-lg px-2.5 py-2 transition hover:bg-white/5"
                     >
-                      <p className="text-[15px] font-medium text-cliq-text-heading">{item.name}</p>
-                      <p className="text-[13px] text-cliq-text-muted">{item.desc}</p>
+                      <p className="text-[15px] font-medium text-cedar-ivory">{item.name}</p>
+                      <p className="text-[13px] text-cedar-mist">{item.desc}</p>
                     </Link>
                   ))}
                 </div>
               </div>
-              <div className="rounded-xl border border-cliq-gray-200 bg-[#EFF3F8] p-4">
-                <span className="rounded bg-[#DCE6F3] px-2 py-1 text-[10px] font-semibold uppercase text-cliq-navy-900">
+              <div className="border border-cedar-accent/25 bg-cedar-accentSoft p-4">
+                <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-cedar-accent">
                   {megaMenus[activeMega].cardTag}
                 </span>
-                <p className="mt-3 text-base font-semibold text-cliq-text-heading">
+                <p className="mt-3 text-base font-semibold text-cedar-ivory">
                   {megaMenus[activeMega].cardTitle}
                 </p>
-                <p className="mt-2 text-[13px] leading-relaxed text-cliq-text-muted">
+                <p className="mt-2 text-[13px] leading-relaxed text-cedar-mist">
                   {megaMenus[activeMega].cardText}
                 </p>
-                <Button href={megaMenus[activeMega].cardCtaHref} className="mt-4 w-full text-sm">
+                <Button href={megaMenus[activeMega].cardCtaHref} variant="accent" className="mt-4 w-full text-sm">
                   {megaMenus[activeMega].cardCtaLabel}
                 </Button>
               </div>
             </div>
-            <div className="mt-4 flex items-center justify-between border-t border-cliq-gray-200 pt-3 text-sm">
-              <span className="text-cliq-text-muted">Need more details?</span>
+            <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-3 text-sm">
+              <span className="text-cedar-mist">Need more details?</span>
               <Link
                 href={megaMenus[activeMega].footerLinkHref}
-                className="inline-flex items-center gap-1 font-medium text-cliq-text-heading hover:underline"
+                className="inline-flex items-center gap-1 font-medium text-cedar-ivory hover:text-cedar-accent"
               >
                 {megaMenus[activeMega].footerLink}
                 <ArrowUpRight className="h-3.5 w-3.5" />

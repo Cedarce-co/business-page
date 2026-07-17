@@ -32,6 +32,7 @@ const securityHeaders = [
         "https://cdn.jsdelivr.net",
         "https://tawk.link",
         "https://s3.amazonaws.com",
+        "https://images.unsplash.com",
       ].join(" "),
       ["font-src 'self' data:", "https://fonts.gstatic.com", "https://*.tawk.to"].join(" "),
       [
@@ -50,6 +51,15 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
+        pathname: "/**",
+      },
+    ],
+  },
   async headers() {
     return [
       {

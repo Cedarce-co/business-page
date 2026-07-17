@@ -1,21 +1,22 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { isPublicMarketingWithNavbar } from "@/lib/public-site-routes";
+import { isPublicDarkTheme, isPublicMarketingWithNavbar } from "@/lib/public-site-routes";
+import { cn } from "@/lib/utils";
 
 export default function RootMain({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const marketing = mounted && isPublicMarketingWithNavbar(pathname);
+  const marketing = isPublicMarketingWithNavbar(pathname);
+  const darkPublic = isPublicDarkTheme(pathname);
 
   return (
-    <main className={marketing ? "public-site-main flex-1" : "flex-1"}>
+    <main
+      className={cn(
+        "flex-1",
+        marketing && "public-site-main",
+        darkPublic && "site-public bg-black text-white",
+      )}
+    >
       {children}
     </main>
   );

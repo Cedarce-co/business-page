@@ -16,7 +16,7 @@ const TOPICS = [
 ] as const;
 
 const inputClass =
-  "w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400 focus:border-slate-900";
+  "w-full rounded-xl border border-white/15 bg-white/[0.04] px-4 py-3 text-sm text-cedar-ivory outline-none placeholder:text-white/35 focus:border-cedar-accent/50 focus:ring-2 focus:ring-cedar-accent/20";
 
 export default function FaqFeedbackSection() {
   const [open, setOpen] = useState(false);
@@ -71,14 +71,14 @@ export default function FaqFeedbackSection() {
 
   return (
     <>
-      <section className="mt-14 rounded-3xl border border-cliq-gray-200 bg-white p-8 shadow-card sm:p-10">
+      <section className="mt-14 rounded-3xl border border-white/10 bg-black p-8 shadow-card sm:p-10">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="max-w-xl space-y-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cliq-teal">Your voice</p>
-            <h2 className="text-2xl font-black text-cliq-text-heading sm:text-3xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cedar-accent">Your voice</p>
+            <h2 className="text-2xl font-black text-cedar-ivory sm:text-3xl">
               Still have questions or ideas for us?
             </h2>
-            <p className="text-sm leading-relaxed text-cliq-text-body">
+            <p className="text-sm leading-relaxed text-cedar-mist">
               Tell us what&apos;s confusing, what we could improve, or pain points we should solve. Every message is read
               by our team and helps shape Cedarce.
             </p>
@@ -86,7 +86,7 @@ export default function FaqFeedbackSection() {
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-cliq-navy-900 px-6 py-3.5 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(17,17,34,0.18)] transition hover:bg-cliq-navy-800"
+            className="motion-safe:animate-breathe inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-cedar-accent px-6 py-3.5 text-sm font-semibold text-black transition hover:brightness-110 motion-safe:hover:[animation-play-state:paused]"
           >
             <MessageSquarePlus className="h-4 w-4" />
             Share feedback
@@ -169,7 +169,7 @@ export default function FaqFeedbackSection() {
               <button
                 type="button"
                 onClick={close}
-                className="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50"
+                className="rounded-xl border border-slate-200 bg-black px-5 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50"
               >
                 Cancel
               </button>

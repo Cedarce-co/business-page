@@ -10,7 +10,7 @@ export default function SectionIntro({
   return (
     <div
       className={cn(
-        "flex w-full flex-col items-center text-center md:max-w-[50%] md:items-start md:text-left",
+        "flex w-full max-w-xl flex-col items-start text-left",
         className
       )}
     >

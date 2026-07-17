@@ -73,7 +73,7 @@ export function buildSiteCrumbs(pathname: string): WayfindingCrumb[] {
   if (parts.length === 0) return crumbs;
 
   if (parts[0] === "services" && parts[1]) {
-    crumbs.push({ label: "Solutions", href: "/services", icon: "layers" });
+    crumbs.push({ label: "Solutions", href: "/solutions", icon: "layers" });
     const svc = SERVICES.find((x) => x.id === parts[1]);
     crumbs.push({
       label: svc?.name ?? titleCase(parts[1]),
@@ -84,13 +84,13 @@ export function buildSiteCrumbs(pathname: string): WayfindingCrumb[] {
   }
 
   if (parts[0] === "product" && parts[1]) {
-    crumbs.push({ label: "Product", href: "/about", icon: "building" });
+    crumbs.push({ label: "Product", href: "/product", icon: "building" });
     crumbs.push({ label: titleCase(parts[1]), href: null, icon: "layers" });
     return crumbs;
   }
 
   if (parts[0] === "solutions" && parts[1]) {
-    crumbs.push({ label: "Solutions", href: "/services", icon: "clipboard" });
+    crumbs.push({ label: "Solutions", href: "/solutions", icon: "clipboard" });
     crumbs.push({ label: titleCase(parts[1]), href: null, icon: "clipboard" });
     return crumbs;
   }

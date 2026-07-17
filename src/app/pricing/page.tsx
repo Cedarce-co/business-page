@@ -3,6 +3,7 @@ import PageHero from "@/components/marketing/PageHero";
 import SectionReveal from "@/components/ui/SectionReveal";
 import PricingPackagesSection from "@/components/marketing/PricingPackagesSection";
 import FinalCTASection from "@/components/home/FinalCTASection";
+import { PRICING_HERO_IMAGE } from "@/lib/marketing-images";
 
 export default function PricingPage() {
   return (
@@ -17,19 +18,20 @@ export default function PricingPage() {
           </>
         }
         description="How much business have you lost because you didn't look credible online? Pick a tier; we scope the rest. No hidden fees. No drama."
+        image={PRICING_HERO_IMAGE}
       />
 
       <PricingPackagesSection />
 
-      <SectionReveal className="border-t border-cliq-gray-200 bg-cliq-gray-100 py-12">
+      <SectionReveal className="border-t border-white/10 bg-zinc-950 py-12">
         <div className="mx-auto max-w-[1200px] px-4 text-center sm:px-6 lg:px-8">
-          <p className="text-cliq-text-body">
+          <p className="text-cedar-mist">
             Have questions?{" "}
-            <Link href="/faq" className="font-semibold text-cliq-navy-800 underline-offset-4 hover:underline">
+            <Link href="/faq" className="font-semibold text-cedar-accent underline-offset-4 hover:underline">
               Read our FAQ
             </Link>{" "}
             or{" "}
-            <Link href="/contact" className="font-semibold text-cliq-navy-800 underline-offset-4 hover:underline">
+            <Link href="/contact" className="font-semibold text-cedar-accent underline-offset-4 hover:underline">
               book a consult
             </Link>
             .
