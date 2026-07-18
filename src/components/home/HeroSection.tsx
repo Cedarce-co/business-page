@@ -1,19 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import Button from "@/components/ui/Button";
 import { stagger, wordReveal } from "@/lib/animations";
 import { HERO_BG_IMAGE } from "@/lib/marketing-images";
-import { cn } from "@/lib/utils";
-
-/** Floating tags sit on the visual side only — never over the copy */
-const floating = [
-  { label: "</> Setup", x: "62%", y: "12%" },
-  { label: "Payments", x: "84%", y: "48%" },
-  { label: "Support", x: "58%", y: "78%" },
-];
 
 const outcomes = [
   {
@@ -36,22 +27,19 @@ const outcomes = [
   },
 ];
 
+const mobileHighlights = [
+  { value: "48hrs", label: "Typical time from kickoff to professional" },
+  { value: "90%+", label: "Mobile traffic ready" },
+  { value: "24/7", label: "Self-serve checkout" },
+  { value: "100%", label: "Profile completeness goal" },
+];
+
 export default function HeroSection() {
   const reduced = useReducedMotion();
-  const scrollerRef = useRef<HTMLDivElement | null>(null);
-  const [slide, setSlide] = useState(0);
-
-  function onSnapScroll() {
-    const el = scrollerRef.current;
-    if (!el) return;
-    const width = el.clientWidth;
-    if (!width) return;
-    setSlide(Math.round(el.scrollLeft / width));
-  }
 
   return (
     <section className="relative overflow-hidden bg-black">
-      <div className="absolute inset-0" aria-hidden>
+      <div className="absolute inset-0 hidden lg:block" aria-hidden>
         <Image
           src={HERO_BG_IMAGE.src}
           alt=""
@@ -62,100 +50,65 @@ export default function HeroSection() {
         />
         <div className="absolute inset-0 bg-black/38" />
         <div className="absolute inset-0 bg-gradient-to-r from-black/48 via-black/22 to-black/10" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-transparent to-black/50 lg:hidden" />
       </div>
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0"
+        className="pointer-events-none absolute inset-0 hidden lg:block"
         style={{
           background:
             "radial-gradient(ellipse 70% 55% at 75% 35%, rgba(31,58,95,0.22), transparent 55%), radial-gradient(ellipse 45% 40% at 10% 85%, rgba(255,255,255,0.035), transparent 50%)",
         }}
       />
 
-      {!reduced
-        ? floating.map((item) => (
-            <motion.span
-              key={item.label}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: [0, -7, 0] }}
-              transition={{
-                opacity: { duration: 0.6 },
-                y: { duration: 5.5, repeat: Infinity, ease: "easeInOut" },
-              }}
-              className="pointer-events-none absolute z-[1] hidden rounded-full border border-white/20 bg-black/40 px-3 py-1.5 text-xs font-medium text-cedar-ivory/90 backdrop-blur-md lg:inline-flex"
-              style={{ left: item.x, top: item.y }}
-            >
-              {item.label}
-            </motion.span>
-          ))
-        : null}
+      {/* Mobile welcome screen — follows a compact app-dashboard structure. */}
+      <div className="relative z-10 min-h-[calc(100svh-var(--site-mobile-tab-height))] overflow-hidden bg-black px-3 pb-[calc(var(--site-mobile-tab-height)+1rem)] pt-5 lg:hidden">
+        <Image
+          src={HERO_BG_IMAGE.src}
+          alt={HERO_BG_IMAGE.alt}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+        <div className="absolute inset-0 bg-black/25" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-black/85" />
 
-      {/* —— Mobile app hero —— */}
-      <div className="relative z-10 flex min-h-[100svh] flex-col px-4 pb-8 pt-[calc(var(--site-nav-height)+0.5rem)] lg:hidden">
-        <motion.div
-          initial={reduced ? false : { opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.55 }}
-          className="flex flex-1 flex-col justify-center"
-        >
-          <p className="text-xs font-semibold uppercase tracking-[0.3em] text-cedar-accent">Cedarce</p>
-          <motion.h1
-            variants={stagger}
-            initial="hidden"
-            animate="visible"
-            className="mt-5 font-display text-[3.35rem] leading-[1.02] tracking-tight text-cedar-ivory sm:text-[3.75rem]"
-          >
-            {["Findable.", "Credible.", "Paid faster."].map((word) => (
-              <motion.span key={word} variants={wordReveal} className="block">
-                {word}
-              </motion.span>
-            ))}
-          </motion.h1>
-          <p className="mt-5 max-w-md text-base leading-relaxed text-white/80 sm:text-lg">
-            Websites, payments, invoicing, and business email — one professional setup.
+        <div className="relative flex min-h-[calc(100svh-var(--site-mobile-tab-height)-2.25rem)] flex-col pb-12">
+          <p className="max-w-[13rem] font-display text-lg leading-tight tracking-tight text-cedar-ivory">
+            Your business, ready online.
           </p>
-        </motion.div>
 
-        <div className="shrink-0 pb-[calc(var(--site-mobile-tab-height)+0.25rem)]">
-          <div
-            ref={scrollerRef}
-            onScroll={onSnapScroll}
-            className="snap-x-mandatory -mx-4 flex gap-3 overflow-x-auto px-4 pb-2"
-            aria-label="Outcomes"
+          <motion.div
+            initial={reduced ? false : { opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            aria-label="Business setup highlights"
+            className="mt-auto grid grid-cols-2 gap-2"
           >
-            {outcomes.map((card) => (
-              <article
-                key={card.title}
-                className="snap-start-center w-[82%] shrink-0 overflow-hidden rounded-[1.5rem] border border-white/15 bg-black/45 backdrop-blur-md"
+            {mobileHighlights.map((item) => (
+              <div
+                key={item.label}
+                className="flex min-h-[6.25rem] min-w-0 flex-col items-center justify-center rounded-xl border border-white/15 bg-black/65 px-4 py-4 text-center backdrop-blur-md"
               >
-                <div className="flex min-h-[7.5rem]">
-                  <div className="flex w-[38%] flex-col justify-between bg-cedar-accent px-4 py-4 text-black">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.18em]">Outcome</p>
-                    <p className="text-3xl font-bold leading-none">{card.accent}</p>
-                  </div>
-                  <div className="flex flex-1 flex-col justify-center px-4 py-4">
-                    <p className="text-base font-bold text-cedar-ivory">{card.title}</p>
-                    <p className="mt-1 text-sm text-cedar-mist">{card.meta}</p>
-                  </div>
-                </div>
-              </article>
+                <p className="font-display text-2xl leading-none text-cedar-accent">
+                  {item.value}
+                </p>
+                <p className="mt-2 max-w-[9rem] text-[11px] leading-snug text-white/75">
+                  {item.label}
+                </p>
+              </div>
             ))}
+          </motion.div>
+
+          <div className="mt-7 flex justify-center">
+            <Button
+              href="/signup"
+              variant="accent"
+              className="min-h-12 w-1/2 gap-2 px-3 text-xs"
+            >
+              Get started for free
+            </Button>
           </div>
-          <div className="mt-3 flex justify-center gap-1.5" aria-hidden>
-            {outcomes.map((card, i) => (
-              <span
-                key={card.accent}
-                className={cn(
-                  "h-1.5 rounded-full transition-all",
-                  i === slide ? "w-5 bg-cedar-accent" : "w-1.5 bg-white/25",
-                )}
-              />
-            ))}
-          </div>
-          <p className="mt-4 text-center text-xs text-white/40">
-            Trusted by food stores, pharmacies, churches & more
-          </p>
         </div>
       </div>
 
@@ -165,13 +118,13 @@ export default function HeroSection() {
           initial={reduced ? false : { opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="motion-safe:animate-breathe-soft flex max-w-2xl flex-col items-start"
+          className="flex h-[calc(100svh-14rem)] min-h-[30rem] max-h-[34rem] max-w-2xl flex-col items-start justify-between"
         >
           <motion.h1
             variants={stagger}
             initial="hidden"
             animate="visible"
-            className="mt-8 font-display text-[4.85rem] leading-[1.05] tracking-tight text-cedar-ivory/95"
+            className="font-display text-[5.5rem] leading-[1.14] tracking-tight text-cedar-ivory/95"
           >
             {["Findable.", "Credible.", "Paid faster."].map((word) => (
               <motion.span key={word} variants={wordReveal} className="block">
@@ -183,28 +136,21 @@ export default function HeroSection() {
             initial={reduced ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.25 }}
-            className="mt-10 max-w-xl text-xl leading-relaxed text-cedar-mist/90"
+            className="max-w-xl text-xl leading-relaxed text-cedar-mist/90"
           >
-            We combine websites, payments, invoicing, and business email into one professional setup
-            so customers find you, trust you, and pay you faster.
+            One connected setup for your website, payments, invoices, and business email.
           </motion.p>
 
           <motion.div
             initial={reduced ? false : { opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35 }}
-            className="mt-12 flex flex-wrap items-center gap-x-6 gap-y-3"
+            className="flex flex-wrap items-center gap-x-6 gap-y-3"
           >
             <Button href="/signup" variant="accent" className="min-h-12 px-7">
-              Get started
-            </Button>
-            <Button href="/contact" variant="ghost" className="min-h-12 px-0">
-              Book free consultation
+              Get started for free
             </Button>
           </motion.div>
-          <p className="pt-12 text-sm text-white/40">
-            Trusted by food stores, pharmacies, churches, startups & more.
-          </p>
         </motion.div>
 
         <div className="relative w-full self-center">

@@ -69,7 +69,52 @@ export default function Footer() {
   return (
     <footer id="site-footer" className="border-t border-white/10 bg-black pb-[calc(var(--site-mobile-tab-height)+0.5rem)] lg:pb-0">
       <div className="mx-auto w-full max-w-[1440px] px-4 py-10 sm:px-6 lg:px-10 lg:py-24">
-        <div className="grid grid-cols-2 gap-3 lg:grid-cols-[1.35fr_repeat(4,minmax(0,1fr))] lg:gap-8">
+        {/* Mobile: one quiet brand block and a compact directory. */}
+        <div className="lg:hidden">
+          <div className="flex flex-col items-center justify-center gap-3 border-b border-white/10 pb-6 text-center">
+            <Link href="/" className="inline-flex items-center" aria-label="Home">
+              <Image
+                src={LOGO_DARK_BG.mobile}
+                alt="Cedarce"
+                width={LOGO_FOOTER_SIZES.mobile.width}
+                height={LOGO_FOOTER_SIZES.mobile.height}
+                style={{
+                  width: LOGO_FOOTER_SIZES.mobile.width,
+                  height: LOGO_FOOTER_SIZES.mobile.height,
+                }}
+                className="object-contain object-center"
+              />
+            </Link>
+            <span className="inline-flex items-center gap-1.5 text-xs text-cedar-mist">
+              <Clock className="h-4 w-4 text-cedar-accent" aria-hidden />
+              Setup in days
+            </span>
+          </div>
+          <nav aria-label="Footer" className="grid grid-cols-2 gap-x-8 gap-y-4 py-7">
+            {[
+              { label: "Solutions", href: "/solutions" },
+              { label: "Products", href: "/product" },
+              { label: "Pricing", href: "/pricing" },
+              { label: "FAQ", href: "/faq" },
+              { label: "Contact", href: "/contact" },
+              { label: "Account", href: "/signin" },
+            ].map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="text-sm font-medium text-cedar-mist transition hover:text-cedar-ivory"
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+          <div className="flex justify-center gap-5 border-t border-white/10 pt-5 text-xs text-white/45">
+            <Link href="/privacy" className="hover:text-cedar-ivory">Privacy</Link>
+            <Link href="/terms" className="hover:text-cedar-ivory">Terms</Link>
+          </div>
+        </div>
+
+        <div className="hidden lg:grid lg:grid-cols-[1.35fr_repeat(4,minmax(0,1fr))] lg:gap-8">
           <div className="col-span-2 rounded-[1.75rem] border border-white/10 bg-zinc-950/80 p-6 text-center lg:col-span-1 lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:text-left">
             <Link href="/" className="inline-flex min-w-0 items-center justify-center lg:justify-start" aria-label="Home">
               <span className="flex items-center sm:hidden">
@@ -123,7 +168,7 @@ export default function Footer() {
           <FooterLinkPanel title="Company" wide links={companyLinks} />
         </div>
 
-        <div className="mx-auto mt-6 grid w-full gap-4 rounded-[1.75rem] border border-cedar-accent/20 bg-cedar-accentSoft p-5 md:grid-cols-2 lg:mt-16 lg:max-w-2xl lg:grid-cols-[1fr_auto] lg:items-center lg:gap-12 lg:rounded-none lg:border-0 lg:border-t lg:border-white/10 lg:bg-transparent lg:p-0 lg:pt-10">
+        <div className="mx-auto mt-16 hidden w-full max-w-2xl grid-cols-[1fr_auto] items-center gap-12 border-t border-white/10 pt-10 lg:grid">
           <div>
             <h4 className="font-display text-2xl text-cedar-ivory">Talk to us</h4>
             <p className="mt-2 text-sm text-cedar-mist">

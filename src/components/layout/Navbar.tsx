@@ -3,11 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArrowUpRight, ChevronDown } from "lucide-react";
+import { ArrowRight, ArrowUpRight, ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import Button from "@/components/ui/Button";
-import { navbarBannerMotion } from "@/lib/animations";
 import { LOGO_DARK_BG, LOGO_NAV_SIZES } from "@/lib/brand-logos";
 import { useSession, signOut } from "next-auth/react";
 
@@ -107,18 +105,10 @@ export default function Navbar() {
   const pathname = usePathname();
   const { data: session } = useSession();
   const [activeMega, setActiveMega] = useState<string | null>(null);
-  const [showTopBanner, setShowTopBanner] = useState(true);
-  const [bannerEnter, setBannerEnter] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const headerRef = useRef<HTMLElement | null>(null);
   const closeTimer = useRef<number | null>(null);
-  const lastScrollY = useRef(0);
   const transparentChrome = pathname === "/" && !scrolled && !activeMega;
-
-  useEffect(() => {
-    const id = requestAnimationFrame(() => setBannerEnter(true));
-    return () => cancelAnimationFrame(id);
-  }, []);
 
   const startCloseDelay = () => {
     if (closeTimer.current) window.clearTimeout(closeTimer.current);
@@ -140,12 +130,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const onScroll = () => {
-      const y = window.scrollY;
-      setScrolled(y > 16);
-      if (y < 40) setShowTopBanner(true);
-      else if (y > lastScrollY.current + 4) setShowTopBanner(false);
-      else if (y < lastScrollY.current - 4) setShowTopBanner(true);
-      lastScrollY.current = y;
+      setScrolled(window.scrollY > 16);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -178,33 +163,6 @@ export default function Navbar() {
           : "border-white/10 bg-black/80 backdrop-blur-xl"
       }`}
     >
-      <AnimatePresence>
-        {showTopBanner ? (
-          <motion.div
-            key="top-banner"
-            initial={navbarBannerMotion.initial}
-            animate={bannerEnter ? navbarBannerMotion.animate : navbarBannerMotion.initial}
-            exit={navbarBannerMotion.exit}
-            transition={navbarBannerMotion.transition}
-            className={`overflow-hidden border-b border-white/10 transition-colors duration-300 ${
-              transparentChrome ? "bg-black/15" : "bg-cedar-raised"
-            }`}
-          >
-            <div className="relative mx-auto flex w-full max-w-[1440px] flex-col items-center justify-center gap-3 px-6 py-3 text-center text-sm text-cedar-ivory/90 sm:flex-row sm:text-left sm:px-10 lg:gap-6 lg:px-12">
-              <span className="max-w-[56rem] text-center font-medium">
-                The gap between where your business is and where it should be is one digital setup away.
-              </span>
-              <Link
-                href="/signup"
-                className="shrink-0 text-sm font-semibold text-cedar-accent transition hover:text-cedar-ivory"
-              >
-                Get started →
-              </Link>
-            </div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
-
       <div className="mx-auto hidden h-[72px] w-full max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:flex lg:h-[84px] lg:px-10">
         <Link href="/" className="flex min-w-0 shrink-0 items-center" aria-label="Home">
           <span className="flex items-center sm:hidden">
@@ -282,9 +240,10 @@ export default function Navbar() {
               </Link>
               <Link
                 href="/signup"
-                className="motion-safe:animate-breathe rounded-lg bg-cedar-accent px-5 py-2.5 text-sm font-semibold text-black transition hover:brightness-110 motion-safe:hover:[animation-play-state:paused]"
+                className="inline-flex items-center gap-2 rounded-lg bg-cedar-accent px-5 py-2.5 text-sm font-semibold text-black transition hover:brightness-110"
               >
                 Create account
+                <ArrowRight className="h-4 w-4 shrink-0" aria-hidden />
               </Link>
             </>
           )}

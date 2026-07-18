@@ -3,6 +3,7 @@
 import Script from "next/script";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { MessageCircle } from "lucide-react";
 import { isTawkConfigured, openTawkChat, patchTawkDevConsole } from "@/lib/tawk";
 
 const propertyId = process.env.NEXT_PUBLIC_TAWK_PROPERTY_ID;
@@ -19,7 +20,7 @@ function pinTawkBubble() {
 
   const mobile = window.matchMedia(MOBILE_MQ).matches;
   const bottom = mobile
-    ? "calc(var(--site-mobile-tab-height, 3.25rem) + 0.75rem)"
+    ? "calc(var(--site-mobile-tab-height, 3.25rem) + 1.5rem)"
     : "20px";
   const side = mobile ? "12px" : "16px";
 
@@ -63,7 +64,9 @@ function pinTawkBubble() {
       "#tawkchat-minified-container, .tawk-min-container, #tawkchat-container",
     )
     .forEach((el) => {
-      if (el.offsetWidth <= 160 && el.offsetHeight <= 160) reposition(el);
+      if (el.offsetWidth <= 160 && el.offsetHeight <= 160) {
+        reposition(el);
+      }
     });
 }
 
@@ -95,6 +98,9 @@ export default function TawkToWidget() {
   useEffect(() => {
     if (hidden || !configured) return;
 
+    if (window.matchMedia(MOBILE_MQ).matches) {
+      window.Tawk_API?.hideWidget?.();
+    }
     pinTawkBubble();
     const interval = window.setInterval(pinTawkBubble, 800);
     const observer = new MutationObserver(() => pinTawkBubble());
@@ -121,8 +127,22 @@ export default function TawkToWidget() {
 
   return (
     <>
+      <button
+        type="button"
+        onClick={() => {
+          window.Tawk_API?.showWidget?.();
+          openTawkChat();
+        }}
+        aria-label="Open live chat"
+        className="fixed right-3 z-[60] flex h-16 w-16 items-center justify-center rounded-full border border-white/20 bg-[#1f3a5f] text-white shadow-[0_12px_32px_rgba(0,0,0,0.4)] transition active:scale-95 lg:hidden"
+        style={{
+          bottom: "calc(var(--site-mobile-tab-height, 3.25rem) + 1.5rem)",
+        }}
+      >
+        <MessageCircle className="h-7 w-7 fill-white" aria-hidden />
+      </button>
       <Script id="tawk-api-bootstrap" strategy="afterInteractive">
-        {`(function(){if(typeof window!=="undefined"&&!window.__tawkConsolePatched){window.__tawkConsolePatched=true;var _e=console.error.bind(console);console.error=function(){if(arguments.length===1&&arguments[0]===true)return;_e.apply(console,arguments);};}window.Tawk_API=window.Tawk_API||{};window.Tawk_API.customStyle={visibility:{desktop:{position:"br",xOffset:16,yOffset:20},mobile:{position:"br",xOffset:12,yOffset:72}}};window.Tawk_LoadStart=new Date();})();`}
+        {`(function(){if(typeof window!=="undefined"&&!window.__tawkConsolePatched){window.__tawkConsolePatched=true;var _e=console.error.bind(console);console.error=function(){if(arguments.length===1&&arguments[0]===true)return;_e.apply(console,arguments);};}window.Tawk_API=window.Tawk_API||{};var hideMobile=function(){if(window.matchMedia("(max-width: 1023px)").matches){window.Tawk_API.hideWidget&&window.Tawk_API.hideWidget();}};window.Tawk_API.onLoad=hideMobile;window.Tawk_API.onChatMinimized=hideMobile;window.Tawk_API.onChatHidden=hideMobile;window.Tawk_API.customStyle={visibility:{desktop:{position:"br",xOffset:16,yOffset:20},mobile:{position:"br",xOffset:12,yOffset:84}}};window.Tawk_LoadStart=new Date();})();`}
       </Script>
       <Script
         id="tawk-to-script"

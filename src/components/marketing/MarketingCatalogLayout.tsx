@@ -32,7 +32,7 @@ function CatalogCard({
         "group relative flex h-full flex-col overflow-hidden border border-white/[0.08] bg-[#121110]/90 transition duration-300",
         compact
           ? "min-h-[12.5rem] rounded-2xl p-5 active:scale-[0.98]"
-          : "min-h-[300px] rounded-[1.75rem] shadow-[0_18px_60px_rgba(0,0,0,0.28)] hover:-translate-y-1 hover:border-cedar-accent/35 hover:bg-[#18150f] hover:shadow-[0_28px_80px_rgba(0,0,0,0.48)]",
+          : "min-h-[240px] rounded-2xl shadow-[0_18px_60px_rgba(0,0,0,0.24)] hover:-translate-y-1 hover:border-cedar-accent/35 hover:bg-[#18150f]",
       )}
     >
       {!compact ? (
@@ -41,11 +41,11 @@ function CatalogCard({
           className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-cedar-accent/10 to-transparent opacity-0 transition duration-300 group-hover:opacity-100"
         />
       ) : null}
-      <div className={cn("relative flex flex-1 flex-col", compact ? "" : "p-7 sm:p-8")}>
+      <div className={cn("relative flex flex-1 flex-col", compact ? "" : "p-6")}>
         <div
           className={cn(
             "flex items-center justify-center rounded-2xl border border-cedar-accent/15 bg-cedar-accentSoft",
-            compact ? "mb-4 h-11 w-11" : "mb-7 h-14 w-14",
+            compact ? "mb-4 h-11 w-11" : "mb-5 h-12 w-12",
           )}
         >
           <Icon className={cn(compact ? "h-5 w-5" : "h-6 w-6", "text-cedar-accent")} aria-hidden />
@@ -58,7 +58,7 @@ function CatalogCard({
         <h3
           className={cn(
             "font-bold leading-snug text-cedar-ivory",
-            compact ? "text-lg" : "text-xl sm:text-2xl",
+            compact ? "text-lg" : "text-xl",
           )}
         >
           {card.title}
@@ -66,7 +66,7 @@ function CatalogCard({
         <p
           className={cn(
             "mt-3 text-sm leading-6 text-cedar-mist",
-            compact ? "line-clamp-4 flex-1" : "flex-1 leading-7 sm:text-[0.95rem]",
+            compact ? "line-clamp-3 flex-1" : "line-clamp-3 flex-1 leading-6",
           )}
         >
           {card.description}
@@ -184,7 +184,7 @@ export default function MarketingCatalogLayout({
         </div>
       </section>
 
-      <section className="border-t border-white/10 bg-zinc-950 py-12 lg:py-24">
+      <section className="hidden border-t border-white/10 bg-zinc-950 py-24 lg:block">
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
           <div className="relative grid overflow-hidden rounded-2xl border border-cedar-accent/20 bg-black px-5 py-8 sm:rounded-[2rem] sm:px-12 lg:grid-cols-[1fr_auto] lg:items-center lg:gap-10 lg:py-14">
             <div

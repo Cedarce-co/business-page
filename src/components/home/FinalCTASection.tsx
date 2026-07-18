@@ -27,13 +27,10 @@ export default function FinalCTASection() {
               <h2 className="mt-3 font-display text-[1.65rem] leading-tight text-cedar-ivory sm:mt-4 sm:text-4xl lg:text-5xl">
                 Look credible where people check first.
               </h2>
-              <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/75 sm:mt-4 sm:text-lg">
-                A clear website, business email, and professional touchpoints help you show up the way buyers expect.
-              </p>
             </div>
             <div className="flex w-full justify-center lg:w-auto lg:justify-start">
-              <Button href="/signup" variant="accent" className="min-h-12 w-full max-w-xs whitespace-nowrap px-8 lg:w-auto">
-                Get started for free
+              <Button href="/contact" variant="accent" className="min-h-12 w-1/2 whitespace-nowrap px-3 text-xs sm:w-auto sm:px-8 sm:text-base">
+                Book free consultation
               </Button>
             </div>
           </div>

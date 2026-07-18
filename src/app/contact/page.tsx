@@ -70,7 +70,7 @@ export default function ContactPage() {
           <p className="text-xs text-white/40">
             You agree we may contact you about your request. No spam — just next steps.
           </p>
-          <Button type="submit" variant="accent" className="w-full sm:w-auto">
+          <Button type="submit" variant="accent" className="w-1/2 px-3 text-xs sm:w-auto sm:px-6 sm:text-base">
             Send message
           </Button>
         </form>

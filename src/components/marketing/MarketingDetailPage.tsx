@@ -23,7 +23,6 @@ import Button from "@/components/ui/Button";
 import MarketingPageHeader from "@/components/navigation/MarketingPageHeader";
 import SectionReveal, { RevealItem, StaggerReveal } from "@/components/ui/SectionReveal";
 import type { MarketingAccent, MarketingPageConfig, MarketingSection } from "@/lib/marketing-detail-pages";
-import { getMarketingCatalogEntries, marketingPagePath } from "@/lib/marketing-detail-pages";
 import { CATALOG_CARD_IMAGES, DETAIL_HERO_BY_CATEGORY } from "@/lib/marketing-images";
 import { cn } from "@/lib/utils";
 
@@ -136,7 +135,7 @@ function ElegantCard({
     "group relative flex h-full flex-col overflow-hidden border border-white/[0.08] bg-[#121110]/90 transition duration-300",
     compact
       ? "min-h-[11.5rem] rounded-2xl p-5 active:scale-[0.98]"
-      : "min-h-[220px] rounded-[1.75rem] p-7 hover:-translate-y-1 hover:border-cedar-accent/35 hover:bg-[#18150f] sm:p-8",
+      : "min-h-[180px] rounded-2xl p-6 hover:-translate-y-1 hover:border-cedar-accent/35 hover:bg-[#18150f]",
   );
 
   if (href) {
@@ -542,15 +541,9 @@ function Hero({ page }: { page: MarketingPageConfig }) {
           <p className="mt-3 max-w-lg text-base font-semibold text-cedar-ivory/90 sm:mt-5 sm:text-xl">
             {page.tagline}
           </p>
-          <p className="mt-3 max-w-lg text-sm leading-relaxed text-cedar-mist sm:mt-5 sm:text-base lg:text-lg">
-            {page.lead}
-          </p>
-          <div className="mt-6 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-6 sm:gap-y-3">
-            <Button href={page.primaryCta.href} variant="accent" className="min-h-12 w-full px-7 sm:w-auto">
+          <div className="mt-6 flex justify-center sm:mt-9 sm:justify-start">
+            <Button href={page.primaryCta.href} variant="accent" className="min-h-12 w-1/2 px-3 text-xs sm:w-auto sm:px-7 sm:text-base">
               {page.primaryCta.label}
-            </Button>
-            <Button href={page.secondaryCta.href} variant="ghost" className="min-h-11 px-0 sm:min-h-12">
-              {page.secondaryCta.label}
             </Button>
           </div>
         </div>
@@ -570,30 +563,8 @@ function Hero({ page }: { page: MarketingPageConfig }) {
                 <div className="absolute inset-0 bg-cedar-accent/10 mix-blend-color" />
               </>
             ) : null}
-            <div className="relative flex h-14 w-14 items-center justify-center rounded-2xl border border-cedar-accent/20 bg-cedar-accentSoft">
+            <div className="absolute bottom-6 left-6 flex h-12 w-12 items-center justify-center rounded-xl border border-cedar-accent/20 bg-black/50 backdrop-blur-md">
               <Icon className="h-7 w-7 text-cedar-accent" aria-hidden />
-            </div>
-            <p className="relative mt-10 text-xs font-semibold uppercase tracking-[0.28em] text-cedar-accent">
-              What you get
-            </p>
-            <p className="relative mt-4 text-2xl font-bold leading-snug text-cedar-ivory">{page.title}</p>
-            <p className="relative mt-4 text-sm leading-7 text-cedar-mist">{page.tagline}</p>
-            <div className="relative mt-8 flex flex-wrap gap-2">
-              {(page.category === "product"
-                ? "Product"
-                : page.category === "solution"
-                  ? "Solution"
-                  : "Pricing"
-              )
-                .split(" ")
-                .map((label) => (
-                  <span
-                    key={label}
-                    className="rounded-full border border-white/15 px-3 py-1 text-xs font-medium text-cedar-mist"
-                  >
-                    {label}
-                  </span>
-                ))}
             </div>
           </div>
         </div>
@@ -608,96 +579,15 @@ export default function MarketingDetailPage({ page }: { page: MarketingPageConfi
   const highlightPackage =
     page.category === "pricing" && PACKAGE_SLUGS.has(page.slug) ? page.slug : undefined;
 
-  const relatedCatalog =
-    page.category === "product" || page.category === "solution"
-      ? getMarketingCatalogEntries(page.category).filter((entry) => entry.id !== page.slug).slice(0, 4)
-      : [];
-
-  const relatedCards =
-    relatedCatalog.length > 0
-      ? relatedCatalog
-      : page.related.map((r) => ({
-          id: r.slug,
-          title: r.label,
-          description: `Explore ${r.label}`,
-          href: marketingPagePath(r.category, r.slug),
-          icon: Layers,
-        }));
-
   return (
     <>
       <Hero page={page} />
       {page.sections.map((section, index) => (
-        <SectionBlock key={`${section.type}-${index}`} section={section} accent={page.accent} index={index} />
+        <div key={`${section.type}-${index}`} className="contents">
+          <SectionBlock section={section} accent={page.accent} index={index} />
+        </div>
       ))}
       {page.category === "pricing" ? <PricingPackagesSection highlightSlug={highlightPackage} /> : null}
-
-      <SectionReveal preserveSticky className="border-t border-white/10 bg-zinc-950 py-12 lg:py-24">
-        <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-          <div>
-            <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-cedar-accent sm:text-xs">
-              Explore more
-            </p>
-            <h2 className="mt-3 font-display text-[1.85rem] text-cedar-ivory sm:mt-4 sm:text-3xl lg:text-4xl">
-              Related{" "}
-              <span className="text-cedar-accent">
-                {page.category === "product"
-                  ? "products"
-                  : page.category === "solution"
-                    ? "solutions"
-                    : "options"}
-              </span>
-            </h2>
-            <p className="mt-3 text-sm text-cedar-mist sm:mt-4 sm:text-base">
-              Browse more from the same list you opened in the menu.
-            </p>
-            {page.category !== "pricing" ? (
-              <Link
-                href={page.category === "product" ? "/product" : "/solutions"}
-                className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-cedar-accent sm:mt-6"
-              >
-                View all {page.category === "product" ? "products" : "solutions"}
-                <ArrowRight className="h-4 w-4" aria-hidden />
-              </Link>
-            ) : (
-              <Link
-                href="/faq"
-                className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-cedar-accent sm:mt-6"
-              >
-                Pricing FAQ
-                <ArrowRight className="h-4 w-4" aria-hidden />
-              </Link>
-            )}
-          </div>
-
-          <MobileSnapRail
-            className="mt-6"
-            slides={relatedCards.map((card) => (
-              <ElegantCard
-                key={card.id}
-                href={card.href}
-                title={card.title}
-                body={card.description}
-                icon={card.icon}
-                compact
-              />
-            ))}
-          />
-
-          <div className="mt-12 hidden gap-5 sm:grid-cols-2 lg:grid">
-            {relatedCards.map((card, index) => (
-              <div key={card.id} className={index % 2 === 1 ? "sm:mt-10" : undefined}>
-                <ElegantCard
-                  href={card.href}
-                  title={card.title}
-                  body={card.description}
-                  icon={card.icon}
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </SectionReveal>
     </>
   );
 }

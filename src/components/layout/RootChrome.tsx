@@ -1,14 +1,9 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
 import ClientChrome from "@/components/layout/ClientChrome";
 import MobileBottomNav from "@/components/layout/MobileBottomNav";
-
-const AwarenessPromo = dynamic(() => import("@/components/layout/AwarenessPromo"), {
-  ssr: false,
-});
 
 /** Full chrome hidden (no navbar/promo). Bottom tab nav still shown on auth. */
 const APP_PATHS = ["/signin", "/signup", "/forgot-password", "/reset-password", "/dashboard", "/admin", "/offline"];
@@ -27,7 +22,6 @@ export default function RootChrome() {
     <>
       <ClientChrome />
       <Navbar />
-      <AwarenessPromo />
       <MobileBottomNav />
     </>
   );

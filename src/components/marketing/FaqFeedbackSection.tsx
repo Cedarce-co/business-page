@@ -86,7 +86,7 @@ export default function FaqFeedbackSection() {
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="motion-safe:animate-breathe inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-cedar-accent px-6 py-3.5 text-sm font-semibold text-black transition hover:brightness-110 motion-safe:hover:[animation-play-state:paused]"
+            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-cedar-accent px-6 py-3.5 text-sm font-semibold text-black transition hover:brightness-110"
           >
             <MessageSquarePlus className="h-4 w-4" />
             Share feedback

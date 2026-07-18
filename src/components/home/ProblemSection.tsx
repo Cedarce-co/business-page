@@ -1,12 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { ArrowRight, Check, Minus } from "lucide-react";
+import { Check, Minus } from "lucide-react";
 import SectionLabel from "@/components/ui/SectionLabel";
 import Button from "@/components/ui/Button";
-import { OUTCOME_IMAGES } from "@/lib/marketing-images";
 
 const pairs = [
   {
@@ -33,18 +31,6 @@ const pairs = [
     before: "Notifying customers one by one",
     after: "Bulk messaging that reaches everyone at once",
   },
-  {
-    id: "presence",
-    title: "Online presence",
-    before: "Nothing customers can verify online",
-    after: "A professional website working 24/7",
-  },
-  {
-    id: "ops",
-    title: "Operations",
-    before: "Manual order tracking and follow-ups",
-    after: "Automated order, delivery, and follow-up updates",
-  },
 ];
 
 export default function ProblemSection() {
@@ -66,30 +52,10 @@ export default function ProblemSection() {
               Manual is how you started. Automated is how you scale.
             </h2>
             <p className="mt-3 max-w-md text-sm text-cedar-mist sm:mt-4 sm:text-lg">
-              Tap a stack item to see what changes when Cedarce runs the work for you.
+              See what changes when the manual work becomes a connected system.
             </p>
-            <div className="mt-8 hidden max-w-md grid-cols-3 gap-2 lg:grid">
-              {OUTCOME_IMAGES.map((image, index) => (
-                <div
-                  key={image.src}
-                  className={`relative h-28 overflow-hidden border border-white/10 sm:h-36 ${
-                    index === 1 ? "mt-5" : ""
-                  }`}
-                >
-                  <Image
-                    src={image.src}
-                    alt={image.alt}
-                    fill
-                    sizes="(min-width: 1024px) 140px, 30vw"
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/65 to-transparent" />
-                </div>
-              ))}
-            </div>
             <Button href="/contact" variant="outlineLight" className="mt-8 hidden lg:inline-flex">
               Start your setup
-              <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
 
@@ -138,10 +104,6 @@ export default function ProblemSection() {
                 </div>
               </motion.div>
             </AnimatePresence>
-            <Button href="/contact" variant="outlineLight" className="mt-5 w-full">
-              Start your setup
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
           </div>
 
           {/* Desktop: interactive accordion stack */}

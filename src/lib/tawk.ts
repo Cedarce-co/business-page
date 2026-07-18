@@ -2,7 +2,11 @@ declare global {
   interface Window {
     Tawk_API?: {
       maximize?: () => void;
+      showWidget?: () => void;
+      hideWidget?: () => void;
       onLoad?: () => void;
+      onChatMinimized?: () => void;
+      onChatHidden?: () => void;
       customStyle?: {
         visibility?: {
           desktop?: { position?: string; xOffset?: number; yOffset?: number };

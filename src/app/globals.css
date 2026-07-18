@@ -265,9 +265,10 @@ html::-webkit-scrollbar-thumb:hover {
   .tawk-min-container {
     left: auto !important;
     right: 12px !important;
-    bottom: calc(var(--site-mobile-tab-height, 3.25rem) + 0.75rem) !important;
+    bottom: calc(var(--site-mobile-tab-height, 3.25rem) + 1.5rem) !important;
     top: auto !important;
   }
+
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -5,7 +5,6 @@ import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { Calendar, Star, Zap } from "lucide-react";
 import SectionLabel from "@/components/ui/SectionLabel";
-import Button from "@/components/ui/Button";
 import { HOW_IT_WORKS } from "@/lib/constants";
 import { HOW_IT_WORKS_IMAGES } from "@/lib/marketing-images";
 
@@ -26,20 +25,12 @@ export default function HowItWorksSection() {
         className="pointer-events-none absolute inset-0 opacity-40 [background-image:radial-gradient(rgba(255,255,255,0.05)_1px,transparent_1px)] [background-size:22px_22px]"
       />
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div>
           <div className="max-w-xl">
             <SectionLabel>How it works</SectionLabel>
             <h2 className="mt-4 font-display text-[1.85rem] leading-tight text-cedar-ivory sm:mt-5 sm:text-4xl lg:text-5xl">
               Three steps to going professional.
             </h2>
-            <p className="mt-3 text-sm text-cedar-mist sm:mt-4 sm:text-lg">
-              No complicated processes. No long waiting. Just results.
-            </p>
-          </div>
-          <div className="hidden lg:block">
-            <Button href="/signup" variant="accent" className="shrink-0">
-              Start building
-            </Button>
           </div>
         </div>
 
@@ -91,12 +82,6 @@ export default function HowItWorksSection() {
               );
             })}
           </div>
-          <div className="lg:hidden">
-            <Button href="/signup" variant="accent" full>
-              Start building
-            </Button>
-          </div>
-
           <div className="relative hidden min-h-[22rem] overflow-hidden rounded-[2rem] border border-white/10 bg-zinc-950 lg:sticky lg:top-[calc(var(--site-nav-height)+2rem)] lg:block">
             <AnimatePresence mode="wait">
               <motion.div

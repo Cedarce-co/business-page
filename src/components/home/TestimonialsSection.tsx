@@ -26,11 +26,8 @@ export default function TestimonialsSection() {
               <br />
               Real results.
             </h2>
-            <p className="mt-3 max-w-sm text-sm text-cedar-mist sm:mt-4 sm:text-base">
-              Hear how owners moved from informal ops to a setup that looks and pays like a real company.
-            </p>
 
-            <div className="mt-8 flex items-center gap-2.5 overflow-x-auto pb-1 sm:mt-10 sm:gap-3">
+            <div className="mt-8 flex items-center gap-2.5 overflow-x-auto pb-1 sm:gap-3">
               {TESTIMONIALS.map((t, index) => {
                 const selected = active === index;
                 const portrait = TESTIMONIAL_IMAGES[index];
@@ -85,13 +82,15 @@ export default function TestimonialsSection() {
                 <p className="text-base leading-relaxed text-cedar-ivory sm:text-xl">{item.quote}</p>
                 <p className="mt-6 text-base font-semibold text-cedar-ivory sm:mt-8">{item.name}</p>
                 <p className="mt-1 text-sm text-cedar-mist">{item.role}</p>
-                <Link
-                  href="/contact"
-                  className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-cedar-accent transition hover:gap-3 sm:mt-6"
-                >
-                  Start your story
-                  <ArrowRight className="h-4 w-4" aria-hidden />
-                </Link>
+                <div className="hidden sm:block">
+                  <Link
+                    href="/contact"
+                    className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-cedar-accent transition hover:gap-3"
+                  >
+                    Start your story
+                    <ArrowRight className="h-4 w-4" aria-hidden />
+                  </Link>
+                </div>
               </motion.div>
             </AnimatePresence>
           </div>
