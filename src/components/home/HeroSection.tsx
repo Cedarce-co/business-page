@@ -74,8 +74,10 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-black/85" />
 
         <div className="relative flex min-h-[calc(100svh-var(--site-mobile-tab-height)-2.25rem)] flex-col pb-12">
-          <p className="max-w-[13rem] font-display text-lg leading-tight tracking-tight text-cedar-ivory">
-            Your business, ready online.
+          <p className="max-w-[16rem] font-display text-[2.75rem] leading-[1.05] tracking-tight text-cedar-ivory sm:max-w-[20rem] sm:text-[3.25rem]">
+            Your business,
+            <br />
+            ready online.
           </p>
 
           <motion.div
