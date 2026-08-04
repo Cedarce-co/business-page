@@ -25,7 +25,7 @@ export default function FinalCTASection() {
             <div className="flex min-w-0 flex-col items-center lg:items-start">
               <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-cedar-accent">Next step</p>
               <h2 className="mt-3 font-display text-[1.65rem] leading-tight text-cedar-ivory sm:mt-4 sm:text-4xl lg:text-5xl">
-                Look credible where people check first.
+                Look ready where people check first.
               </h2>
             </div>
             <div className="flex w-full justify-center lg:w-auto lg:justify-start">

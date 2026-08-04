@@ -6,7 +6,7 @@ const rowOne = [
   "Churches",
   "Logistics Companies",
   "Beauty Salons",
-  "Startups",
+  "Shops & stores",
   "NGOs",
   "Real Estate",
   "Event Planners",

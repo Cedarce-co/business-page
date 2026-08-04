@@ -22,7 +22,7 @@ type Tab = {
   match: (pathname: string) => boolean;
 };
 
-/** App-style sticky bottom navigation — full width; live chat floats above on the right. */
+/** App-style sticky bottom navigation. full width; live chat floats above on the right. */
 export default function MobileBottomNav() {
   const pathname = usePathname() ?? "";
   const { data: session } = useSession();
@@ -56,13 +56,13 @@ export default function MobileBottomNav() {
     },
     {
       href: "/solutions",
-      label: "Solutions",
+      label: "Business",
       icon: Layers,
       match: (p) => p.startsWith("/solutions") || p.startsWith("/services"),
     },
     {
       href: "/product",
-      label: "Product",
+      label: "Services",
       icon: Package,
       match: (p) => p.startsWith("/product") || p.startsWith("/about"),
     },

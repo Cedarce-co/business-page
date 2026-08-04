@@ -36,7 +36,7 @@ export function tableRangeLabel(total: number, page: number, perPage: number) {
   const { safePage } = resolveTablePage(page, total, perPage);
   const from = (safePage - 1) * perPage + 1;
   const to = Math.min(safePage * perPage, total);
-  return `Showing ${from}–${to} of ${total}`;
+  return `Showing ${from}-${to} of ${total}`;
 }
 
 export function buildPageList(current: number, totalPages: number): (number | "ellipsis")[] {

@@ -29,12 +29,12 @@ export type WayfindingCrumb = {
 };
 
 const SITE_SEGMENTS: Record<string, { label: string; icon: WayfindingIconKey }> = {
-  about: { label: "Product", icon: "building" },
+  about: { label: "Services", icon: "building" },
   pricing: { label: "Pricing", icon: "tag" },
   faq: { label: "FAQ", icon: "book" },
-  services: { label: "Solutions", icon: "layers" },
-  product: { label: "Product", icon: "layers" },
-  solutions: { label: "Solutions", icon: "clipboard" },
+  services: { label: "Services", icon: "layers" },
+  product: { label: "Services", icon: "layers" },
+  solutions: { label: "Business", icon: "clipboard" },
   blog: { label: "Blog", icon: "book" },
   contact: { label: "Contact", icon: "mail" },
   privacy: { label: "Privacy", icon: "file" },

@@ -2,41 +2,37 @@
 
 import { useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { Check, Minus } from "lucide-react";
+import { Check } from "lucide-react";
 import SectionLabel from "@/components/ui/SectionLabel";
 import Button from "@/components/ui/Button";
 
-const pairs = [
+const benefits = [
   {
     id: "receipts",
     title: "Receipts & invoices",
-    before: "Manually typing receipts and chasing paper trails",
-    after: "Branded receipts and invoices sent automatically",
+    outcome: "We set up clean bills and receipts with your name and logo, so every sale looks official.",
   },
   {
     id: "payments",
-    title: "Getting paid",
-    before: "Chasing payments by hand over WhatsApp",
-    after: "Online payments confirmed in real time",
+    title: "Easy payments",
+    outcome: "Customers can pay you online when you need it. Simple links, clear confirmations, less chasing.",
   },
   {
     id: "email",
-    title: "Business identity",
-    before: "Personal Gmail for serious business",
-    after: "hello@yourbusiness.com — credibility in every inbox",
+    title: "Business email",
+    outcome: "You get an email that matches your business name, so people take you seriously from the first message.",
   },
   {
     id: "reach",
-    title: "Customer reach",
-    before: "Notifying customers one by one",
-    after: "Bulk messaging that reaches everyone at once",
+    title: "Stay in touch",
+    outcome: "We help you message many customers at once. updates, offers, and reminders without typing each one.",
   },
 ];
 
 export default function ProblemSection() {
   const [active, setActive] = useState(0);
   const reduced = useReducedMotion();
-  const current = pairs[active]!;
+  const current = benefits[active]!;
 
   return (
     <section className="relative overflow-hidden bg-black py-14 lg:py-28">
@@ -47,26 +43,25 @@ export default function ProblemSection() {
       <div className="relative mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
         <div className="grid items-start gap-8 lg:grid-cols-[1fr_1.05fr] lg:gap-16">
           <div>
-            <SectionLabel>Without vs with us</SectionLabel>
+            <SectionLabel>What you get with us</SectionLabel>
             <h2 className="mt-4 max-w-md font-display text-[1.85rem] leading-tight text-cedar-ivory sm:mt-5 sm:text-4xl lg:text-5xl">
-              Manual is how you started. Automated is how you scale.
+              Hand work is fine to start. We help you run smoother as you grow.
             </h2>
             <p className="mt-3 max-w-md text-sm text-cedar-mist sm:mt-4 sm:text-lg">
-              See what changes when the manual work becomes a connected system.
+              Tap each item to see how we help in plain words.
             </p>
             <Button href="/contact" variant="outlineLight" className="mt-8 hidden lg:inline-flex">
               Start your setup
             </Button>
           </div>
 
-          {/* Mobile: chip rail + one comparison card */}
           <div className="lg:hidden">
             <div className="flex gap-2 overflow-x-auto pb-1">
-              {pairs.map((pair, index) => {
+              {benefits.map((item, index) => {
                 const open = active === index;
                 return (
                   <button
-                    key={pair.id}
+                    key={item.id}
                     type="button"
                     onClick={() => setActive(index)}
                     className={`shrink-0 rounded-full border px-3 py-1.5 text-xs font-semibold transition ${
@@ -75,7 +70,7 @@ export default function ProblemSection() {
                         : "border-white/15 text-cedar-mist"
                     }`}
                   >
-                    {pair.title}
+                    {item.title}
                   </button>
                 );
               })}
@@ -92,27 +87,20 @@ export default function ProblemSection() {
                 <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-cedar-accent">
                   {String(active + 1).padStart(2, "0")} · {current.title}
                 </p>
-                <div className="mt-3 space-y-3">
-                  <p className="flex gap-2 text-sm text-white/50">
-                    <Minus className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-                    {current.before}
-                  </p>
-                  <p className="flex gap-2 text-sm font-medium text-cedar-ivory">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-cedar-accent" aria-hidden />
-                    {current.after}
-                  </p>
-                </div>
+                <p className="mt-3 flex gap-2 text-sm font-medium leading-relaxed text-cedar-ivory">
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-cedar-accent" aria-hidden />
+                  {current.outcome}
+                </p>
               </motion.div>
             </AnimatePresence>
           </div>
 
-          {/* Desktop: interactive accordion stack */}
           <div className="hidden space-y-3 lg:block">
-            {pairs.map((pair, index) => {
+            {benefits.map((item, index) => {
               const open = active === index;
               return (
                 <button
-                  key={pair.id}
+                  key={item.id}
                   type="button"
                   onClick={() => setActive(index)}
                   aria-expanded={open}
@@ -131,7 +119,7 @@ export default function ProblemSection() {
                       {String(index + 1).padStart(2, "0")}
                     </span>
                     <h3 className={`text-lg font-semibold ${open ? "text-cedar-ivory" : "text-cedar-mist"}`}>
-                      {pair.title}
+                      {item.title}
                     </h3>
                   </div>
                   <AnimatePresence initial={false}>
@@ -143,14 +131,10 @@ export default function ProblemSection() {
                         transition={{ duration: 0.28 }}
                         className="overflow-hidden"
                       >
-                        <div className="mt-4 space-y-3 border-t border-white/10 pt-4">
-                          <p className="flex gap-2 text-sm text-white/50">
-                            <Minus className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-                            {pair.before}
-                          </p>
-                          <p className="flex gap-2 text-sm font-medium text-cedar-ivory">
+                        <div className="mt-4 border-t border-white/10 pt-4">
+                          <p className="flex gap-2 text-sm font-medium leading-relaxed text-cedar-ivory">
                             <Check className="mt-0.5 h-4 w-4 shrink-0 text-cedar-accent" aria-hidden />
-                            {pair.after}
+                            {item.outcome}
                           </p>
                         </div>
                       </motion.div>

@@ -17,7 +17,7 @@ export default function PrivacyPolicyDocument() {
       <section className="space-y-3">
         <h2 className="text-2xl font-bold text-cedar-ivory">1. Introduction</h2>
         <p className="leading-relaxed">
-          Welcome to Cedarce. We are a digital business services company registered in Nigeria, helping businesses set up their websites, payments, invoicing, business email, bulk messaging, mobile apps, and more.
+          Welcome to Cedarce. We help businesses of all sizes set up websites, email, invoices, payments, messaging, and training in plain language. So you look ready and work more smoothly.
         </p>
         <p className="leading-relaxed">
           At Cedarce, we take your privacy seriously. This Privacy Policy explains how we collect, use, store, and protect your personal information when you visit our website at {SITE}, use our services, or interact with us in any way.

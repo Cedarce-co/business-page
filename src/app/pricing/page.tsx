@@ -9,12 +9,12 @@ export default function PricingPage() {
         badge="Pricing"
         title={
           <>
-            Pick a starting package.
+            Packages as low as you need to start.
             <br />
-            We scope the rest together.
+            We confirm details together.
           </>
         }
-        description="Choose the package closest to what you need. We confirm the scope before work begins."
+        description="Small Business and Medium Business show a clear as-low-as price in your currency. Enterprise is custom. You tell us what you need and we quote."
         image={PRICING_HERO_IMAGE}
       />
 

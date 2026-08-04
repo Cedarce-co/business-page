@@ -10,7 +10,7 @@ type Props = {
   images: MarketingImage[];
   intervalMs?: number;
   className?: string;
-  /** Darken overlay strength 0–100 */
+  /** Darken overlay strength 0 to 100 */
   overlay?: number;
   priority?: boolean;
   /** Optional gradient overlay classes */

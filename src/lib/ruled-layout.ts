@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 
-/** Flat section bands — black elegant system. */
+/** Flat section bands. black elegant system. */
 export const sectionBand = {
   white: "bg-black",
   muted: "bg-zinc-950",
@@ -43,7 +43,7 @@ export const bandListItem = "px-0 py-4 sm:px-6 first:sm:pl-0";
 
 export const bandBlockTop = "border-t border-white/10 pt-8";
 
-/* Legacy aliases — same flat system, no heavy ruled frames */
+/* Legacy aliases. same flat system, no heavy ruled frames */
 export const ruledSection = sectionBand;
 export const ruledSectionBg = sectionBandBg;
 export const ruledGridCols = bandGridCols;

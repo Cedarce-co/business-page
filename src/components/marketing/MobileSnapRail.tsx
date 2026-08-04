@@ -100,7 +100,7 @@ export default function MobileSnapRail({
     [clampIndex],
   );
 
-  // Non-passive touch handlers — critical for horizontal swipe on mobile
+  // Non-passive touch handlers. critical for horizontal swipe on mobile
   useEffect(() => {
     const el = viewportRef.current;
     if (!el || items.length < 2) return;
@@ -133,7 +133,7 @@ export default function MobileSnapRail({
 
       if (drag.locking === "y") return;
 
-      // Horizontal swipe — stop page scroll
+      // Horizontal swipe. stop page scroll
       e.preventDefault();
       drag.moved = true;
       drag.lastX = t.clientX;

@@ -24,7 +24,7 @@ export const SERVICE_PAGE_DETAILS: Record<string, ServicePageDetail> = {
     heroIcon: Globe,
     tagline: "Be found, trusted, and ready to sell online",
     lead:
-      "Your website, domain, and hosting are the front door to your business. We design and launch a fast, mobile-first site with your brand, SSL, and managed hosting so visitors see a real company, not a social handle or empty page.",
+      "Your website, domain, and hosting are the front door to your business. We design and launch a fast, phone-friendly site with your brand, SSL, and managed hosting so visitors see a real company, not a social handle or empty page.",
     outcomes: [
       "Show up in search and ads with a clear offer and contact path",
       "Build trust with a professional look that matches your quality",
@@ -64,7 +64,7 @@ export const SERVICE_PAGE_DETAILS: Record<string, ServicePageDetail> = {
     heroIcon: CreditCard,
     tagline: "Get paid quickly with less back-and-forth",
     lead:
-      "We connect you to card and bank checkout that fits how your customers pay in Nigeria, then layer branded invoices and receipts so every sale looks professional and is easy to reconcile.",
+      "We connect you to card and bank checkout that fits how your customers like to pay, then layer branded invoices and receipts so every sale looks professional and is easy to reconcile.",
     outcomes: [
       "Close sales on your site or payment link without manual follow-up",
       "Send invoices and receipts that match your brand",
@@ -197,7 +197,7 @@ export const SERVICE_PAGE_DETAILS: Record<string, ServicePageDetail> = {
       "Staff training sessions and documentation handover",
     ],
     forYou: [
-      "SMEs scaling beyond spreadsheets and WhatsApp ops",
+      "Growing teams scaling beyond spreadsheets and chat tools",
       "Founders piloting an app alongside their website",
       "Teams onboarding new hires onto the same systems",
     ],

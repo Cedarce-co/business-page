@@ -37,8 +37,8 @@ export default function ContactPage() {
     <MarketingSplitShell
       image={CONTACT_HERO_IMAGE}
       eyebrow="Contact"
-      title="There’s no limit to what you can build."
-      description="Tell us where your business is today. We’ll map the setup that makes you look credible and get paid faster — first consultation is free."
+      title="Let’s talk about your business."
+      description="Tell us where you are today. We’ll suggest a simple setup that helps customers find and trust you. First consultation is free."
       aside={
         <>
           <CalendlyBookButton variant="teal" label="Or pick a time on Calendly" />
@@ -68,7 +68,7 @@ export default function ContactPage() {
           <Input variant="dark" placeholder="Phone (optional)" />
           <Textarea required variant="dark" rows={5} placeholder="What are you looking to set up?" />
           <p className="text-xs text-white/40">
-            You agree we may contact you about your request. No spam — just next steps.
+            You agree we may contact you about your request. No spam. Just next steps.
           </p>
           <Button type="submit" variant="accent" className="w-1/2 px-3 text-xs sm:w-auto sm:px-6 sm:text-base">
             Send message

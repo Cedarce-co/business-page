@@ -6,20 +6,12 @@ import { LOGO_DARK_BG, LOGO_FOOTER_SIZES } from "@/lib/brand-logos";
 import ContactInfoList from "@/components/ui/ContactInfoList";
 import Button from "@/components/ui/Button";
 
-const solutionLinks = [
-  { label: "Self-employed", href: "/solutions/self-employed" },
-  { label: "Micro-businesses", href: "/solutions/micro-businesses" },
-  { label: "SMEs", href: "/solutions/smes" },
+const businessLinks = [
+  { label: "Small businesses", href: "/solutions/self-employed" },
+  { label: "Shops, malls & stores", href: "/solutions/micro-businesses" },
+  { label: "Medium businesses", href: "/solutions/smes" },
   { label: "Associations", href: "/solutions/associations" },
-  { label: "View all solutions", href: "/solutions" },
-] as const;
-
-const productLinks = [
-  { label: "Websites & landing pages", href: "/product/website-landing-pages" },
-  { label: "Business email", href: "/product/business-email" },
-  { label: "Payments integration", href: "/product/payments-integration" },
-  { label: "Invoicing & receipts", href: "/product/invoicing-receipts" },
-  { label: "View all products", href: "/product" },
+  { label: "View all", href: "/solutions" },
 ] as const;
 
 type FooterLinkItem = {
@@ -57,7 +49,7 @@ function FooterLinkPanel({
 }
 
 export default function Footer() {
-  const companyLinks = [
+  const quickLinks = [
     { label: "How it works", href: "/#how-it-works" },
     { label: "Pricing", href: "/pricing" },
     { label: "FAQ", href: "/faq" },
@@ -69,7 +61,6 @@ export default function Footer() {
   return (
     <footer id="site-footer" className="border-t border-white/10 bg-black pb-[calc(var(--site-mobile-tab-height)+0.5rem)] lg:pb-0">
       <div className="mx-auto w-full max-w-[1440px] px-4 py-10 sm:px-6 lg:px-10 lg:py-24">
-        {/* Mobile: one quiet brand block and a compact directory. */}
         <div className="lg:hidden">
           <div className="flex flex-col items-center justify-center gap-3 border-b border-white/10 pb-6 text-center">
             <Link href="/" className="inline-flex items-center" aria-label="Home">
@@ -92,8 +83,8 @@ export default function Footer() {
           </div>
           <nav aria-label="Footer" className="grid grid-cols-2 gap-x-8 gap-y-4 py-7">
             {[
-              { label: "Solutions", href: "/solutions" },
-              { label: "Products", href: "/product" },
+              { label: "Business", href: "/solutions" },
+              { label: "Services", href: "/product" },
               { label: "Pricing", href: "/pricing" },
               { label: "FAQ", href: "/faq" },
               { label: "Contact", href: "/contact" },
@@ -114,7 +105,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="hidden lg:grid lg:grid-cols-[1.35fr_repeat(4,minmax(0,1fr))] lg:gap-8">
+        <div className="hidden lg:grid lg:grid-cols-[1.35fr_repeat(3,minmax(0,1fr))] lg:gap-10">
           <div className="col-span-2 rounded-[1.75rem] border border-white/10 bg-zinc-950/80 p-6 text-center lg:col-span-1 lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:text-left">
             <Link href="/" className="inline-flex min-w-0 items-center justify-center lg:justify-start" aria-label="Home">
               <span className="flex items-center sm:hidden">
@@ -145,7 +136,7 @@ export default function Footer() {
               </span>
             </Link>
             <p className="mx-auto mt-4 max-w-sm text-sm leading-relaxed text-cedar-mist lg:mx-0">
-              We give your business its digital pulse.
+              We help businesses look ready online and work with simpler day-to-day tools.
             </p>
             <div className="mt-5 flex justify-center text-xs text-cedar-mist lg:justify-start">
               <span className="inline-flex items-center gap-1.5">
@@ -157,22 +148,20 @@ export default function Footer() {
 
           <FooterLinkPanel
             title="Services"
-            wide
             links={SERVICES.map((service) => ({
               label: service.name,
               href: `/services/${service.id}`,
             }))}
           />
-          <FooterLinkPanel title="Solutions" links={solutionLinks} />
-          <FooterLinkPanel title="Products" links={productLinks} />
-          <FooterLinkPanel title="Company" wide links={companyLinks} />
+          <FooterLinkPanel title="Business" links={businessLinks} />
+          <FooterLinkPanel title="Quick links" links={quickLinks} />
         </div>
 
         <div className="mx-auto mt-16 hidden w-full max-w-2xl grid-cols-[1fr_auto] items-center gap-12 border-t border-white/10 pt-10 lg:grid">
           <div>
             <h4 className="font-display text-2xl text-cedar-ivory">Talk to us</h4>
             <p className="mt-2 text-sm text-cedar-mist">
-              Prefer email or phone? We reply quickly, and live chat is on the site when we&apos;re online.
+              Prefer email or phone? We reply quickly. Live chat is always on the site too.
             </p>
             <div className="mt-4 text-cedar-mist [&_a]:text-cedar-ivory [&_a]:hover:text-cedar-accent">
               <ContactInfoList showHours hours="short" />

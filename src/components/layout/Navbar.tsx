@@ -6,12 +6,13 @@ import { usePathname } from "next/navigation";
 import { ArrowRight, ArrowUpRight, ChevronDown } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import Button from "@/components/ui/Button";
+import CurrencySwitcher from "@/components/layout/CurrencySwitcher";
 import { LOGO_DARK_BG, LOGO_NAV_SIZES } from "@/lib/brand-logos";
 import { useSession, signOut } from "next-auth/react";
 
 const links = [
-  { href: "/solutions", label: "Solutions" },
-  { href: "/product", label: "Product" },
+  { href: "/solutions", label: "Business" },
+  { href: "/product", label: "Services" },
   { href: "/pricing", label: "Pricing" },
   { href: "/faq", label: "FAQ" },
   { href: "/contact", label: "Contact" },
@@ -33,48 +34,48 @@ type MegaBlock = {
 };
 
 const megaMenus: Record<string, MegaBlock> = {
-  Solutions: {
-    leftTitle: "Existing companies",
+  Business: {
+    leftTitle: "Business you serve",
     leftItems: [
-      { name: "Self-employed", desc: "Freelancers and sole traders", href: "/solutions/self-employed" },
-      { name: "Micro-businesses", desc: "1-9 employees", href: "/solutions/micro-businesses" },
-      { name: "SMEs", desc: "10-250+ employees", href: "/solutions/smes" },
-      { name: "Associations", desc: "Donations, membership fees, expenses", href: "/solutions/associations" },
+      { name: "Small businesses", desc: "Owner-run shops and professional services", href: "/solutions/self-employed" },
+      { name: "Shops, malls & stores", desc: "Track sales and store inventory, online and in store", href: "/solutions/micro-businesses" },
+      { name: "Medium businesses", desc: "Growing teams ready for a full setup", href: "/solutions/smes" },
+      { name: "Associations", desc: "Groups, clubs, and member organizations", href: "/solutions/associations" },
     ],
-    rightTitle: "Business founders",
+    rightTitle: "Getting started",
     rightItems: [
-      { name: "Business launch setup", desc: "Website, domain, email, payments", href: "/solutions/business-launch-setup" },
-      { name: "Brand and automation", desc: "Invoicing, follow-ups, bulk messaging", href: "/solutions/brand-and-automation" },
+      { name: "Business launch setup", desc: "Website, name address, email, and tools", href: "/solutions/business-launch-setup" },
+      { name: "Brand and everyday systems", desc: "Invoices, follow-ups, and messaging", href: "/solutions/brand-and-automation" },
     ],
     cardTag: "By stage",
-    cardTitle: "Which situation sounds like yours?",
-    cardText: "Browse solutions for freelancers, micro-businesses, SMEs, and associations, mapped to the right service mix.",
+    cardTitle: "Which sounds most like you?",
+    cardText: "Browse setups for small businesses, shops and stores, medium businesses, and associations. Matched to what you actually need.",
     cardCtaHref: "/solutions",
-    cardCtaLabel: "Browse solutions",
+    cardCtaLabel: "Browse business types",
     footerLink: "Talk to our team",
     footerLinkHref: "/contact",
   },
-  Product: {
-    leftTitle: "Digital setup",
+  Services: {
+    leftTitle: "Core setup",
     leftItems: [
-      { name: "Website and landing pages", desc: "Mobile-first and conversion-focused", href: "/product/website-landing-pages" },
-      { name: "Domain and hosting", desc: "SSL-secured and managed setup", href: "/product/domain-hosting" },
-      { name: "Business email", desc: "Branded inboxes for your team", href: "/product/business-email" },
-      { name: "Payments integration", desc: "Cards, bank transfer, and mobile checkout", href: "/product/payments-integration" },
-      { name: "Invoicing and receipts", desc: "Automated branded documents", href: "/product/invoicing-receipts" },
+      { name: "Website and landing pages", desc: "Pages that look great on phones and computers", href: "/product/website-landing-pages" },
+      { name: "Domain and hosting", desc: "Your web address, kept safe and running", href: "/product/domain-hosting" },
+      { name: "Business email", desc: "Email that uses your business name", href: "/product/business-email" },
+      { name: "Payments", desc: "Let customers pay you online when you need it", href: "/product/payments-integration" },
+      { name: "Invoicing and receipts", desc: "Clean bills with your brand name", href: "/product/invoicing-receipts" },
     ],
     rightTitle: "Growth tools",
     rightItems: [
-      { name: "Bulk messaging", desc: "Email, WhatsApp, and SMS campaigns", href: "/product/bulk-messaging" },
-      { name: "Marketing setup", desc: "Instagram, TikTok, and Google visibility", href: "/product/marketing-setup" },
-      { name: "Staff training", desc: "Hands-on onboarding for your team", href: "/product/staff-training" },
+      { name: "Bulk messaging", desc: "Email, WhatsApp, and SMS to many people at once", href: "/product/bulk-messaging" },
+      { name: "Marketing setup", desc: "Help people find you on social and search", href: "/product/marketing-setup" },
+      { name: "Staff training", desc: "Hands-on practice for your team", href: "/product/staff-training" },
       { name: "Integrations", desc: "Connect tools you already use", href: "/product/integrations" },
     ],
-    cardTag: "Platform",
-    cardTitle: "Portal, verification & delivery ops",
-    cardText: "See how Cedarce runs client onboarding, KYC, service requests, and admin workflows as one product.",
+    cardTag: "Services",
+    cardTitle: "Pick what you need",
+    cardText: "Websites, email, invoices, messaging, and more. Each service can stand alone or work together.",
     cardCtaHref: "/product",
-    cardCtaLabel: "Explore product",
+    cardCtaLabel: "Explore services",
     footerLink: "Compare packages",
     footerLinkHref: "/pricing",
   },
@@ -82,18 +83,18 @@ const megaMenus: Record<string, MegaBlock> = {
     leftTitle: "Pricing",
     leftItems: [
       { name: "Company creators", desc: "Setup and launch support", href: "/pricing/company-creators" },
-      { name: "Self-employed", desc: "Plans built for freelancers", href: "/pricing/self-employed" },
-      { name: "Micro-businesses", desc: "1-9 team members", href: "/pricing/micro-businesses" },
-      { name: "SMEs", desc: "Scale with confidence", href: "/pricing/smes" },
+      { name: "Small businesses", desc: "Plans built for owner-led work", href: "/pricing/self-employed" },
+      { name: "Shops, malls & stores", desc: "Sales tracking and stock setups for retail", href: "/pricing/micro-businesses" },
+      { name: "Medium businesses", desc: "Scale with a full digital setup", href: "/pricing/smes" },
     ],
     rightTitle: "Compare",
     rightItems: [
-      { name: "Find the right plan", desc: "Compare features and limits", href: "/pricing/compare-plans" },
+      { name: "Find the right plan", desc: "Compare packages side by side", href: "/pricing/compare-plans" },
       { name: "Need help choosing?", desc: "Speak with our team", href: "/contact" },
     ],
     cardTag: "Consultation",
     cardTitle: "Not sure which tier fits?",
-    cardText: "Book a short call. We’ll map packages to your goals and timeline.",
+    cardText: "Book a short call. We’ll match a package to your goals and budget. Starting from as low as our Small Business range.",
     cardCtaHref: "/contact",
     cardCtaLabel: "Book a call",
     footerLink: "Email us",
@@ -163,20 +164,27 @@ export default function Navbar() {
           : "border-white/10 bg-black/80 backdrop-blur-xl"
       }`}
     >
-      <div className="mx-auto hidden h-[72px] w-full max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:flex lg:h-[84px] lg:px-10">
+      {/* Mobile: logo + currency top-right */}
+      <div className="mx-auto flex h-14 w-full max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:hidden">
         <Link href="/" className="flex min-w-0 shrink-0 items-center" aria-label="Home">
-          <span className="flex items-center sm:hidden">
-            <Image
-              src={LOGO_DARK_BG.mobile}
-              alt="Cedarce"
-              width={LOGO_NAV_SIZES.mobile.width}
-              height={LOGO_NAV_SIZES.mobile.height}
-              style={{ width: LOGO_NAV_SIZES.mobile.width, height: LOGO_NAV_SIZES.mobile.height }}
-              className="object-contain object-left"
-              priority
-            />
-          </span>
-          <span className="hidden items-center sm:flex">
+          <Image
+            src={LOGO_DARK_BG.mobile}
+            alt="Cedarce"
+            width={LOGO_NAV_SIZES.mobile.width}
+            height={LOGO_NAV_SIZES.mobile.height}
+            style={{ width: LOGO_NAV_SIZES.mobile.width, height: LOGO_NAV_SIZES.mobile.height }}
+            className="object-contain object-left"
+            priority
+          />
+        </Link>
+        <CurrencySwitcher className="shrink-0" size="sm" />
+      </div>
+
+      {/* Desktop nav:
+          logo | (flex) nav centered | currency midpoint between Contact & Sign in | auth */}
+      <div className="mx-auto hidden h-[84px] w-full max-w-[1440px] items-center px-10 lg:flex">
+        <div className="flex min-w-0 flex-1 items-center justify-start">
+          <Link href="/" className="flex shrink-0 items-center" aria-label="Home">
             <Image
               src={LOGO_DARK_BG.desktop}
               alt="Cedarce"
@@ -186,10 +194,10 @@ export default function Navbar() {
               className="object-contain object-left"
               priority
             />
-          </span>
-        </Link>
+          </Link>
+        </div>
 
-        <nav className="hidden items-center gap-8 lg:flex" onMouseLeave={startCloseDelay}>
+        <nav className="flex shrink-0 items-center gap-8" onMouseLeave={startCloseDelay}>
           {links.map((link) => (
             <Link
               key={link.href}
@@ -213,40 +221,46 @@ export default function Navbar() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 whitespace-nowrap lg:flex">
-          {session?.user?.id ? (
-            <>
-              <Link
-                href="/dashboard"
-                className="rounded-lg bg-cedar-ivory px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-white"
-              >
-                Dashboard
-              </Link>
-              <button
-                type="button"
-                onClick={() => signOut({ callbackUrl: "/" })}
-                className="rounded-lg border border-white/20 px-4 py-2.5 text-sm font-semibold text-cedar-ivory transition hover:border-white/40"
-              >
-                Sign out
-              </button>
-            </>
-          ) : (
-            <>
-              <Link
-                href="/signin"
-                className="rounded-lg px-4 py-2.5 text-sm font-semibold text-white/80 transition hover:text-cedar-ivory"
-              >
-                Sign in
-              </Link>
-              <Link
-                href="/signup"
-                className="inline-flex items-center gap-2 rounded-lg bg-cedar-accent px-5 py-2.5 text-sm font-semibold text-black transition hover:brightness-110"
-              >
-                Create account
-                <ArrowRight className="h-4 w-4 shrink-0" aria-hidden />
-              </Link>
-            </>
-          )}
+        <div className="flex min-w-0 flex-1 items-center">
+          {/* Centers switcher in the open space between Contact and Sign in */}
+          <div className="flex min-w-0 flex-1 items-center justify-center px-3">
+            <CurrencySwitcher size="sm" />
+          </div>
+          <div className="flex shrink-0 items-center gap-3 whitespace-nowrap">
+            {session?.user?.id ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  className="rounded-lg bg-cedar-ivory px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-white"
+                >
+                  Dashboard
+                </Link>
+                <button
+                  type="button"
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                  className="rounded-lg border border-white/20 px-4 py-2.5 text-sm font-semibold text-cedar-ivory transition hover:border-white/40"
+                >
+                  Sign out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/signin"
+                  className="rounded-lg px-4 py-2.5 text-sm font-semibold text-white/80 transition hover:text-cedar-ivory"
+                >
+                  Sign in
+                </Link>
+                <Link
+                  href="/signup"
+                  className="inline-flex items-center gap-2 rounded-lg bg-cedar-accent px-5 py-2.5 text-sm font-semibold text-black transition hover:brightness-110"
+                >
+                  Create account
+                  <ArrowRight className="h-4 w-4 shrink-0" aria-hidden />
+                </Link>
+              </>
+            )}
+          </div>
         </div>
       </div>
 

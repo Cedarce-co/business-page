@@ -58,7 +58,7 @@ export const PRODUCT_PAGES: Record<string, MarketingPageConfig> = {
     category: "product",
     title: "Website & landing pages",
     eyebrow: "Digital setup",
-    tagline: "Mobile-first pages that convert browsers into buyers",
+    tagline: "Phone-friendly pages that help visitors take the next step",
     lead:
       "We design and build fast, responsive sites and focused landing pages with clear offers, trust signals, and one obvious next step: book, call, pay, or request a quote.",
     heroVariant: "split",
@@ -69,21 +69,21 @@ export const PRODUCT_PAGES: Record<string, MarketingPageConfig> = {
     sections: [
       {
         type: "stats",
-        title: "Built for how Nigerians actually browse",
+        title: "Built for how people actually browse",
         items: [
-          { value: "90%+", label: "Mobile traffic ready" },
-          { value: "<3s", label: "Target load on 4G" },
-          { value: "1", label: "Primary CTA per page" },
+          { value: "90%+", label: "Looks great on phones" },
+          { value: "<3s", label: "Fast load goal" },
+          { value: "1", label: "Clear next step per page" },
         ],
       },
       {
         type: "bento",
         title: "What makes our pages different",
         items: [
-          { icon: "smartphone", title: "Thumb-first layout", body: "Navigation, pricing, and CTAs sit where thumbs reach on small screens." },
-          { icon: "zap", title: "Speed & SEO basics", body: "Structured headings, meta tags, and lean assets so Google and ads can find you." },
-          { icon: "layers", title: "Modular sections", body: "Hero, proof, services, FAQ, and contact blocks you can extend later." },
-          { icon: "share", title: "Share-ready", body: "Open Graph previews that look professional when links hit WhatsApp." },
+          { icon: "smartphone", title: "Easy on phones", body: "Buttons and menus sit where thumbs reach, so visitors can act quickly." },
+          { icon: "zap", title: "Fast & findable", body: "Clear headings and clean pages so people and search can find you." },
+          { icon: "layers", title: "Simple building blocks", body: "Home, proof, services, FAQ, and contact. Easy to grow later." },
+          { icon: "share", title: "Looks good when shared", body: "Link previews that look professional on WhatsApp and social apps." },
         ],
       },
       {
@@ -196,7 +196,7 @@ export const PRODUCT_PAGES: Record<string, MarketingPageConfig> = {
     ],
     related: [
       { slug: "domain-hosting", label: "Domain & DNS", category: "product" },
-      { slug: "self-employed", label: "Freelancer solution", category: "solution" },
+      { slug: "self-employed", label: "Small business setup", category: "solution" },
     ],
   },
   "payments-integration": {
@@ -327,7 +327,7 @@ export const PRODUCT_PAGES: Record<string, MarketingPageConfig> = {
     ],
     related: [
       { slug: "marketing-setup", label: "Marketing setup", category: "product" },
-      { slug: "micro-businesses", label: "Micro-business solution", category: "solution" },
+      { slug: "micro-businesses", label: "Shop & store setup", category: "solution" },
     ],
   },
   "marketing-setup": {
@@ -415,7 +415,7 @@ export const PRODUCT_PAGES: Record<string, MarketingPageConfig> = {
     ],
     related: [
       { slug: "integrations", label: "Integrations", category: "product" },
-      { slug: "smes", label: "SME solution", category: "solution" },
+      { slug: "smes", label: "Medium business setup", category: "solution" },
     ],
   },
   integrations: {
@@ -461,7 +461,7 @@ export const PRODUCT_PAGES: Record<string, MarketingPageConfig> = {
     ],
     related: [
       { slug: "staff-training", label: "Staff training", category: "product" },
-      { slug: "smes", label: "SME solution", category: "solution" },
+      { slug: "smes", label: "Medium business setup", category: "solution" },
     ],
   },
 };
@@ -470,11 +470,11 @@ export const SOLUTION_PAGES: Record<string, MarketingPageConfig> = {
   "self-employed": {
     slug: "self-employed",
     category: "solution",
-    title: "Self-employed & freelancers",
-    eyebrow: "Existing companies",
-    tagline: "Look like a company of one, without an agency retainer",
+    title: "Small businesses",
+    eyebrow: "Who we help",
+    tagline: "Look ready online without a full-time tech team",
     lead:
-      "You are the brand, but clients judge your website, email, and payment flow before they hire you. We package the essentials so you stop losing deals to 'DM for price'.",
+      "You are the brand. We give you a simple website, business email, and the tools clients expect. So you stop looking smaller than the work you deliver.",
     heroVariant: "minimal",
     accent: "purple",
     icon: Smartphone,
@@ -483,25 +483,25 @@ export const SOLUTION_PAGES: Record<string, MarketingPageConfig> = {
     sections: [
       {
         type: "pain-outcome",
-        pain: "Leads ask for your website and you send a Linktree. Quotes go from personal email. Payments are 'transfer and send screenshot'.",
-        outcome: "A credible site, hello@yourname.com, and pay links, so clients treat you like a registered business.",
-        bullets: ["Portfolio or service landing page", "Branded email + signature", "Payment link on every quote", "WhatsApp button that feels professional"],
+        pain: "People ask for your website and you only have social links. Quotes go from a personal email.",
+        outcome: "A clear site, email with your business name, and a professional way for people to reach and hire you.",
+        bullets: ["A simple page for your work", "Business email address", "Contact buttons that feel ready", "Support after launch"],
       },
       {
         type: "timeline",
-        title: "Typical 3-week launch",
+        title: "Typical launch timeline",
         orientation: "vertical",
         steps: [
-          { title: "Week 1", body: "Site structure, domain, and email addresses live." },
-          { title: "Week 2", body: "Payments connected; invoice template ready." },
-          { title: "Week 3", body: "Handover call + cheat sheet for updates." },
+          { title: "Week 1", body: "Site plan, web address, and email accounts live." },
+          { title: "Week 2", body: "Any payment or invoice tools you need connected." },
+          { title: "Week 3", body: "Handover + a short guide so you can manage updates." },
         ],
       },
       {
         type: "checklist",
-        title: "Recommended product mix",
+        title: "Services we often include",
         columns: 2,
-        items: ["Website & landing pages", "Domain & hosting", "Business email", "Payments integration", "Invoicing & receipts"],
+        items: ["Website & landing pages", "Domain & hosting", "Business email", "Payments", "Invoicing & receipts"],
       },
     ],
     related: [
@@ -513,11 +513,11 @@ export const SOLUTION_PAGES: Record<string, MarketingPageConfig> = {
   "micro-businesses": {
     slug: "micro-businesses",
     category: "solution",
-    title: "Micro-businesses (1–9 people)",
-    eyebrow: "Existing companies",
-    tagline: "One small team, one digital front door",
+    title: "Shops, malls & stores",
+    eyebrow: "Who we help",
+    tagline: "Track sales and stock, not just your website",
     lead:
-      "When everyone wears multiple hats, follow-up slips. We connect web, payments, email, and campaigns so the team shares one system, not five WhatsApp groups.",
+      "We help shops, malls, and stores track sales and store inventory in one place. Your website, receipts, and stock updates work together so you always know what sold and what is left on the shelf.",
     heroVariant: "split",
     accent: "teal",
     icon: Users,
@@ -526,27 +526,32 @@ export const SOLUTION_PAGES: Record<string, MarketingPageConfig> = {
     sections: [
       {
         type: "pain-outcome",
-        pain: "Orders in DMs, invoices in Excel, marketing when someone 'has time'. New staff learn ops by shadowing, badly.",
-        outcome: "Structured intake, branded comms, and campaigns that run on a calendar.",
-        bullets: ["Shared business email mailboxes", "Invoice + payment status visible to admin", "Bulk reminders for renewals", "Simple roles in the Cedarce portal"],
+        pain: "Sales live in notebooks or chats, and nobody knows real inventory until stock finishes unexpectedly.",
+        outcome: "Clear sales records and store inventory you can check anytime, plus a simple online shopfront when you need it.",
+        bullets: [
+          "Sales tracking from counter to online",
+          "Store inventory you can update and review",
+          "Receipts and invoices that match what you sold",
+          "Alerts when stock is running low",
+        ],
       },
       {
         type: "stats",
-        title: "What changes at this stage",
+        title: "What store owners notice first",
         items: [
-          { value: "3–5", label: "Tools unified" },
-          { value: "1", label: "Portal for requests" },
-          { value: "2×", label: "Faster follow-up target" },
+          { value: "1", label: "Place to see sales" },
+          { value: "Live", label: "Stock picture when you update" },
+          { value: "Less", label: "Guessing what sold today" },
         ],
       },
       {
         type: "bento",
-        title: "Stack we often deploy",
+        title: "Setup we often build for stores",
         items: [
-          { icon: "globe", title: "Site + hosting", body: "Multi-page site with service detail and contact routing." },
-          { icon: "credit", title: "Payments", body: "Checkout + invoice links for B2B and B2C." },
-          { icon: "message", title: "Campaigns", body: "WhatsApp/email for launches and win-backs." },
-          { icon: "graduation", title: "Team training", body: "Two sessions so everyone uses the same playbook." },
+          { icon: "globe", title: "Shop online home", body: "A clear website or catalog customers can browse and contact." },
+          { icon: "credit", title: "Sales trail", body: "Record what sold, when, and for how much." },
+          { icon: "layers", title: "Inventory", body: "Know stock levels for shelves and store space." },
+          { icon: "message", title: "Customer updates", body: "Message buyers when items restock or go on sale." },
         ],
       },
     ],
@@ -559,11 +564,11 @@ export const SOLUTION_PAGES: Record<string, MarketingPageConfig> = {
   smes: {
     slug: "smes",
     category: "solution",
-    title: "SMEs (10–250+ people)",
-    eyebrow: "Existing companies",
-    tagline: "Digital ops that match your offline quality",
+    title: "Medium businesses",
+    eyebrow: "Who we help",
+    tagline: "Online systems that keep up with how you already work",
     lead:
-      "Departments outgrow ad-hoc tools at different speeds. We integrate web, apps, payments, and training so customers see one brand and staff stop re-keying data.",
+      "Teams outgrow scattered tools at different speeds. We connect your website, email, payments, and training so customers see one brand and staff stop re-typing the same details.",
     heroVariant: "immersive",
     accent: "cyan",
     icon: Building2,
@@ -572,18 +577,18 @@ export const SOLUTION_PAGES: Record<string, MarketingPageConfig> = {
     sections: [
       {
         type: "comparison",
-        title: "Scaling pain vs Cedarce approach",
-        before: ["Sales uses personal email; finance uses another", "Website last updated two years ago", "No single view of client requests", "Integrations = manual CSV exports"],
-        after: ["Role-based email and signatures", "Managed site with change process", "Portal for verification + service requests", "Webhooks between payment and ops tools"],
+        title: "Before vs with Cedarce",
+        before: ["Different teams use personal email", "Website last updated years ago", "No single place for client requests", "Exports done by hand"],
+        after: ["Shared business email and signatures", "Managed website with a simple update process", "A portal for checks and service requests", "Tools that pass updates between systems"],
       },
       {
         type: "timeline",
-        title: "Phased rollout",
+        title: "How we usually roll out",
         orientation: "vertical",
         steps: [
-          { title: "Audit", body: "Map systems, owners, and customer journey gaps." },
-          { title: "Foundation", body: "Site, email, payments: the public face." },
-          { title: "Integrate & train", body: "Connect back-office; train teams by department." },
+          { title: "Audit", body: "Map systems, owners, and where customers get stuck." },
+          { title: "Foundation", body: "Site, email, and payments. the public face." },
+          { title: "Connect & train", body: "Link back-office tools and train teams." },
         ],
       },
       {
@@ -682,7 +687,7 @@ export const SOLUTION_PAGES: Record<string, MarketingPageConfig> = {
     ],
     related: [
       { slug: "website-landing-pages", label: "Websites", category: "product" },
-      { slug: "self-employed", label: "Freelancers", category: "solution" },
+      { slug: "self-employed", label: "Small businesses", category: "solution" },
     ],
   },
   "brand-and-automation": {
@@ -726,7 +731,7 @@ export const SOLUTION_PAGES: Record<string, MarketingPageConfig> = {
     related: [
       { slug: "invoicing-receipts", label: "Invoicing", category: "product" },
       { slug: "bulk-messaging", label: "Bulk messaging", category: "product" },
-      { slug: "micro-businesses", label: "Micro-businesses", category: "solution" },
+      { slug: "micro-businesses", label: "Shops, malls & stores", category: "solution" },
     ],
   },
 };
@@ -755,7 +760,7 @@ export type MarketingCatalogEntry = {
   icon: LucideIcon;
 };
 
-/** Navbar order — product catalog index at /product */
+/** Navbar order. product catalog index at /product */
 export const PRODUCT_CATALOG_ORDER = [
   "website-landing-pages",
   "domain-hosting",
@@ -768,7 +773,7 @@ export const PRODUCT_CATALOG_ORDER = [
   "integrations",
 ] as const;
 
-/** Navbar order — solutions catalog index at /solutions */
+/** Navbar order. solutions catalog index at /solutions */
 export const SOLUTION_CATALOG_ORDER = [
   "self-employed",
   "micro-businesses",

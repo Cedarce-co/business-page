@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Check } from "lucide-react";
 import Button from "@/components/ui/Button";
+import { useCurrency } from "@/components/layout/CurrencyProvider";
 import { cn } from "@/lib/utils";
 
 type Pricing = {
@@ -18,7 +19,9 @@ type Pricing = {
 };
 
 export default function PricingCard({ item, activeSlug }: { item: Pricing; activeSlug?: string }) {
-  const showPrice = item.price.trim().length > 0;
+  const { formatPackagePrice } = useCurrency();
+  const priceLabel = formatPackagePrice(item.slug) || item.price.trim();
+  const showPrice = priceLabel.length > 0;
   const detailHref = `/pricing/${item.slug}`;
   const requestHref = `/request-service?package=${encodeURIComponent(item.name)}`;
   const isActive = activeSlug === item.slug;
@@ -37,12 +40,14 @@ export default function PricingCard({ item, activeSlug }: { item: Pricing; activ
             {item.badge}
           </span>
         ) : (
-          <span className="invisible text-[11px]">—</span>
+          <span className="invisible text-[11px]">. </span>
         )}
         <h3 className="mt-3 font-display text-3xl text-cedar-ivory">{item.name}</h3>
         {showPrice ? (
-          <p className="mt-2 text-3xl font-semibold text-cedar-accent">{item.price}</p>
-        ) : null}
+          <p className="mt-2 text-xl font-semibold leading-snug text-cedar-accent sm:text-2xl">{priceLabel}</p>
+        ) : (
+          <p className="mt-2 text-sm font-medium text-cedar-mist">Custom quote after we talk</p>
+        )}
         <p className="mt-2 text-sm text-cedar-mist">{item.subtitle}</p>
         <div className="my-6 border-t border-white/10" />
         <ul className="space-y-3">

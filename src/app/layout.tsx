@@ -11,6 +11,7 @@ import AppToaster from "@/components/layout/AppToaster";
 import RootChrome from "@/components/layout/RootChrome";
 import RootFooter from "@/components/layout/RootFooter";
 import AuthSessionProvider from "@/components/auth/AuthSessionProvider";
+import CurrencyProvider from "@/components/layout/CurrencyProvider";
 import RootMain from "@/components/layout/RootMain";
 import PwaRegister from "@/components/layout/PwaRegister";
 import CookieConsentBanner from "@/components/layout/CookieConsentBanner";
@@ -112,13 +113,15 @@ export default function RootLayout({
       <body className="flex min-h-full flex-col font-sans" suppressHydrationWarning>
         <PwaRegister />
         <AuthSessionProvider>
-          <ScrollToTop />
-          <AppToaster />
-          <TawkToWidget />
-          <RootChrome />
-          <RootMain>{children}</RootMain>
-          <RootFooter />
-          <CookieConsentBanner />
+          <CurrencyProvider>
+            <ScrollToTop />
+            <AppToaster />
+            <TawkToWidget />
+            <RootChrome />
+            <RootMain>{children}</RootMain>
+            <RootFooter />
+            <CookieConsentBanner />
+          </CurrencyProvider>
         </AuthSessionProvider>
       </body>
     </html>

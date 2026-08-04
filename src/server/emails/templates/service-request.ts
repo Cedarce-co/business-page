@@ -55,7 +55,7 @@ export function serviceRequestSubmittedAdminEmail(input: {
       { label: "Service", value: escapeHtml(input.serviceType) },
       { label: "Summary", value: escapeHtml(input.summary) },
     ]),
-    emailParagraph("Please review and respond when you can — prompt follow-up builds client trust."),
+    emailParagraph("Please review and respond when you can. prompt follow-up builds client trust."),
     emailButton(reviewUrl, "Review request"),
   ].join("");
 
@@ -105,7 +105,7 @@ export function serviceRequestUpdatedUserEmail(input: {
     subject: `Update on your ${input.serviceType} request`,
     html: renderEmailLayout({
       title: "Your request has been updated",
-      preheader: `${input.serviceType} — status: ${input.statusLabel}.`,
+      preheader: `${input.serviceType}. status: ${input.statusLabel}.`,
       bodyHtml,
     }),
     variables: {

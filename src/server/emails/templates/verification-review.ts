@@ -29,7 +29,7 @@ export function verificationRejectedEmail(note?: string | null): EmailContent {
     subject: "Your verification needs another look",
     html: renderEmailLayout({
       title: "Verification update",
-      preheader: "We could not approve your submission yet — we are here to help.",
+      preheader: "We could not approve your submission yet. We are here to help.",
       bodyHtml,
     }),
     variables: {
@@ -43,7 +43,7 @@ export function verificationInvalidInfoEmail(note?: string | null): EmailContent
   const kycUrl = `${getAppUrl()}/dashboard/kyc`;
   const message = note?.trim()
     ? escapeHtml(note.trim())
-    : "Our team has left notes on your submission. Please update the items mentioned and resubmit — we are here if you need clarification.";
+    : "Our team has left notes on your submission. Please update the items mentioned and resubmit. We are here if you need clarification.";
 
   const bodyHtml = [
     emailParagraph("Thank you for submitting your business verification."),
@@ -60,7 +60,7 @@ export function verificationInvalidInfoEmail(note?: string | null): EmailContent
     subject: "A few details need updating on your verification",
     html: renderEmailLayout({
       title: "Please update your verification",
-      preheader: "Small corrections needed — we will guide you through it.",
+      preheader: "Small corrections needed. We will guide you through it.",
       bodyHtml,
     }),
     variables: {

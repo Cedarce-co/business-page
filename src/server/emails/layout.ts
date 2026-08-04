@@ -101,7 +101,7 @@ export function renderEmailLayout(input: EmailLayoutInput) {
           <tr>
             <td style="padding:8px 32px 28px;">
               ${emailMuted(
-                `We are here for you. Reply to this email or reach us at <a href="mailto:${SUPPORT_EMAIL}" style="color:#0f172a;font-weight:600;text-decoration:underline;">${SUPPORT_EMAIL}</a> — ${escapeHtml(OFFICE_HOURS_SHORT)}.`,
+                `We are here for you. Reply to this email or reach us at <a href="mailto:${SUPPORT_EMAIL}" style="color:#0f172a;font-weight:600;text-decoration:underline;">${SUPPORT_EMAIL}</a>. ${escapeHtml(OFFICE_HOURS_SHORT)}.`,
               )}
             </td>
           </tr>

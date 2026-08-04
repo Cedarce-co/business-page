@@ -1,13 +1,23 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import PricingCard from "@/components/ui/PricingCard";
 import SectionReveal, { RevealItem, StaggerReveal } from "@/components/ui/SectionReveal";
 import { PACKAGES } from "@/lib/constants";
+import { isTawkConfigured, openTawkChat } from "@/lib/tawk";
 
 type Props = {
   highlightSlug?: string;
 };
+
+function openLiveChat() {
+  if (isTawkConfigured()) {
+    openTawkChat();
+    return;
+  }
+  window.dispatchEvent(new Event("open-live-chat"));
+}
 
 export default function PricingPackagesSection({ highlightSlug }: Props) {
   const initial =
@@ -23,9 +33,11 @@ export default function PricingPackagesSection({ highlightSlug }: Props) {
         <h2 className="text-center font-display text-3xl text-cedar-ivory lg:text-4xl">
           Compare packages
         </h2>
-        <p className="mx-auto mt-3 max-w-2xl text-center text-cedar-mist">
-          Pick a starting tier. We scope the rest together on a free consult before kickoff.
-        </p>
+        <div className="mx-auto max-w-2xl">
+          <p className="mx-auto mt-3 max-w-2xl text-center text-cedar-mist">
+            Pick a starting tier. We scope the rest together on a free consult before kickoff.
+          </p>
+        </div>
 
         {/* Mobile: one plan at a time */}
         <div className="mt-10 lg:hidden">
@@ -65,6 +77,26 @@ export default function PricingPackagesSection({ highlightSlug }: Props) {
           ))}
         </StaggerReveal>
       </div>
+      <div className="mx-auto max-w-2xl mt-10">
+      <p className="text-center leading-relaxed text-cedar-mist">
+          Still confused about which category your business belongs to?{" "}
+          <button
+            type="button"
+            onClick={openLiveChat}
+            className="border-0 bg-transparent p-0 font-medium text-cedar-ivory underline decoration-cedar-accent/70 underline-offset-4 transition hover:text-cedar-accent hover:decoration-cedar-accent"
+          >
+            Chat us
+          </button>
+          {" or "}
+          <Link
+            href="/contact"
+            className="font-medium text-cedar-ivory underline decoration-cedar-accent/70 underline-offset-4 transition hover:text-cedar-accent hover:decoration-cedar-accent"
+          >
+            contact support
+          </Link>
+          .
+        </p>
+        </div>
     </SectionReveal>
   );
 }

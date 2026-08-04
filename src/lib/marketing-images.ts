@@ -1,10 +1,10 @@
-/** Curated free Unsplash images focused on Nigerian business, technology, and commerce. */
+/** Curated free Unsplash images for business, technology, and commerce. */
 
 function unsplash(id: string, w = 1600) {
   return `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=80`;
 }
 
-/** Hero backgrounds — preserve full frame, avoid server-side crop */
+/** Hero backgrounds. preserve full frame, avoid server-side crop */
 function unsplashHero(id: string, w = 1920) {
   return `https://images.unsplash.com/${id}?auto=format&fit=max&w=${w}&q=80`;
 }
@@ -17,7 +17,7 @@ export type MarketingImage = {
 /** User-curated retail & business portraits (free Unsplash license) */
 export const SHOP_COUNTER_IMAGE: MarketingImage = {
   src: unsplash("photo-1687422808311-a776f467a468", 1600),
-  alt: "African businesswoman in her small shop",
+  alt: "Businesswoman in her small shop",
 };
 
 export const STORE_SHELF_IMAGE: MarketingImage = {
@@ -32,7 +32,7 @@ export const PAYMENTS_PHONE_IMAGE: MarketingImage = {
 
 export const MOBILE_BUSINESS_IMAGE: MarketingImage = {
   src: unsplash("photo-1680878903102-92692799ef36", 1600),
-  alt: "African woman in a green dress using her smartphone for business",
+  alt: "Woman in a green dress using her smartphone for business",
 };
 
 export const TEAM_PORTRAIT_IMAGE: MarketingImage = {
@@ -45,7 +45,7 @@ export const RETAIL_PORTRAIT_IMAGE: MarketingImage = {
   alt: "Smiling businesswoman wearing a scarf and sunglasses",
 };
 
-/** Former hero candidates — reused across story / outcomes (not on home hero) */
+/** Former hero candidates. reused across story / outcomes (not on home hero) */
 export const HERO_LAPTOP_PHONE_IMAGE: MarketingImage = {
   src: unsplash("photo-1634313946050-3fefb86a710b", 1600),
   alt: "Man working on a laptop while using his phone",
@@ -58,7 +58,7 @@ export const HERO_COUPLE_IMAGE: MarketingImage = {
 
 export const HERO_STORE_WOMEN_IMAGE: MarketingImage = {
   src: unsplash("photo-1579998120708-682dd8a5624f", 1600),
-  alt: "Small fruit business serving customers in Lagos",
+  alt: "Small fruit business serving customers",
 };
 
 /** Static home hero background (woman with phone / blue sky) */
@@ -88,31 +88,31 @@ export const STORY_IMAGES: MarketingImage[] = [
   MOBILE_BUSINESS_IMAGE,
   {
     src: unsplash("photo-1579998120708-682dd8a5624f", 900),
-    alt: "Customers visiting a fruit seller in Lagos",
+    alt: "Customers visiting a fruit seller",
   },
   {
     src: unsplash("photo-1501250987900-211872d97eaa", 900),
-    alt: "Nigerian business owner working online",
+    alt: "Business owner working online",
   },
   {
     src: unsplash("photo-1641759261047-de431b849bd5", 900),
-    alt: "Two young Nigerian professionals working at a laptop",
+    alt: "Two young professionals working at a laptop",
   },
   {
     src: unsplash("photo-1635766828498-49dec8c0cc56", 900),
-    alt: "Lagos colleagues reviewing a digital product",
+    alt: "Colleagues reviewing digital work",
   },
   {
     src: unsplash("photo-1765584830084-eb3d2268b263", 900),
-    alt: "Nigerian food entrepreneur serving customers in Benin City",
+    alt: "Food entrepreneur serving customers",
   },
   {
     src: unsplash("photo-1739303987830-ca19742b19bc", 900),
-    alt: "Nigerian businesswomen managing work on their laptops",
+    alt: "Businesswomen managing work on their laptops",
   },
   {
     src: unsplash("photo-1658402834638-c6f65944b551", 900),
-    alt: "Market porter moving goods through a Lagos market",
+    alt: "Market porter moving goods through a busy market",
   },
 ];
 
@@ -120,31 +120,31 @@ export const STORY_IMAGES: MarketingImage[] = [
 export const HOW_IT_WORKS_IMAGES: MarketingImage[] = [
   {
     src: unsplash("photo-1635766828498-49dec8c0cc56", 900),
-    alt: "Business consultation between colleagues in Lagos",
+    alt: "Business consultation between colleagues",
   },
   {
     src: unsplash("photo-1739301674182-452a0f2b14dd", 900),
-    alt: "Nigerian team building a digital product together",
+    alt: "Team building a digital service together",
   },
   {
     src: unsplash("photo-1544813813-2c73bec209ca", 900),
-    alt: "Lagos professional smiling at his completed digital work",
+    alt: "Professional smiling at completed digital work",
   },
 ];
 
 export const FINAL_CTA_IMAGE: MarketingImage = {
   src: unsplash("photo-1739302750702-e26a61113758", 1600),
-  alt: "Nigerian business team working together in Lagos",
+  alt: "Business team working together",
 };
 
 export const ABOUT_HERO_IMAGE: MarketingImage = {
   src: unsplash("photo-1739301674182-452a0f2b14dd", 1600),
-  alt: "Nigerian product team collaborating around a laptop",
+  alt: "Team collaborating around a laptop",
 };
 
 export const SERVICES_HERO_IMAGE: MarketingImage = {
   src: unsplash("photo-1635766828498-49dec8c0cc56", 1600),
-  alt: "Nigerian professionals discussing a digital business strategy",
+  alt: "Professionals discussing a business strategy",
 };
 
 export const PRICING_HERO_IMAGE: MarketingImage = PAYMENTS_PHONE_IMAGE;
@@ -157,55 +157,55 @@ export const AUTH_PANEL_IMAGE: MarketingImage = MOBILE_BUSINESS_IMAGE;
 
 export const PRODUCT_HERO_IMAGE: MarketingImage = {
   src: unsplash("photo-1547860664-b8537ca5f833", 1600),
-  alt: "Nigerian software professional developing a digital product in Yaba",
+  alt: "Software professional developing a digital service",
 };
 
 /** Product / solution catalog card imagery */
 export const CATALOG_CARD_IMAGES: Record<string, MarketingImage> = {
   "website-landing-pages": {
     src: unsplash("photo-1547860664-b8537ca5f833", 900),
-    alt: "Nigerian developer building a website in Yaba",
+    alt: "Developer building a website",
   },
   "domain-hosting": {
     src: unsplash("photo-1501250987900-211872d97eaa", 900),
-    alt: "Nigerian technology professional working online",
+    alt: "Technology professional working online",
   },
   "business-email": {
     src: unsplash("photo-1641759261047-de431b849bd5", 900),
-    alt: "Nigerian colleagues working together on a laptop",
+    alt: "Colleagues working together on a laptop",
   },
   "payments-integration": PAYMENTS_PHONE_IMAGE,
   "invoicing-receipts": HERO_LAPTOP_PHONE_IMAGE,
   "bulk-messaging": MOBILE_BUSINESS_IMAGE,
   "marketing-setup": {
     src: unsplash("photo-1739302750702-e26a61113758", 900),
-    alt: "Lagos team planning digital marketing around a laptop",
+    alt: "Team planning digital marketing around a laptop",
   },
   "staff-training": {
     src: unsplash("photo-1739301674182-452a0f2b14dd", 900),
-    alt: "Nigerian professionals learning together around a laptop",
+    alt: "Professionals learning together around a laptop",
   },
   integrations: {
     src: unsplash("photo-1547860664-b8537ca5f833", 900),
-    alt: "Nigerian software engineer configuring digital systems",
+    alt: "Software engineer configuring digital systems",
   },
   "self-employed": {
     src: unsplash("photo-1544813813-2c73bec209ca", 900),
-    alt: "Independent Nigerian professional working from a Lagos office",
+    alt: "Independent professional working from an office",
   },
   "micro-businesses": STORE_SHELF_IMAGE,
   smes: {
     src: unsplash("photo-1739302750702-e26a61113758", 900),
-    alt: "Growing Nigerian team collaborating on business strategy",
+    alt: "Growing team collaborating on business strategy",
   },
   associations: TEAM_PORTRAIT_IMAGE,
   "business-launch-setup": {
     src: unsplash("photo-1635766828498-49dec8c0cc56", 900),
-    alt: "Lagos business partners reviewing a launch plan",
+    alt: "Business partners reviewing a launch plan",
   },
   "brand-and-automation": {
     src: unsplash("photo-1739303987830-ca19742b19bc", 900),
-    alt: "Nigerian businesswomen reviewing their digital brand systems",
+    alt: "Businesswomen reviewing their brand systems",
   },
 };
 
@@ -213,19 +213,19 @@ export const CATALOG_CARD_IMAGES: Record<string, MarketingImage> = {
 export const DETAIL_HERO_BY_CATEGORY: Record<string, MarketingImage> = {
   product: {
     src: unsplash("photo-1547860664-b8537ca5f833", 1600),
-    alt: "Nigerian software professional building digital products",
+    alt: "Software professional building digital services",
   },
   solution: {
     src: unsplash("photo-1739302750702-e26a61113758", 1600),
-    alt: "Nigerian business team discussing practical solutions",
+    alt: "Business team discussing practical setups",
   },
   pricing: {
     src: unsplash("photo-1501250987900-211872d97eaa", 1600),
-    alt: "Nigerian entrepreneur planning a digital business investment",
+    alt: "Entrepreneur planning a digital business investment",
   },
   service: {
     src: unsplash("photo-1473445556807-e1b8c521d109", 1600),
-    alt: "Nigerian professional ready to grow his business",
+    alt: "Professional ready to grow his business",
   },
 };
 

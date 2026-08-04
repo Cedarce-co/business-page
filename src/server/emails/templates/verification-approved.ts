@@ -23,7 +23,7 @@ export function verificationApprovedEmail(): EmailContent {
     emailParagraph("<strong style=\"color:#0f172a;\">Services we deliver for businesses like yours</strong>"),
     emailList(serviceNames),
     emailParagraph(
-      "Not sure where to start? Tell us what you are trying to achieve — we will point you in the right direction.",
+      "Not sure where to start? Tell us what you are trying to achieve. We will point you in the right direction.",
     ),
     emailAvailabilityNote(),
   ].join("");

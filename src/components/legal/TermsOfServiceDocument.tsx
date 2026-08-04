@@ -28,7 +28,7 @@ export default function TermsOfServiceDocument() {
       <section className="space-y-3">
         <h2 className="text-2xl font-bold text-cedar-ivory">2. About Cedarce</h2>
         <p className="leading-relaxed">
-          Cedarce is a digital business services company based in Nigeria. We help businesses, from startups to growing enterprises, go professional by setting up and managing their digital infrastructure. Our services include website development, mobile app development, domain and hosting setup, business email configuration, payment gateway integration, invoicing systems, bulk messaging, digital marketing and ads, and staff training.
+          Cedarce helps shops and stores, small and medium businesses, and associations go ready online. We set up and manage digital tools for you: websites, apps where needed, web address and hosting, business email, payments, invoices, group messaging, marketing help, and staff training.
         </p>
       </section>
 

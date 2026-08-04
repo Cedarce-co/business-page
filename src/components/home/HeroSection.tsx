@@ -9,13 +9,13 @@ import { HERO_BG_IMAGE } from "@/lib/marketing-images";
 const outcomes = [
   {
     title: "Website live",
-    meta: "Customers find you first",
+    meta: "Customers can find you",
     accent: "01",
     className: "left-0 top-0 z-10 -rotate-2",
   },
   {
-    title: "Invoice paid",
-    meta: "Confirmed in real time",
+    title: "Professional setup",
+    meta: "Email, pages, tools ready",
     accent: "02",
     className: "left-[10%] top-[30%] z-20 rotate-[1.5deg]",
   },
@@ -28,10 +28,10 @@ const outcomes = [
 ];
 
 const mobileHighlights = [
-  { value: "48hrs", label: "Typical time from kickoff to professional" },
-  { value: "90%+", label: "Mobile traffic ready" },
-  { value: "24/7", label: "Self-serve checkout" },
-  { value: "100%", label: "Profile completeness goal" },
+  { value: "48hrs", label: "Typical time from start to a finished setup" },
+  { value: "90%+", label: "Sites that look great on phones" },
+  { value: "24/7", label: "Your online home always open" },
+  { value: "100%", label: "Setup done properly for you" },
 ];
 
 export default function HeroSection() {
@@ -60,7 +60,7 @@ export default function HeroSection() {
         }}
       />
 
-      {/* Mobile welcome screen — follows a compact app-dashboard structure. */}
+      {/* Mobile welcome screen */}
       <div className="relative z-10 min-h-[calc(100svh-var(--site-mobile-tab-height))] overflow-hidden bg-black px-3 pb-[calc(var(--site-mobile-tab-height)+1rem)] pt-5 lg:hidden">
         <Image
           src={HERO_BG_IMAGE.src}
@@ -74,11 +74,11 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/45 via-transparent to-black/85" />
 
         <div className="relative flex min-h-[calc(100svh-var(--site-mobile-tab-height)-2.25rem)] flex-col pb-12">
-          <p className="max-w-[16rem] font-display text-[2.75rem] leading-[1.05] tracking-tight text-cedar-ivory sm:max-w-[20rem] sm:text-[3.25rem]">
-            Your business,
-            <br />
-            ready online.
-          </p>
+          <h1 className="font-display text-[3.35rem] leading-[1.08] tracking-tight text-cedar-ivory sm:text-[3.85rem]">
+            <span className="block">Findable.</span>
+            <span className="block">Credible.</span>
+            <span className="block">Ready to grow.</span>
+          </h1>
 
           <motion.div
             initial={reduced ? false : { opacity: 0, y: 10 }}
@@ -114,7 +114,7 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* —— Desktop hero —— */}
+      {/* Desktop hero */}
       <div className="relative z-10 mx-auto hidden min-h-[100svh] w-full max-w-[1200px] grid-cols-[1.05fr_0.95fr] items-center gap-20 px-8 pb-16 pt-40 lg:grid">
         <motion.div
           initial={reduced ? false : { opacity: 0, y: 16 }}
@@ -126,10 +126,14 @@ export default function HeroSection() {
             variants={stagger}
             initial="hidden"
             animate="visible"
-            className="font-display text-[5.5rem] leading-[1.14] tracking-tight text-cedar-ivory/95"
+            className="font-display text-[4.75rem] leading-[1.12] tracking-tight text-cedar-ivory/95"
           >
-            {["Findable.", "Credible.", "Paid faster."].map((word) => (
-              <motion.span key={word} variants={wordReveal} className="block">
+            {["Findable.", "Credible.", "Ready to grow."].map((word) => (
+              <motion.span
+                key={word}
+                variants={wordReveal}
+                className={`block${word === "Ready to grow." ? " whitespace-nowrap" : ""}`}
+              >
                 {word}
               </motion.span>
             ))}
@@ -140,7 +144,7 @@ export default function HeroSection() {
             transition={{ delay: 0.25 }}
             className="max-w-xl text-xl leading-relaxed text-cedar-mist/90"
           >
-            One connected setup for your website, payments, invoices, and business email.
+            One simple setup for your website, email, invoices, and tools. So customers trust you and work runs smoother.
           </motion.p>
 
           <motion.div

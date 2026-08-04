@@ -10,7 +10,7 @@ import { HOW_IT_WORKS_IMAGES } from "@/lib/marketing-images";
 
 const iconMap = { Calendar, Zap, Star };
 
-/** Enyata “Our Process” pattern: stack on left, detail panel on right — no step photos */
+/** Enyata “Our Process” pattern: stack on left, detail panel on right. No step photos */
 export default function HowItWorksSection() {
   const [active, setActive] = useState(0);
   const reduced = useReducedMotion();
@@ -29,7 +29,7 @@ export default function HowItWorksSection() {
           <div className="max-w-xl">
             <SectionLabel>How it works</SectionLabel>
             <h2 className="mt-4 font-display text-[1.85rem] leading-tight text-cedar-ivory sm:mt-5 sm:text-4xl lg:text-5xl">
-              Three steps to going professional.
+              Three simple steps to get set up.
             </h2>
           </div>
         </div>

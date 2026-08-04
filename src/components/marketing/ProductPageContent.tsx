@@ -6,22 +6,22 @@ import { PRODUCT_HERO_IMAGE } from "@/lib/marketing-images";
 
 const productCards = getMarketingCatalogEntries("product");
 
-/** Product catalog at /product */
+/** Services catalog at /product */
 export default function ProductPageContent() {
   return (
     <MarketingCatalogLayout
       panelImage={PRODUCT_HERO_IMAGE}
-      eyebrow="Our products"
+      eyebrow="Our services"
       title={
         <>
-          Digital setup{" "}
-          <span className="text-cedar-accent">products</span>
+          Digital{" "}
+          <span className="text-cedar-accent">services</span>
         </>
       }
-      description="Websites, payments, email, invoicing, campaigns, and integrations — everything we build to make your business look credible and get paid faster."
+      description="Website, business email, invoices, customer messaging, and more. Pick what you need now and add later as you grow."
       cards={productCards}
-      ctaTitle="Need a connected setup, not separate tools?"
-      ctaText="Tell us what you currently use. We will map the right product mix and launch path for your business."
+      ctaTitle="Need more than one service?"
+      ctaText="Tell us what you use today. We’ll recommend a simple mix that fits your business without extra clutter."
     />
   );
 }

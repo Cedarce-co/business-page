@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import PricingPackagesSection from "@/components/marketing/PricingPackagesSection";
 import MobileSnapRail from "@/components/marketing/MobileSnapRail";
+import CurrencyAwareEyebrow from "@/components/marketing/CurrencyAwareEyebrow";
 import Button from "@/components/ui/Button";
 import MarketingPageHeader from "@/components/navigation/MarketingPageHeader";
 import SectionReveal, { RevealItem, StaggerReveal } from "@/components/ui/SectionReveal";
@@ -526,9 +527,12 @@ function Hero({ page }: { page: MarketingPageConfig }) {
         ) : null}
 
         <div>
-          <p className="text-[10px] font-semibold uppercase tracking-[0.32em] text-cedar-accent sm:text-xs">
-            {page.eyebrow}
-          </p>
+          <CurrencyAwareEyebrow
+            slug={page.slug}
+            category={page.category}
+            fallback={page.eyebrow}
+            className="text-[10px] font-semibold uppercase tracking-[0.32em] text-cedar-accent sm:text-xs"
+          />
           <h1 className="mt-4 max-w-xl font-display text-[1.85rem] leading-[1.05] tracking-tight text-cedar-ivory sm:mt-7 sm:text-5xl lg:text-[3.75rem]">
             {accentWord ? (
               <>
