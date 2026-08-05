@@ -156,186 +156,176 @@ export default function Navbar() {
 
 
   return (
-    <header
-      ref={headerRef}
-      className={`fixed left-0 right-0 top-0 z-40 border-b transition-colors duration-300 ${
-        transparentChrome
-          ? "border-white/10 bg-black/15 backdrop-blur-sm"
-          : "border-white/10 bg-black/80 backdrop-blur-xl"
-      }`}
-    >
-      {/* Mobile: logo + currency top-right */}
-      <div className="mx-auto flex h-14 w-full max-w-[1440px] items-center justify-between px-4 sm:px-6 lg:hidden">
-        <Link href="/" className="flex min-w-0 shrink-0 items-center" aria-label="Home">
-          <Image
-            src={LOGO_DARK_BG.mobile}
-            alt="Cedarce"
-            width={LOGO_NAV_SIZES.mobile.width}
-            height={LOGO_NAV_SIZES.mobile.height}
-            style={{ width: LOGO_NAV_SIZES.mobile.width, height: LOGO_NAV_SIZES.mobile.height }}
-            className="object-contain object-left"
-            priority
-          />
-        </Link>
-        <CurrencySwitcher className="shrink-0" size="sm" />
+    <>
+      {/* Mobile: currency switcher only — no logo, no nav bar */}
+      <div className="fixed right-3 top-3 z-50 lg:hidden">
+        <CurrencySwitcher size="sm" />
       </div>
 
-      {/* Desktop nav:
-          logo | (flex) nav centered | currency midpoint between Contact & Sign in | auth */}
-      <div className="mx-auto hidden h-[84px] w-full max-w-[1440px] items-center px-10 lg:flex">
-        <div className="flex min-w-0 flex-1 items-center justify-start">
-          <Link href="/" className="flex shrink-0 items-center" aria-label="Home">
-            <Image
-              src={LOGO_DARK_BG.desktop}
-              alt="Cedarce"
-              width={LOGO_NAV_SIZES.desktopLg.width}
-              height={LOGO_NAV_SIZES.desktopLg.height}
-              style={{ width: LOGO_NAV_SIZES.desktopLg.width, height: LOGO_NAV_SIZES.desktopLg.height }}
-              className="object-contain object-left"
-              priority
-            />
-          </Link>
-        </div>
-
-        <nav className="flex shrink-0 items-center gap-8" onMouseLeave={startCloseDelay}>
-          {links.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onMouseEnter={() => {
-                cancelCloseDelay();
-                setActiveMega(megaMenus[link.label] ? link.label : null);
-              }}
-              onClick={() => setActiveMega(null)}
-              className="text-[15px] font-medium text-white/70 transition hover:text-cedar-ivory"
-            >
-              <span className="inline-flex items-center gap-1">
-                {link.label}
-                {megaMenus[link.label] ? (
-                  <ChevronDown
-                    className={`h-3.5 w-3.5 transition ${activeMega === link.label ? "rotate-180" : ""}`}
-                  />
-                ) : null}
-              </span>
+      {/* Desktop header only */}
+      <header
+        ref={headerRef}
+        className={`fixed left-0 right-0 top-0 z-40 hidden border-b transition-colors duration-300 lg:block ${
+          transparentChrome
+            ? "border-white/10 bg-black/15 backdrop-blur-sm"
+            : "border-white/10 bg-black/80 backdrop-blur-xl"
+        }`}
+      >
+        <div className="mx-auto flex h-[84px] w-full max-w-[1440px] items-center px-10">
+          <div className="flex min-w-0 flex-1 items-center justify-start">
+            <Link href="/" className="flex shrink-0 items-center" aria-label="Home">
+              <Image
+                src={LOGO_DARK_BG.desktop}
+                alt="Cedarce"
+                width={LOGO_NAV_SIZES.desktopLg.width}
+                height={LOGO_NAV_SIZES.desktopLg.height}
+                style={{ width: LOGO_NAV_SIZES.desktopLg.width, height: LOGO_NAV_SIZES.desktopLg.height }}
+                className="object-contain object-left"
+                priority
+              />
             </Link>
-          ))}
-        </nav>
-
-        <div className="flex min-w-0 flex-1 items-center">
-          {/* Centers switcher in the open space between Contact and Sign in */}
-          <div className="flex min-w-0 flex-1 items-center justify-center px-3">
-            <CurrencySwitcher size="sm" />
           </div>
-          <div className="flex shrink-0 items-center gap-3 whitespace-nowrap">
-            {session?.user?.id ? (
-              <>
-                <Link
-                  href="/dashboard"
-                  className="rounded-lg bg-cedar-ivory px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-white"
-                >
-                  Dashboard
-                </Link>
-                <button
-                  type="button"
-                  onClick={() => signOut({ callbackUrl: "/" })}
-                  className="rounded-lg border border-white/20 px-4 py-2.5 text-sm font-semibold text-cedar-ivory transition hover:border-white/40"
-                >
-                  Sign out
-                </button>
-              </>
-            ) : (
-              <>
-                <Link
-                  href="/signin"
-                  className="rounded-lg px-4 py-2.5 text-sm font-semibold text-white/80 transition hover:text-cedar-ivory"
-                >
-                  Sign in
-                </Link>
-                <Link
-                  href="/signup"
-                  className="inline-flex items-center gap-2 rounded-lg bg-cedar-accent px-5 py-2.5 text-sm font-semibold text-black transition hover:brightness-110"
-                >
-                  Create account
-                  <ArrowRight className="h-4 w-4 shrink-0" aria-hidden />
-                </Link>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
 
-      {activeMega ? (
-        <div
-          onMouseEnter={cancelCloseDelay}
-          onMouseLeave={startCloseDelay}
-          className="absolute left-0 right-0 top-full hidden border-b border-white/10 bg-cedar-ink text-cedar-ivory shadow-elegant lg:block"
-        >
-          <div className="mx-auto w-full max-w-[1440px] px-6 py-6 sm:px-10 lg:px-12">
-            <div className="grid grid-cols-[2.1fr_2.1fr_1.2fr] gap-5">
-              <div className="border border-white/10 bg-black/40 px-5 py-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cedar-mist">
-                  {megaMenus[activeMega].leftTitle}
-                </p>
-                <div className="mt-3 space-y-1">
-                  {megaMenus[activeMega].leftItems.map((item) => (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      onClick={() => setActiveMega(null)}
-                      className="block rounded-lg px-2.5 py-2 transition hover:bg-white/5"
-                    >
-                      <p className="text-[15px] font-medium text-cedar-ivory">{item.name}</p>
-                      <p className="text-[13px] text-cedar-mist">{item.desc}</p>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-              <div className="border border-white/10 bg-black/40 px-5 py-4">
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cedar-mist">
-                  {megaMenus[activeMega].rightTitle}
-                </p>
-                <div className="mt-3 space-y-1">
-                  {megaMenus[activeMega].rightItems.map((item) => (
-                    <Link
-                      key={item.name}
-                      href={item.href}
-                      onClick={() => setActiveMega(null)}
-                      className="block rounded-lg px-2.5 py-2 transition hover:bg-white/5"
-                    >
-                      <p className="text-[15px] font-medium text-cedar-ivory">{item.name}</p>
-                      <p className="text-[13px] text-cedar-mist">{item.desc}</p>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-              <div className="border border-cedar-accent/25 bg-cedar-accentSoft p-4">
-                <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-cedar-accent">
-                  {megaMenus[activeMega].cardTag}
-                </span>
-                <p className="mt-3 text-base font-semibold text-cedar-ivory">
-                  {megaMenus[activeMega].cardTitle}
-                </p>
-                <p className="mt-2 text-[13px] leading-relaxed text-cedar-mist">
-                  {megaMenus[activeMega].cardText}
-                </p>
-                <Button href={megaMenus[activeMega].cardCtaHref} variant="accent" className="mt-4 w-full text-sm">
-                  {megaMenus[activeMega].cardCtaLabel}
-                </Button>
-              </div>
-            </div>
-            <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-3 text-sm">
-              <span className="text-cedar-mist">Need more details?</span>
+          <nav className="flex shrink-0 items-center gap-8" onMouseLeave={startCloseDelay}>
+            {links.map((link) => (
               <Link
-                href={megaMenus[activeMega].footerLinkHref}
-                className="inline-flex items-center gap-1 font-medium text-cedar-ivory hover:text-cedar-accent"
+                key={link.href}
+                href={link.href}
+                onMouseEnter={() => {
+                  cancelCloseDelay();
+                  setActiveMega(megaMenus[link.label] ? link.label : null);
+                }}
+                onClick={() => setActiveMega(null)}
+                className="text-[15px] font-medium text-white/70 transition hover:text-cedar-ivory"
               >
-                {megaMenus[activeMega].footerLink}
-                <ArrowUpRight className="h-3.5 w-3.5" />
+                <span className="inline-flex items-center gap-1">
+                  {link.label}
+                  {megaMenus[link.label] ? (
+                    <ChevronDown
+                      className={`h-3.5 w-3.5 transition ${activeMega === link.label ? "rotate-180" : ""}`}
+                    />
+                  ) : null}
+                </span>
               </Link>
+            ))}
+          </nav>
+
+          <div className="flex min-w-0 flex-1 items-center">
+            {/* Centers switcher in the open space between Contact and Sign in */}
+            <div className="flex min-w-0 flex-1 items-center justify-center px-3">
+              <CurrencySwitcher size="sm" />
+            </div>
+            <div className="flex shrink-0 items-center gap-3 whitespace-nowrap">
+              {session?.user?.id ? (
+                <>
+                  <Link
+                    href="/dashboard"
+                    className="rounded-lg bg-cedar-ivory px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-white"
+                  >
+                    Dashboard
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => signOut({ callbackUrl: "/" })}
+                    className="rounded-lg border border-white/20 px-4 py-2.5 text-sm font-semibold text-cedar-ivory transition hover:border-white/40"
+                  >
+                    Sign out
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/signin"
+                    className="rounded-lg px-4 py-2.5 text-sm font-semibold text-white/80 transition hover:text-cedar-ivory"
+                  >
+                    Sign in
+                  </Link>
+                  <Link
+                    href="/signup"
+                    className="inline-flex items-center gap-2 rounded-lg bg-cedar-accent px-5 py-2.5 text-sm font-semibold text-black transition hover:brightness-110"
+                  >
+                    Create account
+                    <ArrowRight className="h-4 w-4 shrink-0" aria-hidden />
+                  </Link>
+                </>
+              )}
             </div>
           </div>
         </div>
-      ) : null}
-    </header>
+
+        {activeMega ? (
+          <div
+            onMouseEnter={cancelCloseDelay}
+            onMouseLeave={startCloseDelay}
+            className="absolute left-0 right-0 top-full border-b border-white/10 bg-cedar-ink text-cedar-ivory shadow-elegant"
+          >
+            <div className="mx-auto w-full max-w-[1440px] px-6 py-6 sm:px-10 lg:px-12">
+              <div className="grid grid-cols-[2.1fr_2.1fr_1.2fr] gap-5">
+                <div className="border border-white/10 bg-black/40 px-5 py-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cedar-mist">
+                    {megaMenus[activeMega].leftTitle}
+                  </p>
+                  <div className="mt-3 space-y-1">
+                    {megaMenus[activeMega].leftItems.map((item) => (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        onClick={() => setActiveMega(null)}
+                        className="block rounded-lg px-2.5 py-2 transition hover:bg-white/5"
+                      >
+                        <p className="text-[15px] font-medium text-cedar-ivory">{item.name}</p>
+                        <p className="text-[13px] text-cedar-mist">{item.desc}</p>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+                <div className="border border-white/10 bg-black/40 px-5 py-4">
+                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cedar-mist">
+                    {megaMenus[activeMega].rightTitle}
+                  </p>
+                  <div className="mt-3 space-y-1">
+                    {megaMenus[activeMega].rightItems.map((item) => (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        onClick={() => setActiveMega(null)}
+                        className="block rounded-lg px-2.5 py-2 transition hover:bg-white/5"
+                      >
+                        <p className="text-[15px] font-medium text-cedar-ivory">{item.name}</p>
+                        <p className="text-[13px] text-cedar-mist">{item.desc}</p>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+                <div className="border border-cedar-accent/25 bg-cedar-accentSoft p-4">
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-cedar-accent">
+                    {megaMenus[activeMega].cardTag}
+                  </span>
+                  <p className="mt-3 text-base font-semibold text-cedar-ivory">
+                    {megaMenus[activeMega].cardTitle}
+                  </p>
+                  <p className="mt-2 text-[13px] leading-relaxed text-cedar-mist">
+                    {megaMenus[activeMega].cardText}
+                  </p>
+                  <Button href={megaMenus[activeMega].cardCtaHref} variant="accent" className="mt-4 w-full text-sm">
+                    {megaMenus[activeMega].cardCtaLabel}
+                  </Button>
+                </div>
+              </div>
+              <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-3 text-sm">
+                <span className="text-cedar-mist">Need more details?</span>
+                <Link
+                  href={megaMenus[activeMega].footerLinkHref}
+                  className="inline-flex items-center gap-1 font-medium text-cedar-ivory hover:text-cedar-accent"
+                >
+                  {megaMenus[activeMega].footerLink}
+                  <ArrowUpRight className="h-3.5 w-3.5" />
+                </Link>
+              </div>
+            </div>
+          </div>
+        ) : null}
+      </header>
+    </>
   );
 }
