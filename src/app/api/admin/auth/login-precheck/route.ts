@@ -19,6 +19,14 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Invalid credentials." }, { status: 400 });
   }
 
-  const step = await adminLoginPrecheck(parsed.data.email, parsed.data.password);
-  return NextResponse.json({ step });
+  try {
+    const step = await adminLoginPrecheck(parsed.data.email, parsed.data.password);
+    return NextResponse.json({ step });
+  } catch (error) {
+    console.error("[admin/login-precheck]", error);
+    return NextResponse.json(
+      { error: "Admin sign-in is temporarily unavailable." },
+      { status: 503 },
+    );
+  }
 }

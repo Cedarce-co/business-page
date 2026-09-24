@@ -43,7 +43,15 @@ export default function AdminLogin({ notice }: { notice?: string }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-      const data = (await res.json().catch(() => null)) as { step?: string } | null;
+      const data = (await res.json().catch(() => null)) as {
+        step?: string;
+        error?: string;
+      } | null;
+
+      if (res.status >= 500) {
+        toast.error(data?.error ?? "Admin sign-in is temporarily unavailable.");
+        return;
+      }
 
       if (!res.ok || data?.step === "complete") {
         toast.error("Invalid admin credentials.");
