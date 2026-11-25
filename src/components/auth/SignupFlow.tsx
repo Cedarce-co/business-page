@@ -13,7 +13,7 @@ import { signupUser, checkEmailAvailable } from "@/features/auth/client";
 import type { SignupInput } from "@/features/auth/types";
 
 const baseInput =
-  "w-full rounded-xl border border-white/15 bg-white/[0.04] px-4 py-3 text-cedar-ivory outline-none placeholder:text-white/35 focus:border-cedar-accent/50 focus:ring-2 focus:ring-cedar-accent/20";
+  "w-full rounded-xl border border-line bg-brand-50 px-4 py-3 text-brand-950 outline-none placeholder:text-slate-400 focus:border-brand-200 focus:ring-2 focus:ring-brand-200";
 
 const emptyForm: SignupInput = {
   name: "",
@@ -55,7 +55,7 @@ export default function SignupFlow() {
           return;
         }
       } catch {
-        const msg = "Could not verify this email. Try again.";
+        const msg = "We couldn't check this email. Please try again.";
         setError(msg);
         toast.error(msg);
         return;
@@ -77,7 +77,7 @@ export default function SignupFlow() {
         password: form.password,
         redirect: false,
       });
-      if (login?.error) throw new Error("Signup worked but login failed.");
+      if (login?.error) throw new Error("Your account was created, but we couldn't sign you in. Please sign in.");
       markSessionStarted("user");
       toast.success("Account created. Welcome aboard.");
       router.push("/dashboard");
@@ -95,7 +95,7 @@ export default function SignupFlow() {
     <div>
       <div className="mb-7 flex items-center gap-2">
         {[0, 1, 2, 3].map((i) => (
-          <div key={i} className={`h-2 flex-1 rounded-full ${i <= step ? "bg-slate-900" : "bg-slate-200"}`} />
+          <div key={i} className={`h-2 flex-1 rounded-full ${i <= step ? "bg-g-button" : "bg-slate-200"}`} />
         ))}
       </div>
 
@@ -110,7 +110,7 @@ export default function SignupFlow() {
         >
           {step === 0 ? (
             <>
-              <p className="text-sm text-cedar-mist">Step 1 of 4</p>
+              <p className="text-sm text-slate-500">Step 1 of 4</p>
               <input
                 className={baseInput}
                 placeholder="Full name"
@@ -122,7 +122,7 @@ export default function SignupFlow() {
 
           {step === 1 ? (
             <>
-              <p className="text-sm text-cedar-mist">Step 2 of 4: Email address</p>
+              <p className="text-sm text-slate-500">Step 2 of 4: Email address</p>
               <input
                 className={baseInput}
                 type="email"
@@ -135,7 +135,7 @@ export default function SignupFlow() {
 
           {step === 2 ? (
             <>
-              <p className="text-sm text-cedar-mist">Step 3 of 4: Contact details</p>
+              <p className="text-sm text-slate-500">Step 3 of 4: Contact details</p>
               <input
                 className={baseInput}
                 placeholder="Phone / WhatsApp"
@@ -165,10 +165,10 @@ export default function SignupFlow() {
 
           {step === 3 ? (
             <>
-              <p className="text-sm text-cedar-mist">Step 4 of 4: Create a password</p>
+              <p className="text-sm text-slate-500">Step 4 of 4: Create a password</p>
               <PasswordInput
                 className={baseInput}
-                toggleClassName="text-white/40 hover:text-cedar-ivory"
+                toggleClassName="text-slate-400 hover:text-brand-950"
                 placeholder="Minimum 8 characters"
                 value={form.password}
                 onChange={(e) => setForm((p) => ({ ...p, password: e.target.value }))}
@@ -183,7 +183,7 @@ export default function SignupFlow() {
       <div className="mt-6 mb-10 flex items-center justify-center gap-3">
         {step > 0 ? (
           <button
-            className="w-full rounded-xl border border-slate-300 bg-white px-4 py-2 text-base font-semibold text-cedar-ivory hover:bg-white/10 sm:w-1/2"
+            className="w-full rounded-full border border-slate-300 bg-white px-4 py-2.5 text-base font-semibold text-brand-950 hover:bg-brand-50 sm:w-1/2"
             onClick={() => setStep((s) => s - 1)}
             type="button"
           >
@@ -192,7 +192,7 @@ export default function SignupFlow() {
         ) : null}
         {step < 3 ? (
           <button
-            className="w-full rounded-xl bg-slate-900 px-5 py-2.5 text-base font-semibold text-white disabled:opacity-50 hover:brightness-110 sm:w-1/2"
+            className="w-full rounded-full bg-g-button shadow-glow-sm px-5 py-2.5 text-base font-semibold text-white disabled:opacity-50 hover:brightness-110 sm:w-1/2"
             disabled={!canContinue || loading}
             onClick={goNext}
             type="button"
@@ -208,7 +208,7 @@ export default function SignupFlow() {
           </button>
         ) : (
           <button
-            className="w-full rounded-xl bg-slate-900 px-5 py-2.5 text-base font-semibold text-white disabled:opacity-50 hover:brightness-110 sm:w-1/2"
+            className="w-full rounded-full bg-g-button shadow-glow-sm px-5 py-2.5 text-base font-semibold text-white disabled:opacity-50 hover:brightness-110 sm:w-1/2"
             disabled={!canContinue || loading}
             onClick={submit}
             type="button"
@@ -225,9 +225,9 @@ export default function SignupFlow() {
         )}
       </div>
 
-      <p className="text-sm text-cedar-mist">
+      <p className="text-sm text-slate-500">
         Already have an account?{" "}
-        <Link href="/signin" className="font-semibold text-cedar-accent hover:underline">
+        <Link href="/signin" className="font-semibold text-brand-600 hover:underline">
           Sign in
         </Link>
       </p>

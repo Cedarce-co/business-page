@@ -72,21 +72,14 @@ function BreadcrumbList({
   crumbs: WayfindingCrumb[];
   tone: "default" | "onDark" | "auth";
 }) {
-  const muted = tone === "onDark" ? "text-slate-400" : "text-slate-400";
-  const text =
-    tone === "onDark" ? "text-slate-300" : tone === "auth" ? "text-cliq-purple" : "text-slate-600";
-  const current =
-    tone === "onDark"
-      ? "font-semibold text-white"
-      : tone === "auth"
-        ? "font-semibold text-cliq-text-heading"
-        : "font-semibold text-slate-900";
+  // "onDark" is kept for API compatibility; public pages are light now, so it shares the brand styling.
+  const muted = "text-slate-300";
+  const text = tone === "auth" ? "text-cliq-purple" : "text-slate-500";
+  const current = tone === "auth" ? "font-semibold text-cliq-text-heading" : "font-semibold text-brand-950";
   const linkHover =
-    tone === "onDark"
-      ? "text-slate-300 transition hover:bg-white/10 hover:text-white"
-      : tone === "auth"
-        ? "text-cliq-purple transition hover:bg-cliq-purple-soft hover:text-cliq-purple-dark"
-        : "text-slate-600 transition hover:bg-slate-100 hover:text-slate-900";
+    tone === "auth"
+      ? "text-cliq-purple transition hover:bg-cliq-purple-soft hover:text-cliq-purple-dark"
+      : "text-slate-500 transition hover:bg-brand-50 hover:text-brand-800 px-1 -mx-1";
 
   return (
     <nav aria-label="Breadcrumb" className="min-w-0">
@@ -165,7 +158,7 @@ export default function WayfindingStrip({
         className
       )}
     >
-      <GoBack label={label} arrow={arrow} variant={goBackVariant} />
+      <GoBack label={label} arrow={arrow} variant={goBackVariant} className="self-start sm:self-auto" />
       <BreadcrumbList crumbs={crumbs} tone={tone} />
     </div>
   );

@@ -28,7 +28,7 @@ export default function KycDocumentField({
   onError,
 }: Props) {
   const inputId = useId();
-  const displayName = file?.name ?? (existingUrl ? "File on record (upload to replace)" : "No file chosen");
+  const displayName = file?.name ?? (existingUrl ? "File already uploaded (upload a new one to replace it)" : "No file chosen");
 
   return (
     <div className="space-y-1.5">
@@ -56,7 +56,7 @@ export default function KycDocumentField({
         </div>
         <label
           htmlFor={inputId}
-          className={`shrink-0 cursor-pointer rounded-lg bg-slate-900 px-3 py-2.5 text-xs font-semibold text-white hover:bg-slate-800 ${
+          className={`shrink-0 cursor-pointer rounded-lg bg-g-button px-3 py-2.5 text-xs font-semibold text-white hover:brightness-110 ${
             disabled ? "pointer-events-none opacity-50" : ""
           }`}
         >

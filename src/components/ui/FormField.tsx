@@ -2,10 +2,11 @@ import { cn } from "@/lib/utils";
 import type { ComponentProps, ReactNode } from "react";
 
 export const fieldClass =
-  "w-full rounded-xl border border-slate-200/90 bg-white/95 px-4 py-3 text-sm text-slate-900 shadow-[inset_0_1px_2px_rgba(15,23,42,0.04)] outline-none transition placeholder:text-slate-400 focus:border-cliq-purple/50 focus:ring-2 focus:ring-cliq-purple/12 disabled:cursor-not-allowed disabled:opacity-60";
+  "w-full rounded-xl border border-slate-200/90 bg-white px-4 py-3 text-sm text-slate-900 shadow-[inset_0_1px_2px_rgba(31,58,95,0.04)] outline-none transition placeholder:text-slate-400 hover:border-brand-200 focus:border-brand-400 focus:ring-4 focus:ring-brand-100 disabled:cursor-not-allowed disabled:opacity-60";
 
+/** Public-site fields ("dark" is a legacy name; public pages are white + blue now). */
 export const fieldClassDark =
-  "w-full rounded-lg border border-white/15 bg-white/[0.04] px-4 py-3 text-sm text-cedar-ivory outline-none transition placeholder:text-white/35 focus:border-cedar-accent/50 focus:ring-2 focus:ring-cedar-accent/20 disabled:cursor-not-allowed disabled:opacity-60";
+  "w-full rounded-2xl border border-line bg-white px-4 py-3.5 text-[15px] text-brand-950 shadow-[inset_0_1px_2px_rgba(31,58,95,0.04)] outline-none transition placeholder:text-slate-400 hover:border-brand-200 focus:border-brand-400 focus:ring-4 focus:ring-brand-100 disabled:cursor-not-allowed disabled:opacity-60";
 
 export function Label({
   children,

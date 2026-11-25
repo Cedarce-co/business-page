@@ -12,7 +12,7 @@ export default async function SignInPage() {
   return (
     <AuthShell
       title="Hello there"
-      subtitle="Sign in to continue your business setup, account verification, and service request workflow."
+      subtitle="Sign in to see your requests, verify your business and ask for new services."
     >
       <SigninFlow />
     </AuthShell>

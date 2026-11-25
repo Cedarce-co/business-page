@@ -39,7 +39,7 @@ export default async function DashboardHomePage() {
   return (
     <Page
       title="Dashboard"
-      subtitle="Track onboarding, verification, and active work."
+      subtitle="See your verification, your requests and the progress of your work."
       right={
         kycDone ? (
           <div className="flex flex-wrap items-center gap-2">
@@ -52,7 +52,7 @@ export default async function DashboardHomePage() {
           </div>
         ) : (
           <ActionLink href="/dashboard/kyc" variant={kycSubmitted ? "secondary" : "amber"}>
-            {kycSubmitted ? "View verification" : kycInvalid ? "Update verification" : kycRejected ? "Resubmit verification" : "Start verification"}
+            {kycSubmitted ? "View verification" : kycInvalid ? "Update verification" : kycRejected ? "Send verification again" : "Start verification"}
           </ActionLink>
         )
       }
@@ -72,14 +72,14 @@ export default async function DashboardHomePage() {
                 : kycSubmitted
                   ? "Awaiting approval."
                   : kycInvalid
-                    ? "Update your business information and resubmit."
+                    ? "Update your business details and send again."
                     : kycRejected
-                      ? "Update details and resubmit."
-                      : "Required before requesting services."
+                      ? "Update your details and send again."
+                      : "Needed before you can request a service."
             }
           />
-          <Stat label="Requests" value={totalRequests} hint="Service requests created so far." />
-          <Stat label="Account" value={<Badge tone="emerald">Active</Badge>} hint="Your portal is ready." />
+          <Stat label="Requests" value={totalRequests} hint="Requests you have sent so far." />
+          <Stat label="Account" value={<Badge tone="emerald">Active</Badge>} hint="Your account is ready." />
         </StatRow>
       </PageSection>
 
@@ -95,22 +95,22 @@ export default async function DashboardHomePage() {
                   {kycSubmitted
                     ? "Verification submitted. Awaiting approval."
                     : kycInvalid
-                      ? "Some business information is invalid. Please update and resubmit."
+                      ? "Some of your business details need fixing. Please update them and send again."
                       : kycRejected
-                        ? "Verification was rejected. Please update and resubmit."
-                        : "Complete account verification to unlock service requests"}
+                        ? "We could not verify your business. Please update your details and send again."
+                        : "Verify your business to start requesting services"}
                 </p>
               </div>
               <p className="mt-2 text-sm text-slate-700">
                 {kycSubmitted
-                  ? "Our team is reviewing your business details and documents. You will get an email once approved."
+                  ? "Our team is checking your business details and documents. We will email you once you are approved."
                   : kycInvalid
-                    ? "Open your verification page, correct the details, and submit again."
-                    : "Your account is active. Verification is required before requesting services."}
+                    ? "Open your verification page, fix the details, and send again."
+                    : "Your account is ready. Please verify your business before requesting a service."}
               </p>
             </div>
             <ActionLink href="/dashboard/kyc" variant={kycSubmitted ? "secondary" : kycInvalid ? "amber" : kycRejected ? "danger" : "amber"}>
-              {kycSubmitted ? "View details" : kycInvalid ? "Update verification" : kycRejected ? "Resubmit verification" : "Start verification"}
+              {kycSubmitted ? "View details" : kycInvalid ? "Update verification" : kycRejected ? "Send verification again" : "Start verification"}
             </ActionLink>
           </div>
         </PageSection>
@@ -129,8 +129,8 @@ export default async function DashboardHomePage() {
               </div>
               <div className="divide-y divide-slate-200">
               <ChecklistRow
-                title="Account verification"
-                description="Confirm your identity to unlock requests."
+                title="Verify your business"
+                description="Confirm who you are so we can start work."
                 action={
                   kycDone ? (
                     <Badge tone="emerald">Done</Badge>
@@ -142,14 +142,14 @@ export default async function DashboardHomePage() {
                     </ActionLink>
                   ) : (
                     <ActionLink href="/dashboard/kyc" variant={kycRejected ? "danger" : "amber"}>
-                      {kycRejected ? "Resubmit" : "Verify now"}
+                      {kycRejected ? "Send again" : "Verify now"}
                     </ActionLink>
                   )
                 }
               />
               <ChecklistRow
-                title="Create a service request"
-                description="Describe what you need and your timeline."
+                title="Request a service"
+                description="Tell us what you need and when you need it."
                 action={
                   kycDone ? (
                     <ActionLink href="/dashboard/request-service?fresh=1" variant="primary">
@@ -161,8 +161,8 @@ export default async function DashboardHomePage() {
                 }
               />
               <ChecklistRow
-                title="Update profile settings"
-                description="Keep contact and address details accurate."
+                title="Update your profile"
+                description="Keep your contact details and address up to date."
                 action={
                   <ActionLink href="/dashboard/profile" variant="secondary">
                     Open profile
@@ -175,7 +175,7 @@ export default async function DashboardHomePage() {
           right={
             <>
               <h2 className="text-lg font-black text-slate-900">Support</h2>
-              <p className="mt-1 text-sm text-slate-600">Need help scoping your request or completing verification?</p>
+              <p className="mt-1 text-sm text-slate-600">Need help with your request or with verification?</p>
               <div className="mt-5 border-t border-slate-200 pt-5">
                 <ContactInfoList variant="dashboard" showHours hours="short" />
               </div>
@@ -191,7 +191,7 @@ export default async function DashboardHomePage() {
 
       <PageSection
         title="Recent requests"
-        description="Each submission is tracked separately with its own status."
+        description="Each request has its own progress."
       >
         {totalRequests > 0 ? (
           <p className="-mt-4 mb-4 text-right text-sm">
@@ -204,7 +204,7 @@ export default async function DashboardHomePage() {
         {requests.length === 0 ? (
           <div className="border-t border-dashed border-slate-200 py-8 text-center">
             <p className="text-sm font-semibold text-slate-800">No requests yet</p>
-            <p className="mt-1 text-sm text-slate-600">Create a request to start your delivery workflow.</p>
+            <p className="mt-1 text-sm text-slate-600">Send your first request and we will get started.</p>
             <div className="mt-4">
               {kycDone ? (
                 <ActionLink href="/dashboard/request-service?fresh=1" variant="primary">

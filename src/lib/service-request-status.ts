@@ -46,9 +46,9 @@ export function serviceRequestStatusLabel(status: string | null | undefined): st
   if (!status) return "Unknown";
   const labels: Record<string, string> = {
     PENDING_REVIEW: "Request under review",
-    NEEDS_INFO: "Needs more information",
-    CONSULTATION: "Consultation in progress",
-    PRICING: "Consultation / pricing", // legacy DB rows
+    NEEDS_INFO: "We need more information",
+    CONSULTATION: "Chatting with you",
+    PRICING: "Discussing price", // legacy DB rows
     PROJECT_STARTED: "Project started",
     PROJECT_UNDER_REVIEW: "Project under review",
     PROJECT_COMPLETED: "Project completed",

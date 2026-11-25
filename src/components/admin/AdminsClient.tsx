@@ -171,7 +171,7 @@ export default function AdminsClient({ currentUserId }: { currentUserId: string 
           type="button"
           disabled={inviting || name.trim().length < 2 || !email.includes("@")}
           onClick={invite}
-          className="mt-4 rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
+          className="mt-4 rounded-xl bg-g-button px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
         >
           {inviting ? "Sending…" : "Send invite"}
         </button>
@@ -267,7 +267,7 @@ export default function AdminsClient({ currentUserId }: { currentUserId: string 
                             <span
                               className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold ${
                                 a.adminRole === "SUPER_ADMIN"
-                                  ? "bg-slate-900 text-white"
+                                  ? "bg-g-button text-white"
                                   : "bg-slate-100 text-slate-700"
                               }`}
                             >

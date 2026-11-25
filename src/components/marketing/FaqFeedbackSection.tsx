@@ -8,7 +8,7 @@ import CircleLoader from "@/components/ui/CircleLoader";
 
 const TOPICS = [
   "Something is unclear",
-  "Pain point / frustration",
+  "Something is frustrating me",
   "Feature idea",
   "Pricing or packages",
   "General feedback",
@@ -16,7 +16,7 @@ const TOPICS = [
 ] as const;
 
 const inputClass =
-  "w-full rounded-xl border border-white/15 bg-white/[0.04] px-4 py-3 text-sm text-cedar-ivory outline-none placeholder:text-white/35 focus:border-cedar-accent/50 focus:ring-2 focus:ring-cedar-accent/20";
+  "w-full rounded-xl border border-line bg-brand-50 px-4 py-3 text-sm text-brand-950 outline-none placeholder:text-slate-400 focus:border-brand-200 focus:ring-2 focus:ring-brand-200";
 
 export default function FaqFeedbackSection() {
   const [open, setOpen] = useState(false);
@@ -71,14 +71,14 @@ export default function FaqFeedbackSection() {
 
   return (
     <>
-      <section className="mt-14 rounded-3xl border border-white/10 bg-black p-8 shadow-card sm:p-10">
+      <section className="relative mt-14 overflow-hidden rounded-[2rem] bg-deep-blue p-8 text-white shadow-lift sm:p-10">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="max-w-xl space-y-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cedar-accent">Your voice</p>
-            <h2 className="text-2xl font-black text-cedar-ivory sm:text-3xl">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-brand-200">Your voice</p>
+            <h2 className="font-display text-2xl font-semibold tracking-[-0.03em] text-white sm:text-3xl">
               Still have questions or ideas for us?
             </h2>
-            <p className="text-sm leading-relaxed text-cedar-mist">
+            <p className="text-sm leading-relaxed text-brand-100/85">
               Tell us what&apos;s confusing, what we could improve, or pain points we should solve. Every message is read
               by our team and helps shape Cedarce.
             </p>
@@ -86,7 +86,7 @@ export default function FaqFeedbackSection() {
           <button
             type="button"
             onClick={() => setOpen(true)}
-            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-cedar-accent px-6 py-3.5 text-sm font-semibold text-black transition hover:brightness-110"
+            className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-semibold text-brand-700 shadow-lift transition hover:-translate-y-0.5 hover:bg-brand-50"
           >
             <MessageSquarePlus className="h-4 w-4" />
             Share feedback
@@ -109,7 +109,7 @@ export default function FaqFeedbackSection() {
             <button
               type="button"
               onClick={close}
-              className="rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-800"
+              className="rounded-full bg-g-button px-5 py-2.5 text-sm font-semibold text-white hover:shadow-glow"
             >
               Close
             </button>
@@ -160,7 +160,7 @@ export default function FaqFeedbackSection() {
                 required
                 rows={5}
                 className={`${inputClass} min-h-32`}
-                placeholder="What question do you still have? What should we improve? What pain point can we help with?"
+                placeholder="What question do you still have? What should we improve? What problem can we help you solve?"
                 value={form.message}
                 onChange={(e) => setForm((p) => ({ ...p, message: e.target.value }))}
               />
@@ -169,14 +169,14 @@ export default function FaqFeedbackSection() {
               <button
                 type="button"
                 onClick={close}
-                className="rounded-xl border border-slate-200 bg-black px-5 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50"
+                className="rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={sending}
-                className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-800 disabled:opacity-50"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-g-button px-5 py-2.5 text-sm font-semibold text-white hover:shadow-glow disabled:opacity-50"
               >
                 {sending ? (
                   <>

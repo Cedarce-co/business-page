@@ -33,25 +33,25 @@ export default function Modal({
       <button
         type="button"
         aria-label="Close modal"
-        className="absolute inset-0 bg-black/70"
+        className="absolute inset-0 bg-brand-950/30 backdrop-blur-sm"
         onClick={onClose}
       />
       <div
-        className={`relative w-full ${widthClassName} rounded-2xl border border-white/10 bg-[#0c0c0c] p-5 shadow-elegant`}
+        className={`relative w-full ${widthClassName} rounded-[1.75rem] border border-line bg-white p-6 shadow-lift`}
       >
         <div className="mb-4 flex items-start justify-between gap-4">
           <div>
             {eyebrow !== null ? (
-              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-cedar-accent">
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brand-600">
                 {eyebrow ?? "Details"}
               </p>
             ) : null}
-            <h2 className={`${eyebrow !== null ? "mt-1" : ""} text-lg font-black text-cedar-ivory`}>{title}</h2>
+            <h2 className={`${eyebrow !== null ? "mt-1" : ""} text-xl font-semibold tracking-tight text-brand-950`}>{title}</h2>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg border border-white/15 bg-white/[0.04] px-3 py-2 text-sm font-semibold text-cedar-ivory hover:bg-white/[0.08]"
+            className="rounded-full border border-line bg-white px-3 py-2 text-sm font-semibold text-brand-800 transition hover:border-brand-200 hover:bg-brand-50"
           >
             Close
           </button>

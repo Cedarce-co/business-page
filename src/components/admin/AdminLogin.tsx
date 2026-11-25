@@ -182,7 +182,7 @@ export default function AdminLogin({ notice }: { notice?: string }) {
 
       <div className="mt-6 mb-10 flex items-center justify-center gap-3">
         <button
-          className="mx-auto w-full rounded-xl bg-slate-900 px-4 py-3 text-base font-semibold text-white hover:bg-slate-800 disabled:opacity-50 sm:w-1/2"
+          className="mx-auto w-full rounded-xl bg-g-button px-4 py-3 text-base font-semibold text-white hover:brightness-110 disabled:opacity-50 sm:w-1/2"
           onClick={step === "credentials" ? submitCredentials : submitTotp}
           disabled={step === "credentials" ? !canSubmitCredentials : !canSubmitTotp}
           type="button"

@@ -14,7 +14,7 @@ export default function RootMain({ children }: { children: React.ReactNode }) {
       className={cn(
         "flex-1",
         marketing && "public-site-main",
-        darkPublic && "site-public bg-black text-white",
+        darkPublic && "site-public bg-white text-brand-950",
       )}
     >
       {children}

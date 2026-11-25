@@ -109,7 +109,7 @@ export default function AdminEditQuestionSetPage() {
             type="button"
             disabled={!canEdit || publishing}
             onClick={publish}
-            className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
+            className="inline-flex items-center justify-center rounded-xl bg-g-button px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
           >
             {publishing ? "Publishing…" : "Publish"}
           </button>

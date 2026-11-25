@@ -138,8 +138,8 @@ export default function KycFlow() {
     <>
       <div className="flex items-center justify-between gap-3">
         <div>
-          <p className="text-sm font-black text-slate-900">Account verification</p>
-          <p className="mt-1 text-sm text-slate-600">One step per screen. Smooth, focused, and secure.</p>
+          <p className="text-sm font-black text-slate-900">Verify your business</p>
+          <p className="mt-1 text-sm text-slate-600">One step at a time. Your details are kept safe.</p>
         </div>
         <Badge tone={kycStatus === "APPROVED" ? "emerald" : kycStatus === "SUBMITTED" ? "amber" : kycStatus === "INVALID_INFO" ? "amber" : kycStatus === "REJECTED" ? "rose" : "slate"}>
           {prefilling ? "Loading…" : kycStatus === "SUBMITTED" ? "Under review" : kycStatus === "INVALID_INFO" ? "Update needed" : kycStatus === "APPROVED" ? "Approved" : kycStatus === "REJECTED" ? "Declined" : `Step ${step + 1}/4`}
@@ -148,7 +148,7 @@ export default function KycFlow() {
 
       <div className="mt-5 flex gap-2">
         {[0, 1, 2, 3].map((i) => (
-          <div key={i} className={`h-2 flex-1 rounded-full ${i <= step ? "bg-slate-900" : "bg-slate-200"}`} />
+          <div key={i} className={`h-2 flex-1 rounded-full ${i <= step ? "bg-g-button" : "bg-slate-200"}`} />
         ))}
       </div>
     </>
@@ -182,7 +182,7 @@ export default function KycFlow() {
           onClick={submit}
           className={`w-full ${step > 0 ? "sm:w-1/2" : "sm:w-[60%]"}`}
         >
-          {kycStatus === "SUBMITTED" ? "Resubmit verification" : "Submit verification"}
+          {kycStatus === "SUBMITTED" ? "Send verification again" : "Submit verification"}
         </ActionButton>
       )}
     </div>
@@ -205,7 +205,7 @@ export default function KycFlow() {
           {step === 0 ? (
             <>
               <h2 className="text-xl font-bold text-slate-900">Contact & business</h2>
-              <p className="text-sm text-slate-600">Optional details help us verify faster. Only your government ID is required to submit.</p>
+              <p className="text-sm text-slate-600">Extra details help us verify you faster. Only your government ID is required.</p>
               <Input
                 placeholder="Phone / WhatsApp (optional)"
                 value={form.phone}
@@ -268,7 +268,7 @@ export default function KycFlow() {
           ) : null}
           {step === 2 ? (
             <>
-              <h2 className="text-xl font-bold text-slate-900">Online presence (optional)</h2>
+              <h2 className="text-xl font-bold text-slate-900">Online details (optional)</h2>
               <p className="text-sm text-slate-600">
                 Many businesses do not have these yet. Add what you have and we will help you set up the rest.
               </p>
@@ -285,7 +285,7 @@ export default function KycFlow() {
                 onChange={(e) => setForm((p) => ({ ...p, businessWebsite: e.target.value }))}
               />
               <Input
-                placeholder="Social handle (optional) e.g. @yourbusiness"
+                placeholder="Instagram or social media name (optional), e.g. @yourbusiness"
                 value={form.socialHandle ?? ""}
                 disabled={locked}
                 onChange={(e) => setForm((p) => ({ ...p, socialHandle: e.target.value }))}
@@ -294,7 +294,7 @@ export default function KycFlow() {
           ) : null}
           {step === 3 ? (
             <>
-              <h2 className="text-xl font-bold text-slate-900">Proof & documents</h2>
+              <h2 className="text-xl font-bold text-slate-900">Your documents</h2>
               <p className="text-sm text-slate-600">
                 Upload a valid government ID (required). Proof of address and CAC are optional. PNG, JPEG, or PDF only.
               </p>

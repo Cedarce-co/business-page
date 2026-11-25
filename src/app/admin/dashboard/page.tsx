@@ -44,12 +44,12 @@ function AnalyticsPanel({
         <div className="mt-5 grid gap-2 text-sm text-slate-700">{children}</div>
       </div>
       <div
-        className="relative h-32 w-32 shrink-0 rounded-full p-3 shadow-[inset_0_0_0_1px_rgba(148,163,184,0.35)]"
+        className="relative h-32 w-32 shrink-0 rounded-full p-3 shadow-[inset_0_0_0_1px_rgba(31,58,95,0.10)]"
         style={{ background: pie }}
         aria-label={`${title} pie chart`}
         title={title}
       >
-        <div className="h-full w-full rounded-full bg-white shadow-[inset_0_0_0_1px_rgba(226,232,240,0.9)]" />
+        <div className="h-full w-full rounded-full bg-white shadow-[inset_0_0_0_1px_rgba(227,234,244,0.9)]" />
       </div>
     </div>
   );
@@ -86,8 +86,8 @@ export default async function AdminDashboardPage() {
 
   const verTotal = Math.max(1, users.length);
   const workTotal = Math.max(1, requests.length);
-  const verPie = `conic-gradient(#16a34a 0 ${(verification.approved / verTotal) * 360}deg,#f59e0b ${(verification.approved / verTotal) * 360}deg ${((verification.approved + verification.underReview) / verTotal) * 360}deg,#ef4444 ${((verification.approved + verification.underReview) / verTotal) * 360}deg ${((verification.approved + verification.underReview + verification.rejected) / verTotal) * 360}deg,#94a3b8 ${((verification.approved + verification.underReview + verification.rejected) / verTotal) * 360}deg 360deg)`;
-  const workPie = `conic-gradient(#0f172a 0 ${(work.completed / workTotal) * 360}deg,#2563eb ${(work.completed / workTotal) * 360}deg ${((work.completed + work.active) / workTotal) * 360}deg,#f59e0b ${((work.completed + work.active) / workTotal) * 360}deg ${((work.completed + work.active + work.pending) / workTotal) * 360}deg,#e11d48 ${((work.completed + work.active + work.pending) / workTotal) * 360}deg ${((work.completed + work.active + work.pending + work.rejected) / workTotal) * 360}deg,#64748b ${((work.completed + work.active + work.pending + work.rejected) / workTotal) * 360}deg 360deg)`;
+  const verPie = `conic-gradient(#2A65B2 0 ${(verification.approved / verTotal) * 360}deg,#99BCEA ${(verification.approved / verTotal) * 360}deg ${((verification.approved + verification.underReview) / verTotal) * 360}deg,#E11D48 ${((verification.approved + verification.underReview) / verTotal) * 360}deg ${((verification.approved + verification.underReview + verification.rejected) / verTotal) * 360}deg,#C5CFDD ${((verification.approved + verification.underReview + verification.rejected) / verTotal) * 360}deg 360deg)`;
+  const workPie = `conic-gradient(#1F3A5F 0 ${(work.completed / workTotal) * 360}deg,#347AD5 ${(work.completed / workTotal) * 360}deg ${((work.completed + work.active) / workTotal) * 360}deg,#99BCEA ${((work.completed + work.active) / workTotal) * 360}deg ${((work.completed + work.active + work.pending) / workTotal) * 360}deg,#E11D48 ${((work.completed + work.active + work.pending) / workTotal) * 360}deg ${((work.completed + work.active + work.pending + work.rejected) / workTotal) * 360}deg,#C5CFDD ${((work.completed + work.active + work.pending + work.rejected) / workTotal) * 360}deg 360deg)`;
 
   return (
     <Page
@@ -107,19 +107,19 @@ export default async function AdminDashboardPage() {
         <div className="grid lg:grid-cols-2 lg:divide-x lg:divide-slate-200">
           <div className="px-6 py-8 lg:px-9 lg:py-9">
             <AnalyticsPanel title="Verification analytics" description="Approved vs under review vs declined vs not submitted." pie={verPie}>
-              <LegendRow color="bg-emerald-600" label="Approved" value={verification.approved} />
-              <LegendRow color="bg-amber-500" label="Under review" value={verification.underReview} />
-              <LegendRow color="bg-rose-500" label="Rejected" value={verification.rejected} />
-              <LegendRow color="bg-slate-400" label="Not submitted" value={verification.notSubmitted} />
+              <LegendRow color="bg-brand-600" label="Approved" value={verification.approved} />
+              <LegendRow color="bg-brand-300" label="Under review" value={verification.underReview} />
+              <LegendRow color="bg-rose-600" label="Rejected" value={verification.rejected} />
+              <LegendRow color="bg-slate-300" label="Not submitted" value={verification.notSubmitted} />
             </AnalyticsPanel>
           </div>
           <div className="border-t border-slate-200 px-6 py-8 lg:border-t-0 lg:px-9 lg:py-9">
             <AnalyticsPanel title="Work analytics" description="Grouped by request lifecycle stage, including newer project statuses." pie={workPie}>
-              <LegendRow color="bg-slate-900" label="Completed" value={work.completed} />
-              <LegendRow color="bg-blue-600" label="Active project" value={work.active} />
-              <LegendRow color="bg-amber-500" label="Pending review" value={work.pending} />
+              <LegendRow color="bg-brand-800" label="Completed" value={work.completed} />
+              <LegendRow color="bg-brand-500" label="Active project" value={work.active} />
+              <LegendRow color="bg-brand-300" label="Pending review" value={work.pending} />
               <LegendRow color="bg-rose-600" label="Rejected" value={work.rejected} />
-              <LegendRow color="bg-slate-500" label="Closed" value={work.closed} />
+              <LegendRow color="bg-slate-300" label="Closed" value={work.closed} />
             </AnalyticsPanel>
           </div>
         </div>

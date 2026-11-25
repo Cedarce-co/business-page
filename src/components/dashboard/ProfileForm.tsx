@@ -170,7 +170,7 @@ export default function ProfileForm({ initial }: { initial: ProfileState }) {
         ) : null}
 
         <div className="mt-6 flex flex-col gap-3 border-t border-slate-100 pt-5 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs text-slate-500">Save changes to update your profile across the portal.</p>
+          <p className="text-xs text-slate-500">Save to update your profile everywhere in your account.</p>
           <ActionButton variant="primary" onClick={save} loading={saving} disabled={!canSubmit}>
             Save changes
           </ActionButton>

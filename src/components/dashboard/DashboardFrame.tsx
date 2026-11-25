@@ -7,6 +7,7 @@ import WayfindingStrip from "@/components/navigation/WayfindingStrip";
 import IdleSessionWatchdog from "@/components/auth/IdleSessionWatchdog";
 import MfaSecurityOverlay from "@/components/dashboard/MfaSecurityOverlay";
 import { Menu, X } from "lucide-react";
+import BrandLogo from "@/components/ui/BrandLogo";
 
 export type DashboardFrameProps = {
   name: string;
@@ -60,13 +61,14 @@ export default function DashboardFrame({
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-800"
+          className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700"
         >
           <Menu className="h-4 w-4" />
           Menu
         </button>
+        <BrandLogo height={22} />
         <div className="flex items-center gap-3">
-          <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-slate-900 text-xs font-bold text-white">
+          <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border-2 border-white bg-g-button text-xs font-bold text-white shadow-glow-sm">
             {image ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={image} alt="" className="h-full w-full object-cover" />
@@ -94,7 +96,7 @@ export default function DashboardFrame({
               className="absolute left-0 top-0 h-full w-[86vw] max-w-sm bg-white"
             >
               <div className="flex items-center justify-between border-b border-slate-200 p-4">
-                <p className="text-sm font-bold text-slate-900">Dashboard</p>
+                <BrandLogo height={22} />
                 <button
                   type="button"
                   className="rounded-xl border border-slate-200 bg-white p-2"

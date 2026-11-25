@@ -57,20 +57,20 @@ export default function CurrencySwitcher({ className, size = "sm" }: Props) {
         aria-controls={listId}
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          "inline-flex items-center gap-1.5 rounded-lg border border-white/15 bg-black/50 font-semibold text-cedar-ivory outline-none transition",
-          "hover:border-white/30 focus-visible:ring-2 focus-visible:ring-cedar-accent/40",
-          size === "sm" ? "min-h-9 px-2 text-xs" : "min-h-10 px-2.5 text-sm",
+          "inline-flex items-center gap-1.5 rounded-full border border-line bg-white/80 font-semibold text-brand-800 shadow-soft outline-none backdrop-blur-xl transition",
+          "hover:border-brand-200 hover:bg-white focus-visible:ring-4 focus-visible:ring-brand-100",
+          size === "sm" ? "min-h-9 px-3 text-xs" : "min-h-10 px-3.5 text-sm",
         )}
       >
         <span className="text-base leading-none" aria-hidden>
           {current.flag}
         </span>
-        <span className="text-[11px] font-semibold tracking-wide text-cedar-ivory/90">
+        <span className="text-[11px] font-semibold tracking-wide text-brand-800">
           {current.code}
         </span>
         <ChevronDown
           className={cn(
-            "text-white/60 transition",
+            "text-brand-400 transition",
             size === "sm" ? "h-3.5 w-3.5" : "h-4 w-4",
             open && "rotate-180",
           )}
@@ -83,7 +83,7 @@ export default function CurrencySwitcher({ className, size = "sm" }: Props) {
           id={listId}
           role="listbox"
           aria-label="Select pricing currency"
-          className="absolute right-0 top-[calc(100%+0.35rem)] z-50 min-w-[9.5rem] overflow-hidden rounded-lg border border-white/15 bg-zinc-950 py-1 shadow-xl"
+          className="absolute right-0 top-[calc(100%+0.5rem)] z-50 min-w-[9.5rem] overflow-hidden rounded-2xl border border-line bg-white p-1 shadow-lift"
         >
           {options.map((opt) => {
             const selected = opt.code === currency;
@@ -93,10 +93,10 @@ export default function CurrencySwitcher({ className, size = "sm" }: Props) {
                   type="button"
                   onClick={() => select(opt.code)}
                   className={cn(
-                    "flex w-full items-center gap-2.5 px-3 py-2 text-left text-sm transition",
+                    "flex w-full items-center gap-2.5 rounded-xl px-3 py-2 text-left text-sm transition",
                     selected
-                      ? "bg-cedar-accent/15 text-cedar-ivory"
-                      : "text-cedar-mist hover:bg-white/5 hover:text-cedar-ivory",
+                      ? "bg-brand-50 text-brand-800"
+                      : "text-slate-600 hover:bg-brand-50/60 hover:text-brand-800",
                   )}
                 >
                   <span className="text-base leading-none" aria-hidden>

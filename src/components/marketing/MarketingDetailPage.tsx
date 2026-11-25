@@ -22,18 +22,20 @@ import MobileSnapRail from "@/components/marketing/MobileSnapRail";
 import CurrencyAwareEyebrow from "@/components/marketing/CurrencyAwareEyebrow";
 import Button from "@/components/ui/Button";
 import MarketingPageHeader from "@/components/navigation/MarketingPageHeader";
+import AnimatedHeadline from "@/components/motion/AnimatedHeadline";
+import Reveal from "@/components/motion/Reveal";
 import SectionReveal, { RevealItem, StaggerReveal } from "@/components/ui/SectionReveal";
 import type { MarketingAccent, MarketingPageConfig, MarketingSection } from "@/lib/marketing-detail-pages";
 import { CATALOG_CARD_IMAGES, DETAIL_HERO_BY_CATEGORY } from "@/lib/marketing-images";
 import { cn } from "@/lib/utils";
 
 const accentStyles: Record<MarketingAccent, { panel: string; dot: string }> = {
-  teal: { panel: "bg-cedar-accentSoft border-cedar-accent/25", dot: "bg-cedar-accent" },
-  purple: { panel: "bg-white/[0.04] border-white/15", dot: "bg-cedar-accent" },
-  emerald: { panel: "bg-cedar-accentSoft border-cedar-accent/25", dot: "bg-cedar-accent" },
-  amber: { panel: "bg-cedar-accentSoft border-cedar-accent/25", dot: "bg-cedar-accent" },
-  cyan: { panel: "bg-white/[0.04] border-white/15", dot: "bg-cedar-accent" },
-  rose: { panel: "bg-white/[0.04] border-white/15", dot: "bg-cedar-accent" },
+  teal: { panel: "bg-brand-50 border-brand-200", dot: "bg-brand-600" },
+  purple: { panel: "bg-brand-50 border-line", dot: "bg-brand-600" },
+  emerald: { panel: "bg-brand-50 border-brand-200", dot: "bg-brand-600" },
+  amber: { panel: "bg-brand-50 border-brand-200", dot: "bg-brand-600" },
+  cyan: { panel: "bg-brand-50 border-line", dot: "bg-brand-600" },
+  rose: { panel: "bg-brand-50 border-line", dot: "bg-brand-600" },
 };
 
 const bentoIcons: Record<string, ComponentType<{ className?: string }>> = {
@@ -50,33 +52,6 @@ const bentoIcons: Record<string, ComponentType<{ className?: string }>> = {
   message: MessageSquare,
   graduation: GraduationCap,
 };
-
-function NetworkDecor() {
-  return (
-    <svg
-      aria-hidden
-      className="pointer-events-none absolute inset-0 h-full w-full opacity-[0.16]"
-      viewBox="0 0 1200 700"
-      fill="none"
-      preserveAspectRatio="xMidYMid slice"
-    >
-      <path
-        d="M120 140 C 280 90, 420 220, 580 170 S 900 250, 1080 180"
-        stroke="rgba(31,58,95,0.45)"
-        strokeWidth="1"
-        strokeDasharray="4 8"
-      />
-      <path
-        d="M80 420 C 260 360, 420 520, 620 460 S 920 540, 1120 470"
-        stroke="rgba(255,255,255,0.22)"
-        strokeWidth="1"
-        strokeDasharray="4 8"
-      />
-      <circle cx="580" cy="170" r="4" fill="rgba(31,58,95,0.55)" />
-      <circle cx="620" cy="460" r="4" fill="rgba(255,255,255,0.3)" />
-    </svg>
-  );
-}
 
 function ElegantCard({
   href,
@@ -96,17 +71,17 @@ function ElegantCard({
       {Icon ? (
         <div
           className={cn(
-            "flex items-center justify-center rounded-2xl border border-cedar-accent/15 bg-cedar-accentSoft",
+            "btn-sheen flex items-center justify-center rounded-2xl bg-g-button text-white shadow-glow-sm transition duration-500 group-hover:-rotate-6 group-hover:scale-105",
             compact ? "mb-4 h-10 w-10" : "mb-6 h-12 w-12",
           )}
         >
-          <Icon className={cn(compact ? "h-4 w-4" : "h-5 w-5", "text-cedar-accent")} aria-hidden />
+          <Icon className={cn(compact ? "h-4 w-4" : "h-5 w-5", "text-white")} aria-hidden />
         </div>
       ) : null}
-      <h3 className={cn("font-bold text-cedar-ivory", compact ? "text-base" : "text-xl")}>{title}</h3>
+      <h3 className={cn("font-semibold tracking-tight text-brand-950", compact ? "text-base" : "text-xl")}>{title}</h3>
       <p
         className={cn(
-          "mt-2 flex-1 text-sm text-cedar-mist",
+          "mt-2 flex-1 text-sm text-slate-500",
           compact ? "line-clamp-4 leading-6" : "mt-3 leading-7",
         )}
       >
@@ -115,7 +90,7 @@ function ElegantCard({
       {href ? (
         <span
           className={cn(
-            "inline-flex items-center gap-2 font-semibold text-cedar-accent",
+            "inline-flex items-center gap-2 font-semibold text-brand-600",
             compact ? "mt-4" : "mt-7 text-sm",
           )}
         >
@@ -133,10 +108,10 @@ function ElegantCard({
   );
 
   const className = cn(
-    "group relative flex h-full flex-col overflow-hidden border border-white/[0.08] bg-[#121110]/90 transition duration-300",
+    "group relative flex h-full flex-col overflow-hidden border border-line bg-white shadow-soft transition duration-500",
     compact
-      ? "min-h-[11.5rem] rounded-2xl p-5 active:scale-[0.98]"
-      : "min-h-[180px] rounded-2xl p-6 hover:-translate-y-1 hover:border-cedar-accent/35 hover:bg-[#18150f]",
+      ? "min-h-[11.5rem] rounded-3xl p-5 active:scale-[0.98]"
+      : "min-h-[180px] rounded-[2rem] p-7 hover:-translate-y-1 hover:border-brand-200 hover:shadow-lift",
   );
 
   if (href) {
@@ -153,13 +128,14 @@ function ElegantCard({
 function SectionIntro({ title, subtitle }: { title: string; subtitle?: string }) {
   return (
     <div className="max-w-2xl text-left">
-      <h2 className="font-display text-[1.85rem] leading-tight text-cedar-ivory sm:text-3xl lg:text-4xl">
-        {title}
-      </h2>
+      <AnimatedHeadline
+        text={title}
+        className="font-display text-[2rem] font-semibold leading-[1.05] tracking-[-0.04em] text-brand-950 sm:text-4xl lg:text-5xl"
+      />
       {subtitle ? (
-        <p className="mt-3 text-sm leading-relaxed text-cedar-mist sm:mt-4 sm:text-base lg:text-lg">
-          {subtitle}
-        </p>
+        <Reveal delay={0.1}>
+          <p className="mt-4 text-[15px] leading-relaxed text-slate-500 sm:text-base lg:text-lg">{subtitle}</p>
+        </Reveal>
       ) : null}
     </div>
   );
@@ -175,7 +151,7 @@ function SectionBlock({
   index: number;
 }) {
   const a = accentStyles[accent];
-  const altBg = index % 2 === 0 ? "bg-black" : "bg-zinc-950";
+  const altBg = index % 2 === 0 ? "bg-white" : "bg-gradient-to-b from-brand-50/70 to-white";
 
   if (section.type === "stats") {
     return (
@@ -187,19 +163,19 @@ function SectionBlock({
             {section.items.map((item) => (
               <div
                 key={item.label}
-                className="rounded-xl border border-white/[0.08] bg-[#121110] px-2 py-3 text-center"
+                className="rounded-xl border border-line bg-white px-2 py-3 text-center"
               >
-                <p className="font-display text-xl text-cedar-ivory sm:text-2xl">{item.value}</p>
-                <p className="mt-1 text-[10px] leading-snug text-cedar-mist sm:text-xs">{item.label}</p>
+                <p className="font-display text-xl font-semibold text-gradient sm:text-2xl">{item.value}</p>
+                <p className="mt-1 text-[10px] leading-snug text-slate-500 sm:text-xs">{item.label}</p>
               </div>
             ))}
           </div>
           <StaggerReveal className="mt-12 hidden gap-4 sm:grid-cols-3 lg:grid">
             {section.items.map((item) => (
               <RevealItem key={item.label}>
-                <div className="rounded-[1.75rem] border border-white/[0.08] bg-[#121110] p-7 text-left">
-                  <p className="font-display text-4xl text-cedar-ivory lg:text-5xl">{item.value}</p>
-                  <p className="mt-3 text-sm text-cedar-mist">{item.label}</p>
+                <div className="rounded-[2rem] border border-line bg-white shadow-soft p-7 text-left">
+                  <p className="font-display text-4xl font-semibold tracking-[-0.04em] text-gradient lg:text-5xl">{item.value}</p>
+                  <p className="mt-3 text-sm text-slate-500">{item.label}</p>
                 </div>
               </RevealItem>
             ))}
@@ -270,13 +246,13 @@ function SectionBlock({
           <div className="lg:sticky lg:top-[calc(var(--site-nav-height)+2rem)]">
             <SectionIntro title={section.title} subtitle={section.body} />
           </div>
-          <div className="rounded-2xl border border-white/[0.08] bg-[#121110] p-5 sm:rounded-[1.75rem] sm:p-8">
-            <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-cedar-accent sm:text-xs">
+          <div className="rounded-2xl border border-line bg-white p-5 sm:rounded-[1.75rem] sm:p-8">
+            <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-brand-600 sm:text-xs">
               {section.panelTitle}
             </p>
             <ul className="mt-4 space-y-3 sm:mt-6 sm:space-y-4">
               {section.panelItems.map((line) => (
-                <li key={line} className="flex gap-3 text-sm leading-relaxed text-cedar-mist">
+                <li key={line} className="flex gap-3 text-sm leading-relaxed text-slate-500">
                   <span className={cn("mt-2 h-1.5 w-1.5 shrink-0 rounded-full", a.dot)} aria-hidden />
                   {line}
                 </li>
@@ -300,13 +276,13 @@ function SectionBlock({
             slides={section.steps.map((step, i) => (
               <article
                 key={step.title}
-                className="flex h-full min-h-[11rem] flex-col rounded-2xl border border-white/[0.08] bg-[#121110] p-5"
+                className="flex h-full min-h-[11rem] flex-col rounded-2xl border border-line bg-white p-5"
               >
-                <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-cedar-accent text-xs font-bold text-black">
+                <span className="btn-sheen inline-flex h-9 w-9 items-center justify-center rounded-xl bg-g-button text-xs font-semibold text-white">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <h3 className="mt-4 text-base font-bold text-cedar-ivory">{step.title}</h3>
-                <p className="mt-2 flex-1 text-sm leading-6 text-cedar-mist">{step.body}</p>
+                <h3 className="mt-4 text-base font-bold text-brand-950">{step.title}</h3>
+                <p className="mt-2 flex-1 text-sm leading-6 text-slate-500">{step.body}</p>
               </article>
             ))}
           />
@@ -315,13 +291,13 @@ function SectionBlock({
             {section.steps.map((step, i) => (
               <article
                 key={step.title}
-                className="rounded-[1.75rem] border border-white/[0.08] bg-[#121110] p-7"
+                className="rounded-[2rem] border border-line bg-white shadow-soft p-7"
               >
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-cedar-accent text-sm font-bold text-black">
+                <span className="btn-sheen inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-g-button text-sm font-semibold text-white shadow-glow-sm">
                   {String(i + 1).padStart(2, "0")}
                 </span>
-                <h3 className="mt-5 text-xl font-bold text-cedar-ivory">{step.title}</h3>
-                <p className="mt-3 text-sm leading-7 text-cedar-mist">{step.body}</p>
+                <h3 className="mt-5 text-xl font-bold text-brand-950">{step.title}</h3>
+                <p className="mt-3 text-sm leading-7 text-slate-500">{step.body}</p>
               </article>
             ))}
           </div>
@@ -339,9 +315,9 @@ function SectionBlock({
             {section.items.map((item) => (
               <li
                 key={item}
-                className="flex gap-3 rounded-xl border border-white/[0.08] bg-[#121110] px-4 py-3.5 text-sm text-cedar-mist sm:rounded-2xl sm:px-5 sm:py-4"
+                className="flex gap-3 rounded-xl border border-line bg-white px-4 py-3.5 text-sm text-slate-500 sm:rounded-2xl sm:px-5 sm:py-4"
               >
-                <Check className="mt-0.5 h-4 w-4 shrink-0 text-cedar-accent" aria-hidden />
+                <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" aria-hidden />
                 {item}
               </li>
             ))}
@@ -358,24 +334,24 @@ function SectionBlock({
           <SectionIntro title={section.title} />
 
           <MobileSnapRail className="mt-6" cardWidthVw={82}>
-            <div className="h-full rounded-2xl border border-white/[0.08] bg-[#121110] p-5">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-white/40">Before</p>
+            <div className="h-full rounded-2xl border border-line bg-white p-5">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-400">Before</p>
               <ul className="mt-4 space-y-3">
                 {section.before.map((line) => (
-                  <li key={line} className="text-sm leading-relaxed text-cedar-mist">
+                  <li key={line} className="text-sm leading-relaxed text-slate-500">
                     {line}
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="h-full rounded-2xl border border-cedar-accent/25 bg-cedar-accentSoft p-5">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-cedar-accent">
+            <div className="h-full rounded-2xl border border-brand-200 bg-brand-50 p-5">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-brand-600">
                 After Cedarce
               </p>
               <ul className="mt-4 space-y-3">
                 {section.after.map((line) => (
-                  <li key={line} className="flex gap-2 text-sm leading-relaxed text-cedar-ivory/90">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-cedar-accent" aria-hidden />
+                  <li key={line} className="flex gap-2 text-sm leading-relaxed text-brand-950">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" aria-hidden />
                     {line}
                   </li>
                 ))}
@@ -384,24 +360,24 @@ function SectionBlock({
           </MobileSnapRail>
 
           <div className="mt-12 hidden gap-5 lg:grid lg:grid-cols-2">
-            <div className="rounded-[1.75rem] border border-white/[0.08] bg-[#121110] p-7 sm:p-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/40">Before</p>
+            <div className="rounded-[2rem] border border-line bg-white shadow-soft p-7 sm:p-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">Before</p>
               <ul className="mt-6 space-y-4">
                 {section.before.map((line) => (
-                  <li key={line} className="text-sm leading-relaxed text-cedar-mist">
+                  <li key={line} className="text-sm leading-relaxed text-slate-500">
                     {line}
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="rounded-[1.75rem] border border-cedar-accent/25 bg-cedar-accentSoft p-7 sm:p-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cedar-accent">
+            <div className="rounded-[2rem] border border-brand-200 bg-brand-50 p-7 sm:p-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-600">
                 After Cedarce
               </p>
               <ul className="mt-6 space-y-4">
                 {section.after.map((line) => (
-                  <li key={line} className="flex gap-3 text-sm leading-relaxed text-cedar-ivory/90">
-                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-cedar-accent" aria-hidden />
+                  <li key={line} className="flex gap-3 text-sm leading-relaxed text-brand-950">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" aria-hidden />
                     {line}
                   </li>
                 ))}
@@ -418,32 +394,32 @@ function SectionBlock({
       <SectionReveal className={`${altBg} py-12 lg:py-24`}>
         <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
           <MobileSnapRail cardWidthVw={84}>
-            <div className="h-full rounded-2xl border border-white/[0.08] bg-[#121110] p-5">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-white/40">
+            <div className="h-full rounded-2xl border border-line bg-white p-5">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-slate-400">
                 The situation
               </p>
-              <p className="mt-4 text-base leading-relaxed text-cedar-mist">{section.pain}</p>
+              <p className="mt-4 text-base leading-relaxed text-slate-500">{section.pain}</p>
             </div>
-            <div className="h-full rounded-2xl border border-cedar-accent/25 bg-cedar-accentSoft p-5">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-cedar-accent">
+            <div className="h-full rounded-2xl border border-brand-200 bg-brand-50 p-5">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-brand-600">
                 The outcome
               </p>
-              <p className="mt-4 text-base leading-relaxed text-cedar-ivory/90">{section.outcome}</p>
+              <p className="mt-4 text-base leading-relaxed text-brand-950">{section.outcome}</p>
             </div>
           </MobileSnapRail>
 
           <div className="hidden gap-5 lg:grid lg:grid-cols-2">
-            <div className="rounded-[1.75rem] border border-white/[0.08] bg-[#121110] p-7 sm:p-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/40">
+            <div className="rounded-[2rem] border border-line bg-white shadow-soft p-7 sm:p-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-400">
                 The situation
               </p>
-              <p className="mt-5 text-lg leading-relaxed text-cedar-mist">{section.pain}</p>
+              <p className="mt-5 text-lg leading-relaxed text-slate-500">{section.pain}</p>
             </div>
-            <div className="rounded-[1.75rem] border border-cedar-accent/25 bg-cedar-accentSoft p-7 sm:p-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-cedar-accent">
+            <div className="rounded-[2rem] border border-brand-200 bg-brand-50 p-7 sm:p-8">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-brand-600">
                 The outcome
               </p>
-              <p className="mt-5 text-lg leading-relaxed text-cedar-ivory/90">{section.outcome}</p>
+              <p className="mt-5 text-lg leading-relaxed text-brand-950">{section.outcome}</p>
             </div>
           </div>
 
@@ -451,9 +427,9 @@ function SectionBlock({
             {section.bullets.map((b) => (
               <li
                 key={b}
-                className="flex gap-3 rounded-xl border border-white/[0.08] bg-[#121110] px-4 py-3.5 text-sm text-cedar-mist sm:rounded-2xl sm:px-5 sm:py-4"
+                className="flex gap-3 rounded-xl border border-line bg-white px-4 py-3.5 text-sm text-slate-500 sm:rounded-2xl sm:px-5 sm:py-4"
               >
-                <Check className="mt-0.5 h-4 w-4 shrink-0 text-cedar-accent" aria-hidden />
+                <Check className="mt-0.5 h-4 w-4 shrink-0 text-brand-600" aria-hidden />
                 {b}
               </li>
             ))}
@@ -465,16 +441,16 @@ function SectionBlock({
 
   if (section.type === "quote") {
     return (
-      <SectionReveal className="bg-black py-12 lg:py-24">
+      <SectionReveal className="bg-white py-12 lg:py-24">
         <div className="mx-auto max-w-[900px] px-4 sm:px-6 lg:px-8">
-          <div className="rounded-2xl border border-white/[0.08] bg-zinc-950 p-6 sm:rounded-[2rem] sm:p-12">
-            <span aria-hidden className="font-display text-5xl leading-none text-cedar-accent/30 sm:text-7xl">
+          <div className="relative overflow-hidden rounded-[2rem] bg-deep-blue p-6 text-white shadow-lift sm:p-12">
+            <span aria-hidden className="font-display text-5xl leading-none text-brand-300 sm:text-7xl">
               “
             </span>
-            <p className="-mt-4 text-lg leading-relaxed text-cedar-ivory sm:-mt-6 sm:text-2xl">
+            <p className="-mt-4 font-display text-lg font-medium leading-snug tracking-[-0.02em] text-white sm:-mt-6 sm:text-3xl">
               {section.text}
             </p>
-            <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-cedar-accent sm:mt-8 sm:text-sm">
+            <p className="mt-6 text-xs font-semibold uppercase tracking-[0.2em] text-brand-200 sm:mt-8 sm:text-sm">
               {section.attribution}
             </p>
           </div>
@@ -498,78 +474,58 @@ function Hero({ page }: { page: MarketingPageConfig }) {
     accentWord && titleParts.length > 1 ? titleParts.slice(0, -1).join(" ") : page.title;
 
   return (
-    <section className="relative overflow-hidden bg-black pb-10 lg:pb-24">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.28] [background-image:radial-gradient(rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:22px_22px]"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(ellipse 55% 45% at 82% 18%, rgba(31,58,95,0.14), transparent 55%)",
-        }}
-      />
-      <NetworkDecor />
-      <MarketingPageHeader tone="dark" className="pb-2" />
+    <section className="relative bg-white pb-8 lg:pb-12">
+      <MarketingPageHeader className="pb-4" />
 
-      <div className="relative mx-auto grid max-w-[1200px] items-start gap-6 px-4 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16 lg:px-8">
-        {/* Mobile image band */}
-        {image ? (
-          <div className="relative h-40 overflow-hidden rounded-2xl border border-white/10 lg:hidden">
-            <Image src={image.src} alt={image.alt} fill priority sizes="100vw" className="object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/10" />
-            <div className="absolute bottom-3 left-3 flex h-10 w-10 items-center justify-center rounded-xl border border-cedar-accent/20 bg-cedar-accentSoft">
-              <Icon className="h-5 w-5 text-cedar-accent" aria-hidden />
-            </div>
-          </div>
-        ) : null}
+      <div className="px-2 sm:px-3">
+        <div className="relative isolate mx-auto max-w-[1400px] overflow-hidden rounded-[2rem] bg-hero-blue lg:rounded-[2.75rem]">
+          <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 bg-line-grid-light [mask-image:radial-gradient(ellipse_80%_70%_at_30%_40%,#000_25%,transparent_80%)]" />
 
-        <div>
-          <CurrencyAwareEyebrow
-            slug={page.slug}
-            category={page.category}
-            fallback={page.eyebrow}
-            className="text-[10px] font-semibold uppercase tracking-[0.32em] text-cedar-accent sm:text-xs"
-          />
-          <h1 className="mt-4 max-w-xl font-display text-[1.85rem] leading-[1.05] tracking-tight text-cedar-ivory sm:mt-7 sm:text-5xl lg:text-[3.75rem]">
-            {accentWord ? (
-              <>
-                {titleLead} <span className="text-cedar-accent">{accentWord}</span>
-              </>
-            ) : (
-              page.title
-            )}
-          </h1>
-          <p className="mt-3 max-w-lg text-base font-semibold text-cedar-ivory/90 sm:mt-5 sm:text-xl">
-            {page.tagline}
-          </p>
-          <div className="mt-6 flex justify-center sm:mt-9 sm:justify-start">
-            <Button href={page.primaryCta.href} variant="accent" className="min-h-12 w-1/2 px-3 text-xs sm:w-auto sm:px-7 sm:text-base">
-              {page.primaryCta.label}
-            </Button>
-          </div>
-        </div>
-
-        <div className="relative hidden min-h-[22rem] lg:block">
-          <div className="absolute inset-0 overflow-hidden rounded-[2rem] border border-white/[0.08] bg-[#121110]/80 p-8 backdrop-blur-sm">
-            {image ? (
-              <>
-                <Image
-                  src={image.src}
-                  alt={image.alt}
-                  fill
-                  sizes="(min-width: 1024px) 520px, 100vw"
-                  className="object-cover"
+          <div className="relative mx-auto grid max-w-[1200px] items-center gap-10 px-5 py-14 sm:px-8 sm:py-20 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14 lg:px-10 lg:py-24">
+            <div>
+              <Reveal>
+                <CurrencyAwareEyebrow
+                  slug={page.slug}
+                  category={page.category}
+                  fallback={page.eyebrow}
+                  className="glass-blue inline-flex rounded-full px-3.5 py-1.5 text-xs font-semibold text-white"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/78 to-black/30" />
-                <div className="absolute inset-0 bg-cedar-accent/10 mix-blend-color" />
-              </>
-            ) : null}
-            <div className="absolute bottom-6 left-6 flex h-12 w-12 items-center justify-center rounded-xl border border-cedar-accent/20 bg-black/50 backdrop-blur-md">
-              <Icon className="h-7 w-7 text-cedar-accent" aria-hidden />
+              </Reveal>
+              <AnimatedHeadline
+                as="h1"
+                immediate
+                delay={0.1}
+                text={accentWord ? `${titleLead} *${accentWord}*` : page.title}
+                highlightClassName="text-gradient-light"
+                className="mt-6 max-w-xl font-display text-[2.4rem] font-semibold leading-[1.02] tracking-[-0.045em] text-white sm:text-6xl lg:text-[4.25rem]"
+              />
+              <Reveal delay={0.35}>
+                <p className="mt-5 max-w-lg text-base font-medium leading-relaxed text-brand-50/90 sm:text-xl">{page.tagline}</p>
+              </Reveal>
+              <Reveal delay={0.45} className="mt-8">
+                <Button href={page.primaryCta.href} variant="onBanner" className="min-h-12 px-7">
+                  {page.primaryCta.label}
+                </Button>
+              </Reveal>
             </div>
+
+            <Reveal delay={0.3} scale className="relative">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-[2rem] border border-white/40 shadow-lift lg:aspect-[5/4]">
+                {image ? (
+                  <>
+                    <Image src={image.src} alt={image.alt} fill priority sizes="(min-width: 1024px) 520px, 100vw" className="object-cover" />
+                    <div className="absolute inset-0 bg-brand-600/40 mix-blend-color" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-brand-950/60 via-transparent to-transparent" />
+                  </>
+                ) : null}
+                <div className="glass-blue absolute bottom-4 left-4 flex items-center gap-3 rounded-2xl px-4 py-3 text-white">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-brand-600">
+                    <Icon className="h-5 w-5" aria-hidden />
+                  </span>
+                  <span className="text-sm font-semibold">{page.title}</span>
+                </div>
+              </div>
+            </Reveal>
           </div>
         </div>
       </div>

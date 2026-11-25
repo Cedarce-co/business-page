@@ -9,7 +9,7 @@ type Answers = Record<string, unknown>;
 import { Input, Textarea } from "@/components/ui/FormField";
 
 const choiceClass =
-  "flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200/90 bg-white/95 px-4 py-3 shadow-[0_4px_16px_rgba(15,23,42,0.04)] transition duration-200 hover:border-cliq-purple/30 hover:bg-cliq-purple-soft/30 has-[:checked]:border-cliq-purple has-[:checked]:bg-cliq-purple-soft/50";
+  "flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200/90 bg-white/95 px-4 py-3 shadow-[0_4px_16px_rgba(31,58,95,0.04)] transition duration-200 hover:border-cliq-purple/30 hover:bg-cliq-purple-soft/30 has-[:checked]:border-cliq-purple has-[:checked]:bg-cliq-purple-soft/50";
 
 function byOrder(a: IntakeQuestion, b: IntakeQuestion) {
   return a.order - b.order;
@@ -84,7 +84,7 @@ export default function IntakeFormFields({
               <div
                 key={q.id}
                 className={`space-y-2 rounded-2xl border p-4 transition duration-200 ${
-                  highlighted ? "border-amber-300 bg-amber-50/60" : "border-slate-200/90 bg-white/95 shadow-[0_4px_16px_rgba(15,23,42,0.03)]"
+                  highlighted ? "border-amber-300 bg-amber-50/60" : "border-slate-200/90 bg-white/95 shadow-[0_4px_16px_rgba(31,58,95,0.03)]"
                 }`}
               >
                 <p className="text-sm font-semibold text-slate-900">

@@ -120,7 +120,7 @@ export default function AuditLogClient() {
               type="button"
               onClick={() => setCountryFilter("")}
               className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
-                !countryFilter ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                !countryFilter ? "bg-g-button text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
               }`}
             >
               All
@@ -132,7 +132,7 @@ export default function AuditLogClient() {
                 onClick={() => setCountryFilter(c.countryCode ?? "")}
                 className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
                   countryFilter === c.countryCode
-                    ? "bg-slate-900 text-white"
+                    ? "bg-g-button text-white"
                     : "bg-slate-100 text-slate-700 hover:bg-slate-200"
                 }`}
               >

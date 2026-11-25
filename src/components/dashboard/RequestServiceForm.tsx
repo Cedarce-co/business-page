@@ -50,7 +50,7 @@ export default function RequestServiceForm() {
       <div className="mb-6">
         <p className="text-sm font-black text-slate-900">Service request</p>
         <p className="mt-1 text-sm text-slate-600">
-          The more context you share, the faster we can scope and deliver.
+          The more you tell us, the faster we can plan and finish your work.
         </p>
       </div>
 
@@ -91,7 +91,7 @@ export default function RequestServiceForm() {
       ) : null}
 
       <div className="mt-6 flex items-center justify-between gap-3">
-        <p className="text-xs text-slate-500">We respond with next steps after review.</p>
+        <p className="text-xs text-slate-500">We will reply with next steps after we look at your request.</p>
         <ActionButton
           variant="primary"
           onClick={submit}

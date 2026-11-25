@@ -141,7 +141,7 @@ export default function FileUploadField({
           <label
             htmlFor={inputId}
             className={cn(
-              "inline-flex shrink-0 cursor-pointer items-center justify-center rounded-xl bg-slate-900 px-4 py-2.5 text-xs font-semibold text-white hover:bg-slate-800",
+              "inline-flex shrink-0 cursor-pointer items-center justify-center rounded-xl bg-g-button px-4 py-2.5 text-xs font-semibold text-white hover:brightness-110",
               (disabled || state === "uploading") && "pointer-events-none opacity-50",
             )}
           >

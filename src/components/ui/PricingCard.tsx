@@ -26,51 +26,77 @@ export default function PricingCard({ item, activeSlug }: { item: Pricing; activ
   const requestHref = `/request-service?package=${encodeURIComponent(item.name)}`;
   const isActive = activeSlug === item.slug;
 
+  const featured = item.featured;
+
   return (
     <div
       className={cn(
-        "relative h-full border border-white/10 bg-zinc-950 p-8 transition",
-        item.featured && "border-cedar-accent/40 bg-black",
-        isActive && "ring-1 ring-cedar-accent"
+        "relative isolate flex h-full flex-col overflow-hidden rounded-[2rem] p-7 transition duration-500 hover:-translate-y-1 sm:p-8",
+        featured
+          ? "bg-deep-blue text-white shadow-lift"
+          : "border border-line bg-white shadow-soft hover:border-brand-200 hover:shadow-lift",
+        isActive && (featured ? "ring-4 ring-brand-300/60" : "ring-4 ring-brand-100"),
       )}
     >
-      <div className="relative z-10">
+      {featured ? (
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 bg-line-grid-light opacity-50 [mask-image:linear-gradient(to_bottom,#000,transparent_60%)]" />
+      ) : null}
+      <div className="flex min-h-7 items-center justify-between gap-3">
+        <h3 className={cn("font-display text-2xl font-semibold tracking-tight", featured ? "text-white" : "text-brand-950")}>
+          {item.name}
+        </h3>
         {item.badge ? (
-          <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-cedar-accent">
+          <span
+            className={cn(
+              "rounded-full px-3 py-1 text-[11px] font-semibold",
+              featured ? "bg-white text-brand-700" : "bg-brand-50 text-brand-700",
+            )}
+          >
             {item.badge}
           </span>
-        ) : (
-          <span className="invisible text-[11px]">. </span>
-        )}
-        <h3 className="mt-3 font-display text-3xl text-cedar-ivory">{item.name}</h3>
-        {showPrice ? (
-          <p className="mt-2 text-xl font-semibold leading-snug text-cedar-accent sm:text-2xl">{priceLabel}</p>
-        ) : (
-          <p className="mt-2 text-sm font-medium text-cedar-mist">Custom quote after we talk</p>
-        )}
-        <p className="mt-2 text-sm text-cedar-mist">{item.subtitle}</p>
-        <div className="my-6 border-t border-white/10" />
-        <ul className="space-y-3">
-          {item.features.map((feature) => (
-            <li key={feature} className="flex gap-2 text-sm text-cedar-ivory/85">
-              <Check className="mt-0.5 h-4 w-4 shrink-0 text-cedar-accent" aria-hidden />
-              {feature}
-            </li>
-          ))}
-        </ul>
-        <div className="relative z-20 mt-8 space-y-3">
-          <Button href={requestHref} variant={item.featured ? "accent" : "outlineLight"} full>
-            {item.cta}
-          </Button>
-          {!isActive ? (
-            <Link
-              href={detailHref}
-              className="block text-center text-sm font-semibold text-cedar-mist underline-offset-4 hover:text-cedar-accent hover:underline"
+        ) : null}
+      </div>
+      {showPrice ? (
+        <p className={cn("mt-5 font-display text-3xl font-semibold tracking-[-0.03em] sm:text-4xl", featured ? "text-white" : "text-gradient")}>
+          {priceLabel}
+        </p>
+      ) : (
+        <p className={cn("mt-5 font-display text-2xl font-semibold tracking-tight", featured ? "text-white" : "text-brand-950")}>
+          Price agreed with you
+        </p>
+      )}
+      <p className={cn("mt-2 text-sm", featured ? "text-brand-100/85" : "text-slate-500")}>{item.subtitle}</p>
+      <div className={cn("my-6 h-px", featured ? "bg-white/15" : "bg-line")} />
+      <ul className="flex-1 space-y-3">
+        {item.features.map((feature) => (
+          <li key={feature} className={cn("flex gap-2.5 text-[15px]", featured ? "text-brand-50" : "text-slate-600")}>
+            <span
+              className={cn(
+                "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full",
+                featured ? "bg-white/15 text-white" : "bg-brand-50 text-brand-600",
+              )}
             >
-              View {item.name} details →
-            </Link>
-          ) : null}
-        </div>
+              <Check className="h-3 w-3" strokeWidth={3} aria-hidden />
+            </span>
+            {feature}
+          </li>
+        ))}
+      </ul>
+      <div className="relative z-20 mt-8 space-y-3">
+        <Button href={requestHref} variant={featured ? "onBanner" : "primary"} full>
+          {item.cta}
+        </Button>
+        {!isActive ? (
+          <Link
+            href={detailHref}
+            className={cn(
+              "block text-center text-sm font-semibold underline-offset-4 hover:underline",
+              featured ? "text-brand-100 hover:text-white" : "text-slate-500 hover:text-brand-600",
+            )}
+          >
+            View {item.name} details →
+          </Link>
+        ) : null}
       </div>
     </div>
   );

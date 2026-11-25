@@ -13,7 +13,7 @@ export default async function ProfilePage() {
   return (
     <Page
       title="Profile settings"
-      subtitle="Update your personal settings here. Account verification is a separate requirement for service access."
+      subtitle="Update your personal details here. Business verification is done separately."
     >
       <ProfileForm
         initial={{

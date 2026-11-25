@@ -26,7 +26,7 @@ export default async function RequestServicePage({
   return (
     <Page
       title="Request a service"
-      subtitle="Submit a new intake for another package or scope. Each submission creates its own request with its own timeline."
+      subtitle="Tell us what you need. Each request you send is tracked on its own."
       right={kycDone ? <Badge tone="emerald">Verified</Badge> : <Badge tone="rose">Verification required</Badge>}
     >
       {!kycDone ? (

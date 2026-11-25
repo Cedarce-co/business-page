@@ -10,7 +10,7 @@ import { formatRecoveryCodeInput } from "@/lib/mfa-recovery-download";
 import { markSessionStarted } from "@/lib/auth/session-tracking";
 
 const baseInput =
-  "w-full rounded-xl border border-white/15 bg-white/[0.04] px-4 py-3 text-cedar-ivory outline-none placeholder:text-white/35 focus:border-cedar-accent/50 focus:ring-2 focus:ring-cedar-accent/20";
+  "w-full rounded-xl border border-line bg-brand-50 px-4 py-3 text-brand-950 outline-none placeholder:text-slate-400 focus:border-brand-200 focus:ring-2 focus:ring-brand-200";
 
 const emailLooksValid = (v: string) => /\S+@\S+\.\S+/.test(v.trim());
 
@@ -48,9 +48,9 @@ export default function SigninFlow() {
     if (!result?.ok) {
       const msg = includeSecondFactor
         ? useRecoveryCode
-          ? "Invalid recovery code."
-          : "Invalid authentication code."
-        : "Invalid email or password.";
+          ? "That backup code is not correct."
+          : "That code is not correct. Please try again."
+        : "Wrong email or password.";
       setError(msg);
       toast.error(msg);
       return false;
@@ -75,7 +75,7 @@ export default function SigninFlow() {
       const data = (await res.json().catch(() => null)) as { step?: string; error?: string } | null;
 
       if (!res.ok) {
-        const msg = data?.error ?? "Invalid email or password.";
+        const msg = data?.error ?? "Wrong email or password.";
         setError(msg);
         toast.error(msg);
         return;
@@ -84,7 +84,7 @@ export default function SigninFlow() {
       if (data?.step === "totp") {
         setStep("totp");
         setUseRecoveryCode(false);
-        toast("Enter the 6-digit code from your authenticator app.");
+        toast("Open your Google Authenticator app and enter the 6-digit code.");
         return;
       }
 
@@ -125,7 +125,7 @@ export default function SigninFlow() {
           />
           <PasswordInput
             className={baseInput}
-            toggleClassName="text-white/40 hover:text-cedar-ivory"
+            toggleClassName="text-slate-400 hover:text-brand-950"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -135,14 +135,14 @@ export default function SigninFlow() {
         <>
           <p className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-700">
             {useRecoveryCode
-              ? "Enter one of your saved recovery codes. Each code works once."
-              : "Two-factor authentication is enabled. Enter the 6-digit code from Google Authenticator (or similar)."}
+              ? "Enter one of the backup codes you saved. Each code works only once."
+              : "For your safety, your account needs a second code. Open Google Authenticator (or a similar app) and enter the 6-digit code."}
           </p>
           <input
             className={baseInput}
             inputMode={useRecoveryCode ? "text" : "numeric"}
             autoComplete="one-time-code"
-            placeholder={useRecoveryCode ? "Recovery code (XXXX-XXXX)" : "Authentication code"}
+            placeholder={useRecoveryCode ? "Backup code (XXXX-XXXX)" : "6-digit code"}
             value={totpCode}
             onChange={(e) =>
               setTotpCode(
@@ -161,7 +161,7 @@ export default function SigninFlow() {
               setError("");
             }}
           >
-            {useRecoveryCode ? "Use authenticator code instead" : "Use a recovery code instead"}
+            {useRecoveryCode ? "Use the 6-digit code instead" : "Use a backup code instead"}
           </button>
           <button
             type="button"
@@ -182,7 +182,7 @@ export default function SigninFlow() {
         <div className="-mt-1 flex items-center justify-end">
           <Link
             href="/forgot-password"
-            className="inline-flex items-center rounded-lg px-2 py-1 text-sm font-semibold text-cedar-ivory underline-offset-4 hover:underline"
+            className="inline-flex items-center rounded-lg px-2 py-1 text-sm font-semibold text-brand-950 underline-offset-4 hover:underline"
           >
             Forgot password?
           </Link>
@@ -193,7 +193,7 @@ export default function SigninFlow() {
 
       <div className="mt-6 mb-10 flex items-center justify-center gap-3">
         <button
-          className="w-full rounded-xl bg-slate-900 px-5 py-2.5 text-base font-semibold text-white disabled:opacity-50 sm:w-1/2 hover:brightness-110"
+          className="w-full rounded-full bg-g-button shadow-glow-sm px-5 py-2.5 text-base font-semibold text-white disabled:opacity-50 sm:w-1/2 hover:brightness-110"
           onClick={step === "credentials" ? submitCredentials : submitTotp}
           disabled={step === "credentials" ? !canSubmitCredentials : !canSubmitTotp}
           type="button"
@@ -201,20 +201,20 @@ export default function SigninFlow() {
           {loading ? (
             <span className="inline-flex items-center justify-center gap-2">
               <CircleLoader size={18} className="text-white" />
-              {step === "credentials" ? "Signing in..." : "Verifying..."}
+              {step === "credentials" ? "Signing in..." : "Checking..."}
             </span>
           ) : step === "credentials" ? (
             "Sign in"
           ) : (
-            "Verify and sign in"
+            "Check code and sign in"
           )}
         </button>
       </div>
 
       {step === "credentials" ? (
-        <p className="text-sm text-cedar-mist">
+        <p className="text-sm text-slate-500">
           New here?{" "}
-          <Link href="/signup" className="font-semibold text-cedar-accent hover:underline">
+          <Link href="/signup" className="font-semibold text-brand-600 hover:underline">
             Create an account
           </Link>
         </p>

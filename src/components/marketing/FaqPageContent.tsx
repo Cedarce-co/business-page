@@ -11,12 +11,10 @@ export default function FaqPageContent() {
       <MarketingSplitShell
         image={FAQ_HERO_IMAGE}
         eyebrow="FAQ"
-        title="Questions before you commit"
-        description="Straight answers about packages, timelines, and support."
+        title="Questions people ask us"
+        description="Simple answers about our packages, timing and help."
       >
-        <div className="rounded-2xl border border-white/10 bg-zinc-950 p-4 sm:rounded-[1.75rem] sm:p-8">
-          <FaqAccordion />
-        </div>
+        <FaqAccordion />
         <div className="mt-8 hidden sm:block">
           <FaqFeedbackSection />
         </div>

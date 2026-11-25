@@ -18,7 +18,7 @@ type Answers = Record<string, unknown>;
 import { Input, Textarea } from "@/components/ui/FormField";
 
 const choiceClass =
-  "flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200/90 bg-white/95 px-4 py-3 shadow-[0_4px_16px_rgba(15,23,42,0.04)] transition duration-200 hover:border-cliq-purple/30 hover:bg-cliq-purple-soft/30 has-[:checked]:border-cliq-purple has-[:checked]:bg-cliq-purple-soft/50";
+  "flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200/90 bg-white/95 px-4 py-3 shadow-[0_4px_16px_rgba(31,58,95,0.04)] transition duration-200 hover:border-cliq-purple/30 hover:bg-cliq-purple-soft/30 has-[:checked]:border-cliq-purple has-[:checked]:bg-cliq-purple-soft/50";
 
 function byOrder(a: IntakeQuestion, b: IntakeQuestion) {
   return a.order - b.order;
@@ -250,7 +250,7 @@ export default function RequestWizard({
 
       <div className="mt-5 flex gap-2">
         {Array.from({ length: totalSteps }).map((_, i) => (
-          <div key={i} className={`h-2 flex-1 rounded-full ${i <= step ? "bg-slate-900" : "bg-slate-200"}`} />
+          <div key={i} className={`h-2 flex-1 rounded-full ${i <= step ? "bg-g-button" : "bg-slate-200"}`} />
         ))}
       </div>
     </>

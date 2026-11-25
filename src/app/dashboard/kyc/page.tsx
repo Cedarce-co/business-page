@@ -4,8 +4,8 @@ import { Page } from "@/components/dashboard/ui";
 export default function KycPage() {
   return (
     <Page
-      title="Account verification"
-      subtitle="Complete this quick verification to unlock service requests. Profile settings and verification are intentionally separate."
+      title="Verify your business"
+      subtitle="We need to confirm who you are before we start work. It only takes a few minutes."
     >
       <KycFlow />
     </Page>

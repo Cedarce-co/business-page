@@ -1,45 +1,48 @@
-import Image from "next/image";
+"use client";
+
 import Link from "next/link";
-import { Clock } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
+import { ArrowUpRight, Banknote } from "lucide-react";
 import { SERVICES } from "@/lib/constants";
-import { LOGO_DARK_BG, LOGO_FOOTER_SIZES } from "@/lib/brand-logos";
 import ContactInfoList from "@/components/ui/ContactInfoList";
-import Button from "@/components/ui/Button";
+import BrandLogo from "@/components/ui/BrandLogo";
 
 const businessLinks = [
   { label: "Small businesses", href: "/solutions/self-employed" },
-  { label: "Shops, malls & stores", href: "/solutions/micro-businesses" },
-  { label: "Medium businesses", href: "/solutions/smes" },
-  { label: "Associations", href: "/solutions/associations" },
+  { label: "Shops & stores", href: "/solutions/micro-businesses" },
+  { label: "Growing businesses", href: "/solutions/smes" },
+  { label: "Associations & groups", href: "/solutions/associations" },
   { label: "View all", href: "/solutions" },
 ] as const;
 
-type FooterLinkItem = {
-  label: string;
-  href: string;
-};
+const quickLinks = [
+  { label: "Our work", href: "/#our-work" },
+  { label: "How it works", href: "/#how-it-works" },
+  { label: "Pricing", href: "/pricing" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Contact", href: "/contact" },
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
+] as const;
 
-function FooterLinkPanel({
-  title,
-  links,
-  wide = false,
-}: {
-  title: string;
-  links: readonly FooterLinkItem[];
-  wide?: boolean;
-}) {
+type FooterLinkItem = { label: string; href: string };
+
+function FooterColumn({ title, links }: { title: string; links: readonly FooterLinkItem[] }) {
   return (
-    <div
-      className={`rounded-2xl border border-white/10 bg-zinc-950/70 p-4 lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 ${
-        wide ? "col-span-2 lg:col-span-1" : ""
-      }`}
-    >
-      <h4 className="text-sm font-semibold text-cedar-ivory">{title}</h4>
-      <ul className={`mt-4 grid gap-2.5 ${wide ? "grid-cols-2 lg:grid-cols-1" : "grid-cols-1"}`}>
+    <div>
+      <h4 className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">{title}</h4>
+      <ul className="mt-4 space-y-2.5">
         {links.map((item) => (
           <li key={item.href}>
-            <Link href={item.href} className="text-sm text-cedar-mist transition hover:text-cedar-ivory">
+            <Link
+              href={item.href}
+              className="group inline-flex items-center gap-1 text-[15px] text-slate-600 transition hover:text-brand-700"
+            >
               {item.label}
+              <ArrowUpRight
+                className="h-3.5 w-3.5 -translate-x-1 opacity-0 transition group-hover:translate-x-0 group-hover:opacity-100"
+                aria-hidden
+              />
             </Link>
           </li>
         ))}
@@ -49,136 +52,63 @@ function FooterLinkPanel({
 }
 
 export default function Footer() {
-  const quickLinks = [
-    { label: "How it works", href: "/#how-it-works" },
-    { label: "Pricing", href: "/pricing" },
-    { label: "FAQ", href: "/faq" },
-    { label: "Contact", href: "/contact" },
-    { label: "Privacy", href: "/privacy" },
-    { label: "Terms", href: "/terms" },
-  ];
+  const reduced = useReducedMotion();
 
   return (
-    <footer id="site-footer" className="border-t border-white/10 bg-black pb-[calc(var(--site-mobile-tab-height)+0.5rem)] lg:pb-0">
-      <div className="mx-auto w-full max-w-[1440px] px-4 py-10 sm:px-6 lg:px-10 lg:py-24">
-        <div className="lg:hidden">
-          <div className="flex flex-col items-center justify-center gap-3 border-b border-white/10 pb-6 text-center">
-            <Link href="/" className="inline-flex items-center" aria-label="Home">
-              <Image
-                src={LOGO_DARK_BG.mobile}
-                alt="Cedarce"
-                width={LOGO_FOOTER_SIZES.mobile.width}
-                height={LOGO_FOOTER_SIZES.mobile.height}
-                style={{
-                  width: LOGO_FOOTER_SIZES.mobile.width,
-                  height: LOGO_FOOTER_SIZES.mobile.height,
-                }}
-                className="object-contain object-center"
-              />
-            </Link>
-            <span className="inline-flex items-center gap-1.5 text-xs text-cedar-mist">
-              <Clock className="h-4 w-4 text-cedar-accent" aria-hidden />
-              Setup in days
-            </span>
-          </div>
-          <nav aria-label="Footer" className="grid grid-cols-2 gap-x-8 gap-y-4 py-7">
-            {[
-              { label: "Business", href: "/solutions" },
-              { label: "Services", href: "/product" },
-              { label: "Pricing", href: "/pricing" },
-              { label: "FAQ", href: "/faq" },
-              { label: "Contact", href: "/contact" },
-              { label: "Account", href: "/signin" },
-            ].map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="text-sm font-medium text-cedar-mist transition hover:text-cedar-ivory"
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-          <div className="flex justify-center gap-5 border-t border-white/10 pt-5 text-xs text-white/45">
-            <Link href="/privacy" className="hover:text-cedar-ivory">Privacy</Link>
-            <Link href="/terms" className="hover:text-cedar-ivory">Terms</Link>
-          </div>
-        </div>
+    <footer
+      id="site-footer"
+      className="relative overflow-hidden border-t border-line bg-white pb-[calc(var(--site-mobile-tab-height)+0.5rem)] lg:pb-0"
+    >
+      <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0 h-[60%] bg-gradient-to-t from-brand-50 to-transparent" />
 
-        <div className="hidden lg:grid lg:grid-cols-[1.35fr_repeat(3,minmax(0,1fr))] lg:gap-10">
-          <div className="col-span-2 rounded-[1.75rem] border border-white/10 bg-zinc-950/80 p-6 text-center lg:col-span-1 lg:rounded-none lg:border-0 lg:bg-transparent lg:p-0 lg:text-left">
-            <Link href="/" className="inline-flex min-w-0 items-center justify-center lg:justify-start" aria-label="Home">
-              <span className="flex items-center sm:hidden">
-                <Image
-                  src={LOGO_DARK_BG.mobile}
-                  alt="Cedarce"
-                  width={LOGO_FOOTER_SIZES.mobile.width}
-                  height={LOGO_FOOTER_SIZES.mobile.height}
-                  style={{
-                    width: LOGO_FOOTER_SIZES.mobile.width,
-                    height: LOGO_FOOTER_SIZES.mobile.height,
-                  }}
-                  className="object-contain object-left"
-                />
-              </span>
-              <span className="hidden items-center sm:flex">
-                <Image
-                  src={LOGO_DARK_BG.desktop}
-                  alt="Cedarce"
-                  width={LOGO_FOOTER_SIZES.desktop.width}
-                  height={LOGO_FOOTER_SIZES.desktop.height}
-                  style={{
-                    width: LOGO_FOOTER_SIZES.desktop.width,
-                    height: LOGO_FOOTER_SIZES.desktop.height,
-                  }}
-                  className="object-contain object-left"
-                />
-              </span>
-            </Link>
-            <p className="mx-auto mt-4 max-w-sm text-sm leading-relaxed text-cedar-mist lg:mx-0">
-              We help businesses look ready online and work with simpler day-to-day tools.
-            </p>
-            <div className="mt-5 flex justify-center text-xs text-cedar-mist lg:justify-start">
-              <span className="inline-flex items-center gap-1.5">
-                <Clock className="h-4 w-4 text-cedar-accent" aria-hidden />
-                Typical setup in days
-              </span>
-            </div>
-          </div>
-
-          <FooterLinkPanel
-            title="Services"
-            links={SERVICES.map((service) => ({
-              label: service.name,
-              href: `/services/${service.id}`,
-            }))}
-          />
-          <FooterLinkPanel title="Business" links={businessLinks} />
-          <FooterLinkPanel title="Quick links" links={quickLinks} />
-        </div>
-
-        <div className="mx-auto mt-16 hidden w-full max-w-2xl grid-cols-[1fr_auto] items-center gap-12 border-t border-white/10 pt-10 lg:grid">
+      <div className="relative mx-auto w-full max-w-[1200px] px-5 pt-14 sm:px-6 lg:px-8 lg:pt-20">
+        <div className="grid gap-10 lg:grid-cols-[1.4fr_repeat(3,minmax(0,1fr))] lg:gap-12">
           <div>
-            <h4 className="font-display text-2xl text-cedar-ivory">Talk to us</h4>
-            <p className="mt-2 text-sm text-cedar-mist">
-              Prefer email or phone? We reply quickly. Live chat is always on the site too.
+            <Link href="/" aria-label="Home" className="inline-flex">
+              <BrandLogo height={34} />
+            </Link>
+            <p className="mt-5 max-w-sm text-[15px] leading-relaxed text-slate-500">
+              We help businesses look professional online and run their daily work more easily.
             </p>
-            <div className="mt-4 text-cedar-mist [&_a]:text-cedar-ivory [&_a]:hover:text-cedar-accent">
+            <span className="mt-5 inline-flex items-center gap-2 rounded-full border border-line bg-white px-3 py-1.5 text-xs font-medium text-brand-700 shadow-soft">
+              <Banknote className="h-3.5 w-3.5" aria-hidden />
+              Clear prices in Naira
+            </span>
+            <div className="mt-6 text-sm text-slate-600 [&_a]:text-brand-800 [&_a:hover]:text-brand-600">
               <ContactInfoList showHours hours="short" />
             </div>
           </div>
-          <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
-            <Button href="/signup" variant="accent" className="px-6 py-3 text-sm">
-              Get started for free
-            </Button>
+
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:col-span-3">
+            <FooterColumn
+              title="Services"
+              links={SERVICES.map((service) => ({ label: service.name, href: `/services/${service.id}` }))}
+            />
+            <FooterColumn title="Who we help" links={businessLinks} />
+            <FooterColumn title="Quick links" links={quickLinks} />
           </div>
         </div>
 
-        <div className="mt-8 border-t border-white/10 pt-6 lg:mt-12 lg:pt-8">
-          <p className="text-center text-sm text-cedar-mist">
-            © {new Date().getFullYear()} Cedarce Co. All rights reserved.
-          </p>
+        <div className="mt-14 flex flex-col items-center justify-between gap-3 border-t border-line py-6 text-sm text-slate-500 sm:flex-row">
+          <p>© {new Date().getFullYear()} Cedarce Co. All rights reserved.</p>
+          <div className="flex gap-5">
+            <Link href="/privacy" className="transition hover:text-brand-700">Privacy</Link>
+            <Link href="/terms" className="transition hover:text-brand-700">Terms</Link>
+          </div>
         </div>
+      </div>
+
+      {/* Oversized wordmark */}
+      <div aria-hidden className="relative -mb-[0.22em] select-none overflow-hidden text-center">
+        <motion.p
+          initial={reduced ? false : { y: "40%", opacity: 0 }}
+          whileInView={{ y: "0%", opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
+          className="font-display text-[26vw] font-semibold leading-none tracking-[-0.06em] text-transparent [background:linear-gradient(180deg,var(--brand-200)_0%,var(--brand-50)_85%)] [-webkit-background-clip:text] [background-clip:text] lg:text-[20vw]"
+        >
+          Cedarce
+        </motion.p>
       </div>
     </footer>
   );

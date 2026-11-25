@@ -134,7 +134,7 @@ export default function TawkToWidget() {
           openTawkChat();
         }}
         aria-label="Open live chat"
-        className="fixed right-3 z-[60] flex h-16 w-16 items-center justify-center rounded-full border border-white/20 bg-[#1f3a5f] text-white shadow-[0_12px_32px_rgba(0,0,0,0.4)] transition active:scale-95 lg:hidden"
+        className="fixed right-3 z-[60] flex h-16 w-16 items-center justify-center rounded-full border border-white/20 bg-[#1f3a5f] text-white shadow-[0_12px_32px_rgba(52,122,213,0.45)] transition active:scale-95 lg:hidden"
         style={{
           bottom: "calc(var(--site-mobile-tab-height, 3.25rem) + 1.5rem)",
         }}

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Outfit } from "next/font/google";
+import { Geist } from "next/font/google";
 import "./globals.css";
 import { SUPPORT_EMAIL } from "@/lib/contact";
 import { BRAND_ICON_VERSION } from "@/lib/brand-logos";
@@ -17,15 +17,14 @@ import PwaRegister from "@/components/layout/PwaRegister";
 import CookieConsentBanner from "@/components/layout/CookieConsentBanner";
 import TawkToWidget from "@/components/layout/TawkToWidget";
 
-const sans = Outfit({
+const sans = Geist({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
   variable: "--font-sans",
 });
 
-const display = Outfit({
+const display = Geist({
   subsets: ["latin"],
-  weight: ["600", "700", "800"],
+  weight: ["500", "600", "700"],
   variable: "--font-display",
 });
 
@@ -91,7 +90,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     title: "Cedarce",
-    statusBarStyle: "black-translucent",
+    statusBarStyle: "default",
   },
   formatDetection: { telephone: false, email: false, address: false },
   robots: { index: true, follow: true },
@@ -99,8 +98,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#000000",
-  colorScheme: "dark",
+  themeColor: "#FFFFFF",
+  colorScheme: "light",
 };
 
 export default function RootLayout({

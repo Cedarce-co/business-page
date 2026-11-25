@@ -11,14 +11,15 @@ import {
 import { SITE_URL } from "@/lib/site";
 
 export const CONTACT_ICON_CLASS = {
-  mail: "text-sky-600",
-  phone: "text-emerald-600",
-  address: "text-violet-600",
-  clock: "text-amber-600",
-  globe: "text-cliq-purple",
+  mail: "text-brand-500",
+  phone: "text-brand-600",
+  address: "text-brand-700",
+  clock: "text-brand-400",
+  globe: "text-brand-600",
 } as const;
 
-type Variant = "default" | "dark" | "legal" | "dashboard";
+/** "dark" = public light pages (legacy name), "onBlue" = on Cedarce-blue panels */
+type Variant = "default" | "dark" | "onBlue" | "legal" | "dashboard";
 
 type Props = {
   variant?: Variant;
@@ -30,24 +31,27 @@ type Props = {
 };
 
 function rowClass(variant: Variant) {
-  if (variant === "dark") return "text-sm text-white/85";
+  if (variant === "onBlue") return "text-sm text-brand-50 [&_svg]:!text-brand-200";
+  if (variant === "dark") return "text-sm text-slate-600";
   if (variant === "dashboard") return "text-sm text-slate-900";
-  if (variant === "legal") return "text-sm leading-relaxed text-cedar-mist";
-  return "text-sm text-cedar-mist";
+  if (variant === "legal") return "text-sm leading-relaxed text-slate-500";
+  return "text-sm text-slate-500";
 }
 
 function linkClass(variant: Variant) {
+  if (variant === "onBlue") return "font-medium text-white underline-offset-4 hover:underline";
   if (variant === "dark") return "font-medium underline-offset-2 hover:underline";
   if (variant === "dashboard") return "font-semibold underline-offset-4 hover:underline";
-  if (variant === "legal") return "font-medium text-cedar-ivory underline-offset-4 hover:underline";
+  if (variant === "legal") return "font-medium text-brand-950 underline-offset-4 hover:underline";
   return "font-medium underline-offset-4 hover:underline";
 }
 
 function hoursClass(variant: Variant) {
-  if (variant === "dark") return "text-white/85";
+  if (variant === "onBlue") return "text-brand-100/90";
+  if (variant === "dark") return "text-slate-600";
   if (variant === "dashboard") return "text-slate-700";
-  if (variant === "legal") return "text-cedar-mist";
-  return "text-cedar-mist";
+  if (variant === "legal") return "text-slate-500";
+  return "text-slate-500";
 }
 
 function ContactRow({
@@ -104,7 +108,7 @@ export default function ContactInfoList({
       {showHours ? (
         <ContactRow icon={Clock} iconClass={CONTACT_ICON_CLASS.clock} variant={variant}>
           <span className={hoursClass(variant)}>
-            {variant === "dark" ? `Office hours: ${hoursLabel}` : hoursLabel}
+            {variant === "dark" || variant === "onBlue" ? `Office hours: ${hoursLabel}` : hoursLabel}
           </span>
         </ContactRow>
       ) : null}

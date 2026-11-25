@@ -75,7 +75,7 @@ export default function FeedbacksClient() {
             type="button"
             onClick={() => setFilter(value)}
             className={`rounded-full px-3 py-1.5 text-xs font-semibold ${
-              filter === value ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+              filter === value ? "bg-g-button text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"
             }`}
           >
             {value ? STATUS_LABELS[value] : "All"}

@@ -5,7 +5,7 @@ export default function SignupPage() {
   return (
     <AuthShell
       title="Create an account"
-      subtitle="A premium workspace for business setup, delivery tracking, and verified service requests."
+      subtitle="One account to request services, follow the progress of your work, and talk to our team."
     >
       <SignupFlow />
     </AuthShell>

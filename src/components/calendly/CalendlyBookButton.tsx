@@ -49,7 +49,7 @@ export default function CalendlyBookButton({
 }: {
   label?: string;
   className?: string;
-  variant?: "primary" | "secondary" | "teal";
+  variant?: "primary" | "secondary" | "teal" | "onBlue";
 }) {
   const [ready, setReady] = useState(false);
   const url = getCalendlyUrl();
@@ -64,11 +64,11 @@ export default function CalendlyBookButton({
   if (!url) return null;
 
   const styles =
-    variant === "teal"
-      ? "bg-cedar-accent text-black hover:brightness-110"
+    variant === "onBlue"
+      ? "glass-blue text-white hover:bg-white/20"
       : variant === "secondary"
-        ? "border border-white/20 bg-transparent text-cedar-ivory hover:bg-white/5"
-        : "bg-cedar-ivory text-black hover:bg-white";
+        ? "border border-line bg-white text-brand-800 shadow-soft hover:border-brand-200 hover:bg-brand-50"
+        : "btn-sheen bg-g-button text-white shadow-glow-sm hover:shadow-glow";
 
   function open() {
     if (ready && window.Calendly) {
@@ -83,7 +83,7 @@ export default function CalendlyBookButton({
       type="button"
       onClick={open}
       className={cn(
-        "inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition",
+        "inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold transition duration-300 hover:-translate-y-0.5",
         styles,
         className,
       )}

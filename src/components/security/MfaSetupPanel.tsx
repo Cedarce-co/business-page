@@ -44,7 +44,7 @@ export default function MfaSetupPanel({
       });
       const data = await res.json().catch(() => null);
       if (!res.ok) {
-        toast.error(data?.error ?? "Could not start MFA setup.");
+        toast.error(data?.error ?? "Could not start setting up your login code.");
         return;
       }
       setQrDataUrl(data.qrDataUrl ?? null);
@@ -64,12 +64,12 @@ export default function MfaSetupPanel({
       });
       const data = await res.json().catch(() => null);
       if (!res.ok) {
-        toast.error(data?.error ?? "Invalid code.");
+        toast.error(data?.error ?? "That code is not correct. Please try again.");
         return;
       }
       const codes = Array.isArray(data.recoveryCodes) ? (data.recoveryCodes as string[]) : [];
       toast.success(
-        required ? "Authenticator configured. Save your recovery codes next." : "Two-factor authentication enabled.",
+        required ? "Login code is set up. Now save your backup codes." : "Login code is on.",
       );
       if (codes.length > 0) {
         setRecoveryCodes(codes);
@@ -112,8 +112,8 @@ export default function MfaSetupPanel({
           <h2 className="text-xl font-bold text-slate-900">Google Authenticator setup</h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-600 sm:text-[15px]">
             {required
-              ? "Admin access requires an authenticator app. Scan the QR code, then enter a code to finish setup."
-              : "Add an extra layer of security. On your next sign-in you will enter a code from your authenticator app."}
+              ? "Admins must use a login code. Scan the square code with Google Authenticator, then type the 6-digit code to finish."
+              : "Keep your account extra safe. Install Google Authenticator on your phone, scan the square code, then type the 6-digit code it shows."}
           </p>
         </div>
       ) : null}
@@ -124,9 +124,9 @@ export default function MfaSetupPanel({
             type="button"
             onClick={startSetup}
             disabled={loading}
-            className="rounded-xl bg-slate-900 px-8 py-3 text-sm font-semibold text-white disabled:opacity-60"
+            className="rounded-xl bg-g-button px-8 py-3 text-sm font-semibold text-white disabled:opacity-60"
           >
-            {loading ? "Preparing…" : "Generate QR code"}
+            {loading ? "Preparing…" : "Show my code to scan"}
           </button>
         </div>
       ) : (
@@ -135,7 +135,7 @@ export default function MfaSetupPanel({
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={qrDataUrl}
-              alt="Authenticator QR code"
+              alt="Square code to scan with Google Authenticator"
               className="h-48 w-48 rounded-xl border border-slate-200 bg-white p-2"
             />
           ) : null}
@@ -158,7 +158,7 @@ export default function MfaSetupPanel({
             className="inline-flex items-center justify-center gap-2 rounded-xl bg-emerald-700 px-6 py-2.5 text-sm font-semibold text-white disabled:opacity-60"
           >
             {loading ? <CircleLoader size={16} className="text-white" /> : null}
-            Confirm and enable
+            Confirm and turn on
           </button>
         </div>
       )}
