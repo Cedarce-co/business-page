@@ -301,7 +301,7 @@ export default function IntakeQuestionBuilder({
           onClick={() => setTab("builder")}
           className={cn(
             "rounded-xl border px-3 py-2 text-sm font-semibold",
-            tab === "builder" ? "border-slate-900 bg-slate-900 text-white" : "border-slate-200 bg-white text-slate-900"
+            tab === "builder" ? "border-brand-500 bg-g-button text-white" : "border-slate-200 bg-white text-slate-900"
           )}
         >
           Builder
@@ -311,7 +311,7 @@ export default function IntakeQuestionBuilder({
           onClick={() => setTab("json")}
           className={cn(
             "rounded-xl border px-3 py-2 text-sm font-semibold",
-            tab === "json" ? "border-slate-900 bg-slate-900 text-white" : "border-slate-200 bg-white text-slate-900"
+            tab === "json" ? "border-brand-500 bg-g-button text-white" : "border-slate-200 bg-white text-slate-900"
           )}
         >
           JSON
@@ -332,7 +332,7 @@ export default function IntakeQuestionBuilder({
             type="button"
             disabled={!canEdit || (tab === "json" ? !parsedJson.ok : false)}
             onClick={() => saveToServer(tab === "json" && parsedJson.ok ? parsedJson.value : payload)}
-            className="rounded-xl bg-slate-900 px-3 py-2 text-sm font-semibold text-white disabled:opacity-50"
+            className="rounded-xl bg-g-button px-3 py-2 text-sm font-semibold text-white disabled:opacity-50"
           >
             Save changes
           </button>
@@ -757,7 +757,7 @@ export default function IntakeQuestionBuilder({
           <button
             type="button"
             onClick={addQuestion}
-            className="rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white"
+            className="rounded-xl bg-g-button px-4 py-2.5 text-sm font-semibold text-white"
           >
             Add question
           </button>

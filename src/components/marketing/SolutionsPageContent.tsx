@@ -15,13 +15,13 @@ export default function SolutionsPageContent() {
       title={
         <>
           Built for{" "}
-          <span className="text-cedar-accent">your business</span>
+          <span className="text-gradient-light">your business</span>
         </>
       }
-      description="Small businesses, shops and stores (sales and inventory), medium businesses, and associations. Choose the option that feels closest to you."
+      description="Small businesses, shops and stores, growing businesses, and associations. Pick the one that sounds most like you."
       cards={solutionCards}
       ctaTitle="Not sure which setup fits?"
-      ctaText="Book a short chat and we’ll point you to the right package before you spend on the wrong one."
+      ctaText="Have a short chat with us and we’ll point you to the right package before you spend money on the wrong one."
     />
   );
 }

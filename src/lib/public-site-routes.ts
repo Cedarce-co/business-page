@@ -16,7 +16,7 @@ export function isPublicMarketingWithNavbar(pathname: string | null | undefined)
   return true;
 }
 
-/** Marketing + auth public surfaces that use the black elegant theme. */
+/** Marketing + auth public surfaces that use the public (white + Cedarce blue) site theme. */
 export function isPublicDarkTheme(pathname: string | null | undefined): boolean {
   if (!pathname) return false;
   if (APP_SHELL_PREFIXES.some((prefix) => pathname.startsWith(prefix))) return false;

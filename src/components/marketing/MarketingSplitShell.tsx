@@ -1,26 +1,89 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { Home } from "lucide-react";
+import { motion, useReducedMotion } from "framer-motion";
 import WayfindingStrip from "@/components/navigation/WayfindingStrip";
+import SectionLabel from "@/components/ui/SectionLabel";
 import type { MarketingImage } from "@/lib/marketing-images";
 import { cn } from "@/lib/utils";
+
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 type MarketingSplitShellProps = {
   image: MarketingImage;
   eyebrow: string;
   title: React.ReactNode;
   description: React.ReactNode;
+  /** Rendered on the blue panel — use on-blue variants (white text). */
   aside?: React.ReactNode;
   children: React.ReactNode;
   className?: string;
   showWayfinding?: boolean;
+  /** @deprecated kept for API compatibility; the navbar already links home. */
   showHomeLink?: boolean;
 };
 
-/** Auth-style split: sticky image + copy left, scrollable content right. */
+function BluePanel({
+  image,
+  eyebrow,
+  title,
+  description,
+  aside,
+  compact = false,
+}: Pick<MarketingSplitShellProps, "image" | "eyebrow" | "title" | "description" | "aside"> & { compact?: boolean }) {
+  const reduced = useReducedMotion();
+  const enter = (delay: number) =>
+    reduced
+      ? {}
+      : {
+          initial: { opacity: 0, y: 20, filter: "blur(8px)" },
+          animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+          transition: { delay, duration: 0.8, ease: EASE },
+        };
+
+  return (
+    <div className="relative isolate flex h-full flex-col overflow-hidden rounded-[2rem] bg-hero-blue lg:rounded-[2.5rem]">
+      <Image
+        src={image.src}
+        alt=""
+        fill
+        priority
+        sizes={compact ? "100vw" : "50vw"}
+        className="-z-20 object-cover opacity-30 mix-blend-luminosity"
+      />
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-t from-brand-900/70 via-brand-800/10 to-transparent" />
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 bg-line-grid-light opacity-60 [mask-image:linear-gradient(to_bottom,#000,transparent_70%)]" />
+
+      <div className={cn("relative flex h-full flex-col justify-end", compact ? "p-6 pt-10" : "px-10 pb-10 pt-16 xl:px-12")}>
+        <motion.div {...enter(0)}>
+          <SectionLabel tone="onBlue">{eyebrow}</SectionLabel>
+        </motion.div>
+        <motion.h1
+          {...enter(0.1)}
+          className={cn(
+            "mt-5 max-w-md font-display font-semibold leading-[1.02] tracking-[-0.045em] text-white",
+            compact ? "text-[2.1rem]" : "text-5xl xl:text-[3.6rem]",
+          )}
+        >
+          {title}
+        </motion.h1>
+        <motion.p
+          {...enter(0.2)}
+          className={cn("mt-4 max-w-sm leading-relaxed text-brand-50/90", compact ? "text-[15px]" : "text-lg")}
+        >
+          {description}
+        </motion.p>
+        {aside ? (
+          <motion.div {...enter(0.3)} className={compact ? "mt-6" : "mt-8"}>
+            {aside}
+          </motion.div>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
+/** Split page: sticky Cedarce-blue intro panel left, scrollable content right. */
 export default function MarketingSplitShell({
   image,
   eyebrow,
@@ -30,87 +93,33 @@ export default function MarketingSplitShell({
   children,
   className,
   showWayfinding = true,
-  showHomeLink = true,
 }: MarketingSplitShellProps) {
   return (
-    <section className={cn("relative min-h-screen bg-black", className)}>
-      {showHomeLink ? (
-        <div className="absolute left-4 top-[calc(var(--site-nav-height)+1rem)] z-20 hidden sm:left-8 lg:block">
-          <Link
-            href="/"
-            aria-label="Back to website"
-            title="Back to website"
-            className="inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-black/50 text-cedar-ivory backdrop-blur-sm transition hover:border-white/30 hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-cedar-accent/40 sm:h-14 sm:w-14"
-          >
-            <Home className="h-5 w-5 sm:h-6 sm:w-6" />
-          </Link>
-        </div>
-      ) : null}
-
-      <div className="relative z-10 mx-auto grid min-h-screen w-full max-w-6xl lg:grid-cols-2">
+    <section className={cn("relative bg-white", className)}>
+      <div className="relative z-10 mx-auto grid w-full max-w-[1400px] gap-6 px-2 sm:px-3 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.05fr)] lg:gap-10">
         <div className="relative hidden lg:block">
-          <div className="site-sticky-panel flex flex-col">
-            <div className="relative flex-1 overflow-hidden border-r border-white/10">
-              <Image
-                src={image.src}
-                alt={image.alt}
-                fill
-                priority
-                sizes="50vw"
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-black/45" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent" />
-              <div className="relative flex h-full flex-col justify-end px-10 pb-12 pt-12">
-                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-cedar-accent">
-                  {eyebrow}
-                </p>
-                <h1 className="mt-4 max-w-md font-display text-5xl leading-[1.05] text-cedar-ivory">
-                  {title}
-                </h1>
-                <p className="mt-5 max-w-sm text-lg leading-relaxed text-white/75">{description}</p>
-                {aside ? <div className="mt-8">{aside}</div> : null}
-              </div>
-            </div>
+          <div className="site-sticky-panel">
+            <BluePanel image={image} eyebrow={eyebrow} title={title} description={description} aside={aside} />
           </div>
         </div>
 
-        <div className="site-scroll-column flex flex-col px-4 pb-10 pt-6 sm:px-8 lg:px-12 lg:pb-20 lg:pt-0">
-          <div className="mb-6 overflow-hidden rounded-2xl border border-white/10 lg:hidden">
-            <div className="relative h-40">
-              <Image
-                src={image.src}
-                alt={image.alt}
-                fill
-                priority
-                sizes="100vw"
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-black/10" />
-              <div className="absolute inset-x-0 bottom-0 p-4">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.24em] text-cedar-accent">
-                  {eyebrow}
-                </p>
-                <h1 className="mt-1.5 font-display text-2xl leading-tight text-cedar-ivory">{title}</h1>
-              </div>
+        <div className="site-scroll-column flex flex-col px-2 pb-16 sm:px-5 lg:px-0 lg:pb-24 lg:pr-8">
+          {showWayfinding ? (
+            <div className="mb-6 sm:mb-8">
+              <WayfindingStrip zone="site" />
             </div>
-            <div className="bg-zinc-950 px-4 py-4">
-              <p className="text-sm leading-relaxed text-cedar-mist">{description}</p>
-              {aside ? <div className="mt-4">{aside}</div> : null}
-            </div>
+          ) : null}
+
+          <div className="mb-8 lg:hidden">
+            <BluePanel compact image={image} eyebrow={eyebrow} title={title} description={description} aside={aside} />
           </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="mx-auto w-full max-w-lg lg:mx-0 lg:max-w-none"
+            initial={{ opacity: 0, y: 24, filter: "blur(8px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            transition={{ duration: 0.8, delay: 0.15, ease: EASE }}
+            className="mx-auto w-full max-w-xl lg:mx-0 lg:max-w-none"
           >
-            {showWayfinding ? (
-              <div className="mb-6 border border-white/10 bg-white/[0.03] px-3 py-2.5 sm:mb-8 sm:px-4 sm:py-3">
-                <WayfindingStrip zone="site" tone="onDark" />
-              </div>
-            ) : null}
             {children}
           </motion.div>
         </div>

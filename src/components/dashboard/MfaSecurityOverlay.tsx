@@ -59,11 +59,10 @@ export default function MfaSecurityOverlay({ mfaEnabled }: Props) {
             Help us protect your account
           </h2>
           <p className="mt-3 max-w-md text-sm leading-relaxed text-slate-600 sm:text-[15px]">
-            Add another layer by turning on two-factor authentication (Google Authenticator).
+            Turn on a login code: a 6-digit code from the Google Authenticator app on your phone.
           </p>
           <p className="mt-2 max-w-md text-sm leading-relaxed text-slate-600 sm:text-[15px]">
-            It only takes a minute, and it helps keep your business data, verification documents, and service
-            requests safer.
+            It takes about a minute, and it keeps your business details, documents and requests safer.
           </p>
         </div>
 
@@ -78,9 +77,9 @@ export default function MfaSecurityOverlay({ mfaEnabled }: Props) {
           <Link
             href="/dashboard/security"
             onClick={dismiss}
-            className="w-full rounded-xl bg-slate-900 px-4 py-2.5 text-center text-sm font-semibold text-white hover:bg-slate-800 sm:w-auto"
+            className="w-full rounded-xl bg-g-button px-4 py-2.5 text-center text-sm font-semibold text-white hover:brightness-110 sm:w-auto"
           >
-            Enable two-factor authentication
+            Turn on login code
           </Link>
         </div>
       </div>

@@ -66,7 +66,7 @@ export default function AdminCreateQuestionDraftPage() {
         type="button"
         disabled={loading}
         onClick={create}
-        className="mt-6 inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
+        className="mt-6 inline-flex items-center justify-center rounded-xl bg-g-button px-4 py-2.5 text-sm font-semibold text-white disabled:opacity-50"
       >
         {loading ? "Creating..." : "Create draft"}
       </button>

@@ -17,7 +17,7 @@ type Props = {
 };
 
 const fieldClass =
-  "w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-2.5 text-sm text-slate-900 shadow-[inset_0_1px_2px_rgba(15,23,42,0.04)] transition focus:border-cliq-purple/40 focus:outline-none focus:ring-2 focus:ring-cliq-purple/15";
+  "w-full rounded-xl border border-slate-200 bg-white/90 px-3 py-2.5 text-sm text-slate-900 shadow-[inset_0_1px_2px_rgba(31,58,95,0.04)] transition focus:border-cliq-purple/40 focus:outline-none focus:ring-2 focus:ring-cliq-purple/15";
 
 export default function TableFilterBar({
   searchPlaceholder = "Search…",

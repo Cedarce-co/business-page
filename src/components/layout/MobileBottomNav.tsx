@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { Home, UserRound, Layers, Package, Tag } from "lucide-react";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const HIDDEN_PREFIXES = [
@@ -22,7 +23,7 @@ type Tab = {
   match: (pathname: string) => boolean;
 };
 
-/** App-style sticky bottom navigation. full width; live chat floats above on the right. */
+/** App-style floating glass dock; live chat floats above on the right. */
 export default function MobileBottomNav() {
   const pathname = usePathname() ?? "";
   const { data: session } = useSession();
@@ -56,7 +57,7 @@ export default function MobileBottomNav() {
     },
     {
       href: "/solutions",
-      label: "Business",
+      label: "Who we help",
       icon: Layers,
       match: (p) => p.startsWith("/solutions") || p.startsWith("/services"),
     },
@@ -71,12 +72,10 @@ export default function MobileBottomNav() {
   return (
     <nav
       aria-label="Primary"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-black/95 backdrop-blur-xl lg:hidden"
-      style={{
-        paddingBottom: "max(0.15rem, env(safe-area-inset-bottom))",
-      }}
+      className="pointer-events-none fixed inset-x-0 bottom-0 z-40 px-3 lg:hidden"
+      style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
     >
-      <ul className="grid h-14 grid-cols-5 px-1">
+      <ul className="glass pointer-events-auto mx-auto grid h-16 max-w-md grid-cols-5 rounded-[1.75rem] p-1.5">
         {tabs.map((tab) => {
           const active = tab.match(pathname);
           const Icon = tab.icon;
@@ -85,13 +84,20 @@ export default function MobileBottomNav() {
               <Link
                 href={tab.href}
                 className={cn(
-                  "flex h-full flex-col items-center justify-center gap-1 px-0.5 text-[10px] font-semibold leading-none transition",
-                  active ? "text-cedar-accent" : "text-cedar-mist active:text-cedar-ivory",
+                  "relative flex h-full flex-col items-center justify-center gap-1 rounded-[1.25rem] px-0.5 text-[10px] font-semibold leading-none transition-colors",
+                  active ? "text-white" : "text-slate-500 active:text-brand-700",
                 )}
                 aria-current={active ? "page" : undefined}
               >
-                <Icon className="h-4.5 w-4.5" strokeWidth={active ? 2.5 : 2} aria-hidden />
-                <span className="truncate">{tab.label}</span>
+                {active ? (
+                  <motion.span
+                    layoutId="mobile-tab-active"
+                    className="absolute inset-0 rounded-[1.25rem] bg-g-button shadow-glow-sm"
+                    transition={{ type: "spring", stiffness: 420, damping: 34 }}
+                  />
+                ) : null}
+                <Icon className="relative h-[18px] w-[18px]" strokeWidth={active ? 2.4 : 2} aria-hidden />
+                <span className="relative truncate">{tab.label}</span>
               </Link>
             </li>
           );

@@ -1,41 +1,90 @@
 "use client";
 
-import Image from "next/image";
+import { useRef } from "react";
+import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { CreditCard, Globe, Mail, MessageSquare, Receipt, type LucideIcon } from "lucide-react";
+import AnimatedHeadline from "@/components/motion/AnimatedHeadline";
+import Magnetic from "@/components/motion/Magnetic";
+import Reveal from "@/components/motion/Reveal";
 import Button from "@/components/ui/Button";
-import SectionReveal from "@/components/ui/SectionReveal";
-import { FINAL_CTA_IMAGE } from "@/lib/marketing-images";
+import WhatsAppButton from "@/components/ui/WhatsAppButton";
+import { cn } from "@/lib/utils";
+
+type Tile = { icon: LucideIcon; className: string; rotate: number; depth: number };
+
+const tiles: Tile[] = [
+  { icon: Globe, className: "left-[6%] top-[14%]", rotate: -12, depth: 60 },
+  { icon: Mail, className: "right-[8%] top-[10%]", rotate: 10, depth: 90 },
+  { icon: Receipt, className: "left-[12%] bottom-[12%]", rotate: 8, depth: 40 },
+  { icon: CreditCard, className: "right-[12%] bottom-[16%]", rotate: -8, depth: 70 },
+  { icon: MessageSquare, className: "left-[44%] -top-4 hidden xl:flex", rotate: 6, depth: 30 },
+];
+
+function FloatingTile({ tile, progress }: { tile: Tile; progress: MotionValue<number> }) {
+  const y = useTransform(progress, [0, 1], [tile.depth, -tile.depth]);
+  const Icon = tile.icon;
+  return (
+    <motion.div
+      aria-hidden
+      style={{ y, rotate: tile.rotate }}
+      className={cn(
+        "glass-blue absolute hidden h-16 w-16 items-center justify-center rounded-2xl text-white md:flex lg:h-20 lg:w-20 lg:rounded-3xl",
+        tile.className,
+      )}
+    >
+      <Icon className="h-7 w-7 lg:h-8 lg:w-8" />
+    </motion.div>
+  );
+}
 
 export default function FinalCTASection() {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const reduced = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+
   return (
-    <SectionReveal className="bg-black pb-14 pt-12 lg:pb-28 lg:pt-28">
-      <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden rounded-2xl border border-white/10 lg:rounded-none">
-          <div className="absolute inset-0">
-            <Image
-              src={FINAL_CTA_IMAGE.src}
-              alt=""
-              fill
-              sizes="1200px"
-              className="object-cover"
-            />
-            <div className="absolute inset-0 bg-black/75" />
-            <div className="absolute inset-0 bg-gradient-to-r from-black via-black/70 to-black/50" />
-          </div>
-          <div className="relative grid items-center gap-5 px-5 py-9 text-center sm:gap-6 sm:px-10 sm:py-14 lg:grid-cols-[1fr_auto] lg:gap-8 lg:px-16 lg:text-left">
-            <div className="flex min-w-0 flex-col items-center lg:items-start">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-cedar-accent">Next step</p>
-              <h2 className="mt-3 font-display text-[1.65rem] leading-tight text-cedar-ivory sm:mt-4 sm:text-4xl lg:text-5xl">
-                Look ready where people check first.
-              </h2>
-            </div>
-            <div className="flex w-full justify-center lg:w-auto lg:justify-start">
-              <Button href="/contact" variant="accent" className="min-h-12 w-1/2 whitespace-nowrap px-3 text-xs sm:w-auto sm:px-8 sm:text-base">
-                Book free consultation
-              </Button>
-            </div>
-          </div>
+    <section className="bg-white px-2 pb-20 sm:px-3 lg:pb-28">
+      <div
+        ref={ref}
+        className="relative isolate mx-auto max-w-[1400px] overflow-hidden rounded-[2rem] bg-deep-blue px-5 py-20 text-center sm:py-24 lg:rounded-[2.75rem] lg:py-32"
+      >
+        <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 bg-line-grid-light [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,#000_20%,transparent_75%)]" />
+        <motion.div
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[38rem] w-[38rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-500/30 blur-3xl"
+          animate={reduced ? undefined : { scale: [1, 1.12, 1], opacity: [0.6, 0.9, 0.6] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+        />
+        {!reduced ? tiles.map((t, i) => <FloatingTile key={i} tile={t} progress={scrollYProgress} />) : null}
+
+        <div className="relative mx-auto max-w-4xl">
+          <Reveal>
+            <span className="glass-blue inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 text-xs font-medium text-white sm:text-sm">
+              Next step
+            </span>
+          </Reveal>
+          <AnimatedHeadline
+            text={"Look professional where\ncustomers *check first.*"}
+            highlightClassName="text-gradient-light"
+            className="mt-6 font-display text-[2.6rem] font-semibold leading-[0.98] tracking-[-0.045em] text-white sm:text-6xl lg:text-[5.75rem]"
+          />
+          <Reveal delay={0.2}>
+            <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-brand-100/85 sm:text-lg">
+              Tell us where your business is today. We&apos;ll suggest a simple setup and give you a clear price.
+            </p>
+          </Reveal>
+          <Reveal delay={0.3} className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
+            <Magnetic>
+              <WhatsAppButton variant="onBanner" className="min-h-12 px-8">
+                Chat with us on WhatsApp
+              </WhatsAppButton>
+            </Magnetic>
+            <Button href="/pricing" variant="onDark" className="min-h-12 px-8" noArrow>
+              View pricing
+            </Button>
+          </Reveal>
         </div>
       </div>
-    </SectionReveal>
+    </section>
   );
 }

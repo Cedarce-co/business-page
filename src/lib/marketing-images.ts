@@ -74,13 +74,6 @@ export const OUTCOME_IMAGES: MarketingImage[] = [
   STORE_SHELF_IMAGE,
 ];
 
-/** Client story avatar portraits (matches TESTIMONIALS order) */
-export const TESTIMONIAL_IMAGES: MarketingImage[] = [
-  HERO_COUPLE_IMAGE,
-  MOBILE_BUSINESS_IMAGE,
-  STORE_SHELF_IMAGE,
-];
-
 /** Case-study / in-action story steps (cycles if more steps than images) */
 export const STORY_IMAGES: MarketingImage[] = [
   HERO_COUPLE_IMAGE,

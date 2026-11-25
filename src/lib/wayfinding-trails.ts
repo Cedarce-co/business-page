@@ -34,7 +34,7 @@ const SITE_SEGMENTS: Record<string, { label: string; icon: WayfindingIconKey }> 
   faq: { label: "FAQ", icon: "book" },
   services: { label: "Services", icon: "layers" },
   product: { label: "Services", icon: "layers" },
-  solutions: { label: "Business", icon: "clipboard" },
+  solutions: { label: "Who we help", icon: "clipboard" },
   blog: { label: "Blog", icon: "book" },
   contact: { label: "Contact", icon: "mail" },
   privacy: { label: "Privacy", icon: "file" },
@@ -73,7 +73,7 @@ export function buildSiteCrumbs(pathname: string): WayfindingCrumb[] {
   if (parts.length === 0) return crumbs;
 
   if (parts[0] === "services" && parts[1]) {
-    crumbs.push({ label: "Solutions", href: "/solutions", icon: "layers" });
+    crumbs.push({ label: "Who we help", href: "/solutions", icon: "layers" });
     const svc = SERVICES.find((x) => x.id === parts[1]);
     crumbs.push({
       label: svc?.name ?? titleCase(parts[1]),
@@ -84,13 +84,13 @@ export function buildSiteCrumbs(pathname: string): WayfindingCrumb[] {
   }
 
   if (parts[0] === "product" && parts[1]) {
-    crumbs.push({ label: "Product", href: "/product", icon: "building" });
+    crumbs.push({ label: "Services", href: "/product", icon: "building" });
     crumbs.push({ label: titleCase(parts[1]), href: null, icon: "layers" });
     return crumbs;
   }
 
   if (parts[0] === "solutions" && parts[1]) {
-    crumbs.push({ label: "Solutions", href: "/solutions", icon: "clipboard" });
+    crumbs.push({ label: "Who we help", href: "/solutions", icon: "clipboard" });
     crumbs.push({ label: titleCase(parts[1]), href: null, icon: "clipboard" });
     return crumbs;
   }
@@ -222,7 +222,7 @@ export function buildAuthCrumbs(pathname: string): WayfindingCrumb[] {
   } else if (base === "/admin") {
     crumbs.push({ label: "Admin sign-in", href: null, icon: "shield" });
   } else {
-    crumbs.push({ label: "Portal", href: null, icon: "layout" });
+    crumbs.push({ label: "Account", href: null, icon: "layout" });
   }
 
   return crumbs;

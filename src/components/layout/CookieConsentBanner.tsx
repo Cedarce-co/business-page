@@ -35,20 +35,20 @@ export default function CookieConsentBanner() {
           key="cookie-banner"
           role="dialog"
           aria-label="Cookie consent"
-          className="pointer-events-none fixed bottom-5 left-1/2 z-50 w-[min(92vw,30rem)] -translate-x-1/2 sm:w-[min(88vw,32rem)] lg:w-[min(34rem,90vw)]"
+          className="pointer-events-none fixed bottom-[calc(var(--site-mobile-tab-height)+0.75rem)] left-1/2 lg:bottom-5 z-[70] w-[min(92vw,30rem)] -translate-x-1/2 sm:w-[min(88vw,32rem)] lg:w-[min(34rem,90vw)]"
           initial={cookieBannerMotion.initial}
           animate={cookieBannerMotion.animate}
           exit={cookieBannerMotion.exit}
           transition={cookieBannerMotion.transition}
         >
-          <div className="pointer-events-auto relative border border-white/15 bg-zinc-950/95 px-3 py-2.5 shadow-elegant backdrop-blur-sm sm:px-4 sm:py-3">
-            <h2 className="text-xs font-bold text-cedar-ivory sm:text-sm">Cookies policy</h2>
+          <div className="pointer-events-auto relative rounded-3xl border border-line bg-white/95 px-4 py-3 shadow-lift backdrop-blur-xl sm:px-5 sm:py-4">
+            <h2 className="text-xs font-bold text-brand-950 sm:text-sm">We use cookies</h2>
 
             <div className="mt-1.5 flex flex-col gap-2">
-              <p className="text-[11px] leading-snug text-cedar-mist sm:text-xs">
-                Essential cookies run sign-in and the portal. Live chat is always available. Optional cookies help us
-                understand site use.{" "}
-                <Link href="/privacy#cookies" className="font-semibold text-cedar-ivory underline-offset-2 hover:underline">
+              <p className="text-[11px] leading-snug text-slate-500 sm:text-xs">
+                Cookies are small files that keep you signed in. If you agree, we also use them to see how people use
+                our site.{" "}
+                <Link href="/privacy#cookies" className="font-semibold text-brand-950 underline-offset-2 hover:underline">
                   Privacy Policy
                 </Link>
               </p>
@@ -59,9 +59,9 @@ export default function CookieConsentBanner() {
                     writeCookieConsent("declined");
                     setVisible(false);
                   }}
-                  className="rounded-md px-2.5 py-1.5 text-[11px] font-semibold text-white/60 hover:bg-white/5 sm:px-3 sm:text-xs"
+                  className="rounded-full px-3 py-1.5 text-[11px] font-semibold text-slate-600 hover:bg-brand-50 sm:px-3.5 sm:text-xs"
                 >
-                  Decline cookies
+                  No, thanks
                 </button>
                 <button
                   type="button"
@@ -69,9 +69,9 @@ export default function CookieConsentBanner() {
                     writeCookieConsent("accepted");
                     setVisible(false);
                   }}
-                  className="rounded-md bg-cedar-accent px-2.5 py-1.5 text-[11px] font-semibold text-black hover:brightness-110 sm:px-3 sm:text-xs"
+                  className="rounded-full bg-g-button px-3 py-1.5 text-[11px] font-semibold text-white shadow-glow-sm hover:brightness-110 sm:px-3.5 sm:text-xs"
                 >
-                  Accept all
+                  Accept
                 </button>
               </div>
             </div>

@@ -6,11 +6,12 @@ import { Home, FileCheck2, UserRoundCog, LogOut, ClipboardList, Shield } from "l
 import { signOut } from "next-auth/react";
 import { recordUserSessionEnd } from "@/lib/auth/session-tracking";
 import NotificationBell from "@/components/dashboard/NotificationBell";
+import BrandLogo from "@/components/ui/BrandLogo";
 
 const items = [
   { href: "/dashboard", label: "Home", icon: Home },
   { href: "/dashboard/service-requests", label: "My requests", icon: ClipboardList },
-  { href: "/dashboard/request-service?resume=1", label: "Request a Service", icon: FileCheck2 },
+  { href: "/dashboard/request-service?resume=1", label: "Request a service", icon: FileCheck2 },
   { href: "/dashboard/profile", label: "Profile", icon: UserRoundCog },
   { href: "/dashboard/security", label: "Security", icon: Shield },
 ];
@@ -35,17 +36,29 @@ export default function Sidebar({
       className={
         mobile
           ? "h-full p-4"
-          : "h-screen w-80 border-r border-slate-200 bg-white/85 p-4 backdrop-blur"
+          : "h-screen w-80 border-r border-line bg-white/80 p-4 backdrop-blur-xl"
       }
     >
-      <div className="mb-5 rounded-2xl border border-slate-200 bg-slate-50 p-4">
-        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">Portal</p>
-        <div className="mt-2 flex items-center justify-between gap-3">
-          <p className="text-xl font-black text-slate-900">Dashboard</p>
-          <NotificationBell />
+      {!mobile ? (
+        <div className="mb-5 flex items-center justify-between px-2 pt-2">
+          <Link href="/" aria-label="Cedarce home">
+            <BrandLogo height={26} />
+          </Link>
         </div>
-        <div className="mt-4 flex items-center gap-3">
-          <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full border border-slate-200 bg-slate-900 text-sm font-bold text-white">
+      ) : null}
+      <div className="relative mb-5 overflow-hidden rounded-3xl bg-deep-blue p-4 text-white shadow-lift">
+        <div aria-hidden className="pointer-events-none absolute inset-0 bg-line-grid-light opacity-50" />
+        <div className="relative flex items-center justify-between gap-3">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-200">Portal</p>
+            <p className="mt-0.5 text-lg font-semibold tracking-tight">Dashboard</p>
+          </div>
+          <div className="rounded-full bg-white/95">
+            <NotificationBell />
+          </div>
+        </div>
+        <div className="relative mt-4 flex items-center gap-3 rounded-2xl bg-white/10 p-2.5">
+          <div className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border-2 border-white/40 bg-white text-sm font-bold text-brand-700">
             {image ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img src={image} alt="" className="h-full w-full object-cover" />
@@ -54,8 +67,8 @@ export default function Sidebar({
             )}
           </div>
           <div className="min-w-0">
-            <p className="truncate text-sm font-semibold text-slate-900">{name}</p>
-            <p className="truncate text-xs text-slate-500">{email}</p>
+            <p className="truncate text-sm font-semibold text-white">{name}</p>
+            <p className="truncate text-xs text-brand-100/80">{email}</p>
           </div>
         </div>
       </div>
@@ -72,15 +85,15 @@ export default function Sidebar({
               key={href}
               href={href}
               onClick={() => onNavigate?.()}
-              className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition ${
+              className={`group flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-semibold transition ${
                 active
-                  ? "bg-cliq-navy-900 !text-white shadow-[0_10px_30px_rgba(15,23,42,0.18)]"
-                  : "text-slate-700 hover:bg-slate-100"
+                  ? "btn-sheen bg-g-button !text-white shadow-glow-sm"
+                  : "text-slate-600 hover:bg-brand-50 hover:text-brand-800"
               }`}
             >
-              <Icon className={`h-4 w-4 ${active ? "text-white" : "text-slate-500 group-hover:text-slate-700"}`} />
+              <Icon className={`h-4 w-4 ${active ? "text-white" : "text-slate-400 group-hover:text-brand-600"}`} />
               <span className="flex-1">{label}</span>
-              {active ? <span className="h-2 w-2 rounded-full bg-emerald-400" /> : null}
+              {active ? <span className="h-1.5 w-1.5 rounded-full bg-white" /> : null}
             </Link>
           );
         })}
@@ -94,7 +107,7 @@ export default function Sidebar({
             await signOut({ callbackUrl: "/" });
           })();
         }}
-        className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50"
+        className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-700 hover:border-brand-200 hover:bg-brand-50 hover:text-brand-800"
       >
         <LogOut className="h-4 w-4" />
         Sign out

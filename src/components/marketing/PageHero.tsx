@@ -1,9 +1,14 @@
+"use client";
+
 import Image from "next/image";
-import { cn } from "@/lib/utils";
+import { motion, useReducedMotion } from "framer-motion";
 import type { ReactNode } from "react";
 import MarketingPageHeader from "@/components/navigation/MarketingPageHeader";
 import SectionLabel from "@/components/ui/SectionLabel";
 import type { MarketingImage } from "@/lib/marketing-images";
+import { cn } from "@/lib/utils";
+
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 type PageHeroProps = {
   badge?: string;
@@ -16,10 +21,10 @@ type PageHeroProps = {
   descriptionClassName?: string;
   showWayfinding?: boolean;
   image?: MarketingImage;
-  /** Default left-aligned (Enyata). Use "center" only when explicitly needed. */
   align?: "left" | "center";
 };
 
+/** Inner-page hero: breadcrumbs on white, then a rounded Cedarce-blue panel with big text. */
 export default function PageHero({
   badge,
   badgeClassName,
@@ -31,72 +36,81 @@ export default function PageHero({
   descriptionClassName,
   showWayfinding = true,
   image,
-  align = "left",
+  align = "center",
 }: PageHeroProps) {
+  const reduced = useReducedMotion();
   const centered = align === "center";
 
+  const enter = (delay: number) =>
+    reduced
+      ? {}
+      : {
+          initial: { opacity: 0, y: 24, filter: "blur(10px)" },
+          animate: { opacity: 1, y: 0, filter: "blur(0px)" },
+          transition: { delay, duration: 0.9, ease: EASE },
+        };
+
   return (
-    <section className={cn("relative overflow-hidden bg-black pb-10 sm:pb-16", className)}>
-      {image ? (
-        <>
-          <div className="absolute inset-0">
+    <section className={cn("relative bg-white pb-6 sm:pb-10", className)}>
+      {showWayfinding ? <MarketingPageHeader className="pb-4" /> : <div className="site-page-top" />}
+
+      <div className="px-2 sm:px-3">
+        <div className="relative isolate mx-auto max-w-[1400px] overflow-hidden rounded-[2rem] bg-hero-blue lg:rounded-[2.75rem]">
+          {image ? (
             <Image
               src={image.src}
               alt=""
               fill
               priority
               sizes="100vw"
-              className="object-cover"
+              className="-z-20 object-cover opacity-25 mix-blend-luminosity"
             />
-            <div className="absolute inset-0 bg-black/72" />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/60 to-black" />
-          </div>
-        </>
-      ) : (
-        <>
-          <div aria-hidden className="pointer-events-none absolute inset-0 bg-mesh-dark opacity-90" />
-          <div aria-hidden className="pointer-events-none absolute inset-0 bg-dot-grid opacity-[0.25]" />
-        </>
-      )}
-      {showWayfinding ? <MarketingPageHeader tone="dark" /> : null}
-      <div
-        className={cn(
-          "relative mx-auto flex w-full max-w-[1200px] flex-col px-4 sm:px-6 lg:px-8",
-          centered ? "items-center text-center" : "items-start text-left"
-        )}
-      >
-        {badge ? (
-          <SectionLabel className={cn(centered && "mx-auto", badgeClassName)}>{badge}</SectionLabel>
-        ) : null}
-        <h1
-          className={cn(
-            "mt-4 max-w-3xl font-display text-[1.85rem] leading-tight text-cedar-ivory sm:mt-6 sm:text-5xl lg:text-6xl",
-            titleClassName
-          )}
-        >
-          {title}
-        </h1>
-        {description ? (
-          <p
-            className={cn(
-              "mt-3 max-w-2xl text-balance text-sm text-white/75 sm:mt-4 sm:text-lg",
-              centered && "text-center",
-              descriptionClassName
-            )}
-          >
-            {description}
-          </p>
-        ) : null}
-        {children ? (
+          ) : null}
+          <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 bg-line-grid-light [mask-image:radial-gradient(ellipse_80%_70%_at_50%_40%,#000_25%,transparent_80%)]" />
+
           <div
             className={cn(
-              "mt-6 flex flex-wrap gap-3 sm:mt-8",
-              centered ? "justify-center" : "justify-start"
+              "relative mx-auto flex w-full max-w-[1100px] flex-col px-5 py-16 sm:px-10 sm:py-24 lg:py-28",
+              centered ? "items-center text-center" : "items-start text-left",
             )}
           >
-            {children}
+            {badge ? (
+              <motion.div {...enter(0)}>
+                <SectionLabel tone="onBlue" className={badgeClassName}>
+                  {badge}
+                </SectionLabel>
+              </motion.div>
+            ) : null}
+            <motion.h1
+              {...enter(0.1)}
+              className={cn(
+                "mt-6 max-w-4xl font-display text-[2.4rem] font-semibold leading-[1.02] tracking-[-0.045em] text-white sm:text-6xl lg:text-7xl",
+                titleClassName,
+              )}
+            >
+              {title}
+            </motion.h1>
+            {description ? (
+              <motion.p
+                {...enter(0.25)}
+                className={cn(
+                  "mt-5 max-w-2xl text-balance text-base leading-relaxed text-brand-50/90 sm:text-lg",
+                  descriptionClassName,
+                )}
+              >
+                {description}
+              </motion.p>
+            ) : null}
+            {children ? (
+              <motion.div
+                {...enter(0.35)}
+                className={cn("mt-8 flex flex-wrap gap-3", centered ? "justify-center" : "justify-start")}
+              >
+                {children}
+              </motion.div>
+            ) : null}
           </div>
-        ) : null}
+        </div>
       </div>
     </section>
   );

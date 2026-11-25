@@ -15,13 +15,13 @@ export default function ProductPageContent() {
       title={
         <>
           Digital{" "}
-          <span className="text-cedar-accent">services</span>
+          <span className="text-gradient-light">services</span>
         </>
       }
-      description="Website, business email, invoices, customer messaging, and more. Pick what you need now and add later as you grow."
+      description="Website, business email, invoices, customer messages and more. Pick what you need now and add more as you grow."
       cards={productCards}
       ctaTitle="Need more than one service?"
-      ctaText="Tell us what you use today. We’ll recommend a simple mix that fits your business without extra clutter."
+      ctaText="Tell us what you use today. We’ll suggest a simple mix that fits your business, with nothing extra."
     />
   );
 }

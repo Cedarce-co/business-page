@@ -16,15 +16,15 @@ export default function MfaRecoveryCodesPanel({
   email,
   portal,
   onDone,
-  title = "Save your recovery codes",
+  title = "Save your backup codes",
 }: Props) {
   return (
     <div className="space-y-4 rounded-2xl border border-amber-200 bg-amber-50 p-5">
       <div>
         <p className="text-sm font-semibold text-amber-950">{title}</p>
         <p className="mt-2 text-sm leading-relaxed text-amber-900">
-          Download and store these one-time codes somewhere safe. If you lose your phone or authenticator app, each
-          code can sign you in once. They will not be shown again.
+          Download these codes and keep them somewhere safe. If you lose your phone, each code lets you sign in once.
+          We will not show them again.
         </p>
       </div>
 
@@ -41,12 +41,12 @@ export default function MfaRecoveryCodesPanel({
           className="inline-flex items-center gap-2 rounded-xl border border-amber-300 bg-white px-4 py-2.5 text-sm font-semibold text-amber-950 hover:bg-amber-100"
         >
           <Download className="h-4 w-4" aria-hidden />
-          Download recovery codes
+          Download backup codes
         </button>
         <button
           type="button"
           onClick={onDone}
-          className="rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white hover:bg-slate-800"
+          className="rounded-xl bg-g-button px-4 py-2.5 text-sm font-semibold text-white hover:brightness-110"
         >
           I have saved these codes
         </button>

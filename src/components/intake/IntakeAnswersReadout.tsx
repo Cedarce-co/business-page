@@ -48,7 +48,7 @@ export default function IntakeAnswersReadout({
             : "inner-scroll max-h-[min(28rem,55vh)] overflow-y-auto overscroll-y-contain rounded-xl border border-slate-200/80 bg-slate-50/50 px-3 py-4 sm:px-4"
         }
         role="region"
-        aria-label="Intake answers"
+        aria-label="Your answers"
       >
         <div className="space-y-8 pr-1">
           {sections.map((block) => (
@@ -60,7 +60,7 @@ export default function IntakeAnswersReadout({
                 {block.items.map((row, i) => (
                   <div
                     key={`${block.section}-${row.label}-${i}`}
-                    className="rounded-xl border border-slate-200/90 bg-gradient-to-b from-white to-slate-50/90 px-4 py-3 shadow-[0_1px_0_rgba(15,23,42,0.04)]"
+                    className="rounded-xl border border-slate-200/90 bg-gradient-to-b from-white to-slate-50/90 px-4 py-3 shadow-[0_1px_0_rgba(31,58,95,0.04)]"
                   >
                     <dt className="text-xs font-semibold leading-snug text-slate-600">{row.label}</dt>
                     <dd className="mt-1.5 whitespace-pre-wrap text-sm leading-relaxed text-slate-900">{row.value}</dd>

@@ -48,7 +48,7 @@ export default async function ServiceRequestDetailPage({ params }: { params: Pro
       subtitle={
         canEdit
           ? "Update your answers below while editing is open."
-          : "Read-only summary. We may reach out directly as work progresses."
+          : "A summary of your request. We may contact you as the work goes on."
       }
       right={<Badge tone={requestTone(request.status)}>{requestLabel(request.status)}</Badge>}
     >
@@ -110,7 +110,7 @@ export default async function ServiceRequestDetailPage({ params }: { params: Pro
               <Card className={`flex ${formPanelHeightClass} flex-col overflow-hidden p-5`}>
                 <div className="shrink-0">
                   <p className="text-sm font-bold text-slate-900">Your submitted answers</p>
-                  <p className="mt-1 text-sm text-slate-600">What you told us when you completed the intake.</p>
+                  <p className="mt-1 text-sm text-slate-600">What you told us when you sent this request.</p>
                 </div>
                 <div className="mt-4 flex min-h-0 flex-1 flex-col">
                   <IntakeAnswersReadout

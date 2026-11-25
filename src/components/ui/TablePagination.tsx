@@ -112,7 +112,7 @@ export default function TablePagination({ total, page, perPage }: Props) {
                 className={cn(
                   pageBtnClass,
                   item === safePage
-                    ? "border-slate-900 bg-slate-900 text-white"
+                    ? "border-brand-500 bg-g-button text-white"
                     : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50",
                 )}
               >

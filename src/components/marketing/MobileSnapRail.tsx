@@ -320,7 +320,7 @@ export default function MobileSnapRail({
               aria-label="Previous"
               disabled={index <= 0}
               onClick={() => goTo(index - 1)}
-              className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-cedar-ivory transition enabled:active:scale-95 disabled:opacity-30"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-line text-brand-950 transition enabled:active:scale-95 disabled:opacity-30"
             >
               <ChevronLeft className="h-4 w-4" aria-hidden />
             </button>
@@ -336,7 +336,7 @@ export default function MobileSnapRail({
                 onClick={() => goTo(i)}
                 className={cn(
                   "h-1.5 rounded-full transition-all",
-                  i === index ? "w-5 bg-cedar-accent" : "w-1.5 bg-white/25",
+                  i === index ? "w-5 bg-brand-600" : "w-1.5 bg-brand-100",
                 )}
               />
             ))}
@@ -348,7 +348,7 @@ export default function MobileSnapRail({
               aria-label="Next"
               disabled={index >= items.length - 1}
               onClick={() => goTo(index + 1)}
-              className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-cedar-ivory transition enabled:active:scale-95 disabled:opacity-30"
+              className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-line text-brand-950 transition enabled:active:scale-95 disabled:opacity-30"
             >
               <ChevronRight className="h-4 w-4" aria-hidden />
             </button>

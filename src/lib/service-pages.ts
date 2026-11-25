@@ -15,44 +15,44 @@ export type ServicePageDetail = {
   relatedSlugs: string[];
 };
 
-const CTA_QUOTE = { href: "/contact", label: "Book a free consult" } as const;
-const CTA_ACCOUNT = { href: "/signup", label: "Create a free account" } as const;
+const CTA_QUOTE = { href: "/contact", label: "Talk to us" } as const;
+const CTA_ACCOUNT = { href: "/pricing", label: "See prices" } as const;
 
 export const SERVICE_PAGE_DETAILS: Record<string, ServicePageDetail> = {
   "web-presence": {
     slug: "web-presence",
     heroIcon: Globe,
-    tagline: "Be found, trusted, and ready to sell online",
+    tagline: "Be found, be trusted, and get more customers online",
     lead:
-      "Your website, domain, and hosting are the front door to your business. We design and launch a fast, phone-friendly site with your brand, SSL, and managed hosting so visitors see a real company, not a social handle or empty page.",
+      "Your website is the front door of your business. We build a phone-friendly website with your logo and colours, get your own web address, and keep the site online and safe, so visitors see a real business, not just a social media page.",
     outcomes: [
-      "Show up in search and ads with a clear offer and contact path",
-      "Build trust with a professional look that matches your quality",
-      "Stop losing leads to “DM for price”. Give people a place to act",
+      "People find you on Google and know exactly how to reach you",
+      "Customers trust you because your business looks professional",
+      "No more “DM for price”. Customers have a place to see your offer and act",
     ],
     included: [
-      "Discovery: goals, audience, and must-have pages",
-      "Design and build: responsive pages, contact and lead actions",
-      "Domain, DNS, and hosting setup with SSL",
-      "Launch checklist, handover, and post-launch tips",
+      "A chat to understand your business and the pages you need",
+      "Design and build: pages that work on phones, with contact buttons",
+      "Your web address, hosting and the padlock that shows your site is safe",
+      "Launch, hand-over and simple tips after your site goes live",
     ],
     forYou: [
-      "New businesses going pro for the first time",
-      "Shops and services that outgrew social-only presence",
-      "Teams that need a credible site before pitching or funding",
+      "New businesses going online for the first time",
+      "Shops and services that have outgrown Instagram and WhatsApp alone",
+      "Businesses that need a proper website before meeting partners or investors",
     ],
     steps: [
       {
-        title: "1. Discovery call",
-        body: "We align on your offer, audience, and what a “win” looks like in the first 30 days.",
+        title: "1. A short chat",
+        body: "We talk about what you sell, who your customers are, and what you want the website to do.",
       },
       {
-        title: "2. Build & content",
-        body: "We structure pages, add your brand, and wire clear calls to action (book, call, buy).",
+        title: "2. We build it",
+        body: "We create your pages with your logo, and add clear buttons: call, chat, book or buy.",
       },
       {
-        title: "3. Go live",
-        body: "We connect your domain, secure the site, and hand over so you can grow with confidence.",
+        title: "3. Your site goes live",
+        body: "We connect your web address, make the site secure, and show you how to manage it.",
       },
     ],
     primaryCta: CTA_QUOTE,
@@ -62,37 +62,37 @@ export const SERVICE_PAGE_DETAILS: Record<string, ServicePageDetail> = {
   "payments-invoicing": {
     slug: "payments-invoicing",
     heroIcon: CreditCard,
-    tagline: "Get paid quickly with less back-and-forth",
+    tagline: "Get paid faster, with less back-and-forth",
     lead:
-      "We connect you to card and bank checkout that fits how your customers like to pay, then layer branded invoices and receipts so every sale looks professional and is easy to reconcile.",
+      "We set up card and bank transfer payments that suit your customers, plus invoices and receipts with your logo, so every sale looks professional and is easy to keep track of.",
     outcomes: [
-      "Close sales on your site or payment link without manual follow-up",
-      "Send invoices and receipts that match your brand",
-      "Reduce “have you paid?” messages with clear payment status",
+      "Customers pay on your website or from a link, without you chasing them",
+      "Invoices and receipts that carry your business name and logo",
+      "Fewer “have you paid?” messages, because you can see who has paid",
     ],
     included: [
-      "Payment gateway configuration (e.g. Paystack, Flutterwave) for your context",
-      "Checkout or payment links aligned to your website or offers",
-      "Invoice and receipt templates with your business details",
-      "Walkthrough for your team on taking and reconciling payments",
+      "Setting up a payment service such as Paystack or Flutterwave",
+      "Pay buttons and payment links for your website and offers",
+      "Invoice and receipt designs with your business details",
+      "A lesson for your team on taking payments and checking them",
     ],
     forYou: [
-      "Retailers, consultants, and agencies invoicing clients regularly",
-      "Businesses moving from cash-only or informal transfers",
-      "Teams that need one consistent flow from quote to paid",
+      "Shops, consultants and agencies that send bills often",
+      "Businesses moving from cash only to online payments",
+      "Teams that want one simple way to go from price to payment",
     ],
     steps: [
       {
-        title: "1. Map your flows",
-        body: "We capture how you quote, bill, and follow up today, and what must change.",
+        title: "1. Show us how you sell",
+        body: "We look at how you give prices, send bills and follow up today, and what needs to change.",
       },
       {
-        title: "2. Configure & brand",
-        body: "We set up gateways, invoice templates, and links so customers know exactly how to pay.",
+        title: "2. We set it up",
+        body: "We connect the payment service, design your invoices and create payment links.",
       },
       {
-        title: "3. Train & handover",
-        body: "Your team learns how to issue invoices, track payments, and handle exceptions.",
+        title: "3. We train your team",
+        body: "Your team learns how to send invoices, check payments and sort out problems.",
       },
     ],
     primaryCta: CTA_QUOTE,
@@ -102,37 +102,37 @@ export const SERVICE_PAGE_DETAILS: Record<string, ServicePageDetail> = {
   "business-identity": {
     slug: "business-identity",
     heroIcon: Mail,
-    tagline: "Look legitimate in every inbox",
+    tagline: "Look like a real business in every email",
     lead:
-      "Branded email at your domain builds trust before you say a word. We configure inboxes, signatures, and basics like SPF/DKIM guidance so your mail lands reliably, plus guidance on a consistent voice across customer touchpoints.",
+      "An email with your business name builds trust before you say a word. We create your email accounts, add a neat signature, and set things up so your emails don't land in spam.",
     outcomes: [
-      "Replace personal Gmail/Yahoo with addresses customers recognize",
-      "Reduce spam-folder issues with proper domain email setup",
-      "Present one coherent brand from email to website to receipts",
+      "Replace personal Gmail or Yahoo with an email customers trust",
+      "Your emails reach the inbox, not the spam folder",
+      "The same look on your emails, website and receipts",
     ],
     included: [
-      "Mailbox setup on your domain (volume depends on package)",
-      "Signature templates and sending best practices",
-      "DNS guidance for email authentication where applicable",
-      "Coordination with your web presence so branding matches end-to-end",
+      "Email accounts with your business name (number depends on your package)",
+      "An email signature with your logo, and tips for writing to customers",
+      "Setup that helps other email services trust your emails",
+      "Matching your emails to your website and brand",
     ],
     forYou: [
-      "Founders tired of clients doubting “is this really your company?”",
-      "Growing teams adding sales and support addresses",
-      "Anyone pairing a new site with credible outbound email",
+      "Owners tired of customers asking “is this really your company?”",
+      "Growing teams that need sales@ or support@ emails",
+      "Anyone with a new website who also needs a proper email",
     ],
     steps: [
       {
-        title: "1. Identity audit",
-        body: "We list the addresses you need now and what you’ll need in six months.",
+        title: "1. List what you need",
+        body: "We list the email addresses you need now, and the ones you'll need soon.",
       },
       {
-        title: "2. Configure & test",
-        body: "We set up inboxes, forwards if needed, and verify delivery paths.",
+        title: "2. Set up and test",
+        body: "We create your accounts and check that emails send and arrive properly.",
       },
       {
-        title: "3. Brand alignment",
-        body: "We align signatures and templates with your site and collateral.",
+        title: "3. Match your brand",
+        body: "We make your signature match your website and other materials.",
       },
     ],
     primaryCta: CTA_QUOTE,
@@ -142,37 +142,37 @@ export const SERVICE_PAGE_DETAILS: Record<string, ServicePageDetail> = {
   "customer-reach": {
     slug: "customer-reach",
     heroIcon: Megaphone,
-    tagline: "Reach the right people with repeatable campaigns",
+    tagline: "Stay in touch with your customers, without typing every message",
     lead:
-      "Bulk messaging and structured marketing help you turn one-off posts into a system: launches, reminders, re-engagement, and seasonal pushes across email and WhatsApp, with clear calls to action back to your site or payment flow.",
+      "Instead of one-off posts, send planned messages to your customers by email and WhatsApp: new products, reminders, offers and seasonal sales, each with a link to your website or payment page.",
     outcomes: [
-      "Stay top-of-mind without manually copying the same message daily",
-      "Launch announcements that drive traffic to book or pay",
-      "Measure what you send so you can improve the next campaign",
+      "Customers remember you, without you copying the same message every day",
+      "Announcements that bring people to buy or book",
+      "See who opened or replied, so the next message works better",
     ],
     included: [
-      "Channel setup aligned to your audience (e.g. email, WhatsApp flows)",
-      "Message frameworks for offers, reminders, and follow-ups",
-      "Integration points with your site and CRM-style handoffs where applicable",
-      "Training so your team can run campaigns safely and consistently",
+      "Setting up email and WhatsApp messaging for your customers",
+      "Ready-made messages for offers, reminders and follow-ups",
+      "Linking messages to your website and payment pages",
+      "Training so your team can send messages the right way",
     ],
     forYou: [
-      "Shops with repeat buyers and seasonal inventory",
-      "Service businesses nurturing leads over weeks",
-      "Brands moving from ad-hoc DMs to structured outreach",
+      "Shops with regular customers and seasonal stock",
+      "Service businesses that follow up with customers over weeks",
+      "Businesses moving from random DMs to planned messages",
     ],
     steps: [
       {
-        title: "1. Audience & goals",
-        body: "We define segments, offers, and the journey from stranger to customer.",
+        title: "1. Who and what",
+        body: "We decide who you're talking to, what you're offering, and how a visitor becomes a customer.",
       },
       {
-        title: "2. Playbooks & assets",
-        body: "We draft starter sequences and tie them to your pages and payment links.",
+        title: "2. Write the messages",
+        body: "We write your first messages and link them to your pages and payment links.",
       },
       {
-        title: "3. Launch & iterate",
-        body: "We go live, review early results, and adjust messaging with you.",
+        title: "3. Send and improve",
+        body: "We send them out, look at what worked, and adjust with you.",
       },
     ],
     primaryCta: CTA_QUOTE,
@@ -182,37 +182,37 @@ export const SERVICE_PAGE_DETAILS: Record<string, ServicePageDetail> = {
   "apps-and-operations": {
     slug: "apps-and-operations",
     heroIcon: Smartphone,
-    tagline: "Apps, integrations, and team readiness",
+    tagline: "Apps, connected tools and a trained team",
     lead:
-      "When off-the-shelf pages aren’t enough, we scope mobile apps, internal tools, and integrations, and we train your staff so adoption sticks. Ideal for teams that need a dependable digital operating layer, not a one-off launch.",
+      "When a website isn't enough, we build mobile apps and office tools, connect the tools you already use, and train your staff so everyone actually uses them.",
     outcomes: [
-      "Put ordering, booking, or loyalty in customers’ pockets",
-      "Connect tools you already use so data stops living in chat screenshots",
-      "Get your team productive with hands-on training on what we ship",
+      "Let customers order, book or collect rewards from their phones",
+      "Your tools share information, so it stops living in chat screenshots",
+      "Staff know how to use everything we set up",
     ],
     included: [
-      "Discovery and phased roadmap for app or integration work",
-      "Build or configure mobile experiences aligned to your process",
-      "Integration planning with payment, email, and messaging stacks",
-      "Staff training sessions and documentation handover",
+      "A plan, in stages, for your app or connected tools",
+      "Building the app or tools around how you work",
+      "Linking it to your payments, email and messages",
+      "Staff training and simple written guides",
     ],
     forYou: [
-      "Growing teams scaling beyond spreadsheets and chat tools",
-      "Founders piloting an app alongside their website",
-      "Teams onboarding new hires onto the same systems",
+      "Growing businesses that have outgrown spreadsheets and chats",
+      "Owners who want an app alongside their website",
+      "Teams bringing new staff onto the same tools",
     ],
     steps: [
       {
-        title: "1. Scope & success metrics",
-        body: "We agree what “done” means for users and admins in the first release.",
+        title: "1. Agree what “done” means",
+        body: "We agree what your customers and staff should be able to do in the first version.",
       },
       {
-        title: "2. Build & integrate",
-        body: "We implement in milestones with visible checkpoints.",
+        title: "2. Build and connect",
+        body: "We build it in stages and show you progress along the way.",
       },
       {
-        title: "3. Train & support",
-        body: "We train staff, hand over runbooks, and align support windows to your package.",
+        title: "3. Train and support",
+        body: "We train your staff, hand over simple guides and stay available for help.",
       },
     ],
     primaryCta: CTA_QUOTE,

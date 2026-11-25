@@ -1,17 +1,19 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowRight, ArrowUpRight, ChevronDown } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import Button from "@/components/ui/Button";
+import BrandLogo from "@/components/ui/BrandLogo";
+import WhatsAppButton from "@/components/ui/WhatsAppButton";
 import CurrencySwitcher from "@/components/layout/CurrencySwitcher";
-import { LOGO_DARK_BG, LOGO_NAV_SIZES } from "@/lib/brand-logos";
 import { useSession, signOut } from "next-auth/react";
+import { cn } from "@/lib/utils";
 
 const links = [
-  { href: "/solutions", label: "Business" },
+  { href: "/solutions", label: "Who we help" },
   { href: "/product", label: "Services" },
   { href: "/pricing", label: "Pricing" },
   { href: "/faq", label: "FAQ" },
@@ -34,86 +36,91 @@ type MegaBlock = {
 };
 
 const megaMenus: Record<string, MegaBlock> = {
-  Business: {
-    leftTitle: "Business you serve",
+  "Who we help": {
+    leftTitle: "Businesses we work with",
     leftItems: [
-      { name: "Small businesses", desc: "Owner-run shops and professional services", href: "/solutions/self-employed" },
-      { name: "Shops, malls & stores", desc: "Track sales and store inventory, online and in store", href: "/solutions/micro-businesses" },
-      { name: "Medium businesses", desc: "Growing teams ready for a full setup", href: "/solutions/smes" },
-      { name: "Associations", desc: "Groups, clubs, and member organizations", href: "/solutions/associations" },
+      { name: "Small businesses", desc: "Owner-run shops and services", href: "/solutions/self-employed" },
+      { name: "Shops & stores", desc: "Keep track of sales and stock", href: "/solutions/micro-businesses" },
+      { name: "Growing businesses", desc: "Bigger teams ready for a full setup", href: "/solutions/smes" },
+      { name: "Associations & groups", desc: "Churches, clubs and member groups", href: "/solutions/associations" },
     ],
     rightTitle: "Getting started",
     rightItems: [
-      { name: "Business launch setup", desc: "Website, name address, email, and tools", href: "/solutions/business-launch-setup" },
-      { name: "Brand and everyday systems", desc: "Invoices, follow-ups, and messaging", href: "/solutions/brand-and-automation" },
+      { name: "Starting a new business", desc: "Website, web address, email and payments", href: "/solutions/business-launch-setup" },
+      { name: "Automatic invoices & reminders", desc: "Bills and messages that send on their own", href: "/solutions/brand-and-automation" },
     ],
-    cardTag: "By stage",
-    cardTitle: "Which sounds most like you?",
-    cardText: "Browse setups for small businesses, shops and stores, medium businesses, and associations. Matched to what you actually need.",
+    cardTag: "Find your fit",
+    cardTitle: "Which one sounds like you?",
+    cardText: "See what we set up for small businesses, shops, growing businesses and associations. Only what you actually need.",
     cardCtaHref: "/solutions",
-    cardCtaLabel: "Browse business types",
-    footerLink: "Talk to our team",
+    cardCtaLabel: "See who we help",
+    footerLink: "Talk to us",
     footerLinkHref: "/contact",
   },
   Services: {
-    leftTitle: "Core setup",
+    leftTitle: "Get online",
     leftItems: [
-      { name: "Website and landing pages", desc: "Pages that look great on phones and computers", href: "/product/website-landing-pages" },
-      { name: "Domain and hosting", desc: "Your web address, kept safe and running", href: "/product/domain-hosting" },
-      { name: "Business email", desc: "Email that uses your business name", href: "/product/business-email" },
-      { name: "Payments", desc: "Let customers pay you online when you need it", href: "/product/payments-integration" },
-      { name: "Invoicing and receipts", desc: "Clean bills with your brand name", href: "/product/invoicing-receipts" },
+      { name: "Websites", desc: "Pages that look great on phones and computers", href: "/product/website-landing-pages" },
+      { name: "Web address & hosting", desc: "Your own .com, kept safe and online", href: "/product/domain-hosting" },
+      { name: "Business email", desc: "Email with your business name", href: "/product/business-email" },
+      { name: "Online payments", desc: "Let customers pay you by card or transfer", href: "/product/payments-integration" },
+      { name: "Invoices & receipts", desc: "Neat bills with your logo", href: "/product/invoicing-receipts" },
     ],
-    rightTitle: "Growth tools",
+    rightTitle: "Grow your sales",
     rightItems: [
-      { name: "Bulk messaging", desc: "Email, WhatsApp, and SMS to many people at once", href: "/product/bulk-messaging" },
-      { name: "Marketing setup", desc: "Help people find you on social and search", href: "/product/marketing-setup" },
-      { name: "Staff training", desc: "Hands-on practice for your team", href: "/product/staff-training" },
-      { name: "Integrations", desc: "Connect tools you already use", href: "/product/integrations" },
+      { name: "Bulk messages", desc: "Email, WhatsApp and SMS to many people at once", href: "/product/bulk-messaging" },
+      { name: "Social media & Google", desc: "Help people find you online", href: "/product/marketing-setup" },
+      { name: "Staff training", desc: "Hands-on lessons for your team", href: "/product/staff-training" },
+      { name: "Connect your tools", desc: "Make your tools share information", href: "/product/integrations" },
     ],
     cardTag: "Services",
     cardTitle: "Pick what you need",
-    cardText: "Websites, email, invoices, messaging, and more. Each service can stand alone or work together.",
+    cardText: "Websites, email, invoices, customer messages and more. Start with one, add more later.",
     cardCtaHref: "/product",
-    cardCtaLabel: "Explore services",
+    cardCtaLabel: "See all services",
     footerLink: "Compare packages",
     footerLinkHref: "/pricing",
   },
   Pricing: {
-    leftTitle: "Pricing",
+    leftTitle: "Prices for",
     leftItems: [
-      { name: "Company creators", desc: "Setup and launch support", href: "/pricing/company-creators" },
-      { name: "Small businesses", desc: "Plans built for owner-led work", href: "/pricing/self-employed" },
-      { name: "Shops, malls & stores", desc: "Sales tracking and stock setups for retail", href: "/pricing/micro-businesses" },
-      { name: "Medium businesses", desc: "Scale with a full digital setup", href: "/pricing/smes" },
+      { name: "New businesses", desc: "Just registered? Start here", href: "/pricing/company-creators" },
+      { name: "Small businesses", desc: "For owner-run businesses", href: "/pricing/self-employed" },
+      { name: "Shops & stores", desc: "Sales and stock tracking for shops", href: "/pricing/micro-businesses" },
+      { name: "Growing businesses", desc: "A full setup for bigger teams", href: "/pricing/smes" },
     ],
     rightTitle: "Compare",
     rightItems: [
-      { name: "Find the right plan", desc: "Compare packages side by side", href: "/pricing/compare-plans" },
-      { name: "Need help choosing?", desc: "Speak with our team", href: "/contact" },
+      { name: "Compare packages", desc: "See the packages side by side", href: "/pricing/compare-plans" },
+      { name: "Need help choosing?", desc: "Talk to our team", href: "/contact" },
     ],
-    cardTag: "Consultation",
-    cardTitle: "Not sure which tier fits?",
-    cardText: "Book a short call. We’ll match a package to your goals and budget. Starting from as low as our Small Business range.",
+    cardTag: "Need help?",
+    cardTitle: "Not sure which package fits?",
+    cardText: "Have a short chat with us. We'll match a package to your business and budget. Prices start from our Small Business package.",
     cardCtaHref: "/contact",
-    cardCtaLabel: "Book a call",
+    cardCtaLabel: "Talk to us",
     footerLink: "Email us",
     footerLinkHref: "/contact",
   },
 };
 
 export default function Navbar() {
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "";
+  // Prices only appear on /pricing and its package pages, so the switcher lives there only.
+  const showCurrency = pathname === "/pricing" || pathname.startsWith("/pricing/");
   const { data: session } = useSession();
   const [activeMega, setActiveMega] = useState<string | null>(null);
+  const [hovered, setHovered] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const headerRef = useRef<HTMLElement | null>(null);
   const closeTimer = useRef<number | null>(null);
-  const transparentChrome = pathname === "/" && !scrolled && !activeMega;
 
   const startCloseDelay = () => {
     if (closeTimer.current) window.clearTimeout(closeTimer.current);
-    closeTimer.current = window.setTimeout(() => setActiveMega(null), 180);
+    closeTimer.current = window.setTimeout(() => {
+      setActiveMega(null);
+      setHovered(null);
+    }, 180);
   };
 
   const cancelCloseDelay = () => {
@@ -130,9 +137,8 @@ export default function Navbar() {
   }, []);
 
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 16);
-    };
+    const onScroll = () => setScrolled(window.scrollY > 16);
+    onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -154,177 +160,190 @@ export default function Navbar() {
     return () => observer.disconnect();
   }, []);
 
+  const mega = activeMega ? megaMenus[activeMega] : null;
 
   return (
     <>
-      {/* Mobile: currency switcher only — no logo, no nav bar */}
-      <div className="fixed right-3 top-3 z-50 lg:hidden">
-        <CurrencySwitcher size="sm" />
-      </div>
+      {/* Mobile: no nav bar; currency switcher floats top-right on pricing pages only */}
+      {showCurrency ? (
+        <div className="fixed right-3 top-3 z-50 lg:hidden">
+          <CurrencySwitcher size="sm" />
+        </div>
+      ) : null}
 
-      {/* Desktop header only */}
-      <header
-        ref={headerRef}
-        className={`fixed left-0 right-0 top-0 z-40 hidden border-b transition-colors duration-300 lg:block ${
-          transparentChrome
-            ? "border-white/10 bg-black/15 backdrop-blur-sm"
-            : "border-white/10 bg-black/80 backdrop-blur-xl"
-        }`}
-      >
-        <div className="mx-auto flex h-[84px] w-full max-w-[1440px] items-center px-10">
-          <div className="flex min-w-0 flex-1 items-center justify-start">
+      {/* Desktop: floating glass pill */}
+      <header ref={headerRef} className="fixed inset-x-0 top-0 z-40 hidden px-6 pt-4 lg:block">
+        <div
+          className={cn(
+            "mx-auto flex h-16 w-full max-w-[1200px] items-center rounded-full pl-6 pr-2 transition-all duration-500",
+            scrolled || activeMega ? "glass" : "border border-white/60 bg-white/70 backdrop-blur-xl",
+          )}
+        >
+          <div className="flex min-w-0 flex-1 items-center">
             <Link href="/" className="flex shrink-0 items-center" aria-label="Home">
-              <Image
-                src={LOGO_DARK_BG.desktop}
-                alt="Cedarce"
-                width={LOGO_NAV_SIZES.desktopLg.width}
-                height={LOGO_NAV_SIZES.desktopLg.height}
-                style={{ width: LOGO_NAV_SIZES.desktopLg.width, height: LOGO_NAV_SIZES.desktopLg.height }}
-                className="object-contain object-left"
-                priority
-              />
+              <BrandLogo height={30} />
             </Link>
           </div>
 
-          <nav className="flex shrink-0 items-center gap-8" onMouseLeave={startCloseDelay}>
-            {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onMouseEnter={() => {
-                  cancelCloseDelay();
-                  setActiveMega(megaMenus[link.label] ? link.label : null);
-                }}
-                onClick={() => setActiveMega(null)}
-                className="text-[15px] font-medium text-white/70 transition hover:text-cedar-ivory"
-              >
-                <span className="inline-flex items-center gap-1">
-                  {link.label}
-                  {megaMenus[link.label] ? (
-                    <ChevronDown
-                      className={`h-3.5 w-3.5 transition ${activeMega === link.label ? "rotate-180" : ""}`}
+          <nav
+            className="flex shrink-0 items-center gap-1"
+            onMouseLeave={startCloseDelay}
+            aria-label="Main"
+          >
+            {links.map((link) => {
+              const active = pathname === link.href || pathname.startsWith(`${link.href}/`);
+              const hasMega = Boolean(megaMenus[link.label]);
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onMouseEnter={() => {
+                    cancelCloseDelay();
+                    setHovered(link.label);
+                    setActiveMega(hasMega ? link.label : null);
+                  }}
+                  onFocus={() => setHovered(link.label)}
+                  onClick={() => setActiveMega(null)}
+                  aria-current={active ? "page" : undefined}
+                  className={cn(
+                    "relative rounded-full px-4 py-2 text-[15px] font-medium transition-colors",
+                    active || hovered === link.label ? "text-brand-800" : "text-slate-600",
+                  )}
+                >
+                  {hovered === link.label ? (
+                    <motion.span
+                      layoutId="nav-hover-pill"
+                      className="absolute inset-0 rounded-full bg-brand-50"
+                      transition={{ type: "spring", stiffness: 420, damping: 34 }}
                     />
                   ) : null}
-                </span>
-              </Link>
-            ))}
+                  <span className="relative inline-flex items-center gap-1">
+                    {link.label}
+                    {hasMega ? (
+                      <ChevronDown
+                        className={cn("h-3.5 w-3.5 transition", activeMega === link.label && "rotate-180")}
+                        aria-hidden
+                      />
+                    ) : null}
+                    {active ? (
+                      <span aria-hidden className="absolute -bottom-1.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-brand-500" />
+                    ) : null}
+                  </span>
+                </Link>
+              );
+            })}
           </nav>
 
-          <div className="flex min-w-0 flex-1 items-center">
-            {/* Centers switcher in the open space between Contact and Sign in */}
-            <div className="flex min-w-0 flex-1 items-center justify-center px-3">
-              <CurrencySwitcher size="sm" />
-            </div>
-            <div className="flex shrink-0 items-center gap-3 whitespace-nowrap">
-              {session?.user?.id ? (
-                <>
-                  <Link
-                    href="/dashboard"
-                    className="rounded-lg bg-cedar-ivory px-5 py-2.5 text-sm font-semibold text-black transition hover:bg-white"
-                  >
-                    Dashboard
-                  </Link>
-                  <button
-                    type="button"
-                    onClick={() => signOut({ callbackUrl: "/" })}
-                    className="rounded-lg border border-white/20 px-4 py-2.5 text-sm font-semibold text-cedar-ivory transition hover:border-white/40"
-                  >
-                    Sign out
-                  </button>
-                </>
-              ) : (
-                <>
-                  <Link
-                    href="/signin"
-                    className="rounded-lg px-4 py-2.5 text-sm font-semibold text-white/80 transition hover:text-cedar-ivory"
-                  >
-                    Sign in
-                  </Link>
-                  <Link
-                    href="/signup"
-                    className="inline-flex items-center gap-2 rounded-lg bg-cedar-accent px-5 py-2.5 text-sm font-semibold text-black transition hover:brightness-110"
-                  >
-                    Create account
-                    <ArrowRight className="h-4 w-4 shrink-0" aria-hidden />
-                  </Link>
-                </>
-              )}
-            </div>
+          <div className="flex min-w-0 flex-1 items-center justify-end gap-2">
+            {showCurrency ? <CurrencySwitcher size="sm" /> : null}
+            {session?.user?.id ? (
+              <>
+                <button
+                  type="button"
+                  onClick={() => signOut({ callbackUrl: "/" })}
+                  className="rounded-full px-4 py-2 text-sm font-semibold text-slate-600 transition hover:text-brand-800"
+                >
+                  Sign out
+                </button>
+                <Button href="/dashboard" className="!py-2.5 !text-sm">
+                  Dashboard
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/signin"
+                  className="whitespace-nowrap rounded-full px-4 py-2 text-sm font-semibold text-slate-600 transition hover:text-brand-800"
+                >
+                  Sign in
+                </Link>
+                <WhatsAppButton className="whitespace-nowrap !py-2.5 !text-sm">
+                  WhatsApp us
+                </WhatsAppButton>
+              </>
+            )}
           </div>
         </div>
 
-        {activeMega ? (
-          <div
-            onMouseEnter={cancelCloseDelay}
-            onMouseLeave={startCloseDelay}
-            className="absolute left-0 right-0 top-full border-b border-white/10 bg-cedar-ink text-cedar-ivory shadow-elegant"
-          >
-            <div className="mx-auto w-full max-w-[1440px] px-6 py-6 sm:px-10 lg:px-12">
-              <div className="grid grid-cols-[2.1fr_2.1fr_1.2fr] gap-5">
-                <div className="border border-white/10 bg-black/40 px-5 py-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cedar-mist">
-                    {megaMenus[activeMega].leftTitle}
-                  </p>
-                  <div className="mt-3 space-y-1">
-                    {megaMenus[activeMega].leftItems.map((item) => (
-                      <Link
-                        key={item.name}
-                        href={item.href}
-                        onClick={() => setActiveMega(null)}
-                        className="block rounded-lg px-2.5 py-2 transition hover:bg-white/5"
-                      >
-                        <p className="text-[15px] font-medium text-cedar-ivory">{item.name}</p>
-                        <p className="text-[13px] text-cedar-mist">{item.desc}</p>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-                <div className="border border-white/10 bg-black/40 px-5 py-4">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cedar-mist">
-                    {megaMenus[activeMega].rightTitle}
-                  </p>
-                  <div className="mt-3 space-y-1">
-                    {megaMenus[activeMega].rightItems.map((item) => (
-                      <Link
-                        key={item.name}
-                        href={item.href}
-                        onClick={() => setActiveMega(null)}
-                        className="block rounded-lg px-2.5 py-2 transition hover:bg-white/5"
-                      >
-                        <p className="text-[15px] font-medium text-cedar-ivory">{item.name}</p>
-                        <p className="text-[13px] text-cedar-mist">{item.desc}</p>
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-                <div className="border border-cedar-accent/25 bg-cedar-accentSoft p-4">
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-cedar-accent">
-                    {megaMenus[activeMega].cardTag}
-                  </span>
-                  <p className="mt-3 text-base font-semibold text-cedar-ivory">
-                    {megaMenus[activeMega].cardTitle}
-                  </p>
-                  <p className="mt-2 text-[13px] leading-relaxed text-cedar-mist">
-                    {megaMenus[activeMega].cardText}
-                  </p>
-                  <Button href={megaMenus[activeMega].cardCtaHref} variant="accent" className="mt-4 w-full text-sm">
-                    {megaMenus[activeMega].cardCtaLabel}
-                  </Button>
-                </div>
-              </div>
-              <div className="mt-4 flex items-center justify-between border-t border-white/10 pt-3 text-sm">
-                <span className="text-cedar-mist">Need more details?</span>
-                <Link
-                  href={megaMenus[activeMega].footerLinkHref}
-                  className="inline-flex items-center gap-1 font-medium text-cedar-ivory hover:text-cedar-accent"
+        <AnimatePresence>
+          {mega ? (
+            <motion.div
+              key="mega"
+              onMouseEnter={cancelCloseDelay}
+              onMouseLeave={startCloseDelay}
+              initial={{ opacity: 0, y: -8, filter: "blur(6px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -6, filter: "blur(6px)" }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              className="mx-auto mt-2 w-full max-w-[1200px] overflow-hidden rounded-[2rem] border border-line bg-white/95 p-3 shadow-lift backdrop-blur-xl"
+            >
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeMega}
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  transition={{ duration: 0.18 }}
+                  className="grid grid-cols-[1fr_1fr_0.9fr] gap-3"
                 >
-                  {megaMenus[activeMega].footerLink}
-                  <ArrowUpRight className="h-3.5 w-3.5" />
-                </Link>
-              </div>
-            </div>
-          </div>
-        ) : null}
+                  {[
+                    { title: mega.leftTitle, items: mega.leftItems },
+                    { title: mega.rightTitle, items: mega.rightItems },
+                  ].map((col) => (
+                    <div key={col.title} className="rounded-3xl p-4">
+                      <p className="px-3 text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">
+                        {col.title}
+                      </p>
+                      <div className="mt-2 space-y-0.5">
+                        {col.items.map((item) => (
+                          <Link
+                            key={item.name}
+                            href={item.href}
+                            onClick={() => setActiveMega(null)}
+                            className="group/item flex items-start justify-between gap-3 rounded-2xl px-3 py-2.5 transition hover:bg-brand-50"
+                          >
+                            <span>
+                              <span className="block text-[15px] font-semibold text-brand-950">{item.name}</span>
+                              <span className="block text-[13px] text-slate-500">{item.desc}</span>
+                            </span>
+                            <ArrowRight
+                              className="mt-1 h-4 w-4 shrink-0 -translate-x-1 text-brand-500 opacity-0 transition group-hover/item:translate-x-0 group-hover/item:opacity-100"
+                              aria-hidden
+                            />
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+
+                  <div className="relative overflow-hidden rounded-3xl bg-deep-blue p-6 text-white">
+                    <div aria-hidden className="pointer-events-none absolute inset-0 bg-line-grid-light opacity-60" />
+                    <div className="relative flex h-full flex-col">
+                      <span className="inline-flex w-fit rounded-full glass-blue px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em]">
+                        {mega.cardTag}
+                      </span>
+                      <p className="mt-4 text-xl font-semibold tracking-tight">{mega.cardTitle}</p>
+                      <p className="mt-2 text-[13px] leading-relaxed text-brand-100/85">{mega.cardText}</p>
+                      <div className="mt-auto flex flex-col gap-3 pt-6">
+                        <Button href={mega.cardCtaHref} variant="onBanner" className="w-full !text-sm">
+                          {mega.cardCtaLabel}
+                        </Button>
+                        <Link
+                          href={mega.footerLinkHref}
+                          onClick={() => setActiveMega(null)}
+                          className="inline-flex items-center justify-center gap-1 text-sm font-medium text-brand-100 transition hover:text-white"
+                        >
+                          {mega.footerLink}
+                          <ArrowUpRight className="h-3.5 w-3.5" aria-hidden />
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
       </header>
     </>
   );

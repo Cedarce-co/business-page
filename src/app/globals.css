@@ -2,14 +2,27 @@
 @config "../../tailwind.config.ts";
 
 :root {
-  /* Mobile has no nav bar (floating currency only); desktop height set by Navbar ResizeObserver */
+  /* Mobile has no top nav bar (floating currency only); desktop height set by Navbar ResizeObserver */
   --site-nav-height: 0px;
-  --site-mobile-tab-height: 3.25rem;
+  --site-mobile-tab-height: 4.75rem;
+
+  --brand-50: #f2f7fd;
+  --brand-100: #e5eefa;
+  --brand-200: #c8dbf4;
+  --brand-300: #99bcea;
+  --brand-400: #6098e1;
+  --brand-500: #347ad5;
+  --brand-600: #2a65b2;
+  --brand-700: #27538b;
+  --brand-800: #1f3a5f;
+  --brand-900: #162b46;
+  --brand-950: #0c1a2c;
+  --line: #e3eaf4;
 }
 
 @media (min-width: 1024px) {
   :root {
-    --site-nav-height: 5.25rem;
+    --site-nav-height: 6rem;
   }
 }
 
@@ -26,11 +39,12 @@ html {
 
 body {
   font-family: var(--font-sans), system-ui, sans-serif;
-  background-color: #000000;
-  color: #f4f1ea;
+  background-color: #ffffff;
+  color: var(--brand-950);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: clip;
+  font-feature-settings: "ss01", "cv11";
 }
 
 h1,
@@ -73,84 +87,208 @@ input[type="reset"]:disabled {
   cursor: not-allowed;
 }
 
+/* ───────────────────────── Brand surfaces ───────────────────────── */
+
 .text-gradient {
-  background: linear-gradient(135deg, #f4f1ea 0%, #c9a86a 100%);
+  background: linear-gradient(120deg, var(--brand-500) 0%, var(--brand-700) 55%, var(--brand-800) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Light gradient text for use on blue backgrounds */
+.text-gradient-light {
+  background: linear-gradient(120deg, #ffffff 0%, var(--brand-100) 60%, var(--brand-200) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .bg-g-brand {
-  background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
+  background: linear-gradient(135deg, var(--brand-500) 0%, var(--brand-700) 60%, var(--brand-800) 100%);
 }
 
 .bg-g-button {
-  background: linear-gradient(135deg, #f4f1ea 0%, #e8e2d4 100%);
+  background: linear-gradient(180deg, var(--brand-500) 0%, var(--brand-600) 100%);
 }
 
 .bg-g-card {
-  background: linear-gradient(145deg, #141414 0%, #0c0c0c 100%);
+  background: linear-gradient(160deg, #ffffff 0%, var(--brand-50) 100%);
 }
 
 .bg-g-dark {
-  background: linear-gradient(145deg, #0c0c0c 0%, #000000 100%);
+  background: linear-gradient(160deg, var(--brand-800) 0%, var(--brand-950) 100%);
 }
 
 .bg-g-cta {
-  background: linear-gradient(135deg, #141414 0%, #000000 100%);
+  background: linear-gradient(135deg, var(--brand-600) 0%, var(--brand-800) 100%);
 }
 
 .bg-g-footer {
-  background: #000000;
+  background: #ffffff;
 }
 
 .bg-g-hero {
-  background: #000000;
+  background: #ffffff;
 }
+
+/* The big rounded blue hero panel (Rampay-style), Cedarce blue → sky wash */
+.bg-hero-blue {
+  background:
+    radial-gradient(ellipse 60% 55% at 50% 0%, rgba(255, 255, 255, 0.28), transparent 60%),
+    radial-gradient(ellipse 40% 40% at 12% 90%, rgba(153, 188, 234, 0.55), transparent 60%),
+    radial-gradient(ellipse 40% 40% at 88% 85%, rgba(153, 188, 234, 0.5), transparent 60%),
+    linear-gradient(180deg, var(--brand-700) 0%, var(--brand-500) 42%, var(--brand-400) 72%, var(--brand-200) 100%);
+}
+
+.bg-deep-blue {
+  background:
+    radial-gradient(ellipse 55% 60% at 85% 10%, rgba(96, 152, 225, 0.45), transparent 60%),
+    radial-gradient(ellipse 50% 50% at 10% 100%, rgba(52, 122, 213, 0.4), transparent 60%),
+    linear-gradient(160deg, var(--brand-800) 0%, var(--brand-900) 60%, var(--brand-950) 100%);
+}
+
+/* Soft ambient wash for page tops */
+.bg-mesh-light {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 15% 0%, rgba(52, 122, 213, 0.12), transparent 60%),
+    radial-gradient(ellipse 50% 45% at 90% 5%, rgba(153, 188, 234, 0.25), transparent 55%);
+}
+
+.bg-mesh-dark {
+  background-image:
+    radial-gradient(ellipse 60% 50% at 15% 0%, rgba(52, 122, 213, 0.12), transparent 60%),
+    radial-gradient(ellipse 50% 45% at 90% 5%, rgba(153, 188, 234, 0.25), transparent 55%);
+}
+
+.bg-dot-grid {
+  background-image: radial-gradient(rgba(31, 58, 95, 0.12) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+.bg-line-grid {
+  background-image:
+    linear-gradient(to right, rgba(31, 58, 95, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(31, 58, 95, 0.06) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+.bg-line-grid-light {
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.09) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.09) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+.bg-app-shell {
+  background:
+    radial-gradient(circle at 12% 0%, rgba(52, 122, 213, 0.1), transparent 40%),
+    radial-gradient(circle at 95% 0%, rgba(153, 188, 234, 0.22), transparent 42%),
+    linear-gradient(180deg, var(--brand-50) 0%, #ffffff 60%);
+}
+
+/* Layered so Tailwind utilities (position, background, hover states) can override them */
+@layer components {
+  /* Frosted glass on white */
+  .glass {
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.62);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.8),
+      0 10px 40px -12px rgba(31, 58, 95, 0.22);
+    backdrop-filter: blur(18px) saturate(160%);
+    -webkit-backdrop-filter: blur(18px) saturate(160%);
+  }
+
+  /* Frosted glass sitting on top of blue */
+  .glass-blue {
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.08));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.35),
+      0 20px 50px -20px rgba(12, 26, 44, 0.45);
+    backdrop-filter: blur(16px) saturate(150%);
+    -webkit-backdrop-filter: blur(16px) saturate(150%);
+  }
+
+  .glass-card {
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: 0 10px 40px -16px rgba(31, 58, 95, 0.2);
+    backdrop-filter: blur(12px);
+  }
+
+  .glass-card-dark {
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(10px);
+  }
+
+  /* Glossy brand button sheen */
+  .btn-sheen {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+  }
+
+  .btn-sheen::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.28) 0%, rgba(255, 255, 255, 0) 55%);
+    pointer-events: none;
+  }
+}
+
+/* ───────────────────────── Layout helpers ───────────────────────── */
 
 .public-site-main {
   padding-top: 0;
 }
 
 .site-public {
-  background-color: #000000;
-  color: #f4f1ea;
+  background-color: #ffffff;
+  color: var(--brand-950);
 }
 
 .site-public h1,
 .site-public h2,
 .site-public .font-display {
   font-family: var(--font-display), var(--font-sans), system-ui, sans-serif;
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  font-weight: 600;
+  letter-spacing: -0.035em;
 }
 
 /* Clears fixed navbar; used inside page heroes so the hero background extends to the top */
 .site-page-top {
-  padding-top: calc(var(--site-nav-height) + 0.5rem);
+  /* Mobile: clear the floating currency switcher; desktop: clear the floating nav pill */
+  padding-top: max(4rem, calc(var(--site-nav-height) + 1rem));
   padding-bottom: 0.75rem;
 }
 
 /* Keeps split-page artwork visible below the measured fixed navbar. */
 .site-sticky-panel {
   position: sticky;
-  top: var(--site-nav-height);
-  height: calc(100dvh - var(--site-nav-height));
+  top: calc(var(--site-nav-height) + 0.5rem);
+  height: calc(100dvh - var(--site-nav-height) - 1.5rem);
   min-height: 32rem;
 }
 
 .site-scroll-column {
-  padding-top: calc(var(--site-nav-height) + 2rem);
+  padding-top: max(4rem, calc(var(--site-nav-height) + 2rem));
 }
 
 ::selection {
-  background: rgba(201, 168, 106, 0.35);
-  color: #f4f1ea;
+  background: var(--brand-200);
+  color: var(--brand-950);
 }
+
+/* ───────────────────────── Scrollbars ───────────────────────── */
 
 html {
   scrollbar-width: thin;
-  scrollbar-color: #525252 #0a0a0a;
+  scrollbar-color: var(--brand-200) #ffffff;
 }
 
 html::-webkit-scrollbar {
@@ -158,22 +296,22 @@ html::-webkit-scrollbar {
 }
 
 html::-webkit-scrollbar-track {
-  background: #0a0a0a;
+  background: #ffffff;
 }
 
 html::-webkit-scrollbar-thumb {
-  background: #525252;
+  background: var(--brand-200);
   border-radius: 999px;
 }
 
 html::-webkit-scrollbar-thumb:hover {
-  background: #737373;
+  background: var(--brand-300);
 }
 
 .inner-scroll,
 .step-scroll-area {
   scrollbar-width: thin;
-  scrollbar-color: #525252 transparent;
+  scrollbar-color: var(--brand-200) transparent;
 }
 
 .inner-scroll::-webkit-scrollbar,
@@ -188,13 +326,21 @@ html::-webkit-scrollbar-thumb:hover {
 
 .inner-scroll::-webkit-scrollbar-thumb,
 .step-scroll-area::-webkit-scrollbar-thumb {
-  background: #525252;
+  background: var(--brand-200);
   border-radius: 999px;
 }
 
 .inner-scroll::-webkit-scrollbar-thumb:hover,
 .step-scroll-area::-webkit-scrollbar-thumb:hover {
-  background: #737373;
+  background: var(--brand-300);
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 @keyframes toast-progress-shrink {
@@ -212,43 +358,6 @@ html::-webkit-scrollbar-thumb:hover {
   animation-fill-mode: forwards;
 }
 
-.bg-mesh-light {
-  background-image:
-    radial-gradient(ellipse 70% 50% at 20% 0%, rgba(201, 168, 106, 0.08), transparent 55%),
-    radial-gradient(ellipse 50% 40% at 90% 10%, rgba(255, 255, 255, 0.04), transparent 50%);
-}
-
-.bg-mesh-dark {
-  background-image:
-    radial-gradient(ellipse 70% 55% at 12% 18%, rgba(201, 168, 106, 0.1), transparent 58%),
-    radial-gradient(ellipse 55% 40% at 88% 8%, rgba(255, 255, 255, 0.04), transparent 52%);
-}
-
-.bg-dot-grid {
-  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
-  background-size: 22px 22px;
-}
-
-.bg-app-shell {
-  background:
-    radial-gradient(circle at 18% 8%, rgba(31, 58, 95, 0.09), transparent 38%),
-    radial-gradient(circle at 92% 2%, rgba(42, 74, 115, 0.07), transparent 42%),
-    linear-gradient(180deg, #f0f3f7 0%, #ffffff 72%);
-}
-
-.glass-card {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.04);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(12px);
-}
-
-.glass-card-dark {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(10px);
-}
-
 .snap-x-mandatory {
   scroll-snap-type: x mandatory;
   -webkit-overflow-scrolling: touch;
@@ -256,6 +365,12 @@ html::-webkit-scrollbar-thumb:hover {
 
 .snap-start-center {
   scroll-snap-align: start;
+}
+
+/* Edge fade for marquees */
+.mask-fade-x {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent);
 }
 
 /* Force Tawk minimized bubble to bottom-right, above mobile tab bar */
@@ -266,10 +381,9 @@ html::-webkit-scrollbar-thumb:hover {
   .tawk-min-container {
     left: auto !important;
     right: 12px !important;
-    bottom: calc(var(--site-mobile-tab-height, 3.25rem) + 1.5rem) !important;
+    bottom: calc(var(--site-mobile-tab-height, 4.75rem) + 1rem) !important;
     top: auto !important;
   }
-
 }
 
 @media (prefers-reduced-motion: reduce) {

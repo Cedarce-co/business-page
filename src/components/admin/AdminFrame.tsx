@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { LayoutDashboard, Users, ClipboardList, LogOut, Menu, X, FileCheck2, ScrollText, MessageSquareHeart, UserCog, Shield } from "lucide-react";
+import BrandLogo from "@/components/ui/BrandLogo";
 import WayfindingStrip from "@/components/navigation/WayfindingStrip";
 import AdminNotificationBell from "@/components/admin/AdminNotificationBell";
 import IdleSessionWatchdog from "@/components/auth/IdleSessionWatchdog";
@@ -69,15 +70,15 @@ function NavLinks({
             key={href}
             href={href}
             onClick={() => onNavigate?.()}
-            className={`group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition duration-200 ${
+            className={`group flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-semibold transition duration-200 ${
               active
-                ? "bg-cliq-navy-900 text-white shadow-[0_10px_30px_rgba(15,23,42,0.18)]"
-                : "text-slate-700 hover:bg-white/80 hover:shadow-sm"
+                ? "btn-sheen bg-g-button text-white shadow-glow-sm"
+                : "text-slate-600 hover:bg-brand-50 hover:text-brand-800"
             }`}
           >
-            <Icon className={`h-4 w-4 ${active ? "text-white" : "text-slate-500 group-hover:text-slate-700"}`} />
+            <Icon className={`h-4 w-4 ${active ? "text-white" : "text-slate-400 group-hover:text-brand-600"}`} />
             <span className="flex-1">{label}</span>
-            {active && !mobile ? <span className="h-2 w-2 rounded-full bg-emerald-400" /> : null}
+            {active && !mobile ? <span className="h-1.5 w-1.5 rounded-full bg-white" /> : null}
           </Link>
         );
       })}
@@ -108,13 +109,14 @@ export default function AdminFrame({
       <IdleSessionWatchdog scope="admin" />
       <div className="lg:flex">
         <div className="hidden lg:block">
-          <aside className="sticky top-0 h-screen w-80 shrink-0 border-r border-white/70 bg-white/85 p-4 shadow-[inset_-1px_0_0_rgba(15,23,42,0.04)] backdrop-blur-md">
-            <div className="mb-4 flex items-start justify-between gap-3">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.26em] text-slate-500">Operations</p>
-                <p className="mt-1 text-lg font-black text-slate-900">Admin</p>
-              </div>
+          <aside className="sticky top-0 h-screen w-80 shrink-0 border-r border-line bg-white/80 p-4 backdrop-blur-xl">
+            <div className="mb-5 flex items-center justify-between gap-3 px-2 pt-2">
+              <BrandLogo height={26} />
               <AdminNotificationBell />
+            </div>
+            <div className="mb-5 rounded-2xl bg-deep-blue px-4 py-3 text-white">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-200">Operations</p>
+              <p className="mt-0.5 text-lg font-semibold tracking-tight">Admin console</p>
             </div>
 
             <NavLinks pathname={pathname} isSuperAdmin={isSuperAdmin} />
@@ -122,7 +124,7 @@ export default function AdminFrame({
             <button
               type="button"
               onClick={() => void handleSignOut()}
-              className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50"
+              className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-700 hover:border-brand-200 hover:bg-brand-50 hover:text-brand-800"
             >
               <LogOut className="h-4 w-4" />
               Sign out
@@ -139,7 +141,7 @@ export default function AdminFrame({
             <Menu className="h-4 w-4" />
             Menu
           </button>
-          <p className="text-sm font-bold text-slate-900">Admin</p>
+          <BrandLogo height={22} />
           <AdminNotificationBell />
         </div>
 
@@ -175,7 +177,7 @@ export default function AdminFrame({
                   <button
                     type="button"
                     onClick={() => void handleSignOut()}
-                    className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-800 hover:bg-slate-50"
+                    className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-2.5 text-sm font-semibold text-slate-700 hover:border-brand-200 hover:bg-brand-50 hover:text-brand-800"
                   >
                     <LogOut className="h-4 w-4" />
                     Sign out

@@ -112,7 +112,7 @@ export default async function MyServiceRequestsPage({
                         {editable ? (
                           <Link
                             href={`/dashboard/service-requests/${r.id}`}
-                            className="rounded-lg bg-slate-900 px-3 py-1.5 text-xs font-semibold text-white hover:bg-slate-800"
+                            className="rounded-lg bg-g-button px-3 py-1.5 text-xs font-semibold text-white hover:brightness-110"
                           >
                             {r.status === "NEEDS_INFO" ? "Update" : "Edit"}
                           </Link>

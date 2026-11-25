@@ -13,9 +13,9 @@ export const SERVICES: Service[] = [
     id: "web-presence",
     icon: "Globe",
     name: "Website & online home",
-    desc: "A simple website and secure hosting so customers can find you and trust you.",
+    desc: "A simple website, kept online and safe, so customers can find you and trust you.",
     price: "Request a quote",
-    badge: "Most Popular",
+    badge: "Recommended",
   },
   {
     id: "payments-invoicing",
@@ -61,10 +61,10 @@ export const PACKAGES = [
     featured: false,
     features: [
       "Simple one-page website that works well on phones",
-      "Your own website address (domain name)",
+      "Your own web address (like yourbusiness.com)",
       "1 business email (like hello@yourbusiness.com)",
-      "Secured website safe for business",
-      "Support after go-live",
+      "The padlock that shows your website is safe",
+      "Help after your site goes live",
     ],
     cta: "Request Small Business",
     ctaStyle: "secondary" as const,
@@ -74,16 +74,16 @@ export const PACKAGES = [
     slug: "business",
     price: "",
     subtitle: "A fuller setup for growing small and medium businesses",
-    badge: "Most Popular",
+    badge: "Recommended",
     featured: true,
     features: [
-      "Full multi-page website that looks good on phone and desktop",
-      "Domain, and secured website safe for business",
-      "Business email accounts (up to 3)",
+      "A website with several pages that looks good on phone and computer",
+      "Your own web address and the safety padlock",
+      "Business email accounts (up to 5)",
       "Online payments and automatic invoices",
-      "Admin dashboard for managing your business",
-      "Basic website analytics and reporting",
-      "Support after go-live",
+      "Your own dashboard to manage your business",
+      "See how many people visit your website",
+      "Help after your site goes live",
     ],
     cta: "Request Medium Business",
     ctaStyle: "primary" as const,
@@ -92,49 +92,20 @@ export const PACKAGES = [
     name: "Enterprise",
     slug: "enterprise",
     price: "",
-    subtitle: "Custom build for larger teams. Tell us what you need",
+    subtitle: "Built around bigger businesses. Tell us what you need",
     badge: "Custom",
     featured: false,
     features: [
       "Everything in Medium Business, shaped around how you work",
-      "Apps, tool connections, and automation where it helps",
-      "Marketing and customer messaging campaigns",
-      "A dedicated contact person and faster response times",
-      "Training, handover, and security checks",
-      "Pricing agreed after we review your needs",
+      "Apps, connected tools, and tasks that run on their own",
+      "Marketing and messages to your customers",
+      "One person from our team who looks after you, with faster replies",
+      "Staff training and safety checks",
+      "Price agreed with you after we understand your needs",
     ],
     cta: "Request Enterprise",
     ctaStyle: "secondary" as const,
   },
-];
-
-export const TESTIMONIALS = [
-  {
-    name: "Anuoluwapo",
-    role: "Food Store Owner",
-    stars: 5,
-    quote:
-      "They set up my entire shop in one week. Now my customers can pay online and receive automatic receipts. My business finally looks like a real company.",
-  },
-  {
-    name: "Ayo.",
-    role: "IT Consultant",
-    stars: 5,
-    quote:
-      "I stopped managing everything on WhatsApp. I now have a proper website, business email, and payment system. Best investment for my business.",
-  },
-  {
-    name: "Eddy",
-    role: "Health and wellness shop owner",
-    stars: 5,
-    quote:
-      "My business has grown significantly since we started working together. I now have a proper website, business email, and automated invoicing.",
-  }
-];
-
-export const STATS = [
-  { value: 48, suffix: "hrs", label: "Typical time from kickoff to a finished setup" },
-  { value: 100, suffix: "%", label: "Clients who trust us with their setup" },
 ];
 
 export const HOW_IT_WORKS = [
@@ -142,7 +113,7 @@ export const HOW_IT_WORKS = [
     step: 1,
     icon: "Calendar",
     title: "Tell us where you are today",
-    desc: "Book a free chat. We listen to your business goals and note what you need online. No jargon.",
+    desc: "Have a short chat with us. We listen to your business goals and note what you need online. No jargon.",
   },
   {
     step: 2,
@@ -154,72 +125,7 @@ export const HOW_IT_WORKS = [
     step: 3,
     icon: "Star",
     title: "Go live with confidence",
-    desc: "Most setups are ready within a few days of start. We stay available to support you as you grow.",
-  },
-];
-
-export const FOOD_STORY_STEPS = [
-  {
-    step: 1,
-    title: "Customer discovers the store",
-    desc: "They search Google and land on your professional website. No more 'send your catalogue on WhatsApp.'",
-  },
-  {
-    step: 2,
-    title: "Customer browses and orders",
-    desc: "Products are listed cleanly. Order is placed directly online. No back-and-forth messages.",
-  },
-  {
-    step: 3,
-    title: "Branded invoice sent automatically",
-    desc: "A professional invoice with your logo arrives instantly in their inbox.",
-  },
-  {
-    step: 4,
-    title: "Customer pays online",
-    desc: "Card, bank transfer, or mobile checkout. Payment confirmed in real time.",
-  },
-  {
-    step: 5,
-    title: "Branded receipt sent automatically",
-    desc: "A beautiful receipt arrives immediately. Your brand feels world class.",
-  },
-  {
-    step: 6,
-    title: "Automated follow-up sent",
-    desc: "Thank-you and feedback request is sent on WhatsApp automatically.",
-  },
-  {
-    step: 7,
-    title: "Restock alert sent to all customers",
-    desc: "Email and WhatsApp blast notifies every customer when your item is back.",
-  },
-];
-
-export const BLOG_POSTS = [
-  {
-    id: "go-professional-2025",
-    tag: "Getting Started",
-    title: "5 things every growing business needs to go professional in 2025",
-    readTime: "6 min read",
-    cover: "bg-g-brand",
-    image: "blog-placeholder-1.svg",
-  },
-  {
-    id: "online-payments-small-business",
-    tag: "Payments",
-    title: "How to accept online payments as a small business",
-    readTime: "5 min read",
-    cover: "bg-cliq-navy-800",
-    image: "blog-placeholder-2.svg",
-  },
-  {
-    id: "professional-email",
-    tag: "Email & Identity",
-    title: "Why your business needs a professional email (not Gmail or Yahoo)",
-    readTime: "4 min read",
-    cover: "bg-g-dark",
-    image: "blog-placeholder-3.svg",
+    desc: "We agree a ready date with you before we start, and we stay available to help as you grow.",
   },
 ];
 
@@ -230,30 +136,30 @@ export const FAQS = [
   },
   {
     q: "How fast can my setup be completed?",
-    a: "Most setups are live within 48 hours depending on your selected services.",
+    a: "It depends on the services you pick. We agree a ready date with you on a short call, before any work starts.",
   },
   {
     q: "Do you work with businesses outside my city?",
-    a: "Yes. We work with businesses online, so location is not a block. The same quality setup wherever you operate.",
+    a: "Yes. We work online, so we can help you wherever you are, with the same quality.",
   },
   {
     q: "Do you provide training for my team?",
-    a: "Yes. We train your team so everyone can use the new system confidently.",
+    a: "Yes. We train your team so everyone can use the new tools with confidence.",
   },
   {
-    q: "Can you migrate my existing website?",
-    a: "Yes. We can redesign or migrate your current setup with minimal downtime.",
+    q: "Can you improve or move my current website?",
+    a: "Yes. We can redesign your current website or move it over to us, with as little time offline as possible.",
   },
   {
-    q: "Do you handle domain and hosting renewals?",
-    a: "Yes. We can fully manage renewals and security updates for you.",
+    q: "Will you renew my web address and hosting for me?",
+    a: "Yes. We can take care of renewals and safety updates, so your website never goes off.",
   },
   {
     q: "Do packages include support?",
-    a: "Yes. Every package includes support. Duration depends on the package level.",
+    a: "Yes. Every package includes help after your site goes live. How long depends on the package.",
   },
   {
     q: "How do I pay?",
-    a: "You can pay via transfer or online payment link once your package is confirmed.",
+    a: "You can pay by bank transfer or with an online payment link once we agree your package.",
   },
 ];

@@ -7,35 +7,35 @@ import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
 const TYPE_META = {
   success: {
     label: "Success",
-    progress: "#10b981",
+    progress: "#347AD5",
     iconBg: "bg-emerald-50",
     iconColor: "text-emerald-600",
     Icon: CheckCircle2,
   },
   error: {
     label: "Error",
-    progress: "#f43f5e",
+    progress: "#E11D48",
     iconBg: "bg-rose-50",
     iconColor: "text-rose-600",
     Icon: AlertCircle,
   },
   loading: {
     label: "Working",
-    progress: "#0f172a",
+    progress: "#1F3A5F",
     iconBg: "bg-slate-100",
     iconColor: "text-slate-700",
     Icon: Loader2,
   },
   blank: {
     label: "Notice",
-    progress: "#10b981",
+    progress: "#347AD5",
     iconBg: "bg-emerald-50",
     iconColor: "text-emerald-600",
     Icon: CheckCircle2,
   },
   custom: {
     label: "Notice",
-    progress: "#10b981",
+    progress: "#347AD5",
     iconBg: "bg-emerald-50",
     iconColor: "text-emerald-600",
     Icon: CheckCircle2,
@@ -54,7 +54,7 @@ export default function ToastNotification({ toast: t }: { toast: Toast }) {
     <div
       role={t.ariaProps.role}
       aria-live={t.ariaProps["aria-live"]}
-      className={`pointer-events-auto w-[min(100vw-2rem,24rem)] overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-[0_16px_40px_rgba(15,23,42,0.14)] transition-all duration-300 ${
+      className={`pointer-events-auto w-[min(100vw-2rem,24rem)] overflow-hidden rounded-2xl border border-slate-200/90 bg-white shadow-[0_16px_40px_rgba(31,58,95,0.16)] transition-all duration-300 ${
         t.visible ? "translate-y-0 opacity-100" : "translate-y-2 opacity-0"
       }`}
       onMouseEnter={() => setPaused(true)}

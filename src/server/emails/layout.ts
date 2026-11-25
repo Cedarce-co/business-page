@@ -82,7 +82,7 @@ export function renderEmailLayout(input: EmailLayoutInput) {
   <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background:#f1f5f9;padding:32px 16px;">
     <tr>
       <td align="center">
-        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #e2e8f0;box-shadow:0 4px 24px rgba(15,23,42,0.06);">
+        <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;background:#ffffff;border-radius:16px;overflow:hidden;border:1px solid #e2e8f0;box-shadow:0 4px 24px rgba(31,58,95,0.06);">
           <tr>
             <td style="padding:28px 32px 20px;text-align:center;border-bottom:1px solid #f1f5f9;background:#ffffff;">
               <a href="${appUrl}" style="text-decoration:none;display:inline-block;">

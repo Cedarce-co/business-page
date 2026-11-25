@@ -25,7 +25,7 @@ export default async function AdminIntakeQuestionsPage() {
         </div>
         <Link
           href="/admin/questions/new"
-          className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-4 py-2.5 text-sm font-semibold text-white"
+          className="inline-flex items-center justify-center rounded-xl bg-g-button px-4 py-2.5 text-sm font-semibold text-white"
         >
           Create draft
         </Link>

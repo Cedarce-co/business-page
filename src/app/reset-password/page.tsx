@@ -13,14 +13,14 @@ export default async function ResetPasswordPage({
   return (
     <AuthShell
       title="Set a new password"
-      subtitle="Choose a strong password. This link expires for security."
+      subtitle="Choose a strong password. For your safety, this link only works for a short time."
     >
       {token ? (
         <ResetPasswordFlow token={token} />
       ) : (
-        <div className="rounded-2xl border border-white/15 bg-white/5 p-4 text-slate-200">
+        <div className="rounded-2xl border border-brand-100 bg-brand-50 p-4 text-brand-900">
           <p className="text-sm font-semibold">Missing reset token</p>
-          <p className="mt-1 text-sm text-slate-300">Please request a new password reset link.</p>
+          <p className="mt-1 text-sm text-slate-600">Please request a new password reset link.</p>
         </div>
       )}
     </AuthShell>

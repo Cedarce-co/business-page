@@ -72,7 +72,7 @@ export default function ServiceRequestReviewClient({
 
   return (
     <div className="space-y-6">
-      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_1px_0_rgba(15,23,42,0.04)]">
+      <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_1px_0_rgba(31,58,95,0.04)]">
         <div className="flex flex-col gap-4 border-b border-slate-100 bg-slate-50/80 px-5 py-4 sm:flex-row sm:items-start sm:justify-between">
           <div className="min-w-0">
             <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">Summary</p>
@@ -94,7 +94,7 @@ export default function ServiceRequestReviewClient({
         </div>
       </div>
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_1px_0_rgba(15,23,42,0.04)]">
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_1px_0_rgba(31,58,95,0.04)]">
         <p className="text-sm font-bold text-slate-900">Message to the client</p>
         <p className="mt-1 text-xs text-slate-600">
           Shown on their dashboard with this request. Use it for next steps, clarifications, or rejections.
@@ -130,7 +130,7 @@ export default function ServiceRequestReviewClient({
             type="button"
             disabled={saving || !nextStatus}
             onClick={update}
-            className="inline-flex shrink-0 items-center justify-center rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white hover:bg-slate-800 disabled:opacity-50"
+            className="inline-flex shrink-0 items-center justify-center rounded-xl bg-g-button px-5 py-2.5 text-sm font-semibold text-white hover:brightness-110 disabled:opacity-50"
           >
             {saving ? (
               <span className="inline-flex items-center gap-2">
@@ -145,7 +145,7 @@ export default function ServiceRequestReviewClient({
       </div>
 
       {request.intake ? (
-        <div className={`flex ${formPanelHeightClass} flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_1px_0_rgba(15,23,42,0.04)]`}>
+        <div className={`flex ${formPanelHeightClass} flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-[0_1px_0_rgba(31,58,95,0.04)]`}>
           <div className="shrink-0 border-b border-slate-100 pb-4">
             <p className="text-base font-bold text-slate-900">Submitted intake answers</p>
             <p className="mt-1 text-sm text-slate-600">

@@ -123,7 +123,7 @@ export default function AdminJoinClient() {
         type="button"
         disabled={!canSubmit}
         onClick={submit}
-        className="w-full rounded-xl bg-slate-900 px-4 py-3 text-base font-semibold text-white hover:bg-slate-800 disabled:opacity-50"
+        className="w-full rounded-xl bg-g-button px-4 py-3 text-base font-semibold text-white hover:brightness-110 disabled:opacity-50"
       >
         {loading ? (
           <span className="inline-flex items-center justify-center gap-2">

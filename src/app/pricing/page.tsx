@@ -9,12 +9,12 @@ export default function PricingPage() {
         badge="Pricing"
         title={
           <>
-            Packages as low as you need to start.
+            Clear prices in Naira.
             <br />
-            We confirm details together.
+            <span className="text-gradient-light">No surprises.</span>
           </>
         }
-        description="Small Business and Medium Business show a clear as-low-as price in your currency. Enterprise is custom. You tell us what you need and we quote."
+        description="Small Business and Medium Business show a starting price up front. Enterprise is priced after a short call. You see the price before you commit."
         image={PRICING_HERO_IMAGE}
       />
 

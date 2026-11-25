@@ -31,7 +31,7 @@ export const LOGO_DARK_BG = {
 
 /** Source file dimensions (aspect ratio for Next/Image). */
 export const LOGO_INTRINSIC = {
-  mobileMark: { width: 508, height: 491 },
+  mobileMark: { width: 523, height: 477 },
   desktopWordmark: { width: 1011, height: 247 },
 } as const;
 

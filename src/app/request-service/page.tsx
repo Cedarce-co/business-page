@@ -27,21 +27,22 @@ export default async function PublicRequestServiceEntry({
   const callbackUrl = `/request-service?package=${encodeURIComponent(pkg)}`;
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-black">
-      <div aria-hidden className="pointer-events-none fixed inset-0 bg-mesh-dark opacity-80" />
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-white">
+      <div aria-hidden className="pointer-events-none fixed inset-0 bg-mesh-light" />
 
       <div className="relative mx-auto flex min-h-full w-full max-w-6xl items-start justify-center px-4 py-10 pb-[max(2.5rem,env(safe-area-inset-bottom))] sm:items-center sm:px-8">
-        <div className="w-full max-w-2xl border border-white/15 bg-zinc-950 p-6 md:p-10">
-          <p className="text-center text-xs font-semibold uppercase tracking-[0.28em] text-cedar-accent">
+        <div className="w-full max-w-2xl rounded-[2rem] border border-line bg-white p-6 shadow-lift md:p-10">
+          <p className="mx-auto flex w-fit items-center gap-2 rounded-full border border-brand-100 bg-brand-50 px-3 py-1 text-xs font-semibold text-brand-700">
+            <span className="h-1.5 w-1.5 rounded-full bg-brand-500" aria-hidden />
             Service request
           </p>
-          <h1 className="mt-4 text-center font-display text-3xl leading-tight text-cedar-ivory md:text-5xl">
+          <h1 className="mt-5 text-center font-display text-3xl font-semibold leading-tight tracking-[-0.04em] text-brand-950 md:text-5xl">
             Request the {pkg} package
           </h1>
-          <p className="mx-auto mt-4 max-w-xl text-center text-sm leading-relaxed text-cedar-mist md:text-base">
+          <p className="mx-auto mt-4 max-w-xl text-center text-sm leading-relaxed text-slate-500 md:text-base">
             {userId
-              ? "Your account needs verification before you can submit a service request."
-              : "To submit a request and save progress, please create an account or sign in."}
+              ? "Please verify your business first. Then you can request a service."
+              : "Create an account or sign in to request this package and save your progress."}
           </p>
 
           <div className="mx-auto mt-8 max-w-3xl">
@@ -50,15 +51,15 @@ export default async function PublicRequestServiceEntry({
               {SERVICES.slice(0, 6).map((s) => (
                 <div
                   key={s.id}
-                  className="snap-start-center w-[85%] shrink-0 border border-white/10 bg-black p-4 text-left sm:w-auto"
+                  className="snap-start-center w-[85%] shrink-0 rounded-2xl border border-line bg-brand-50/50 p-4 text-left sm:w-auto"
                 >
-                  <p className="text-sm font-semibold text-cedar-ivory">{s.name}</p>
-                  <p className="mt-1 text-sm text-cedar-mist">{s.desc}</p>
+                  <p className="text-sm font-semibold text-brand-950">{s.name}</p>
+                  <p className="mt-1 text-sm text-slate-500">{s.desc}</p>
                 </div>
               ))}
             </div>
-            <p className="mt-6 text-center text-sm font-semibold text-cedar-accent">
-              Verification is required before requesting any service.
+            <p className="mt-6 text-center text-sm font-semibold text-brand-600">
+              You need to verify your business before you can request a service.
             </p>
           </div>
 
@@ -71,7 +72,7 @@ export default async function PublicRequestServiceEntry({
                 <button
                   type="button"
                   disabled
-                  className="inline-flex min-h-12 flex-1 cursor-not-allowed items-center justify-center rounded-lg border border-white/20 px-5 py-3 text-base font-semibold text-white/50"
+                  className="inline-flex min-h-12 flex-1 cursor-not-allowed items-center justify-center rounded-full border border-line px-5 py-3 text-base font-semibold text-slate-400"
                 >
                   Request service (locked)
                 </button>
@@ -99,7 +100,7 @@ export default async function PublicRequestServiceEntry({
           <div className="mt-8 text-center">
             <Link
               href="/pricing"
-              className="text-sm font-semibold text-cedar-mist underline-offset-4 hover:text-cedar-accent hover:underline"
+              className="text-sm font-semibold text-slate-500 underline-offset-4 hover:text-brand-600 hover:underline"
             >
               Back to pricing
             </Link>
